@@ -48,7 +48,7 @@ const DEFAULT_PRODUCTS = [
         category: "Zardozi",
         price: 5000,
         inventory: 500,
-        image: "pngtree-indian-wedding-couple-outfits-traditional-lehenga-and-indo-western-for-bride-png-image_7650932.png",
+        image: "wedding_couple.png",
         description: "na",
         craft: ""
     }
@@ -362,7 +362,7 @@ function saveCMSProduct() {
     }
 
     localStorage.setItem("shapes_products", JSON.stringify(products));
-    alert("Atelier creation published successfully. Refresh showroom website to preview!");
+    alert("Creation published successfully. Refresh showroom website to preview!");
 
     resetCMSProductForm();
     renderCMSProducts();

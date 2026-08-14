@@ -48,7 +48,7 @@ const DEFAULT_PRODUCTS = [
         category: "Zardozi",
         price: 5000,
         inventory: 500,
-        image: "pngtree-indian-wedding-couple-outfits-traditional-lehenga-and-indo-western-for-bride-png-image_7650932.png",
+        image: "wedding_couple.png",
         description: "na",
         craft: ""
     }
@@ -79,9 +79,9 @@ let currentSort = "default";
 // Initialize Store App
 function initStore() {
     // Check and migrate from old structures to new Indo-Western structures
-    if (localStorage.getItem("shapes_currency_version") !== "satiinder_kaur_v1") {
+    if (localStorage.getItem("shapes_currency_version") !== "satiinder_kaur_v2") {
         localStorage.clear();
-        localStorage.setItem("shapes_currency_version", "satiinder_kaur_v1");
+        localStorage.setItem("shapes_currency_version", "satiinder_kaur_v2");
     }
 
     // Load from LocalStorage or write defaults
@@ -261,7 +261,7 @@ function openProductDetail(productId) {
         addToCartBtn.disabled = true;
         addToCartBtn.innerText = "OUT OF STOCK";
     } else if (p.inventory <= 2) {
-        stockContainer.innerHTML = `<span class="stock-dot stock-low"></span> Only ${p.inventory} pieces left in Atelier`;
+        stockContainer.innerHTML = `<span class="stock-dot stock-low"></span> Only ${p.inventory} pieces left`;
         addToCartBtn.disabled = false;
         addToCartBtn.innerText = "ADD TO BAG";
     } else {
@@ -443,7 +443,7 @@ function setupEventListeners() {
     // Checkout trigger
     document.getElementById("proceed-checkout-btn").addEventListener("click", () => {
         if (cart.length === 0) {
-            alert("Your Atelier Bag is empty.");
+            alert("Your Shopping Bag is empty.");
             return;
         }
         closeCartDrawer();

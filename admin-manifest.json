@@ -1,6 +1,6 @@
 {
-  "name": "Shapes By Satiinder Kaur Atelier CMS",
-  "short_name": "Atelier CMS",
+  "name": "Shapes By Satiinder Kaur CMS",
+  "short_name": "CMS",
   "start_url": "./admin.html",
   "display": "standalone",
   "background_color": "#121212",
