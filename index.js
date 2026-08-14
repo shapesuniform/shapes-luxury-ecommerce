@@ -41,16 +41,26 @@ const DEFAULT_PRODUCTS = [
         image: "pret_corset.png",
         description: "A minimalist structured corset in raw charcoal silk, featuring gold stitching lines hand-tacked along the vertical structural seams. A contemporary wardrobe essential.",
         craft: "100% raw mulberry silk, comfort-flex structuring. Dry clean only."
+    },
+    {
+        id: "p_1786736236272",
+        title: "haha",
+        category: "Zardozi",
+        price: 5000,
+        inventory: 500,
+        image: "pngtree-indian-wedding-couple-outfits-traditional-lehenga-and-indo-western-for-bride-png-image_7650932.png",
+        description: "na",
+        craft: ""
     }
 ];
 
 const DEFAULT_CATEGORIES = ["Zardozi", "Brocade", "Draped Sets", "Pret"];
 
 const DEFAULT_CONFIG = {
-    brandName: "Shapes By Satinder Kaur",
+    brandName: "Shapes By Satiinder Kaur",
     heroTitle: "THE STRUCTURE OF HERITAGE",
     storyTitle: "RE-IMAGINING THE CORSET",
-    storyDesc: "Every creation at Shapes By Satinder Kaur begins as a dialogue between structural precision and heritage handlooms. We fuse classical Western corsetry with opulent Indian fabrics. Our master craftsmen hand-embroider raw silks, Banarasi brocades, and heavy velvets with antique zardozi wires, molding structural silhouettes that contour the modern form. We celebrate heritage that refuses to remain in the past, transforming ancient handlooms into bold contemporary treasures."
+    storyDesc: "Every creation at Shapes By Satiinder Kaur begins as a dialogue between structural precision and heritage handlooms. We fuse classical Western corsetry with opulent Indian fabrics. Our master craftsmen hand-embroider raw silks, Banarasi brocades, and heavy velvets with antique zardozi wires, molding structural silhouettes that contour the modern form. We celebrate heritage that refuses to remain in the past, transforming ancient handlooms into bold contemporary treasures."
 };
 
 // State Variables
@@ -69,9 +79,9 @@ let currentSort = "default";
 // Initialize Store App
 function initStore() {
     // Check and migrate from old structures to new Indo-Western structures
-    if (localStorage.getItem("shapes_currency_version") !== "satinder_kaur_v2") {
+    if (localStorage.getItem("shapes_currency_version") !== "satiinder_kaur_v1") {
         localStorage.clear();
-        localStorage.setItem("shapes_currency_version", "satinder_kaur_v2");
+        localStorage.setItem("shapes_currency_version", "satiinder_kaur_v1");
     }
 
     // Load from LocalStorage or write defaults
@@ -688,11 +698,16 @@ window.removeCartItem = removeCartItem;
 // Run initial loading
 window.addEventListener("DOMContentLoaded", initStore);
 
-// Register Service Worker for PWA
+// Unregister active Service Workers to allow instant Netlify cache updates
 if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-        navigator.serviceWorker.register("./sw.js")
-            .then(reg => console.log("Service Worker registered successfully:", reg.scope))
-            .catch(err => console.log("Service Worker registration failed:", err));
+    navigator.serviceWorker.getRegistrations().then(registrations => {
+        for (let registration of registrations) {
+            registration.unregister().then(() => console.log("Service Worker unregistered."));
+        }
     });
+    if (window.caches) {
+        caches.keys().then(keys => {
+            keys.forEach(key => caches.delete(key));
+        });
+    }
 }
