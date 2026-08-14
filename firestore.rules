@@ -2,17 +2,20 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Orders: readable by owner (uid) or anyone who knows the ref (for tracking page)
-    // Writable by authenticated or unauthenticated (guest checkout)
+    // Orders: publicly readable (needed for order tracking page + admin panel)
+    // Anyone can CREATE an order (guest checkout supported)
+    // Only Firebase console / admin can UPDATE or DELETE
     match /orders/{orderId} {
-      allow read: if request.auth != null && request.auth.uid == resource.data.uid;
-      allow create: if true; // Allow guest + authenticated orders
-      allow update, delete: if false; // Only admin can update via Firebase console
+      allow read: if true;
+      allow create: if true;
+      allow update, delete: if false;
     }
 
-    // Customers: readable and writable by the owner only
+    // Customers: readable by anyone (needed by admin panel which has no Firebase Auth)
+    // Only the authenticated owner can write their own profile
     match /customers/{customerId} {
-      allow read, write: if request.auth != null && request.auth.uid == resource.data.uid;
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.uid == resource.data.uid;
     }
   }
 }

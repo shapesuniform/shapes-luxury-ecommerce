@@ -509,48 +509,111 @@ function exportOrdersCSV() {
 }
 
 // ─────────────────────────────────────────────────────────────
-// CUSTOMERS DATABASE  (reads from Firestore)
+// CUSTOMERS DATABASE  (reads from Firestore, with full order history)
 // ─────────────────────────────────────────────────────────────
+let _custOrdersMap = {};
+
 async function loadAdminCustomers() {
     const tbody = document.getElementById("customers-tbody");
     if (!tbody || !window._dbAdmin) return;
     tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--grey);"><i class="fa-solid fa-circle-notch fa-spin"></i> Loading customers…</td></tr>`;
     try {
-        // Load customers and orders simultaneously
         const [custSnap, ordSnap] = await Promise.all([
             window._getDocsAdmin(window._collAdmin(window._dbAdmin, "customers")),
             window._getDocsAdmin(window._collAdmin(window._dbAdmin, "orders"))
         ]);
-        const ordersMap = {}; // uid → {count, spent}
+
+        // Build uid → [orders] map
+        _custOrdersMap = {};
         ordSnap.forEach(d => {
-            const o = d.data();
-            if (!o.uid) return;
-            if (!ordersMap[o.uid]) ordersMap[o.uid] = { count: 0, spent: 0 };
-            ordersMap[o.uid].count++;
-            ordersMap[o.uid].spent += (o.items || []).reduce((t, i) => t + (i.price * i.quantity), 0);
+            const o = { id: d.id, ...d.data() };
+            const uid = o.uid || null;
+            if (!uid) return;
+            if (!_custOrdersMap[uid]) _custOrdersMap[uid] = [];
+            _custOrdersMap[uid].push(o);
         });
+
         if (custSnap.empty) {
             tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:3rem;color:var(--grey);">No registered customers yet.</td></tr>`;
             return;
         }
+
         tbody.innerHTML = "";
+        let rowIdx = 0;
         custSnap.forEach(d => {
             const c = d.data();
-            const stats = ordersMap[c.uid] || { count: 0, spent: 0 };
+            const orders = (_custOrdersMap[c.uid] || []).sort((a, b) => new Date(b.date) - new Date(a.date));
+            const totalSpent = orders.reduce((t, o) => t + (o.items || []).reduce((s, i) => s + (i.price * i.quantity), 0), 0);
             const joined = c.createdAt ? new Date(c.createdAt).toLocaleDateString("en-IN", { day:"numeric", month:"short", year:"numeric" }) : "—";
-            const waMsg = encodeURIComponent(`Hello ${c.name || ""}, this is Shapes By Satiinder Kaur! 🌟 We'd love to get in touch.`);
-            tbody.innerHTML += `<tr>
-                <td><strong>${c.name || "—"}</strong></td>
+            const waMsg = encodeURIComponent(`Hello ${c.name || ""}, this is Shapes By Satiinder Kaur!`);
+            const detailId = `cust-orders-${rowIdx}`;
+
+            tbody.innerHTML += `
+            <tr style="cursor:pointer;" onclick="toggleCustDetail('${detailId}')">
+                <td>
+                    <strong>${c.name || "—"}</strong>
+                    ${orders.length > 0 ? `<i class="fa-solid fa-chevron-down" id="chev-${detailId}" style="font-size:8px;color:var(--gold);margin-left:6px;transition:transform 0.25s;"></i>` : ""}
+                </td>
                 <td style="font-size:10px">${c.email || "—"}</td>
                 <td>${c.phone || "—"}</td>
                 <td style="font-size:10px">${joined}</td>
-                <td style="text-align:center">${stats.count}</td>
-                <td>₹${stats.spent.toLocaleString("en-IN")}</td>
-                <td>
-                    ${c.phone ? `<a href="https://wa.me/${c.phone.replace(/\D/g,"")}?text=${waMsg}" target="_blank" style="display:inline-flex;align-items:center;gap:4px;background:#25D366;color:#fff;padding:0.35rem 0.7rem;border-radius:3px;text-decoration:none;font-size:9px;font-weight:600;"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>` : ""}
+                <td style="text-align:center">
+                    <span style="background:rgba(197,160,89,0.15);color:var(--gold);padding:0.2rem 0.65rem;border-radius:20px;font-size:10px;font-weight:700;">${orders.length}</span>
+                </td>
+                <td><strong style="color:var(--gold)">₹${totalSpent.toLocaleString("en-IN")}</strong></td>
+                <td onclick="event.stopPropagation()">
+                    ${c.phone ? `<a href="https://wa.me/${c.phone.replace(/\D/g,"")}?text=${waMsg}" target="_blank"
+                        style="display:inline-flex;align-items:center;gap:4px;background:#25D366;color:#fff;
+                        padding:0.3rem 0.6rem;border-radius:3px;text-decoration:none;font-size:9px;font-weight:600;margin-right:3px;">
+                        <i class="fa-brands fa-whatsapp"></i></a>` : ""}
+                    ${c.email ? `<a href="mailto:${c.email}"
+                        style="display:inline-flex;align-items:center;gap:4px;color:var(--gold);
+                        border:1px solid rgba(197,160,89,0.4);padding:0.3rem 0.6rem;border-radius:3px;text-decoration:none;font-size:9px;">
+                        <i class="fa-solid fa-envelope"></i></a>` : ""}
+                </td>
+            </tr>
+            <tr id="${detailId}" style="display:none;">
+                <td colspan="7" style="padding:0;">
+                    <div style="background:rgba(0,0,0,0.2);border-top:1px solid rgba(197,160,89,0.1);border-bottom:1px solid rgba(197,160,89,0.1);padding:1rem 1.5rem 1.2rem;">
+                        <div style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:0.7rem;">
+                            📦 Orders placed by ${c.name || "this customer"}
+                        </div>
+                        ${orders.length === 0
+                            ? `<p style="font-size:11px;color:var(--grey);padding:0.3rem 0;">No orders placed yet.</p>`
+                            : `<table style="width:100%;border-collapse:collapse;">
+                                <thead>
+                                  <tr style="font-size:8px;text-transform:uppercase;letter-spacing:0.12em;color:var(--grey);">
+                                    <th style="text-align:left;padding:0.35rem 0.5rem;border-bottom:1px solid rgba(255,255,255,0.05);">Order Ref</th>
+                                    <th style="text-align:left;padding:0.35rem 0.5rem;border-bottom:1px solid rgba(255,255,255,0.05);">Items Ordered</th>
+                                    <th style="text-align:left;padding:0.35rem 0.5rem;border-bottom:1px solid rgba(255,255,255,0.05);">Amount</th>
+                                    <th style="text-align:left;padding:0.35rem 0.5rem;border-bottom:1px solid rgba(255,255,255,0.05);">Date</th>
+                                    <th style="text-align:left;padding:0.35rem 0.5rem;border-bottom:1px solid rgba(255,255,255,0.05);">Payment ID</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  ${orders.map(o => {
+                                      const itemsStr = (o.items || []).map(i => `${i.title} — ${i.size} × ${i.quantity}`).join(" · ");
+                                      const total = (o.items || []).reduce((t, i) => t + (i.price * i.quantity), 0);
+                                      const date = o.date ? new Date(o.date).toLocaleDateString("en-IN", {day:"numeric",month:"short",year:"numeric"}) : "—";
+                                      return `<tr>
+                                        <td style="padding:0.45rem 0.5rem;border-bottom:1px solid rgba(255,255,255,0.03);">
+                                          <strong style="color:var(--gold);font-size:11px;">${o.ref || "—"}</strong>
+                                        </td>
+                                        <td style="padding:0.45rem 0.5rem;border-bottom:1px solid rgba(255,255,255,0.03);font-size:10px;color:rgba(255,255,255,0.75);max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${itemsStr}">${itemsStr}</td>
+                                        <td style="padding:0.45rem 0.5rem;border-bottom:1px solid rgba(255,255,255,0.03);font-size:11px;font-weight:600;">₹${total.toLocaleString("en-IN")}</td>
+                                        <td style="padding:0.45rem 0.5rem;border-bottom:1px solid rgba(255,255,255,0.03);font-size:10px;color:rgba(255,255,255,0.5);">${date}</td>
+                                        <td style="padding:0.45rem 0.5rem;border-bottom:1px solid rgba(255,255,255,0.03);font-size:9px;color:var(--grey);">${o.paymentId || "—"}</td>
+                                      </tr>`;
+                                  }).join("")}
+                                </tbody>
+                               </table>`
+                        }
+                    </div>
                 </td>
             </tr>`;
+            rowIdx++;
         });
+
     } catch (e) {
         tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:2rem;color:#e57373;">Error: ${e.message}</td></tr>`;
     }
