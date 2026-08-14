@@ -167,18 +167,50 @@ button, input, select, textarea {
 }
 
 .brand-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1.1;
+    transition: var(--transition);
+    text-align: center;
+}
+
+.logo-main {
     font-family: var(--font-serif);
-    font-size: 2.2rem;
+    font-size: 2.3rem;
     font-weight: 400;
     letter-spacing: 0.25em;
     color: var(--charcoal);
-    display: inline-block;
+    text-transform: uppercase;
     transition: var(--transition);
     transform: translateX(0.12em);
 }
 
-.brand-logo:hover {
+.logo-sub {
+    font-family: var(--font-sans);
+    font-size: 9px;
+    font-weight: 300;
+    letter-spacing: 0.25em;
+    color: var(--grey-dark);
+    text-transform: uppercase;
+    margin-top: 0.15rem;
+    transition: var(--transition);
+    transform: translateX(0.12em);
+}
+
+.brand-logo:hover .logo-main,
+.brand-logo:hover .logo-sub {
     color: var(--gold);
+}
+
+/* Adjust sizes when header is scrolled */
+.luxury-header.scrolled .logo-main {
+    font-size: 1.8rem;
+}
+
+.luxury-header.scrolled .logo-sub {
+    font-size: 8px;
+    margin-top: 0.05rem;
 }
 
 .nav-icon-btn {

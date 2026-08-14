@@ -8,7 +8,7 @@ const DEFAULT_PRODUCTS = [
         category: "Zardozi",
         price: 185000,
         inventory: 5,
-        image: "images/zardozi_corset.png",
+        image: "zardozi_corset.png",
         description: "An opulent structured corset in deep crimson silk-velvet, hand-embroidered with dense gold zardozi motifs. Features internal structural steel-boning and a classical adjustable lace-up back.",
         craft: "Handcrafted velvet, metallic gold zardozi wire, steel boning. Dry clean only."
     },
@@ -18,7 +18,7 @@ const DEFAULT_PRODUCTS = [
         category: "Brocade",
         price: 85000,
         inventory: 8,
-        image: "images/brocade_corset.png",
+        image: "brocade_corset.png",
         description: "A striking sweetheart neckline corset crafted from hand-woven ivory and gold Banarasi brocade silk. Offers clean structure and elegant posture contouring.",
         craft: "100% Banarasi silk brocade, satin lining, flex-boning. Dry clean only."
     },
@@ -28,7 +28,7 @@ const DEFAULT_PRODUCTS = [
         category: "Draped Sets",
         price: 245000,
         inventory: 4,
-        image: "images/draped_corset_set.png",
+        image: "draped_corset_set.png",
         description: "An elegant emerald corset structured in velvet, paired with a flowing, pre-draped georgette skirt. Accented with badla borders along the cowl drape.",
         craft: "Velvet corset and georgette drape set. Dry clean only."
     },
@@ -38,7 +38,7 @@ const DEFAULT_PRODUCTS = [
         category: "Pret",
         price: 45000,
         inventory: 10,
-        image: "images/pret_corset.png",
+        image: "pret_corset.png",
         description: "A minimalist structured corset in raw charcoal silk, featuring gold stitching lines hand-tacked along the vertical structural seams. A contemporary wardrobe essential.",
         craft: "100% raw mulberry silk, comfort-flex structuring. Dry clean only."
     }

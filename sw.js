@@ -8,7 +8,7 @@ const PRECACHE_ASSETS = [
   "./admin.css",
   "./index.js",
   "./admin.js",
-  "./images/app_icon.png"
+  "./app_icon.png"
 ];
 
 // Install Event
