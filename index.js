@@ -489,7 +489,7 @@ function addToCart(productId, size) {
     const existingQty = cartItem ? cartItem.quantity : 0;
 
     if (existingQty + 1 > p.inventory) {
-        alert(`Bespoke designer note: Only ${p.inventory} pieces of this creation are currently crafted.`);
+        alert(`Designer note: Only ${p.inventory} pieces of this creation are currently crafted.`);
         return;
     }
 
@@ -658,8 +658,7 @@ async function processCheckout() {
     const email = document.getElementById("cust-email").value.trim();
     const phone = document.getElementById("cust-phone").value.trim();
     const address = document.getElementById("cust-address").value.trim();
-    const city = document.getElementById("cust-city").value.trim();
-    const pincode = document.getElementById("cust-pincode").value.trim();
+    const zip = document.getElementById("cust-zip").value.trim();
 
     const subtotal = cart.reduce((total, item) => {
         const p = products.find(prod => prod.id === item.id);
@@ -701,7 +700,7 @@ async function processCheckout() {
             "amount": orderData.amount,
             "currency": orderData.currency,
             "name": "Shapes By Satiinder Kaur",
-            "description": "Bespoke Couture Order Checkout",
+            "description": "Couture Order Checkout",
             "image": "https://shapesbysatinderkaur.com/app_icon.png",
             "order_id": orderData.order_id,
             "handler": async function (response) {
@@ -744,7 +743,7 @@ async function processCheckout() {
                 "contact": phone
             },
             "notes": {
-                "address": `${address}, ${city} - ${pincode}`,
+                "address": `${address} - ${zip}`,
                 "cart_details": JSON.stringify(cart)
             },
             "theme": {
