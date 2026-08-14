@@ -2,13 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#1A1A1A">
     <title>My Account | Shapes By Satiinder Kaur</title>
     <meta name="description" content="View your orders, track deliveries and manage your account with Shapes By Satiinder Kaur.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
         :root {
             --gold: #C5A059; --charcoal: #1A1A1A; --white: #FFFFFF;
@@ -304,9 +306,14 @@
                 document.getElementById("auth-screen").style.display = "none";
                 document.getElementById("portal").style.display = "block";
                 document.getElementById("logout-btn").style.display = "inline-flex";
-                document.getElementById("portal-greeting").textContent =
-                    "Welcome, " + (user.displayName || "Valued Client");
-                document.getElementById("portal-email").textContent = user.email;
+                
+                // Fallback name if displayName is not set
+                const displayName = user.displayName || (user.email ? user.email.split('@')[0] : "Valued Client");
+                document.getElementById("portal-greeting").textContent = "Welcome, " + displayName;
+                document.getElementById("portal-email").textContent = user.email || "";
+
+                // Guaranteed save to Firestore customers database
+                await recordCustomerLogin(user, { name: displayName });
                 await loadOrders(user.uid);
             } else {
                 document.getElementById("auth-screen").style.display = "block";
@@ -314,6 +321,7 @@
                 document.getElementById("logout-btn").style.display = "none";
             }
         });
+
 
         async function loadOrders(uid) {
             const loading = document.getElementById("orders-loading");

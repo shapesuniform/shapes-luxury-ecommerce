@@ -41,16 +41,6 @@ const DEFAULT_PRODUCTS = [
         image: "pret_corset.png",
         description: "A minimalist structured corset in raw charcoal silk, featuring gold stitching lines hand-tacked along the vertical structural seams. A contemporary wardrobe essential.",
         craft: "100% raw mulberry silk, comfort-flex structuring. Dry clean only."
-    },
-    {
-        id: "p_1786736236272",
-        title: "haha",
-        category: "Zardozi",
-        price: 5000,
-        inventory: 500,
-        image: "pngtree-indian-wedding-couple-outfits-traditional-lehenga-and-indo-western-for-bride-png-image_7650932.png",
-        description: "na",
-        craft: ""
     }
 ];
 
@@ -58,6 +48,7 @@ const DEFAULT_CATEGORIES = ["Zardozi", "Brocade", "Draped Sets", "Pret"];
 
 const DEFAULT_CONFIG = {
     brandName: "Shapes By Satiinder Kaur",
+
     heroTitle: "THE STRUCTURE OF HERITAGE",
     storyTitle: "RE-IMAGINING THE CORSET",
     storyDesc: "Every creation at Shapes By Satiinder Kaur begins as a dialogue between structural precision and heritage handlooms. We fuse classical Western corsetry with opulent Indian fabrics. Our master craftsmen hand-embroider raw silks, Banarasi brocades, and heavy velvets with antique zardozi wires, molding structural silhouettes that contour the modern form. We celebrate heritage that refuses to remain in the past, transforming ancient handlooms into bold contemporary treasures.",
@@ -359,6 +350,11 @@ function deleteCMSProduct(id) {
         renderCMSProducts();
     }
 }
+
+window.deleteCMSProduct = deleteCMSProduct;
+window.editCMSProduct = editCMSProduct;
+window.deleteCMSCategory = deleteCMSCategory;
+
 
 // Save CMS Add / Edit form submit
 function saveCMSProduct() {
