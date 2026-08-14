@@ -48,7 +48,7 @@ const DEFAULT_PRODUCTS = [
         category: "Zardozi",
         price: 5000,
         inventory: 500,
-        image: "wedding_couple.png",
+        image: "pngtree-indian-wedding-couple-outfits-traditional-lehenga-and-indo-western-for-bride-png-image_7650932.png",
         description: "na",
         craft: ""
     }
@@ -60,7 +60,8 @@ const DEFAULT_CONFIG = {
     brandName: "Shapes By Satiinder Kaur",
     heroTitle: "THE STRUCTURE OF HERITAGE",
     storyTitle: "RE-IMAGINING THE CORSET",
-    storyDesc: "Every creation at Shapes By Satiinder Kaur begins as a dialogue between structural precision and heritage handlooms. We fuse classical Western corsetry with opulent Indian fabrics. Our master craftsmen hand-embroider raw silks, Banarasi brocades, and heavy velvets with antique zardozi wires, molding structural silhouettes that contour the modern form. We celebrate heritage that refuses to remain in the past, transforming ancient handlooms into bold contemporary treasures."
+    storyDesc: "Every creation at Shapes By Satiinder Kaur begins as a dialogue between structural precision and heritage handlooms. We fuse classical Western corsetry with opulent Indian fabrics. Our master craftsmen hand-embroider raw silks, Banarasi brocades, and heavy velvets with antique zardozi wires, molding structural silhouettes that contour the modern form. We celebrate heritage that refuses to remain in the past, transforming ancient handlooms into bold contemporary treasures.",
+    razorpayKey: "rzp_test_TPmS0ErfrzcYCA" // Default placeholder key
 };
 
 // Local variables
@@ -202,6 +203,7 @@ function setupCMSListeners() {
         config.heroTitle = document.getElementById("setting-hero-title").value.trim();
         config.storyTitle = document.getElementById("setting-story-title").value.trim();
         config.storyDesc = document.getElementById("setting-story-desc").value.trim();
+        config.razorpayKey = document.getElementById("setting-razorpay-key").value.trim();
 
         localStorage.setItem("shapes_config", JSON.stringify(config));
         alert("Editorial elements saved. Refresh the showroom page to see live updates!");
@@ -236,6 +238,14 @@ function setupCMSListeners() {
     });
 }
 
+// Clean Image Path Helper to extract filename and strip quotes/backslashes
+function cleanImagePath(path) {
+    if (!path) return "zardozi_corset.png";
+    let clean = path.replace(/['"]/g, '').trim();
+    clean = clean.split('\\').pop().split('/').pop();
+    return clean;
+}
+
 // Render Products catalog table
 function renderCMSProducts() {
     const tbody = document.getElementById("cms-products-tbody");
@@ -244,7 +254,7 @@ function renderCMSProducts() {
     products.forEach(p => {
         const tr = `
             <tr>
-                <td><img src="${p.image}" class="table-thumb" alt=""></td>
+                <td><img src="${cleanImagePath(p.image)}" class="table-thumb" alt=""></td>
                 <td><strong>${p.title}</strong></td>
                 <td>${p.category}</td>
                 <td>${formatCurrency(p.price)}</td>
@@ -284,6 +294,7 @@ function populateCMSSettings() {
     document.getElementById("setting-hero-title").value = config.heroTitle;
     document.getElementById("setting-story-title").value = config.storyTitle;
     document.getElementById("setting-story-desc").value = config.storyDesc;
+    document.getElementById("setting-razorpay-key").value = config.razorpayKey || "";
 }
 
 // Format currency standard

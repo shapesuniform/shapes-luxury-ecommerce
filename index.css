@@ -1861,3 +1861,80 @@ section {
         height: 350px;
     }
 }
+
+/* Testimonials / Google Reviews CSS */
+.testimonials-section {
+    background-color: var(--ivory-dark);
+    padding: 8rem 2rem;
+    border-top: 1px solid rgba(197, 160, 89, 0.1);
+    border-bottom: 1px solid rgba(197, 160, 89, 0.1);
+}
+
+.testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+    max-width: 1400px;
+    margin: 4rem auto 0 auto;
+}
+
+.testimonial-card {
+    background: var(--white);
+    padding: 3rem;
+    border: 1px solid rgba(197, 160, 89, 0.15);
+    border-radius: 4px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: var(--transition);
+}
+
+.testimonial-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(197, 160, 89, 0.08);
+}
+
+.testimonial-card .stars {
+    color: var(--gold);
+    font-size: 11px;
+    margin-bottom: 1.5rem;
+    letter-spacing: 2px;
+}
+
+.testimonial-card .review-text {
+    font-family: var(--font-serif);
+    font-size: 1.3rem;
+    line-height: 1.6;
+    color: var(--charcoal);
+    font-style: italic;
+    margin-bottom: 2rem;
+}
+
+.testimonial-card .client-name {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--charcoal);
+}
+
+.testimonial-card .source-tag {
+    font-family: var(--font-sans);
+    font-size: 9px;
+    color: var(--grey-dark);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+@media (max-width: 992px) {
+    .testimonials-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+}

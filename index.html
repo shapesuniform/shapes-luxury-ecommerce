@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="index.css">
     <link rel="manifest" href="manifest.json">
+    <!-- Razorpay Standard Checkout SDK -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </head>
 <body>
 
@@ -151,6 +153,43 @@
             <!-- Shop Grid of Products -->
             <div class="product-grid" id="product-list-container">
                 <!-- Populate via JS -->
+            </div>
+        </section>
+
+        <!-- Google Reviews / Testimonials -->
+        <section class="testimonials-section section-padding">
+            <div class="container" style="max-width: 1600px; margin: 0 auto; padding: 0 2rem;">
+                <div class="section-header animate-on-scroll" style="text-align: center;">
+                    <span class="section-tag" style="text-transform: uppercase; font-size: 11px; letter-spacing: 0.2em; color: var(--gold); display: block; margin-bottom: 0.5rem;">Bespoke Experiences</span>
+                    <h2 class="section-title" style="font-family: var(--font-serif); font-size: 2.5rem; font-weight: 300; letter-spacing: 0.1em; color: var(--charcoal); text-transform: uppercase;">REVIEWS FROM OUR CLIENTS</h2>
+                    <div class="divider-gold"></div>
+                </div>
+                <div class="testimonials-grid animate-on-scroll">
+                    <div class="testimonial-card">
+                        <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                        <p class="review-text">"Perfect stitching, great attention to detail, and excellent service by Gitu."</p>
+                        <div>
+                            <h4 class="client-name">Rhea Dhameja</h4>
+                            <span class="source-tag"><i class="fa-brands fa-google"></i> Google Review</span>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                        <p class="review-text">"Hands down, this is the best tailor with excellent customer service."</p>
+                        <div>
+                            <h4 class="client-name">Wilma Vaz</h4>
+                            <span class="source-tag"><i class="fa-brands fa-google"></i> Google Review</span>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                        <p class="review-text">"They offer you best options, best designs and best fitting."</p>
+                        <div>
+                            <h4 class="client-name">Dr. Nishtha Mishra</h4>
+                            <span class="source-tag"><i class="fa-brands fa-google"></i> Google Review</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 

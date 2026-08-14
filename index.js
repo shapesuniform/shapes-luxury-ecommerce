@@ -48,7 +48,7 @@ const DEFAULT_PRODUCTS = [
         category: "Zardozi",
         price: 5000,
         inventory: 500,
-        image: "wedding_couple.png",
+        image: "pngtree-indian-wedding-couple-outfits-traditional-lehenga-and-indo-western-for-bride-png-image_7650932.png",
         description: "na",
         craft: ""
     }
@@ -60,7 +60,8 @@ const DEFAULT_CONFIG = {
     brandName: "Shapes By Satiinder Kaur",
     heroTitle: "THE STRUCTURE OF HERITAGE",
     storyTitle: "RE-IMAGINING THE CORSET",
-    storyDesc: "Every creation at Shapes By Satiinder Kaur begins as a dialogue between structural precision and heritage handlooms. We fuse classical Western corsetry with opulent Indian fabrics. Our master craftsmen hand-embroider raw silks, Banarasi brocades, and heavy velvets with antique zardozi wires, molding structural silhouettes that contour the modern form. We celebrate heritage that refuses to remain in the past, transforming ancient handlooms into bold contemporary treasures."
+    storyDesc: "Every creation at Shapes By Satiinder Kaur begins as a dialogue between structural precision and heritage handlooms. We fuse classical Western corsetry with opulent Indian fabrics. Our master craftsmen hand-embroider raw silks, Banarasi brocades, and heavy velvets with antique zardozi wires, molding structural silhouettes that contour the modern form. We celebrate heritage that refuses to remain in the past, transforming ancient handlooms into bold contemporary treasures.",
+    razorpayKey: "rzp_test_TPmS0ErfrzcYCA" // Default placeholder key
 };
 
 // State Variables
@@ -79,9 +80,9 @@ let currentSort = "default";
 // Initialize Store App
 function initStore() {
     // Check and migrate from old structures to new Indo-Western structures
-    if (localStorage.getItem("shapes_currency_version") !== "satiinder_kaur_v2") {
+    if (localStorage.getItem("shapes_currency_version") !== "satiinder_kaur_v1") {
         localStorage.clear();
-        localStorage.setItem("shapes_currency_version", "satiinder_kaur_v2");
+        localStorage.setItem("shapes_currency_version", "satiinder_kaur_v1");
     }
 
     // Load from LocalStorage or write defaults
@@ -205,7 +206,7 @@ function updateCatalogGrid() {
             <div class="product-card" data-id="${p.id}">
                 <div class="product-card-img-wrapper">
                     ${isSoldOut ? '<span class="sold-out-badge">Retired / Sold Out</span>' : ''}
-                    <img src="${p.image}" alt="${p.title}">
+                    <img src="${cleanImagePath(p.image)}" alt="${p.title}">
                     <div class="product-card-quickview">Quick Inspection</div>
                 </div>
                 <div class="product-card-info">
@@ -227,6 +228,14 @@ function updateCatalogGrid() {
 }
 
 // Currency formatter
+// Clean Image Path Helper to extract filename and strip quotes/backslashes
+function cleanImagePath(path) {
+    if (!path) return "zardozi_corset.png";
+    let clean = path.replace(/['"]/g, '').trim();
+    clean = clean.split('\\').pop().split('/').pop();
+    return clean;
+}
+
 function formatCurrency(amount) {
     return new Intl.NumberFormat('en-IN', {
         style: 'currency',
@@ -244,7 +253,7 @@ function openProductDetail(productId) {
     selectedSize = "";
 
     // Set Modal content
-    document.getElementById("modal-product-image").src = p.image;
+    document.getElementById("modal-product-image").src = cleanImagePath(p.image);
     document.getElementById("modal-product-image").alt = p.title;
     document.getElementById("modal-product-category").innerText = p.category;
     document.getElementById("modal-product-title").innerText = p.title;
@@ -580,7 +589,7 @@ function renderCartItems() {
         const itemHtml = `
             <div class="cart-item">
                 <div class="cart-item-img-wrapper">
-                    <img src="${p.image}" alt="${p.title}">
+                    <img src="${cleanImagePath(p.image)}" alt="${p.title}">
                 </div>
                 <div class="cart-item-info">
                     <h4 class="cart-item-title">${p.title}</h4>
@@ -644,7 +653,130 @@ function closeCheckoutModal() {
 }
 
 // Process Secure Checkout
-function processCheckout() {
+async function processCheckout() {
+    const name = document.getElementById("cust-name").value.trim();
+    const email = document.getElementById("cust-email").value.trim();
+    const phone = document.getElementById("cust-phone").value.trim();
+    const address = document.getElementById("cust-address").value.trim();
+    const city = document.getElementById("cust-city").value.trim();
+    const pincode = document.getElementById("cust-pincode").value.trim();
+
+    const subtotal = cart.reduce((total, item) => {
+        const p = products.find(prod => prod.id === item.id);
+        return total + (p ? p.price * item.quantity : 0);
+    }, 0);
+
+    const amountInPaise = subtotal * 100;
+    if (amountInPaise < 100) {
+        alert("Minimum order amount must be at least ₹1.");
+        return;
+    }
+
+    const submitBtn = document.querySelector(".submit-order-btn");
+    const originalBtnText = submitBtn.innerText;
+    submitBtn.disabled = true;
+    submitBtn.innerText = "INITIALIZING SECURE GATEWAY...";
+
+    try {
+        // Step 1: Create Order on the Backend
+        const orderResponse = await fetch("/api/create-order", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ amount: amountInPaise })
+        });
+
+        if (!orderResponse.ok) {
+            const errData = await orderResponse.json();
+            throw new Error(errData.error || "Failed to create order on server.");
+        }
+
+        const orderData = await orderResponse.json();
+        const rzpKey = config.razorpayKey || "rzp_test_TPmS0ErfrzcYCA";
+
+        // Step 2: Open Razorpay Modal with backend order_id
+        const options = {
+            "key": rzpKey,
+            "amount": orderData.amount,
+            "currency": orderData.currency,
+            "name": "Shapes By Satiinder Kaur",
+            "description": "Bespoke Couture Order Checkout",
+            "image": "https://shapesbysatinderkaur.com/app_icon.png",
+            "order_id": orderData.order_id,
+            "handler": async function (response) {
+                submitBtn.innerText = "VERIFYING TRANSACTION...";
+                
+                try {
+                    // Step 3: Send parameters to verify signature endpoint
+                    const verifyResponse = await fetch("/api/verify-payment", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            razorpay_order_id: response.razorpay_order_id,
+                            razorpay_payment_id: response.razorpay_payment_id,
+                            razorpay_signature: response.razorpay_signature
+                        })
+                    });
+
+                    if (!verifyResponse.ok) {
+                        const verifyErr = await verifyResponse.json();
+                        throw new Error(verifyErr.error || "Payment verification failed.");
+                    }
+
+                    const verifyData = await verifyResponse.json();
+                    if (verifyData.status === "success") {
+                        completeOrder(response.razorpay_payment_id);
+                    } else {
+                        throw new Error("Payment signature verification failed.");
+                    }
+                } catch (verifyErr) {
+                    alert("Verification Error: " + verifyErr.message);
+                    submitBtn.disabled = false;
+                    submitBtn.innerText = originalBtnText;
+                }
+            },
+            "prefill": {
+                "name": name,
+                "email": email,
+                "contact": phone
+            },
+            "notes": {
+                "address": `${address}, ${city} - ${pincode}`,
+                "cart_details": JSON.stringify(cart)
+            },
+            "theme": {
+                "color": "#C5A059"
+            },
+            "modal": {
+                "ondismiss": function() {
+                    alert("Payment window closed. Transaction was not authorized.");
+                    submitBtn.disabled = false;
+                    submitBtn.innerText = originalBtnText;
+                }
+            }
+        };
+
+        const rzp = new Razorpay(options);
+        rzp.on('payment.failed', function (response) {
+            alert("Payment failed: " + response.error.description);
+            submitBtn.disabled = false;
+            submitBtn.innerText = originalBtnText;
+        });
+        rzp.open();
+
+    } catch (err) {
+        console.error("Order initialization error:", err);
+        alert("Transaction Initialization Error: " + err.message + "\n\n(Note: Backend serverless functions are required. If testing locally, make sure Netlify functions are active.)");
+        submitBtn.disabled = false;
+        submitBtn.innerText = originalBtnText;
+    }
+}
+
+// Complete order callback on payment authorization
+function completeOrder(paymentId) {
     // 1. Deduct products stock
     cart.forEach(item => {
         const p = products.find(prod => prod.id === item.id);
@@ -661,9 +793,9 @@ function processCheckout() {
     saveCartState();
     updateCartCount();
 
-    // 2. Generate random order ref
+    // 2. Generate order reference display
     const refCode = "SH-" + Math.floor(100000 + Math.random() * 900000);
-    document.getElementById("order-ref-code").innerText = refCode;
+    document.getElementById("order-ref-code").innerHTML = `${refCode}<br><span style="font-size: 10px; color: var(--gold); letter-spacing: 0.05em; font-family: var(--font-sans);">Payment ID: ${paymentId}</span>`;
 
     // 3. Show Success Screen
     document.getElementById("checkout-main-form").style.display = "none";
