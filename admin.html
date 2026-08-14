@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shapes By Satinder Kaur Atelier | CMS Portal</title>
+    <!-- Fonts: Cormorant Garamond for Headings, Montserrat for Body -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="admin.css">
+    <link rel="manifest" href="admin-manifest.json">
+</head>
+<body>
+
+    <div class="cms-portal-container">
+        <!-- Top header -->
+        <header class="cms-header">
+            <div class="cms-header-title">
+                <i class="fa-solid fa-gears gold-accent-icon"></i>
+                <h2>SHAPES BY SATINDER KAUR ATELIER CMS</h2>
+                <span class="cms-badge">Admin Controls</span>
+            </div>
+            <a href="index.html" class="showroom-link"><i class="fa-solid fa-store"></i> View Showroom</a>
+        </header>
+
+        <!-- Lock Screen -->
+        <div class="cms-login-lock" id="cms-login-block">
+            <i class="fa-solid fa-lock security-lock-icon"></i>
+            <h3>ENTER ATELIER ACCESS CODE</h3>
+            <p>Please enter the administrator access code to configure products, update inventory levels, and edit copy.</p>
+            <div class="login-input-group">
+                <input type="password" id="cms-pass-input" placeholder="Enter Access Code">
+                <button id="cms-login-btn">UNLOCK</button>
+            </div>
+            <span class="lock-hint">Default Access Code: <code>luxury2026</code></span>
+            <p class="login-error-msg" id="cms-login-error" style="display: none;">Access code invalid. Please try again.</p>
+        </div>
+
+        <!-- Dashboard Interface -->
+        <div class="cms-dashboard-content" id="cms-main-content" style="display: none;">
+            <!-- Left Sidebar Navigation -->
+            <aside class="cms-sidebar">
+                <button class="cms-sidebar-btn active" data-tab="cms-products-tab">
+                    <i class="fa-solid fa-shirt"></i> Product Inventory
+                </button>
+                <button class="cms-sidebar-btn" data-tab="cms-add-product-tab">
+                    <i class="fa-solid fa-plus"></i> Add New Product
+                </button>
+                <button class="cms-sidebar-btn" data-tab="cms-categories-tab">
+                    <i class="fa-solid fa-tags"></i> Edit Categories
+                </button>
+                <button class="cms-sidebar-btn" data-tab="cms-settings-tab">
+                    <i class="fa-solid fa-sliders"></i> Store Copy & Hero
+                </button>
+                
+                <div class="sidebar-footer">
+                    <button class="lock-cms-btn" id="lock-cms-btn"><i class="fa-solid fa-power-off"></i> Lock Session</button>
+                </div>
+            </aside>
+
+            <!-- Right Dashboard Viewport -->
+            <main class="cms-viewport">
+                <!-- Tab 1: Products Table -->
+                <div class="cms-tab-panel active" id="cms-products-tab">
+                    <div class="panel-header">
+                        <h3>Active Creation Inventory</h3>
+                        <p>Configure details, update stock numbers, or retire pieces from the main catalog.</p>
+                    </div>
+                    <div class="cms-table-wrapper">
+                        <table class="cms-table">
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Product Title</th>
+                                    <th>Category</th>
+                                    <th>Price</th>
+                                    <th>Stock</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="cms-products-tbody">
+                                <!-- Populate via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Tab 2: Add / Edit Product Form -->
+                <div class="cms-tab-panel" id="cms-add-product-tab">
+                    <div class="panel-header">
+                        <h3 id="form-action-title">Add Exclusive Piece to Catalog</h3>
+                        <p>Enter the specifications of the new creation. Saving publishes it directly to the homepage grid.</p>
+                    </div>
+                    <form class="cms-form" id="product-cms-form">
+                        <input type="hidden" id="edit-product-id" value="">
+                        <div class="cms-form-row">
+                            <div class="cms-input-field">
+                                <label for="p-title">Product Title</label>
+                                <input type="text" id="p-title" required placeholder="E.g., Empress Crimson Lehenga">
+                            </div>
+                            <div class="cms-input-field">
+                                <label for="p-category">Category</label>
+                                <select id="p-category" required>
+                                    <!-- Populate categories dynamically -->
+                                </select>
+                            </div>
+                        </div>
+                        <div class="cms-form-row">
+                            <div class="cms-input-field">
+                                <label for="p-price">Retail Price (₹ INR)</label>
+                                <input type="number" id="p-price" required min="1" placeholder="720000">
+                            </div>
+                            <div class="cms-input-field">
+                                <label for="p-inventory">Inventory Count (Pieces)</label>
+                                <input type="number" id="p-inventory" required min="0" placeholder="5">
+                            </div>
+                        </div>
+                        <div class="cms-input-field">
+                            <label for="p-image">Image Source Path / URL</label>
+                            <div class="image-url-picker">
+                                <input type="text" id="p-image" required placeholder="images/hero_bridal.png">
+                                <select id="p-image-preset" title="Choose pre-generated images">
+                                    <option value="">-- Or choose local premium photo --</option>
+                                    <option value="images/zardozi_corset.png">Royal Zardozi Corset (Crimson Velvet)</option>
+                                    <option value="images/brocade_corset.png">Banarasi Brocade Corset (Ivory/Gold)</option>
+                                    <option value="images/draped_corset_set.png">The Emerald Draped Set</option>
+                                    <option value="images/pret_corset.png">Charcoal Raw Silk Corset</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="cms-input-field">
+                            <label for="p-desc">Story Description (High-end brief)</label>
+                            <textarea id="p-desc" required placeholder="Narrate the inspiration, silhouette weight, drape qualities, and styling suggestions."></textarea>
+                        </div>
+                        <div class="cms-input-field">
+                            <label for="p-craft">Material / Embroidery Specifics</label>
+                            <input type="text" id="p-craft" placeholder="E.g., 100% fine mulberry silk, gold badla threadwork, dry clean only.">
+                        </div>
+                        <div class="form-btn-actions">
+                            <button type="submit" class="cms-submit-btn" id="cms-form-submit-btn">PUBLISH CREATION</button>
+                            <button type="button" class="cms-cancel-btn" id="cms-form-cancel-btn" style="display: none;">CANCEL EDIT</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Tab 3: Edit Categories -->
+                <div class="cms-tab-panel" id="cms-categories-tab">
+                    <div class="panel-header">
+                        <h3>Manage Showroom Categories</h3>
+                        <p>Introduce new clothing lines or remove categories. Note: Removing categories might hide existing products within them.</p>
+                    </div>
+                    <div class="categories-cms-layout">
+                        <div class="add-category-form">
+                            <h4>Create New Category</h4>
+                            <div class="cms-input-field">
+                                <input type="text" id="new-cat-name" placeholder="E.g., Resortwear">
+                                <button class="cms-sub-action-btn" id="add-cat-btn">ADD CATEGORY</button>
+                            </div>
+                        </div>
+                        <div class="category-list-box">
+                            <h4>Active Categories</h4>
+                            <ul class="cms-category-list" id="cms-category-list-ul">
+                                <!-- Populate dynamically -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab 4: Page Settings & Copy Configuration -->
+                <div class="cms-tab-panel" id="cms-settings-tab">
+                    <div class="panel-header">
+                        <h3>Configure Brand Editorial Elements</h3>
+                        <p>Instantly update the hero announcements, main typography, or the brand heritage story without editing files.</p>
+                    </div>
+                    <form class="cms-form" id="store-settings-form">
+                        <div class="cms-input-field">
+                            <label for="setting-brand-name">Brand Name (Atelier Logo)</label>
+                            <input type="text" id="setting-brand-name" required placeholder="Shapes By Satinder Kaur">
+                        </div>
+                        <div class="cms-input-field">
+                            <label for="setting-hero-title">Main Hero Slider Title</label>
+                            <input type="text" id="setting-hero-title" required placeholder="A HERITAGE OF ELEGANCE">
+                        </div>
+                        <div class="cms-input-field">
+                            <label for="setting-story-title">Craftsmanship Story Heading</label>
+                            <input type="text" id="setting-story-title" required placeholder="CRAFTED FOR ROYALS">
+                        </div>
+                        <div class="cms-input-field">
+                            <label for="setting-story-desc">Craftsmanship Narrative Text</label>
+                            <textarea id="setting-story-desc" required placeholder="Brand story text..."></textarea>
+                        </div>
+                        <button type="submit" class="cms-submit-btn">APPLY EDITORIAL UPDATES</button>
+                    </form>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- CMS JavaScript Controller -->
+    <script src="admin.js"></script>
+</body>
+</html>

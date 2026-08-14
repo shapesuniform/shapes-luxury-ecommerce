@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shapes By Satinder Kaur | Bespoke Luxury Couture & Bridal</title>
+    <!-- Fonts: Cormorant Garamond for Headings, Montserrat for Body -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="index.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+
+    <!-- Sticky Navigation Header -->
+    <header class="luxury-header" id="header">
+        <div class="nav-container">
+            <!-- Left Navigation: Categories -->
+            <nav class="nav-left">
+                <a href="#bridal" class="nav-link shop-nav-trigger" data-category="Bridal">Bridal</a>
+                <a href="#couture" class="nav-link shop-nav-trigger" data-category="Couture">Couture</a>
+                <a href="#pret" class="nav-link shop-nav-trigger" data-category="Pret">Pret</a>
+                <a href="#accessories" class="nav-link shop-nav-trigger" data-category="Accessories">Accessories</a>
+            </nav>
+
+            <!-- Center Logo -->
+            <div class="nav-center">
+                <a href="#" class="brand-logo" id="brand-logo-text">Shapes By Satinder Kaur</a>
+            </div>
+
+            <!-- Right Navigation: Support & Bag -->
+            <nav class="nav-right">
+                <a href="#story-section" class="nav-link story-nav-trigger">Our Story</a>
+                <button class="nav-icon-btn cart-btn-container" id="open-cart-btn" title="Shopping Bag">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span class="cart-badge" id="cart-count">0</span>
+                </button>
+            </nav>
+            
+            <!-- Mobile Menu Toggle -->
+            <button class="mobile-menu-toggle" id="mobile-toggle" aria-label="Toggle Menu">
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Drawer Navigation -->
+    <div class="mobile-nav-drawer" id="mobile-nav">
+        <nav class="mobile-nav-links">
+            <a href="#catalog" class="mobile-link mobile-shop-trigger" data-category="All">Shop All</a>
+            <a href="#bridal" class="mobile-link mobile-shop-trigger" data-category="Bridal">Bridal</a>
+            <a href="#couture" class="mobile-link mobile-shop-trigger" data-category="Couture">Couture</a>
+            <a href="#pret" class="mobile-link mobile-shop-trigger" data-category="Pret">Pret</a>
+            <a href="#accessories" class="mobile-link mobile-shop-trigger" data-category="Accessories">Accessories</a>
+            <a href="#story-section" class="mobile-link mobile-story-trigger">Our Story</a>
+        </nav>
+    </div>
+
+    <!-- Main Content Area -->
+    <main class="main-content-layout">
+        
+        <!-- Hero Slider Banner -->
+        <section class="hero-section" id="hero">
+            <div class="hero-slider">
+                <div class="hero-slide active" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5)), url('images/hero_bridal.png');">
+                    <div class="hero-content">
+                        <span class="hero-subtitle">The Imperial Collection</span>
+                        <h1 class="hero-title" id="hero-title-text">A HERITAGE OF ELEGANCE</h1>
+                        <button class="cta-gold-btn" id="hero-discover-btn">Explore Shop</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Subtle Scroll Indicator -->
+            <div class="scroll-indicator">
+                <span class="scroll-text">Scroll</span>
+                <div class="scroll-line"></div>
+            </div>
+        </section>
+
+        <!-- Lookbook Section -->
+        <section class="lookbook-section" id="lookbook">
+            <div class="section-header">
+                <span class="sub-title">Editorial Lookbook</span>
+                <h2 class="section-title">THE ART OF BESPOKE</h2>
+                <div class="divider-gold"></div>
+            </div>
+            
+            <div class="lookbook-grid">
+                <div class="lookbook-item lookbook-large animate-on-scroll">
+                    <div class="lookbook-img-wrapper">
+                        <img src="images/couture_lehenga.png" alt="Couture Gown Details">
+                    </div>
+                    <div class="lookbook-info">
+                        <span class="item-tag">Handcraft</span>
+                        <h3>Intricate Zardozi</h3>
+                        <p>Hours of detailing using precious gold threads on heavy velvets.</p>
+                    </div>
+                </div>
+                <div class="lookbook-item lookbook-small animate-on-scroll">
+                    <div class="lookbook-img-wrapper">
+                        <img src="images/gold_jewelry.png" alt="Bespoke Jewels">
+                    </div>
+                    <div class="lookbook-info">
+                        <span class="item-tag">Accessories</span>
+                        <h3>Majestic Accents</h3>
+                        <p>Bridging traditional Indian stones with modern structure.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Product Catalog Section (The Shop) -->
+        <section class="catalog-section" id="catalog">
+            <div class="section-header">
+                <span class="sub-title">Shop Collection</span>
+                <h2 class="section-title" id="catalog-title-text">NEW ARRIVALS</h2>
+                <div class="divider-gold"></div>
+            </div>
+
+            <!-- E-Commerce Category Filter Tabs -->
+            <div class="catalog-tabs" id="catalog-tabs-container">
+                <!-- Populate dynamically: All, Bridal, Couture, Pret, Accessories -->
+            </div>
+
+            <div class="catalog-controls-container">
+                <!-- Search bar & Sort selector -->
+                <div class="boutique-controls-bar">
+                    <div class="boutique-search-wrapper">
+                        <i class="fa-solid fa-magnifying-glass search-icon-gold"></i>
+                        <input type="text" id="boutique-search-input" placeholder="Search creations...">
+                    </div>
+                    <div class="boutique-sort-wrapper">
+                        <label for="boutique-sort-select">Sort By</label>
+                        <select id="boutique-sort-select">
+                            <option value="default">Default Showroom</option>
+                            <option value="price-asc">Price: Low to High</option>
+                            <option value="price-desc">Price: High to Low</option>
+                            <option value="title-asc">Alphabetical: A to Z</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Shop Grid of Products -->
+            <div class="product-grid" id="product-list-container">
+                <!-- Populate via JS -->
+            </div>
+        </section>
+
+        <!-- Craftsmanship Story Section -->
+        <section class="story-section" id="story-section">
+            <div class="story-container">
+                <div class="story-image-side animate-on-scroll">
+                    <img src="images/heritage_craft.png" alt="Embroidery detail hands">
+                </div>
+                <div class="story-text-side animate-on-scroll">
+                    <span class="story-tag">Our Legacy</span>
+                    <h2 class="story-title" id="story-title-text">CRAFTED FOR ROYALS</h2>
+                    <div class="divider-gold-left"></div>
+                    <p class="story-paragraph" id="story-desc-text">
+                        Every creation at Shapes By Satinder Kaur begins as a dream of fabric and thread. Our master craftsmen revive age-old techniques of zardozi, badla, and beadwork from royal households, fusing them seamlessly with structural silhouettes that contour the modern form.
+                    </p>
+                    <p class="story-paragraph">
+                        We celebrate heritage that refuses to remain in the past, transforming ancient handlooms into breathtaking contemporary treasures.
+                    </p>
+                    <div class="story-signature">Shapes By Satinder Kaur Atelier</div>
+                </div>
+            </div>
+        </section>
+        
+    </main>
+
+    <!-- Luxury Footer -->
+    <footer class="luxury-footer">
+        <div class="footer-container">
+            <div class="footer-col brand-info">
+                <h3>Shapes By Satinder Kaur</h3>
+                <p>Atelier of high fashion, bridal couture, and fine heritage jewelry.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" aria-label="Pinterest"><i class="fa-brands fa-pinterest"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Collections</h4>
+                <ul>
+                    <li><a href="#bridal" class="footer-shop-trigger" data-category="Bridal">Bridal Lehenga</a></li>
+                    <li><a href="#couture" class="footer-shop-trigger" data-category="Couture">Palace Couture</a></li>
+                    <li><a href="#pret" class="footer-shop-trigger" data-category="Pret">Modern Pret</a></li>
+                    <li><a href="#accessories" class="footer-shop-trigger" data-category="Accessories">Fine Accessories</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Atelier Support</h4>
+                <ul>
+                    <li><a href="#">Bespoke Consultations</a></li>
+                    <li><a href="#">Shipping & Heritage Care</a></li>
+                    <li><a href="#">Return Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-col contact-info-col">
+                <h4>Mumbai Flagship</h4>
+                <p style="font-size: 12px; line-height: 1.6; color: var(--grey-medium); margin-bottom: 1.5rem;">
+                    Shop No 4, Bus Stop, Ghatla Village Rd, Near Maitri Park, Basant Garden, Chembur, Mumbai 400071<br>
+                    <strong>T:</strong> <a href="tel:+919833392756" style="color: var(--gold);">+91 98333 92756</a><br>
+                    <strong>Hours:</strong> 11:00 AM – 8:00 PM (Mon - Sun)
+                </p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Shapes By Satinder Kaur. All Rights Reserved. Created as a luxury showroom application.</p>
+        </div>
+    </footer>
+
+    <!-- Shopping Bag Drawer -->
+    <div class="cart-drawer-overlay" id="cart-drawer">
+        <div class="cart-drawer">
+            <div class="cart-drawer-header">
+                <h3>YOUR ATELIER BAG</h3>
+                <button class="close-drawer-btn" id="close-cart-btn">&times;</button>
+            </div>
+            <div class="cart-items-list" id="cart-items-container">
+                <!-- Populate via JS -->
+            </div>
+            <div class="cart-drawer-footer">
+                <div class="cart-summary-row">
+                    <span>Subtotal</span>
+                    <span id="cart-subtotal">₹ 0</span>
+                </div>
+                <p class="shipping-notice">Complimentary white-glove courier shipping within India.</p>
+                <button class="checkout-btn" id="proceed-checkout-btn">PROCEED TO SECURE CHECKOUT</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Detail Modal -->
+    <div class="luxury-modal" id="product-detail-modal">
+        <div class="modal-content-wrapper">
+            <button class="close-modal-btn" id="close-product-modal">&times;</button>
+            <div class="modal-grid">
+                <!-- Left: Interactive Image Viewer -->
+                <div class="modal-image-side">
+                    <div class="image-zoom-container" id="zoom-container">
+                        <img src="" alt="" id="modal-product-image">
+                    </div>
+                    <p class="zoom-help"><i class="fa-solid fa-magnifying-glass"></i> Hover over image to inspect weave detail</p>
+                </div>
+                <!-- Right: Product Info & Accordions -->
+                <div class="modal-info-side">
+                    <span class="modal-product-category" id="modal-product-category"></span>
+                    <h2 class="modal-product-title" id="modal-product-title"></h2>
+                    <div class="modal-product-price" id="modal-product-price"></div>
+                    <div class="modal-stock-status" id="modal-product-stock"></div>
+                    
+                    <p class="modal-product-desc" id="modal-product-desc"></p>
+
+                    <!-- Size Selector -->
+                    <div class="size-selection-area">
+                        <label>Select Size</label>
+                        <div class="sizes-grid">
+                            <button class="size-option" data-size="S">S</button>
+                            <button class="size-option" data-size="M">M</button>
+                            <button class="size-option" data-size="L">L</button>
+                            <button class="size-option" data-size="XL">XL</button>
+                            <button class="size-option" data-size="Bespoke">Bespoke Measure</button>
+                        </div>
+                    </div>
+
+                    <button class="add-to-cart-action-btn" id="modal-add-to-cart-btn">ADD TO BAG</button>
+
+                    <!-- Accordion Info -->
+                    <div class="accordion-group">
+                        <div class="accordion-item">
+                            <button class="accordion-header">
+                                <span>The Craftsmanship</span>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-body" id="modal-craftsmanship-detail">
+                                Handcrafted by regional master weavers. Utilizes organic threads, heavy embroideries, and delicate borders. Dry clean only.
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <button class="accordion-header">
+                                <span>Bespoke Measurement Service</span>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-body">
+                                If 'Bespoke Measure' is selected, our Atelier concierge will reach out to you within 24 hours of order placement to arrange virtual fittings and note your exact physical measurements.
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <button class="accordion-header">
+                                <span>Premium Delivery & Unboxing</span>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </button>
+                            <div class="accordion-body">
+                                Delivered in signature archival hard-boxes with fabric-lined sleeves, protecting the metal work and embroidery structure for years. Shipped fully insured.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div class="luxury-modal" id="checkout-modal">
+        <div class="checkout-modal-card">
+            <button class="close-modal-btn" id="close-checkout-btn">&times;</button>
+            <div class="checkout-layout">
+                <!-- Checkout Form -->
+                <div class="checkout-form-container" id="checkout-main-form">
+                    <h2>ATELIER SECURE CHECKOUT</h2>
+                    <div class="divider-gold-left"></div>
+                    <form id="billing-shipping-form">
+                        <h3>Shipping & Concierge Details</h3>
+                        <div class="form-row">
+                            <div class="input-field">
+                                <label for="cust-name">Full Name</label>
+                                <input type="text" id="cust-name" required placeholder="Arthur Hastings">
+                            </div>
+                            <div class="input-field">
+                                <label for="cust-email">Email Address</label>
+                                <input type="email" id="cust-email" required placeholder="concierge@shapescouture.com">
+                            </div>
+                        </div>
+                        <div class="input-field">
+                            <label for="cust-address">Delivery Address</label>
+                            <input type="text" id="cust-address" required placeholder="74 Park Avenue, Penthouse B, New York">
+                        </div>
+                        <div class="form-row">
+                            <div class="input-field">
+                                <label for="cust-phone">Contact Number</label>
+                                <input type="tel" id="cust-phone" required placeholder="+91 98333 92756">
+                            </div>
+                            <div class="input-field">
+                                <label for="cust-zip">Zip/Postal Code</label>
+                                <input type="text" id="cust-zip" required placeholder="400071">
+                            </div>
+                        </div>
+
+                        <h3>Bespoke Secure Payment</h3>
+                        <div class="input-field">
+                            <label for="card-num">Card Number</label>
+                            <div class="card-input-wrapper">
+                                <i class="fa-solid fa-credit-card"></i>
+                                <input type="text" id="card-num" required placeholder="4000 1234 5678 9010" maxlength="19">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="input-field">
+                                <label for="card-expiry">Expiry Date</label>
+                                <input type="text" id="card-expiry" required placeholder="MM/YY" maxlength="5">
+                            </div>
+                            <div class="input-field">
+                                <label for="card-cvv">Security Code (CVV)</label>
+                                <input type="password" id="card-cvv" required placeholder="•••" maxlength="4">
+                            </div>
+                        </div>
+
+                        <button type="submit" class="submit-order-btn">AUTHORIZE SECURE TRANSACTION</button>
+                    </form>
+                </div>
+
+                <!-- Order Success State -->
+                <div class="order-success-screen" id="order-success-screen" style="display: none;">
+                    <i class="fa-solid fa-circle-check gold-success-icon"></i>
+                    <h2>ORDER AUTHORIZED</h2>
+                    <span class="success-subtitle">Welcome to the World of Shapes By Satinder Kaur</span>
+                    <div class="divider-gold"></div>
+                    <p>
+                        Your exclusive order has been successfully placed. A luxury concierge will contact you shortly at your registered number and email to review sizing details and coordinate delivery.
+                    </p>
+                    <div class="order-id-display">Order Reference: <strong id="order-ref-code">#SH-82937</strong></div>
+                    <button class="close-success-btn" id="finish-checkout-btn">RETURN TO SHOWROOM</button>
+                </div>
+
+                <!-- Order Summary Side -->
+                <div class="checkout-summary-side">
+                    <h3>Bag Summary</h3>
+                    <div class="checkout-items-summary" id="checkout-items-list">
+                        <!-- Populate via JS -->
+                    </div>
+                    <div class="checkout-totals">
+                        <div class="total-row">
+                            <span>Subtotal</span>
+                            <span id="checkout-subtotal">₹ 0</span>
+                        </div>
+                        <div class="total-row">
+                            <span>White-Glove Courier</span>
+                            <span class="gold-text">Complimentary</span>
+                        </div>
+                        <div class="total-row grand-total">
+                            <span>Total Due</span>
+                            <span id="checkout-grand-total">₹ 0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main JavaScript Logic -->
+    <script src="index.js"></script>
+</body>
+</html>
