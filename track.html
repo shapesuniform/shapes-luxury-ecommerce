@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track My Order | Shapes By Satiinder Kaur</title>
+    <meta name="description" content="Track your luxury couture order from Shapes By Satiinder Kaur. Enter your order reference to view delivery status.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --gold: #C5A059;
+            --charcoal: #1A1A1A;
+            --white: #FFFFFF;
+            --ivory: #FAF8F5;
+            --grey: #888;
+            --font-serif: 'Cormorant Garamond', Georgia, serif;
+            --font-sans: 'Montserrat', sans-serif;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: var(--font-sans);
+            background: var(--charcoal);
+            color: var(--white);
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .track-header {
+            background: #111;
+            border-bottom: 1px solid rgba(197,160,89,0.2);
+            padding: 1.2rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .track-header .logo {
+            font-family: var(--font-serif);
+            font-size: 1.4rem;
+            font-weight: 300;
+            letter-spacing: 0.2em;
+            color: var(--white);
+            text-decoration: none;
+        }
+        .track-header .logo span { color: var(--gold); font-size: 0.7rem; display: block; letter-spacing: 0.3em; text-transform: uppercase; }
+        .back-link {
+            font-family: var(--font-sans);
+            font-size: 10px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--gold);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: opacity 0.2s;
+        }
+        .back-link:hover { opacity: 0.7; }
+
+        /* Hero */
+        .track-hero {
+            text-align: center;
+            padding: 5rem 2rem 3rem;
+            background: linear-gradient(180deg, #111 0%, var(--charcoal) 100%);
+        }
+        .track-hero .tag {
+            font-size: 9px;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--gold);
+            display: block;
+            margin-bottom: 1rem;
+        }
+        .track-hero h1 {
+            font-family: var(--font-serif);
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 300;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+        .track-hero p {
+            font-size: 12px;
+            color: var(--grey);
+            letter-spacing: 0.05em;
+            max-width: 420px;
+            margin: 0 auto;
+        }
+        .gold-divider {
+            width: 60px;
+            height: 1px;
+            background: var(--gold);
+            margin: 1.5rem auto;
+        }
+
+        /* Search Box */
+        .search-container {
+            max-width: 520px;
+            margin: 0 auto;
+            padding: 0 1.5rem 4rem;
+        }
+        .search-box {
+            display: flex;
+            gap: 0;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(197,160,89,0.3);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 2.5rem;
+        }
+        .search-box input {
+            flex: 1;
+            padding: 1rem 1.2rem;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--white);
+            font-family: var(--font-sans);
+            font-size: 12px;
+            letter-spacing: 0.1em;
+        }
+        .search-box input::placeholder { color: rgba(255,255,255,0.3); }
+        .search-box button {
+            background: var(--gold);
+            color: #111;
+            border: none;
+            padding: 1rem 1.5rem;
+            font-family: var(--font-sans);
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .search-box button:hover { opacity: 0.85; }
+
+        /* Result Panel */
+        .result-panel {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 0 1.5rem 4rem;
+            display: none;
+        }
+        .order-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(197,160,89,0.15);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .order-card-header {
+            background: rgba(197,160,89,0.08);
+            border-bottom: 1px solid rgba(197,160,89,0.15);
+            padding: 1.5rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .order-card-header h2 {
+            font-family: var(--font-serif);
+            font-size: 1.4rem;
+            font-weight: 400;
+            letter-spacing: 0.1em;
+        }
+        .order-card-header .badge {
+            background: #25D366;
+            color: white;
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            padding: 0.4rem 0.9rem;
+            border-radius: 20px;
+        }
+        .order-meta {
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .meta-item label {
+            font-size: 8px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--gold);
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+        .meta-item span {
+            font-size: 12px;
+            color: rgba(255,255,255,0.8);
+        }
+        .order-items {
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .order-items h4 {
+            font-family: var(--font-sans);
+            font-size: 9px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+        .item-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.7rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            font-size: 12px;
+            color: rgba(255,255,255,0.8);
+        }
+        .item-row:last-child { border-bottom: none; }
+        .item-row .item-detail { font-size: 10px; color: var(--grey); margin-top: 2px; }
+
+        /* Tracking Timeline */
+        .tracking-timeline {
+            padding: 1.5rem 2rem;
+        }
+        .tracking-timeline h4 {
+            font-family: var(--font-sans);
+            font-size: 9px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+        }
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 8px;
+            bottom: 8px;
+            width: 1px;
+            background: rgba(197,160,89,0.2);
+        }
+        .timeline-step {
+            position: relative;
+            margin-bottom: 1.8rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+        .timeline-step:last-child { margin-bottom: 0; }
+        .step-dot {
+            position: absolute;
+            left: -2rem;
+            top: 3px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(197,160,89,0.3);
+            flex-shrink: 0;
+        }
+        .step-dot.done {
+            background: var(--gold);
+            border-color: var(--gold);
+        }
+        .step-dot.active {
+            background: transparent;
+            border: 2px solid var(--gold);
+            box-shadow: 0 0 8px rgba(197,160,89,0.4);
+        }
+        .step-label {
+            font-size: 12px;
+            font-weight: 500;
+            color: rgba(255,255,255,0.85);
+        }
+        .step-label.pending { color: rgba(255,255,255,0.3); }
+        .step-time {
+            font-size: 9px;
+            color: var(--grey);
+            margin-top: 2px;
+        }
+
+        /* Not found */
+        .not-found {
+            text-align: center;
+            padding: 3rem 2rem;
+            display: none;
+        }
+        .not-found i { font-size: 3rem; color: rgba(197,160,89,0.4); margin-bottom: 1rem; }
+        .not-found h3 { font-family: var(--font-serif); font-weight: 300; letter-spacing: 0.1em; margin-bottom: 0.5rem; }
+        .not-found p { font-size: 11px; color: var(--grey); }
+
+        /* Footer */
+        .track-footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            font-size: 10px;
+            color: var(--grey);
+            letter-spacing: 0.05em;
+        }
+
+        @media (max-width: 600px) {
+            .order-meta { grid-template-columns: 1fr; }
+            .order-card-header { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="track-header">
+        <a href="index.html" class="logo">
+            SHAPES
+            <span>by Satiinder Kaur</span>
+        </a>
+        <a href="index.html" class="back-link">
+            <i class="fa-solid fa-arrow-left"></i> Back to Showroom
+        </a>
+    </header>
+
+    <!-- Hero -->
+    <div class="track-hero">
+        <span class="tag">Shapes By Satiinder Kaur</span>
+        <h1>Track Your Order</h1>
+        <div class="gold-divider"></div>
+        <p>Enter your order reference number to see the current status and delivery progress of your creation.</p>
+    </div>
+
+    <!-- Search -->
+    <div class="search-container">
+        <div class="search-box">
+            <input type="text" id="track-input" placeholder="Enter Order Reference (e.g. SH-0001)" />
+            <button onclick="trackOrder()"><i class="fa-solid fa-magnifying-glass"></i> Track</button>
+        </div>
+    </div>
+
+    <!-- Result -->
+    <div class="result-panel" id="result-panel">
+        <div class="order-card" id="order-card">
+            <div class="order-card-header">
+                <h2 id="result-ref">Order #SH-0001</h2>
+                <span class="badge" id="result-badge">Order Confirmed</span>
+            </div>
+            <div class="order-meta">
+                <div class="meta-item">
+                    <label>Order Date</label>
+                    <span id="result-date">—</span>
+                </div>
+                <div class="meta-item">
+                    <label>Payment ID</label>
+                    <span id="result-payment">—</span>
+                </div>
+            </div>
+            <div class="order-items">
+                <h4>Items Ordered</h4>
+                <div id="result-items">—</div>
+            </div>
+            <div class="tracking-timeline">
+                <h4>Delivery Journey</h4>
+                <div class="timeline">
+                    <div class="timeline-step">
+                        <div class="step-dot done"></div>
+                        <div>
+                            <div class="step-label">Order Confirmed & Payment Received</div>
+                            <div class="step-time" id="step1-time">—</div>
+                        </div>
+                    </div>
+                    <div class="timeline-step">
+                        <div class="step-dot active"></div>
+                        <div>
+                            <div class="step-label">Artisan Workshop — Preparation in Progress</div>
+                            <div class="step-time">Our master craftsmen are preparing your creation</div>
+                        </div>
+                    </div>
+                    <div class="timeline-step">
+                        <div class="step-dot"></div>
+                        <div>
+                            <div class="step-label pending">Quality Review</div>
+                            <div class="step-time">Pending</div>
+                        </div>
+                    </div>
+                    <div class="timeline-step">
+                        <div class="step-dot"></div>
+                        <div>
+                            <div class="step-label pending">Luxury Packaging & Dispatch</div>
+                            <div class="step-time">Pending</div>
+                        </div>
+                    </div>
+                    <div class="timeline-step">
+                        <div class="step-dot"></div>
+                        <div>
+                            <div class="step-label pending">Delivered</div>
+                            <div class="step-time">Pending</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Not Found -->
+    <div class="not-found" id="not-found">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <h3>Order Not Found</h3>
+        <p>We couldn't find an order with that reference on this device.<br>
+        For help, call us at <a href="tel:+919833392756" style="color: var(--gold);">+91 98333 92756</a></p>
+    </div>
+
+    <!-- Footer -->
+    <footer class="track-footer">
+        &copy; 2026 Shapes By Satiinder Kaur &nbsp;·&nbsp; Chembur, Mumbai 400071 &nbsp;·&nbsp;
+        <a href="tel:+919833392756" style="color: var(--gold);">+91 98333 92756</a>
+    </footer>
+
+    <script>
+        // Auto-fill order ref from URL param
+        window.addEventListener("DOMContentLoaded", () => {
+            const params = new URLSearchParams(window.location.search);
+            const ref = params.get("ref");
+            if (ref) {
+                document.getElementById("track-input").value = ref;
+                trackOrder();
+            }
+        });
+
+        function trackOrder() {
+            const input = document.getElementById("track-input").value.trim().toUpperCase();
+            const resultPanel = document.getElementById("result-panel");
+            const notFound = document.getElementById("not-found");
+
+            resultPanel.style.display = "none";
+            notFound.style.display = "none";
+
+            if (!input) return;
+
+            // Look up order in localStorage
+            const allOrders = JSON.parse(localStorage.getItem("shapes_orders") || "[]");
+            const order = allOrders.find(o => o.ref.toUpperCase() === input);
+
+            if (!order) {
+                notFound.style.display = "block";
+                return;
+            }
+
+            // Populate result
+            document.getElementById("result-ref").textContent = "Order " + order.ref;
+            document.getElementById("result-badge").textContent = "✓ Order Confirmed";
+            document.getElementById("result-payment").textContent = order.paymentId || "—";
+
+            const dateObj = new Date(order.date);
+            document.getElementById("result-date").textContent = dateObj.toLocaleDateString("en-IN", {
+                day: "numeric", month: "long", year: "numeric"
+            });
+            document.getElementById("step1-time").textContent = dateObj.toLocaleString("en-IN");
+
+            // Populate items
+            const itemsContainer = document.getElementById("result-items");
+            itemsContainer.innerHTML = "";
+            order.items.forEach(item => {
+                const row = document.createElement("div");
+                row.className = "item-row";
+                row.innerHTML = `
+                    <div>
+                        <div>${item.title}</div>
+                        <div class="item-detail">Size: ${item.size} · Qty: ${item.quantity}</div>
+                    </div>
+                    <div>₹${(item.price * item.quantity).toLocaleString("en-IN")}</div>
+                `;
+                itemsContainer.appendChild(row);
+            });
+
+            resultPanel.style.display = "block";
+            resultPanel.scrollIntoView({ behavior: "smooth" });
+        }
+
+        // Allow Enter key to search
+        document.addEventListener("DOMContentLoaded", () => {
+            document.getElementById("track-input").addEventListener("keypress", (e) => {
+                if (e.key === "Enter") trackOrder();
+            });
+        });
+    </script>
+</body>
+</html>

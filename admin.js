@@ -141,6 +141,13 @@ function loadCMSPanels() {
     renderCMSProducts();
     populateCMSCategories();
     populateCMSSettings();
+    // Load Firebase data for orders and customers
+    setTimeout(() => {
+        if (window._firebaseReady) {
+            loadAdminOrders();
+            loadAdminCustomers();
+        }
+    }, 800);
 }
 
 // Setup core listener triggers
@@ -157,6 +164,10 @@ function setupCMSListeners() {
             btn.classList.add("active");
             const target = btn.dataset.tab;
             document.getElementById(target).classList.add("active");
+
+            // Lazy-load Firebase data on tab open
+            if (target === "cms-orders-tab" && window._firebaseReady) loadAdminOrders();
+            if (target === "cms-customers-tab" && window._firebaseReady) loadAdminCustomers();
         });
     });
 
@@ -411,5 +422,136 @@ if ("serviceWorker" in navigator) {
         caches.keys().then(keys => {
             keys.forEach(key => caches.delete(key));
         });
+    }
+}
+
+// ─────────────────────────────────────────────────────────────
+// ORDERS DATABASE  (reads from Firestore)
+// ─────────────────────────────────────────────────────────────
+let _allOrders = []; // cache for search filter
+
+async function loadAdminOrders() {
+    const tbody = document.getElementById("orders-tbody");
+    if (!tbody) return;
+    if (!window._dbAdmin) {
+        tbody.innerHTML = `<tr><td colspan="10" style="text-align:center;padding:2rem;color:#e57373;">Firebase not configured yet. Add your firebaseConfig to firebase-config.js first.</td></tr>`;
+        return;
+    }
+    tbody.innerHTML = `<tr><td colspan="10" style="text-align:center;padding:2rem;color:var(--grey);"><i class="fa-solid fa-circle-notch fa-spin"></i> Loading orders…</td></tr>`;
+    try {
+        const snap = await window._getDocsAdmin(
+            window._queryAdmin(window._collAdmin(window._dbAdmin, "orders"), window._orderByAdmin("date", "desc"))
+        );
+        _allOrders = [];
+        snap.forEach(d => _allOrders.push({ id: d.id, ...d.data() }));
+        renderOrdersTable(_allOrders);
+    } catch (e) {
+        tbody.innerHTML = `<tr><td colspan="10" style="text-align:center;padding:2rem;color:#e57373;">Error: ${e.message}</td></tr>`;
+    }
+}
+
+function renderOrdersTable(orders) {
+    const tbody = document.getElementById("orders-tbody");
+    if (!orders.length) {
+        tbody.innerHTML = `<tr><td colspan="10" style="text-align:center;padding:3rem;color:var(--grey);">No orders yet.</td></tr>`;
+        return;
+    }
+    tbody.innerHTML = orders.map(o => {
+        const date = o.date ? new Date(o.date).toLocaleDateString("en-IN", { day:"numeric", month:"short", year:"numeric" }) : "—";
+        const items = (o.items || []).map(i => `${i.title} (${i.size}×${i.quantity})`).join(", ");
+        const total = (o.items || []).reduce((t, i) => t + (i.price * i.quantity), 0);
+        const waMsg = encodeURIComponent(`Hi ${o.customerName || ""}, this is Shapes By Satiinder Kaur. Regarding your order *${o.ref}* — we'd like to confirm details. 🙏`);
+        const waLink = `https://wa.me/${(o.customerPhone || "").replace(/\D/g,"")}?text=${waMsg}`;
+        return `<tr>
+            <td><strong style="color:var(--gold)">${o.ref}</strong></td>
+            <td>${o.customerName || "—"}</td>
+            <td style="font-size:10px">${o.customerEmail || "—"}</td>
+            <td>${o.customerPhone || "—"}</td>
+            <td style="font-size:10px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${items}">${items}</td>
+            <td>₹${total.toLocaleString("en-IN")}</td>
+            <td style="font-size:9px;color:var(--grey)">${o.paymentId || "—"}</td>
+            <td style="font-size:10px">${date}</td>
+            <td><span style="background:rgba(37,211,102,0.15);color:#25D366;font-size:8px;font-weight:600;letter-spacing:0.1em;padding:0.25rem 0.6rem;border-radius:20px;">✓ Confirmed</span></td>
+            <td>
+                ${o.customerPhone ? `<a href="${waLink}" target="_blank" style="display:inline-flex;align-items:center;gap:4px;background:#25D366;color:#fff;padding:0.35rem 0.7rem;border-radius:3px;text-decoration:none;font-size:9px;font-weight:600;"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>` : ""}
+                <a href="track.html?ref=${o.ref}" target="_blank" style="display:inline-flex;align-items:center;gap:4px;background:transparent;color:var(--gold);border:1px solid var(--gold);padding:0.35rem 0.7rem;border-radius:3px;text-decoration:none;font-size:9px;font-weight:600;margin-left:4px;"><i class="fa-solid fa-truck-fast"></i> Track</a>
+            </td>
+        </tr>`;
+    }).join("");
+}
+
+function filterOrders() {
+    const q = (document.getElementById("orders-search")?.value || "").toLowerCase();
+    if (!q) { renderOrdersTable(_allOrders); return; }
+    renderOrdersTable(_allOrders.filter(o =>
+        (o.ref || "").toLowerCase().includes(q) ||
+        (o.customerName || "").toLowerCase().includes(q) ||
+        (o.customerEmail || "").toLowerCase().includes(q)
+    ));
+}
+
+function exportOrdersCSV() {
+    if (!_allOrders.length) { alert("No orders to export."); return; }
+    const headers = ["Order #","Customer","Email","Phone","Items","Total","Payment ID","Date"];
+    const rows = _allOrders.map(o => {
+        const items = (o.items || []).map(i => `${i.title} (${i.size}x${i.quantity})`).join(" | ");
+        const total = (o.items || []).reduce((t, i) => t + (i.price * i.quantity), 0);
+        const date = o.date ? new Date(o.date).toLocaleDateString("en-IN") : "";
+        return [o.ref, o.customerName, o.customerEmail, o.customerPhone, items, total, o.paymentId, date]
+            .map(v => `"${(v||"").toString().replace(/"/g,'""')}"`).join(",");
+    });
+    const csv = [headers.join(","), ...rows].join("\n");
+    const blob = new Blob([csv], { type: "text/csv" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `shapes_orders_${new Date().toISOString().slice(0,10)}.csv`;
+    a.click();
+}
+
+// ─────────────────────────────────────────────────────────────
+// CUSTOMERS DATABASE  (reads from Firestore)
+// ─────────────────────────────────────────────────────────────
+async function loadAdminCustomers() {
+    const tbody = document.getElementById("customers-tbody");
+    if (!tbody || !window._dbAdmin) return;
+    tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--grey);"><i class="fa-solid fa-circle-notch fa-spin"></i> Loading customers…</td></tr>`;
+    try {
+        // Load customers and orders simultaneously
+        const [custSnap, ordSnap] = await Promise.all([
+            window._getDocsAdmin(window._collAdmin(window._dbAdmin, "customers")),
+            window._getDocsAdmin(window._collAdmin(window._dbAdmin, "orders"))
+        ]);
+        const ordersMap = {}; // uid → {count, spent}
+        ordSnap.forEach(d => {
+            const o = d.data();
+            if (!o.uid) return;
+            if (!ordersMap[o.uid]) ordersMap[o.uid] = { count: 0, spent: 0 };
+            ordersMap[o.uid].count++;
+            ordersMap[o.uid].spent += (o.items || []).reduce((t, i) => t + (i.price * i.quantity), 0);
+        });
+        if (custSnap.empty) {
+            tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:3rem;color:var(--grey);">No registered customers yet.</td></tr>`;
+            return;
+        }
+        tbody.innerHTML = "";
+        custSnap.forEach(d => {
+            const c = d.data();
+            const stats = ordersMap[c.uid] || { count: 0, spent: 0 };
+            const joined = c.createdAt ? new Date(c.createdAt).toLocaleDateString("en-IN", { day:"numeric", month:"short", year:"numeric" }) : "—";
+            const waMsg = encodeURIComponent(`Hello ${c.name || ""}, this is Shapes By Satiinder Kaur! 🌟 We'd love to get in touch.`);
+            tbody.innerHTML += `<tr>
+                <td><strong>${c.name || "—"}</strong></td>
+                <td style="font-size:10px">${c.email || "—"}</td>
+                <td>${c.phone || "—"}</td>
+                <td style="font-size:10px">${joined}</td>
+                <td style="text-align:center">${stats.count}</td>
+                <td>₹${stats.spent.toLocaleString("en-IN")}</td>
+                <td>
+                    ${c.phone ? `<a href="https://wa.me/${c.phone.replace(/\D/g,"")}?text=${waMsg}" target="_blank" style="display:inline-flex;align-items:center;gap:4px;background:#25D366;color:#fff;padding:0.35rem 0.7rem;border-radius:3px;text-decoration:none;font-size:9px;font-weight:600;"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>` : ""}
+                </td>
+            </tr>`;
+        });
+    } catch (e) {
+        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:2rem;color:#e57373;">Error: ${e.message}</td></tr>`;
     }
 }

@@ -7,13 +7,15 @@
     <!-- Fonts: Cormorant Garamond for Headings, Montserrat for Body -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://checkout.razorpay.com">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
     <!-- FontAwesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="index.css" media="all">
     <link rel="manifest" href="manifest.json">
     <!-- Razorpay Standard Checkout SDK -->
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js" defer></script>
 </head>
 <body>
 
@@ -380,7 +382,6 @@
                     </form>
                 </div>
 
-                <!-- Order Success State -->
                 <div class="order-success-screen" id="order-success-screen" style="display: none;">
                     <i class="fa-solid fa-circle-check gold-success-icon"></i>
                     <h2>ORDER AUTHORIZED</h2>
@@ -389,8 +390,25 @@
                     <p>
                         Your exclusive order has been successfully placed. A luxury concierge will contact you shortly at your registered number and email to review sizing details and coordinate delivery.
                     </p>
-                    <div class="order-id-display">Order Reference: <strong id="order-ref-code">#SH-82937</strong></div>
-                    <button class="close-success-btn" id="finish-checkout-btn">RETURN TO SHOWROOM</button>
+                    <div class="order-id-display">Order Reference: <strong id="order-ref-code">#SH-0001</strong></div>
+                    <div style="display: flex; flex-direction: column; gap: 0.8rem; margin-top: 1.5rem; width: 100%;">
+                        <a id="whatsapp-confirm-btn" href="#" target="_blank" rel="noopener"
+                            style="display: flex; align-items: center; justify-content: center; gap: 0.6rem;
+                            background: #25D366; color: #fff; padding: 0.9rem 1.5rem; border-radius: 3px;
+                            font-family: var(--font-sans); font-size: 11px; font-weight: 600;
+                            letter-spacing: 0.15em; text-decoration: none; text-transform: uppercase; transition: opacity 0.2s;">
+                            <i class="fa-brands fa-whatsapp" style="font-size: 16px;"></i> CONFIRM ORDER ON WHATSAPP
+                        </a>
+                        <a id="track-order-btn" href="track.html" target="_blank" rel="noopener"
+                            style="display: flex; align-items: center; justify-content: center; gap: 0.6rem;
+                            background: transparent; color: var(--gold); padding: 0.9rem 1.5rem; border-radius: 3px;
+                            font-family: var(--font-sans); font-size: 11px; font-weight: 600;
+                            letter-spacing: 0.15em; text-decoration: none; text-transform: uppercase;
+                            border: 1px solid var(--gold); transition: all 0.2s;">
+                            <i class="fa-solid fa-truck-fast"></i> TRACK MY ORDER
+                        </a>
+                        <button class="close-success-btn" id="finish-checkout-btn">RETURN TO SHOWROOM</button>
+                    </div>
                 </div>
 
                 <!-- Order Summary Side -->
@@ -420,5 +438,18 @@
 
     <!-- Main JavaScript Logic -->
     <script src="index.js"></script>
+
+    <!-- Firebase Auth + Firestore (ESM module, non-blocking) -->
+    <script type="module">
+        import { auth, db, onAuthStateChanged, collection, addDoc } from './firebase-config.js';
+        // Expose Firestore write handles to index.js (classic script)
+        window._dbStore = db;
+        window._collectionStore = collection;
+        window._addDocStore = addDoc;
+        // Observe auth state
+        onAuthStateChanged(auth, (user) => {
+            if (typeof window._onAuthUser === "function") window._onAuthUser(user);
+        });
+    </script>
 </body>
 </html>

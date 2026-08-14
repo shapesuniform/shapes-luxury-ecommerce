@@ -777,6 +777,11 @@ async function processCheckout() {
 // Complete order callback on payment authorization
 function completeOrder(paymentId) {
     // 1. Deduct products stock
+    const orderedItems = cart.map(item => {
+        const p = products.find(prod => prod.id === item.id);
+        return { title: p ? p.title : item.id, size: item.size, quantity: item.quantity, price: p ? p.price : 0 };
+    });
+
     cart.forEach(item => {
         const p = products.find(prod => prod.id === item.id);
         if (p) {
@@ -784,23 +789,60 @@ function completeOrder(paymentId) {
         }
     });
 
-    // Save product stock updates
     localStorage.setItem("shapes_products", JSON.stringify(products));
 
-    // Clear cart state
+    // 2. Sequential Order ID — starts from #0001
+    const lastOrderNum = parseInt(localStorage.getItem("shapes_last_order_num") || "0");
+    const newOrderNum = lastOrderNum + 1;
+    localStorage.setItem("shapes_last_order_num", String(newOrderNum));
+    const refCode = "SH-" + String(newOrderNum).padStart(4, "0");
+
+    // 3. Save order details to localStorage for tracking page
+    const orderRecord = {
+        ref: refCode,
+        paymentId: paymentId,
+        date: new Date().toISOString(),
+        items: orderedItems,
+        status: "confirmed"
+    };
+    const allOrders = JSON.parse(localStorage.getItem("shapes_orders") || "[]");
+    allOrders.push(orderRecord);
+    localStorage.setItem("shapes_orders", JSON.stringify(allOrders));
+
+    // 4. Clear cart state
     cart = [];
     saveCartState();
     updateCartCount();
 
-    // 2. Generate order reference display
-    const refCode = "SH-" + Math.floor(100000 + Math.random() * 900000);
-    document.getElementById("order-ref-code").innerHTML = `${refCode}<br><span style="font-size: 10px; color: var(--gold); letter-spacing: 0.05em; font-family: var(--font-sans);">Payment ID: ${paymentId}</span>`;
+    // 5. Update Order Reference on screen
+    document.getElementById("order-ref-code").innerHTML =
+        `${refCode}<br><span style="font-size: 10px; color: var(--gold); letter-spacing: 0.05em; font-family: var(--font-sans);">Payment ID: ${paymentId}</span>`;
 
-    // 3. Show Success Screen
+    // 6. Build WhatsApp confirmation message
+    const custName = document.getElementById("cust-name").value.trim() || "Customer";
+    const itemsSummary = orderedItems.map(i => `${i.title} (Size: ${i.size} x${i.quantity})`).join(", ");
+    const totalAmt = orderedItems.reduce((t, i) => t + (i.price * i.quantity), 0);
+    const waMsg = encodeURIComponent(
+        `Hello Shapes By Satiinder Kaur! 🌟\n\n` +
+        `I just completed my order and would like to confirm:\n\n` +
+        `Order Ref: *${refCode}*\n` +
+        `Payment ID: ${paymentId}\n` +
+        `Items: ${itemsSummary}\n` +
+        `Total: ₹${totalAmt.toLocaleString("en-IN")}\n\n` +
+        `Name: ${custName}\n\n` +
+        `Please confirm my order. Thank you!`
+    );
+    const waLink = `https://wa.me/919833392756?text=${waMsg}`;
+    document.getElementById("whatsapp-confirm-btn").href = waLink;
+
+    // 7. Update Track Order link with order ref
+    document.getElementById("track-order-btn").href = `track.html?ref=${refCode}`;
+
+    // 8. Show Success Screen
     document.getElementById("checkout-main-form").style.display = "none";
     document.getElementById("order-success-screen").style.display = "flex";
 
-    // 4. Re-render storefront
+    // 9. Re-render storefront
     renderStorefront();
 }
 
@@ -826,6 +868,7 @@ function setupScrollAnimations() {
 window.updateCartQty = updateCartQty;
 window.removeCartItem = removeCartItem;
 
+
 // Run initial loading
 window.addEventListener("DOMContentLoaded", initStore);
 
@@ -836,9 +879,71 @@ if ("serviceWorker" in navigator) {
             registration.unregister().then(() => console.log("Service Worker unregistered."));
         }
     });
-    if (window.caches) {
-        caches.keys().then(keys => {
-            keys.forEach(key => caches.delete(key));
-        });
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// FIREBASE AUTH & FIRESTORE INTEGRATION (ESM module — loaded after DOM ready)
+// ─────────────────────────────────────────────────────────────────────────────
+
+// Global firebase handles (set by ESM module below via window._*)
+let _currentUser = null;
+
+function injectAccountNavLink() {
+    // Insert "My Account" link into nav-right if not already present
+    if (document.getElementById("nav-account-link")) return;
+    const navRight = document.querySelector(".nav-right");
+    if (!navRight) return;
+    const link = document.createElement("a");
+    link.id = "nav-account-link";
+    link.href = "account.html";
+    link.className = "nav-link";
+    link.innerHTML = `<i class="fa-solid fa-circle-user" style="font-size:14px; color:var(--gold);"></i>`;
+    link.title = "My Account";
+    link.style.cssText = "display:flex;align-items:center;gap:5px;";
+    navRight.insertBefore(link, navRight.firstChild);
+}
+
+// Called by firebase ESM module when auth state changes
+window._onAuthUser = function(user) {
+    _currentUser = user;
+    injectAccountNavLink();
+    const link = document.getElementById("nav-account-link");
+    if (link) {
+        link.title = user ? `Signed in as ${user.displayName || user.email}` : "Sign In / Register";
+        link.innerHTML = user
+            ? `<i class="fa-solid fa-circle-user" style="font-size:14px; color:var(--gold);"></i>`
+            : `<i class="fa-regular fa-circle-user" style="font-size:14px;"></i>`;
+    }
+};
+
+// Save order to Firestore — called from completeOrder()
+async function saveOrderToFirestore(orderRecord) {
+    if (!window._dbStore || !window._addDocStore || !window._collectionStore) return;
+    try {
+        const user = _currentUser;
+        const enriched = {
+            ...orderRecord,
+            uid: user ? user.uid : null,
+            customerName: user ? (user.displayName || "") : (document.getElementById("cust-name")?.value || ""),
+            customerEmail: user ? user.email : (document.getElementById("cust-email")?.value || ""),
+            customerPhone: document.getElementById("cust-phone")?.value || ""
+        };
+        await window._addDocStore(window._collectionStore(window._dbStore, "orders"), enriched);
+    } catch (e) {
+        console.warn("Firestore save failed (will fallback to localStorage):", e.message);
     }
 }
+
+// Patch completeOrder to also save to Firestore (non-breaking — localStorage still works even if Firebase not configured)
+const _originalCompleteOrder = completeOrder;
+window.completeOrder = async function(paymentId) {
+    // Run original logic first (sets up orderRecord in localStorage etc.)
+    _originalCompleteOrder(paymentId);
+
+    // Retrieve the just-saved order from localStorage and push to Firestore
+    try {
+        const allOrders = JSON.parse(localStorage.getItem("shapes_orders") || "[]");
+        const latest = allOrders[allOrders.length - 1];
+        if (latest) await saveOrderToFirestore(latest);
+    } catch (e) { /* silent */ }
+};

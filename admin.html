@@ -56,6 +56,13 @@
                     <i class="fa-solid fa-sliders"></i> Store Copy & Hero
                 </button>
                 
+                <button class="cms-sidebar-btn" data-tab="cms-orders-tab">
+                    <i class="fa-solid fa-receipt"></i> Orders Database
+                </button>
+                <button class="cms-sidebar-btn" data-tab="cms-customers-tab">
+                    <i class="fa-solid fa-users"></i> Customers
+                </button>
+                
                 <div class="sidebar-footer">
                     <button class="lock-cms-btn" id="lock-cms-btn"><i class="fa-solid fa-power-off"></i> Lock Session</button>
                 </div>
@@ -216,9 +223,89 @@
                         <textarea id="export-data-textarea" readonly style="height: 140px; font-family: monospace; font-size: 11px; background: rgba(0,0,0,0.45); color: #fff; border: 1px solid var(--gold); padding: 0.8rem; width: 100%; border-radius: 4px; resize: none;"></textarea>
                     </div>
                 </div>
+
+                <!-- Tab: Orders Database -->
+                <div class="cms-tab-panel" id="cms-orders-tab">
+                    <div class="panel-header">
+                        <h3>Orders Database</h3>
+                        <p>All orders placed on the storefront. Each row links to the customer's WhatsApp for quick follow-up.</p>
+                    </div>
+                    <div style="display:flex; gap:1rem; margin-bottom:1.2rem; flex-wrap:wrap;">
+                        <input type="text" id="orders-search" placeholder="Search by Order # or Customer Name…"
+                            style="flex:1; min-width:200px; background:rgba(255,255,255,0.05); border:1px solid rgba(197,160,89,0.25);
+                            color:#fff; padding:0.65rem 1rem; border-radius:3px; font-family:var(--font-sans); font-size:11px;"
+                            oninput="filterOrders()">
+                        <button onclick="exportOrdersCSV()" style="background:transparent; border:1px solid var(--gold); color:var(--gold);
+                            font-family:var(--font-sans); font-size:9px; font-weight:600; letter-spacing:0.15em; text-transform:uppercase;
+                            padding:0.65rem 1.2rem; border-radius:3px; cursor:pointer;">
+                            <i class="fa-solid fa-download"></i> Export CSV
+                        </button>
+                    </div>
+                    <div class="cms-table-wrapper">
+                        <table class="cms-table" id="orders-table">
+                            <thead>
+                                <tr>
+                                    <th>Order #</th>
+                                    <th>Customer</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Items</th>
+                                    <th>Total</th>
+                                    <th>Payment ID</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="orders-tbody">
+                                <tr><td colspan="10" style="text-align:center;padding:2rem;color:var(--grey);">Loading orders…</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Tab: Customers -->
+                <div class="cms-tab-panel" id="cms-customers-tab">
+                    <div class="panel-header">
+                        <h3>Customer Accounts</h3>
+                        <p>All registered customers with their total order count and spend.</p>
+                    </div>
+                    <div class="cms-table-wrapper">
+                        <table class="cms-table" id="customers-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Joined</th>
+                                    <th>Total Orders</th>
+                                    <th>Total Spent</th>
+                                    <th>Contact</th>
+                                </tr>
+                            </thead>
+                            <tbody id="customers-tbody">
+                                <tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--grey);">Loading customers…</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
             </main>
         </div>
     </div>
+
+    <!-- Firebase Admin Module -->
+    <script type="module">
+        import { auth, db, onAuthStateChanged, collection, getDocs, query, orderBy, where } from './firebase-config.js';
+        window._dbAdmin = db;
+        window._collAdmin = collection;
+        window._getDocsAdmin = getDocs;
+        window._queryAdmin = query;
+        window._orderByAdmin = orderBy;
+        window._whereAdmin = where;
+        // Load after unlock
+        window._firebaseReady = true;
+    </script>
 
     <!-- CMS JavaScript Controller -->
     <script src="admin.js"></script>
