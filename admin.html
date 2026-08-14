@@ -194,6 +194,23 @@
                         </div>
                         <button type="submit" class="cms-submit-btn">APPLY EDITORIAL UPDATES</button>
                     </form>
+                    
+                    <div class="panel-header" style="margin-top: 2.5rem; border-top: 1px solid rgba(197, 160, 89, 0.15); padding-top: 2rem;">
+                        <h3>Atelier Database backup</h3>
+                        <p>Export your custom product list, categories, and editorial layout parameters. Send this backup data to the developer to deploy permanently for all users globally.</p>
+                    </div>
+                    <div style="display: flex; gap: 1rem; margin-top: 1.2rem; flex-wrap: wrap;">
+                        <button class="cms-submit-btn" type="button" id="export-db-btn" style="background-color: var(--charcoal); border: 1px solid var(--gold); color: var(--gold); flex: 1; min-width: 200px;">
+                            <i class="fa-solid fa-download"></i> Export Products Backup
+                        </button>
+                        <button class="cms-submit-btn" type="button" id="reset-db-btn" style="background-color: var(--crimson); color: var(--white); border: none; flex: 1; min-width: 200px;">
+                            <i class="fa-solid fa-rotate-left"></i> Reset to Defaults
+                        </button>
+                    </div>
+                    <div class="cms-input-field" style="margin-top: 1.5rem; display: none;" id="export-area-container">
+                        <label for="export-data-textarea">Copy this data block and send to the developer:</label>
+                        <textarea id="export-data-textarea" readonly style="height: 140px; font-family: monospace; font-size: 11px; background: rgba(0,0,0,0.45); color: #fff; border: 1px solid var(--gold); padding: 0.8rem; width: 100%; border-radius: 4px; resize: none;"></textarea>
+                    </div>
                 </div>
             </main>
         </div>

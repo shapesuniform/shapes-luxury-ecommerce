@@ -196,6 +196,34 @@ function setupCMSListeners() {
         localStorage.setItem("shapes_config", JSON.stringify(config));
         alert("Editorial elements saved. Refresh the showroom page to see live updates!");
     });
+
+    // Export local storage database backup
+    document.getElementById("export-db-btn").addEventListener("click", () => {
+        const container = document.getElementById("export-area-container");
+        const textarea = document.getElementById("export-data-textarea");
+        
+        const backupData = {
+            products: JSON.parse(localStorage.getItem("shapes_products") || "[]"),
+            categories: JSON.parse(localStorage.getItem("shapes_categories") || "[]"),
+            config: JSON.parse(localStorage.getItem("shapes_config") || "{}")
+        };
+        
+        textarea.value = JSON.stringify(backupData, null, 2);
+        container.style.display = "block";
+        textarea.select();
+    });
+
+    // Reset local database defaults
+    document.getElementById("reset-db-btn").addEventListener("click", () => {
+        if (confirm("Are you sure you want to reset the database to default settings? This will delete all customized products and restore default models.")) {
+            localStorage.removeItem("shapes_currency_version");
+            localStorage.removeItem("shapes_products");
+            localStorage.removeItem("shapes_categories");
+            localStorage.removeItem("shapes_config");
+            alert("Database reset. Reloading page...");
+            window.location.reload();
+        }
+    });
 }
 
 // Render Products catalog table
