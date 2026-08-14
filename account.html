@@ -249,7 +249,7 @@
     <script type="module">
         import { auth, db, onAuthStateChanged, signOut, createUserWithEmailAndPassword,
                  signInWithEmailAndPassword, updateProfile, collection, addDoc, getDocs,
-                 query, where, orderBy, GoogleAuthProvider, signInWithPopup } from './firebase-config.js';
+                 query, where, orderBy, doc, updateDoc, GoogleAuthProvider, signInWithPopup } from './firebase-config.js';
 
         window._auth = auth;
         window._db = db;
@@ -263,8 +263,40 @@
         window._query = query;
         window._where = where;
         window._orderBy = orderBy;
+        window._doc = doc;
+        window._updateDoc = updateDoc;
         window._googleProvider = new GoogleAuthProvider();
         window._signInWithPopup = signInWithPopup;
+
+        async function recordCustomerLogin(user, extraData = {}) {
+            try {
+                const q = query(collection(db, "customers"), where("uid", "==", user.uid));
+                const snap = await getDocs(q);
+                const now = new Date().toISOString();
+                if (snap.empty) {
+                    await addDoc(collection(db, "customers"), {
+                        uid: user.uid,
+                        name: user.displayName || extraData.name || "Client",
+                        email: user.email || "",
+                        phone: extraData.phone || user.phoneNumber || "",
+                        createdAt: now,
+                        lastLoginAt: now,
+                        loginCount: 1
+                    });
+                } else {
+                    const docId = snap.docs[0].id;
+                    const cur = snap.docs[0].data();
+                    await updateDoc(doc(db, "customers", docId), {
+                        lastLoginAt: now,
+                        loginCount: (cur.loginCount || 1) + 1,
+                        name: user.displayName || cur.name || extraData.name || "Client",
+                        phone: extraData.phone || cur.phone || user.phoneNumber || ""
+                    });
+                }
+            } catch (err) {
+                console.warn("Could not log customer session:", err.message);
+            }
+        }
 
         // Auth state observer
         onAuthStateChanged(auth, async (user) => {
@@ -290,7 +322,8 @@
             list.innerHTML = "";
 
             try {
-                const q = query(collection(db, "orders"), where("uid", "==", uid), orderBy("date", "desc"));
+                // Query by uid directly (no composite index required)
+                const q = query(collection(db, "orders"), where("uid", "==", uid));
                 const snap = await getDocs(q);
 
                 loading.style.display = "none";
@@ -305,9 +338,15 @@
                     return;
                 }
 
-                let totalOrders = 0, totalItems = 0, totalSpent = 0;
+                // Extract and sort by date descending
+                const orders = [];
                 snap.forEach(docSnap => {
-                    const o = docSnap.data();
+                    orders.push({ id: docSnap.id, ...docSnap.data() });
+                });
+                orders.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+
+                let totalOrders = 0, totalItems = 0, totalSpent = 0;
+                orders.forEach(o => {
                     totalOrders++;
                     const items = o.items || [];
                     items.forEach(i => { totalItems += i.quantity || 1; totalSpent += (i.price * i.quantity) || 0; });
@@ -350,13 +389,15 @@
             }
         }
 
+
         window.handleLogin = async () => {
             const email = document.getElementById("login-email").value.trim();
             const pass = document.getElementById("login-password").value;
             const errEl = document.getElementById("login-error");
             errEl.textContent = "";
             try {
-                await signInWithEmailAndPassword(auth, email, pass);
+                const cred = await signInWithEmailAndPassword(auth, email, pass);
+                await recordCustomerLogin(cred.user);
             } catch (e) {
                 errEl.textContent = e.code === "auth/invalid-credential" ? "Incorrect email or password." : e.message;
             }
@@ -365,6 +406,7 @@
         window.handleSignup = async () => {
             const name = document.getElementById("signup-name").value.trim();
             const email = document.getElementById("signup-email").value.trim();
+            const phone = document.getElementById("signup-phone").value.trim();
             const pass = document.getElementById("signup-password").value;
             const errEl = document.getElementById("signup-error");
             errEl.textContent = "";
@@ -372,12 +414,7 @@
             try {
                 const cred = await createUserWithEmailAndPassword(auth, email, pass);
                 await updateProfile(cred.user, { displayName: name });
-                // Save profile to Firestore
-                await addDoc(collection(db, "customers"), {
-                    uid: cred.user.uid, name, email,
-                    phone: document.getElementById("signup-phone").value.trim(),
-                    createdAt: new Date().toISOString()
-                });
+                await recordCustomerLogin(cred.user, { name, phone });
             } catch (e) {
                 errEl.textContent = e.code === "auth/email-already-in-use" ? "An account with this email already exists." : e.message;
             }
@@ -386,18 +423,7 @@
         window.handleGoogleSignIn = async () => {
             try {
                 const result = await signInWithPopup(auth, window._googleProvider);
-                const user = result.user;
-                // Save to customers collection if first time
-                const existing = await getDocs(query(collection(db, "customers"), where("uid", "==", user.uid)));
-                if (existing.empty) {
-                    await addDoc(collection(db, "customers"), {
-                        uid: user.uid,
-                        name: user.displayName || "",
-                        email: user.email || "",
-                        phone: user.phoneNumber || "",
-                        createdAt: new Date().toISOString()
-                    });
-                }
+                await recordCustomerLogin(result.user);
             } catch (e) {
                 document.getElementById("login-error").textContent = e.message;
             }
@@ -407,6 +433,7 @@
             await signOut(auth);
         };
     </script>
+
 
     <script>
         function switchTab(tab) {

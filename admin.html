@@ -267,16 +267,54 @@
                 <!-- Tab: Customers -->
                 <div class="cms-tab-panel" id="cms-customers-tab">
                     <div class="panel-header">
-                        <h3>Customer Accounts</h3>
-                        <p>All registered customers with their total order count and spend.</p>
+                        <h3>Customer Accounts &amp; Login Database</h3>
+                        <p>Real-time database of all logged-in and registered customers, login count, and order history.</p>
                     </div>
+
+                    <!-- Customer Stats Cards -->
+                    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:1rem; margin-bottom:1.5rem;">
+                        <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(197,160,89,0.15); border-radius:4px; padding:1.2rem;">
+                            <div style="font-size:9px; letter-spacing:0.15em; text-transform:uppercase; color:var(--grey); margin-bottom:0.4rem;">Total Logged In Clients</div>
+                            <div style="font-family:var(--font-serif); font-size:2rem; color:var(--gold);" id="stat-total-customers">0</div>
+                            <div style="font-size:9px; color:var(--grey); margin-top:2px;">Registered Accounts</div>
+                        </div>
+                        <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(197,160,89,0.15); border-radius:4px; padding:1.2rem;">
+                            <div style="font-size:9px; letter-spacing:0.15em; text-transform:uppercase; color:var(--grey); margin-bottom:0.4rem;">Clients with Orders</div>
+                            <div style="font-family:var(--font-serif); font-size:2rem; color:#25D366;" id="stat-paying-customers">0</div>
+                            <div style="font-size:9px; color:var(--grey); margin-top:2px;">Purchasing Clients</div>
+                        </div>
+                        <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(197,160,89,0.15); border-radius:4px; padding:1.2rem;">
+                            <div style="font-size:9px; letter-spacing:0.15em; text-transform:uppercase; color:var(--grey); margin-bottom:0.4rem;">Total Customer Orders</div>
+                            <div style="font-family:var(--font-serif); font-size:2rem; color:var(--white);" id="stat-total-cust-orders">0</div>
+                            <div style="font-size:9px; color:var(--grey); margin-top:2px;">Across all accounts</div>
+                        </div>
+                        <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(197,160,89,0.15); border-radius:4px; padding:1.2rem;">
+                            <div style="font-size:9px; letter-spacing:0.15em; text-transform:uppercase; color:var(--grey); margin-bottom:0.4rem;">Total Customer Spend</div>
+                            <div style="font-family:var(--font-serif); font-size:2rem; color:var(--gold);" id="stat-total-cust-spend">₹0</div>
+                            <div style="font-size:9px; color:var(--grey); margin-top:2px;">Cumulative Revenue</div>
+                        </div>
+                    </div>
+
+                    <div style="display:flex; gap:1rem; margin-bottom:1.2rem; flex-wrap:wrap;">
+                        <input type="text" id="customers-search" placeholder="Search customers by Name, Email, or Phone…"
+                            style="flex:1; min-width:200px; background:rgba(255,255,255,0.05); border:1px solid rgba(197,160,89,0.25);
+                            color:#fff; padding:0.65rem 1rem; border-radius:3px; font-family:var(--font-sans); font-size:11px;"
+                            oninput="filterCustomers()">
+                        <button onclick="loadAdminCustomers()" style="background:transparent; border:1px solid var(--gold); color:var(--gold);
+                            font-family:var(--font-sans); font-size:9px; font-weight:600; letter-spacing:0.15em; text-transform:uppercase;
+                            padding:0.65rem 1.2rem; border-radius:3px; cursor:pointer;">
+                            <i class="fa-solid fa-rotate"></i> Refresh
+                        </button>
+                    </div>
+
                     <div class="cms-table-wrapper">
                         <table class="cms-table" id="customers-table">
                             <thead>
                                 <tr>
-                                    <th>Name</th>
+                                    <th>Client Name</th>
                                     <th>Email</th>
                                     <th>Phone</th>
+                                    <th>Logins &amp; Activity</th>
                                     <th>Joined</th>
                                     <th>Total Orders</th>
                                     <th>Total Spent</th>
@@ -284,11 +322,12 @@
                                 </tr>
                             </thead>
                             <tbody id="customers-tbody">
-                                <tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--grey);">Loading customers…</td></tr>
+                                <tr><td colspan="8" style="text-align:center;padding:2rem;color:var(--grey);">Loading customers…</td></tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
+
 
             </main>
         </div>
