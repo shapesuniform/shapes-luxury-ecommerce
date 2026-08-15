@@ -218,7 +218,8 @@ function updateCatalogGrid() {
                     <button class="product-wishlist-btn ${isFav ? 'active' : ''}" onclick="toggleWishlist('${p.id}', event)" title="Save to Wishlist">
                         <i class="${isFav ? 'fa-solid' : 'fa-regular'} fa-heart"></i>
                     </button>
-                    <img src="${cleanImagePath(p.image)}" alt="${p.title}">
+                    <img src="${cleanImagePath(p.image)}" alt="${p.title} — Handcrafted Luxury Indian Couture by Satiinder Kaur" loading="lazy">
+
                     <div class="product-card-quickview">Quick Inspection</div>
                 </div>
                 <div class="product-card-info">

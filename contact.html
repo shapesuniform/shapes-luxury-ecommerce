@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Contact Us — Shapes By Satiinder Kaur | Luxury Atelier Mumbai</title>
+    <meta name="description" content="Contact Shapes By Satiinder Kaur. Flagship bespoke luxury atelier in Chembur, Mumbai. Telephone, WhatsApp concierge, store location and custom appointments.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --charcoal: #0F0F0F;
+            --charcoal-light: #161616;
+            --gold: #C5A059;
+            --gold-light: #E0C899;
+            --gold-dark: #8C6527;
+            --ivory: #FAF6F0;
+            --white: #FFFFFF;
+            --grey: #999999;
+            --grey-light: #444444;
+            --font-serif: 'Cormorant Garamond', Georgia, serif;
+            --font-sans: 'Montserrat', -apple-system, sans-serif;
+            --transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background-color: var(--charcoal);
+            color: var(--ivory);
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* Top Header */
+        .contact-header {
+            background: rgba(15,15,15,0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(197,160,89,0.2);
+            padding: 1.2rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .brand-title {
+            text-decoration: none;
+            color: var(--ivory);
+            display: flex;
+            flex-direction: column;
+        }
+        .brand-title .logo-main {
+            font-family: var(--font-serif);
+            font-size: 1.6rem;
+            letter-spacing: 0.2em;
+            color: var(--gold);
+            font-weight: 400;
+        }
+        .brand-title .logo-sub {
+            font-size: 7.5px;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--grey);
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--gold);
+            text-decoration: none;
+            font-size: 11px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        .back-btn:hover { color: var(--gold-light); transform: translateX(-3px); }
+
+        /* Hero */
+        .contact-hero {
+            text-align: center;
+            padding: 4rem 1.5rem 2.5rem 1.5rem;
+            background: radial-gradient(circle at center, rgba(197,160,89,0.08) 0%, rgba(15,15,15,1) 70%);
+        }
+        .hero-tag {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            color: var(--gold);
+            display: block;
+            margin-bottom: 0.6rem;
+        }
+        .contact-hero h1 {
+            font-family: var(--font-serif);
+            font-size: clamp(2.2rem, 5vw, 3.4rem);
+            font-weight: 300;
+            letter-spacing: 0.08em;
+            color: var(--white);
+            line-height: 1.2;
+        }
+        .gold-divider {
+            width: 60px;
+            height: 1px;
+            background: var(--gold);
+            margin: 1.2rem auto 0 auto;
+        }
+
+        /* Container */
+        .main-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 5rem 1.5rem;
+            width: 100%;
+            flex: 1;
+        }
+
+        /* Contact Cards Grid */
+        .contact-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3.5rem;
+        }
+
+        .contact-card {
+            background: var(--charcoal-light);
+            border: 1px solid rgba(197,160,89,0.2);
+            border-radius: 6px;
+            padding: 2.2rem 1.8rem;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+        .contact-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            opacity: 0;
+            transition: var(--transition);
+        }
+        .contact-card:hover {
+            border-color: var(--gold);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+        }
+        .contact-card:hover::before { opacity: 1; }
+
+        .card-icon {
+            font-size: 1.8rem;
+            color: var(--gold);
+            margin-bottom: 1.2rem;
+        }
+        .card-title {
+            font-family: var(--font-serif);
+            font-size: 1.4rem;
+            font-weight: 400;
+            letter-spacing: 0.05em;
+            color: var(--white);
+            margin-bottom: 0.8rem;
+        }
+        .card-desc {
+            font-size: 12px;
+            line-height: 1.8;
+            color: rgba(255,255,255,0.75);
+            flex: 1;
+            margin-bottom: 1.5rem;
+        }
+        .card-desc strong { color: var(--white); }
+        .card-desc a { color: var(--gold); text-decoration: none; }
+
+        .card-action-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.4rem;
+            border-radius: 3px;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: var(--transition);
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            background: transparent;
+        }
+        .card-action-btn:hover {
+            background: var(--gold);
+            color: var(--charcoal);
+        }
+        .card-action-btn.wa {
+            border-color: #25D366;
+            color: #25D366;
+        }
+        .card-action-btn.wa:hover {
+            background: #25D366;
+            color: #FFFFFF;
+        }
+
+        /* Concierge Form & Details Section */
+        .details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            background: var(--charcoal-light);
+            border: 1px solid rgba(197,160,89,0.2);
+            border-radius: 6px;
+            padding: 2.5rem;
+        }
+
+        .form-side h3, .info-side h3 {
+            font-family: var(--font-serif);
+            font-size: 1.6rem;
+            font-weight: 400;
+            letter-spacing: 0.05em;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+        .form-side p, .info-side p {
+            font-size: 12px;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        .input-group {
+            margin-bottom: 1.2rem;
+        }
+        .input-group label {
+            display: block;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--white);
+            margin-bottom: 0.4rem;
+            font-weight: 500;
+        }
+        .input-group input, .input-group textarea, .input-group select {
+            width: 100%;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(197,160,89,0.25);
+            color: var(--white);
+            padding: 0.75rem 1rem;
+            font-family: var(--font-sans);
+            font-size: 12px;
+            border-radius: 3px;
+            outline: none;
+            transition: var(--transition);
+        }
+        .input-group input:focus, .input-group textarea:focus, .input-group select:focus {
+            border-color: var(--gold);
+            background: rgba(255,255,255,0.08);
+        }
+
+        .submit-inquiry-btn {
+            width: 100%;
+            background: var(--gold);
+            color: var(--charcoal);
+            border: none;
+            padding: 0.95rem;
+            font-family: var(--font-sans);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 3px;
+            transition: var(--transition);
+        }
+        .submit-inquiry-btn:hover {
+            background: var(--gold-light);
+        }
+
+        /* Legal & Merchant Box */
+        .merchant-box {
+            background: rgba(255,255,255,0.02);
+            border: 1px dashed rgba(197,160,89,0.25);
+            padding: 1.5rem;
+            border-radius: 4px;
+            margin-top: 1.5rem;
+        }
+        .merchant-box h4 {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--gold);
+            margin-bottom: 0.8rem;
+        }
+        .merchant-box ul {
+            list-style: none;
+        }
+        .merchant-box ul li {
+            font-size: 11.5px;
+            color: rgba(255,255,255,0.75);
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+        .merchant-box ul li strong {
+            color: var(--white);
+        }
+
+        /* Footer */
+        .contact-footer {
+            border-top: 1px solid rgba(197,160,89,0.15);
+            padding: 2.5rem 1.5rem;
+            text-align: center;
+            font-size: 11px;
+            color: var(--grey);
+            background: #0A0A0A;
+        }
+        .footer-links-row {
+            display: flex;
+            justify-content: center;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+        .footer-links-row a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 11px;
+            transition: var(--transition);
+        }
+        .footer-links-row a:hover { color: var(--gold); }
+
+        @media (max-width: 850px) {
+            .details-grid { grid-template-columns: 1fr; padding: 1.5rem; }
+            .contact-cards-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="contact-header">
+        <a href="index.html" class="brand-title">
+            <span class="logo-main">SHAPES</span>
+            <span class="logo-sub">by Satiinder Kaur</span>
+        </a>
+        <a href="index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Return to Showroom</a>
+    </header>
+
+    <!-- Hero -->
+    <div class="contact-hero">
+        <span class="hero-tag">Client Services &amp; Flagship Atelier</span>
+        <h1>Contact Our Concierge</h1>
+        <div class="gold-divider"></div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- 3 Contact Cards -->
+        <div class="contact-cards-grid">
+            <!-- Card 1: Flagship Boutique -->
+            <div class="contact-card">
+                <div class="card-icon"><i class="fa-solid fa-location-dot"></i></div>
+                <h3 class="card-title">Flagship Boutique</h3>
+                <p class="card-desc">
+                    <strong>Shapes By Satiinder Kaur</strong><br>
+                    Shop No 4, Bus Stop, Ghatla Village Rd,<br>
+                    Near Maitri Park, Basant Garden, Chembur,<br>
+                    Mumbai, Maharashtra 400071, India.<br><br>
+                    <span style="color: var(--gold); font-size: 11px;">Mon – Sun: 11:00 AM – 8:00 PM IST</span>
+                </p>
+                <a href="https://maps.google.com/?q=Shapes+By+Satinder+Kaur+Chembur+Mumbai" target="_blank" rel="noopener" class="card-action-btn">
+                    <i class="fa-solid fa-diamond-turn-right"></i> Google Maps Directions
+                </a>
+            </div>
+
+            <!-- Card 2: Phone & WhatsApp -->
+            <div class="contact-card">
+                <div class="card-icon"><i class="fa-solid fa-phone-volume"></i></div>
+                <h3 class="card-title">Direct Atelier Line</h3>
+                <p class="card-desc">
+                    Direct Call: <a href="tel:+919833392756"><strong>+91 98333 92756</strong></a><br>
+                    WhatsApp Concierge: <a href="https://wa.me/919833392756" target="_blank" rel="noopener"><strong>Chat with Satiinder Kaur</strong></a><br><br>
+                    Reach our personal concierge for bridal fitting appointments, custom measurements, and live dispatch updates.
+                </p>
+                <a href="https://wa.me/919833392756" target="_blank" rel="noopener" class="card-action-btn wa">
+                    <i class="fa-brands fa-whatsapp"></i> Chat on WhatsApp
+                </a>
+            </div>
+
+            <!-- Card 3: Written Correspondence -->
+            <div class="contact-card">
+                <div class="card-icon"><i class="fa-solid fa-envelope-open-text"></i></div>
+                <h3 class="card-title">Official Inquiries</h3>
+                <p class="card-desc">
+                    Official Orders &amp; Billing Email:<br>
+                    <a href="mailto:shapesuniform@gmail.com" style="word-break: break-all;"><strong>shapesuniform@gmail.com</strong></a><br><br>
+                    Website: <a href="https://shapesbysatinderkaur.com"><strong>shapesbysatinderkaur.com</strong></a><br>
+                    Response Time: Guaranteed within 24 to 48 hours.
+                </p>
+                <a href="mailto:shapesuniform@gmail.com" class="card-action-btn">
+                    <i class="fa-solid fa-paper-plane"></i> Send Official Email
+                </a>
+            </div>
+        </div>
+
+        <!-- Details & Concierge Booking Grid -->
+        <div class="details-grid">
+            <!-- Form Side -->
+            <div class="form-side">
+                <h3>Bespoke Appointment &amp; Inquiry</h3>
+                <p>Send a direct message to our couture styling team. We will connect with you via WhatsApp or Email within 24 hours.</p>
+                
+                <form id="contact-inquiry-form" onsubmit="handleInquirySubmit(event)">
+                    <div class="input-group">
+                        <label for="inq-name">Your Full Name</label>
+                        <input type="text" id="inq-name" required placeholder="Lady Eleanor Vance">
+                    </div>
+                    <div class="input-group">
+                        <label for="inq-phone">Contact Phone / WhatsApp</label>
+                        <input type="tel" id="inq-phone" required placeholder="+91 98333 92756">
+                    </div>
+                    <div class="input-group">
+                        <label for="inq-email">Email Address</label>
+                        <input type="email" id="inq-email" required placeholder="client@luxury.com">
+                    </div>
+                    <div class="input-group">
+                        <label for="inq-category">Interest Area</label>
+                        <select id="inq-category">
+                            <option value="Bridal Couture">Bridal Couture &amp; Palace Lehengas</option>
+                            <option value="Zardozi Corsets">Zardozi Handcrafted Corsets</option>
+                            <option value="Pret Collection">Pret &amp; Draped Sets</option>
+                            <option value="Order Tracking">Existing Order Inquiry</option>
+                            <option value="Other">General Styling Assistance</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="inq-message">Message / Sizing Notes</label>
+                        <textarea id="inq-message" rows="3" required placeholder="Tell us about your event date or custom sizing preferences..."></textarea>
+                    </div>
+                    <button type="submit" class="submit-inquiry-btn" id="inq-submit-btn">SEND INQUIRY VIA WHATSAPP</button>
+                </form>
+            </div>
+
+            <!-- Info Side -->
+            <div class="info-side">
+                <h3>Merchant Information</h3>
+                <p>Shapes By Satiinder Kaur is a registered luxury fashion atelier operating in Mumbai, Maharashtra. All transactions are securely processed via Razorpay.</p>
+
+                <div class="merchant-box">
+                    <h4>Official Merchant Registry</h4>
+                    <ul>
+                        <li><strong>Legal Entity Name:</strong> Shapes By Satiinder Kaur</li>
+                        <li><strong>Principal Founder:</strong> Satiinder Kaur</li>
+                        <li><strong>GST HSN Category:</strong> 6204 (Apparel &amp; Couture)</li>
+                        <li><strong>Grievance Officer:</strong> Satiinder Kaur</li>
+                        <li><strong>Registered Office:</strong> Shop No 4, Bus Stop, Ghatla Village Rd, Near Maitri Park, Basant Garden, Chembur, Mumbai 400071</li>
+                        <li><strong>Contact Phone:</strong> +91 98333 92756</li>
+                        <li><strong>Official Email:</strong> shapesuniform@gmail.com</li>
+                    </ul>
+                </div>
+
+                <div class="merchant-box" style="margin-top: 1rem;">
+                    <h4>Store Policies Summary</h4>
+                    <ul>
+                        <li>⏱ <strong>Dispatch Time:</strong> 15 – 22 working days (Handcrafted to order).</li>
+                        <li>🔄 <strong>Returns &amp; Exchanges:</strong> Exchange offered strictly on verified manufacturing defects reported within 48h. Zero cash refunds.</li>
+                        <li>💳 <strong>Payments:</strong> 100% Secure Online Payment via Razorpay (No Cash on Delivery).</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="contact-footer">
+        <div class="footer-links-row">
+            <a href="contact.html">Contact Us</a>
+            <span>·</span>
+            <a href="info.html#terms">Terms &amp; Conditions</a>
+            <span>·</span>
+            <a href="info.html#privacy">Privacy Policy</a>
+            <span>·</span>
+            <a href="info.html#refund">Refund &amp; Exchange</a>
+            <span>·</span>
+            <a href="info.html#cancellation">Cancellation Policy</a>
+            <span>·</span>
+            <a href="info.html#policy">Shipping &amp; Delivery</a>
+            <span>·</span>
+            <a href="track.html">Track Order</a>
+        </div>
+        <p>&copy; 2026 Shapes By Satiinder Kaur. All Rights Reserved. &nbsp;|&nbsp; Chembur, Mumbai, Maharashtra 400071</p>
+    </footer>
+
+    <script>
+        function handleInquirySubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById("inq-name").value.trim();
+            const phone = document.getElementById("inq-phone").value.trim();
+            const email = document.getElementById("inq-email").value.trim();
+            const category = document.getElementById("inq-category").value;
+            const message = document.getElementById("inq-message").value.trim();
+
+            const waText = encodeURIComponent(
+                `Hello Shapes By Satiinder Kaur! 🌟\n\n` +
+                `*New Atelier Inquiry*\n` +
+                `Name: ${name}\n` +
+                `Phone: ${phone}\n` +
+                `Email: ${email}\n` +
+                `Interest: ${category}\n` +
+                `Message: ${message}`
+            );
+
+            window.open(`https://wa.me/919833392756?text=${waText}`, '_blank');
+        }
+    </script>
+</body>
+</html>
