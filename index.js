@@ -52,8 +52,9 @@ const DEFAULT_CONFIG = {
     heroTitle: "THE STRUCTURE OF HERITAGE",
     storyTitle: "RE-IMAGINING THE CORSET",
     storyDesc: "Every creation at Shapes By Satiinder Kaur begins as a dialogue between structural precision and heritage handlooms. We fuse classical Western corsetry with opulent Indian fabrics. Our master craftsmen hand-embroider raw silks, Banarasi brocades, and heavy velvets with antique zardozi wires, molding structural silhouettes that contour the modern form. We celebrate heritage that refuses to remain in the past, transforming ancient handlooms into bold contemporary treasures.",
-    razorpayKey: "rzp_test_TPmS0ErfrzcYCA" // Default placeholder key
+    razorpayKey: "rzp_live_TQ0RwUwXQjD3tq" // Live Production Key
 };
+
 
 // State Variables
 let products = [];
@@ -70,13 +71,15 @@ let currentSort = "default";
 
 // Initialize Store App
 function initStore() {
-    // Force clean migration from any test artifacts
-    if (localStorage.getItem("shapes_catalog_version") !== "satiinder_kaur_v3_clean") {
+    // Force clean migration and assign live Razorpay key
+    if (localStorage.getItem("shapes_catalog_version") !== "satiinder_kaur_v4_live") {
         localStorage.removeItem("shapes_products");
         localStorage.setItem("shapes_products", JSON.stringify(DEFAULT_PRODUCTS));
         localStorage.setItem("shapes_categories", JSON.stringify(DEFAULT_CATEGORIES));
-        localStorage.setItem("shapes_catalog_version", "satiinder_kaur_v3_clean");
+        localStorage.setItem("shapes_config", JSON.stringify(DEFAULT_CONFIG));
+        localStorage.setItem("shapes_catalog_version", "satiinder_kaur_v4_live");
     }
+
 
     // Load from LocalStorage or write defaults
     if (!localStorage.getItem("shapes_products")) {
@@ -221,12 +224,13 @@ function updateCatalogGrid() {
                 <div class="product-card-info">
                     <span class="product-card-category">${p.category}</span>
                     <h3 class="product-card-title">${p.title}</h3>
-                    <span class="product-card-price">${formatCurrency(p.price)}</span>
+                    <span class="product-card-price">${formatCurrency(p.price)} <small style="font-size: 9.5px; font-weight: 400; color: var(--grey-dark); letter-spacing: 0.04em;">(Incl. GST)</small></span>
                 </div>
             </div>
         `;
         listContainer.innerHTML += cardHtml;
     });
+
 
     // Add card click listeners
     document.querySelectorAll(".product-card").forEach(card => {
@@ -405,8 +409,9 @@ function openProductDetail(productId) {
     document.getElementById("modal-product-image").alt = p.title;
     document.getElementById("modal-product-category").innerText = p.category;
     document.getElementById("modal-product-title").innerText = p.title;
-    document.getElementById("modal-product-price").innerText = formatCurrency(p.price);
+    document.getElementById("modal-product-price").innerHTML = `${formatCurrency(p.price)} <span style="font-size: 11px; font-weight: 400; color: var(--grey-dark); letter-spacing: 0.04em; font-family: var(--font-sans); margin-left: 6px;">(Inclusive of all taxes &amp; GST)</span>`;
     document.getElementById("modal-product-desc").innerText = p.description;
+
     document.getElementById("modal-craftsmanship-detail").innerText = p.craft || "Handcrafted by regional master weavers. Dry clean only.";
 
     // Stock status check
@@ -447,7 +452,8 @@ function renderAffordabilityWidget(priceInInr) {
     if (!container) return;
     container.innerHTML = "";
 
-    const rzpKey = config.razorpayKey || "rzp_test_TPmS0ErfrzcYCA";
+    const rzpKey = config.razorpayKey || "rzp_live_TQ0RwUwXQjD3tq";
+
     const amountInPaise = (priceInInr || 0) * 100;
 
     if (typeof RazorpayAffordabilitySuite !== "undefined") {
@@ -882,8 +888,19 @@ function openCheckoutModal() {
         container.innerHTML += row;
     });
 
-    document.getElementById("checkout-subtotal").innerText = formatCurrency(subtotal);
-    document.getElementById("checkout-grand-total").innerText = formatCurrency(subtotal);
+    // Calculate GST (12% Apparel GST included)
+    const gstRate = 0.12;
+    const taxableBase = Math.round(subtotal / (1 + gstRate));
+    const gstAmount = subtotal - taxableBase;
+
+    const subtotalEl = document.getElementById("checkout-subtotal");
+    const gstEl = document.getElementById("checkout-gst-amount");
+    const grandEl = document.getElementById("checkout-grand-total");
+
+    if (subtotalEl) subtotalEl.innerText = formatCurrency(subtotal);
+    if (gstEl) gstEl.innerText = formatCurrency(gstAmount);
+    if (grandEl) grandEl.innerText = formatCurrency(subtotal);
+
 
     // Reset Success states
     document.getElementById("checkout-main-form").style.display = "block";
@@ -905,6 +922,8 @@ async function processCheckout() {
     const phone = document.getElementById("cust-phone").value.trim();
     const address = document.getElementById("cust-address").value.trim();
     const zip = document.getElementById("cust-zip").value.trim();
+    const gstin = (document.getElementById("cust-gstin") ? document.getElementById("cust-gstin").value.trim() : "");
+
 
     const subtotal = cart.reduce((total, item) => {
         const p = products.find(prod => prod.id === item.id);
@@ -947,7 +966,8 @@ async function processCheckout() {
             console.warn("Backend order endpoint unavailable, falling back to direct client gateway:", backendErr.message);
         }
 
-        const rzpKey = config.razorpayKey || "rzp_test_TPmS0ErfrzcYCA";
+        const rzpKey = config.razorpayKey || "rzp_live_TQ0RwUwXQjD3tq";
+
 
         // Open Razorpay Standard Checkout
         const options = {
@@ -1047,16 +1067,28 @@ function completeOrder(paymentId) {
     const refCode = "SH-" + String(newOrderNum).padStart(4, "0");
 
     // 3. Save order details to localStorage for tracking page
+    const totalAmt = orderedItems.reduce((t, i) => t + (i.price * i.quantity), 0);
+    const gstRate = 0.12;
+    const taxableBase = Math.round(totalAmt / (1 + gstRate));
+    const gstAmount = totalAmt - taxableBase;
+    const gstin = (document.getElementById("cust-gstin") ? document.getElementById("cust-gstin").value.trim() : "");
+
     const orderRecord = {
         ref: refCode,
         paymentId: paymentId,
         date: new Date().toISOString(),
         items: orderedItems,
+        total: totalAmt,
+        taxableBase: taxableBase,
+        gstAmount: gstAmount,
+        gstRate: "12%",
+        gstin: gstin,
         status: "confirmed"
     };
     const allOrders = JSON.parse(localStorage.getItem("shapes_orders") || "[]");
     allOrders.push(orderRecord);
     localStorage.setItem("shapes_orders", JSON.stringify(allOrders));
+
 
     // 4. Clear cart state
     cart = [];

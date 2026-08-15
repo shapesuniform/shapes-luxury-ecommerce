@@ -52,8 +52,9 @@ const DEFAULT_CONFIG = {
     heroTitle: "THE STRUCTURE OF HERITAGE",
     storyTitle: "RE-IMAGINING THE CORSET",
     storyDesc: "Every creation at Shapes By Satiinder Kaur begins as a dialogue between structural precision and heritage handlooms. We fuse classical Western corsetry with opulent Indian fabrics. Our master craftsmen hand-embroider raw silks, Banarasi brocades, and heavy velvets with antique zardozi wires, molding structural silhouettes that contour the modern form. We celebrate heritage that refuses to remain in the past, transforming ancient handlooms into bold contemporary treasures.",
-    razorpayKey: "rzp_test_TPmS0ErfrzcYCA" // Default placeholder key
+    razorpayKey: "rzp_live_TQ0RwUwXQjD3tq" // Live Production Key
 };
+
 
 // Local variables
 let products = [];
@@ -63,12 +64,14 @@ let config = {};
 // Initialize Admin Portal
 function initAdmin() {
     // 1. Sync from shared localStorage with automatic cleanup
-    if (localStorage.getItem("shapes_catalog_version") !== "satiinder_kaur_v3_clean") {
+    if (localStorage.getItem("shapes_catalog_version") !== "satiinder_kaur_v4_live") {
         localStorage.removeItem("shapes_products");
         localStorage.setItem("shapes_products", JSON.stringify(DEFAULT_PRODUCTS));
         localStorage.setItem("shapes_categories", JSON.stringify(DEFAULT_CATEGORIES));
-        localStorage.setItem("shapes_catalog_version", "satiinder_kaur_v3_clean");
+        localStorage.setItem("shapes_config", JSON.stringify(DEFAULT_CONFIG));
+        localStorage.setItem("shapes_catalog_version", "satiinder_kaur_v4_live");
     }
+
 
     if (!localStorage.getItem("shapes_products")) {
         localStorage.setItem("shapes_products", JSON.stringify(DEFAULT_PRODUCTS));

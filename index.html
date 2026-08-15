@@ -19,13 +19,26 @@
     <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
     <link rel="dns-prefetch" href="https://checkout.razorpay.com">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
-    <!-- FontAwesome for icons -->
-    <link rel="stylesheet" href="index.css?v=2.0" media="all">
+    <!-- Cache-Buster & Immediate SW Unregister for Mobile Devices -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                for (let r of registrations) r.unregister();
+            });
+        }
+        if ('caches' in window) {
+            caches.keys().then(function(names) {
+                for (let n of names) caches.delete(n);
+            });
+        }
+    </script>
+    <link rel="stylesheet" href="index.css?v=3.5" media="all">
     <link rel="manifest" href="manifest.json">
     <!-- Razorpay Standard Checkout & Affordability Widget SDK -->
     <script src="https://checkout.razorpay.com/v1/checkout.js" defer></script>
     <script src="https://cdn.razorpay.com/widgets/affordability/affordability.js" defer></script>
 </head>
+
 
 
 
@@ -295,6 +308,7 @@
             <div class="footer-col">
                 <h4>Legal &amp; Policies</h4>
                 <ul>
+                    <li><a href="info.html#contact" target="_blank">Contact Us</a></li>
                     <li><a href="info.html#terms" target="_blank">Terms &amp; Conditions</a></li>
                     <li><a href="info.html#privacy" target="_blank">Privacy Policy</a></li>
                     <li><a href="info.html#refund" target="_blank">Refund &amp; Exchange Policy</a></li>
@@ -308,7 +322,8 @@
                 <p style="font-size: 12px; line-height: 1.6; color: var(--grey-medium); margin-bottom: 0.8rem;">
                     Shop No 4, Bus Stop, Ghatla Village Rd, Near Maitri Park, Basant Garden, Chembur, Mumbai 400071<br>
                     <strong>T:</strong> <a href="tel:+919833392756" style="color: var(--gold);">+91 98333 92756</a><br>
-                    <strong>E:</strong> <a href="mailto:shapesbysatiinderkaur@gmail.com" style="color: var(--gold);">shapesbysatiinderkaur@gmail.com</a>
+                    <strong>E:</strong> <a href="mailto:shapesuniform@gmail.com" style="color: var(--gold);">shapesuniform@gmail.com</a>
+
                 </p>
                 <div style="background: rgba(197,160,89,0.08); border: 1px solid rgba(197,160,89,0.2); border-radius: 3px; padding: 0.8rem 1rem; font-size: 10px; line-height: 1.7; color: var(--grey-medium);">
                     <div style="color: var(--gold); font-weight: 600; letter-spacing: 0.1em; margin-bottom: 0.4rem;">📦 ATELIER POLICY HIGHLIGHTS</div>
@@ -321,12 +336,14 @@
         </div>
         <div class="footer-bottom">
             <p>&copy; 2026 Shapes By Satiinder Kaur. All Rights Reserved. &nbsp;|&nbsp; 
+                <a href="info.html#contact" style="color: var(--grey-medium); text-decoration:none;">Contact Us</a> &nbsp;·&nbsp;
                 <a href="info.html#terms" style="color: var(--grey-medium); text-decoration:none;">Terms</a> &nbsp;·&nbsp;
                 <a href="info.html#privacy" style="color: var(--grey-medium); text-decoration:none;">Privacy</a> &nbsp;·&nbsp;
                 <a href="info.html#refund" style="color: var(--grey-medium); text-decoration:none;">Refunds &amp; Exchanges</a> &nbsp;·&nbsp;
                 <a href="info.html#cancellation" style="color: var(--grey-medium); text-decoration:none;">Cancellations</a>
             </p>
         </div>
+
 
     </footer>
 
@@ -468,7 +485,7 @@
                         </div>
                         <div class="input-field">
                             <label for="cust-address">Delivery Address</label>
-                            <input type="text" id="cust-address" required placeholder="74 Park Avenue, Penthouse B, New York">
+                            <input type="text" id="cust-address" required placeholder="74 Park Avenue, Penthouse B, Mumbai">
                         </div>
                         <div class="form-row">
                             <div class="input-field">
@@ -480,8 +497,12 @@
                                 <input type="text" id="cust-zip" required placeholder="400071">
                             </div>
                         </div>
+                        <div class="input-field">
+                            <label for="cust-gstin">Company GSTIN / Tax ID <span style="font-size: 9px; color: var(--gold);">(Optional for B2B Input Credit)</span></label>
+                            <input type="text" id="cust-gstin" placeholder="e.g. 27AAAAA0000A1Z5">
+                        </div>
 
-                        <button type="submit" class="submit-order-btn">PROCEED TO SECURE PAYMENT</button>
+                        <button type="submit" class="submit-order-btn">CONFIRM &amp; PAY SECURELY</button>
                     </form>
                 </div>
 
@@ -508,7 +529,7 @@
                             font-family: var(--font-sans); font-size: 11px; font-weight: 600;
                             letter-spacing: 0.15em; text-decoration: none; text-transform: uppercase;
                             border: 1px solid var(--gold); transition: all 0.2s;">
-                            <i class="fa-solid fa-truck-fast"></i> TRACK MY ORDER
+                            <i class="fa-solid fa-truck-fast"></i> TRACK MY ORDER &amp; INVOICE
                         </a>
                         <button class="close-success-btn" id="finish-checkout-btn">RETURN TO SHOWROOM</button>
                     </div>
@@ -516,25 +537,35 @@
 
                 <!-- Order Summary Side -->
                 <div class="checkout-summary-side">
-                    <h3>Bag Summary</h3>
+                    <h3>Bag &amp; Tax Summary</h3>
                     <div class="checkout-items-summary" id="checkout-items-list">
                         <!-- Populate via JS -->
                     </div>
                     <div class="checkout-totals">
                         <div class="total-row">
-                            <span>Subtotal</span>
+                            <span>Subtotal (Inclusive of GST)</span>
                             <span id="checkout-subtotal">₹ 0</span>
                         </div>
                         <div class="total-row">
-                            <span>White-Glove Courier</span>
-                            <span class="gold-text">Complimentary</span>
+                            <span style="font-size: 11px; color: var(--grey-dark);">&#8627; Includes 12% GST (CGST + SGST)</span>
+                            <span id="checkout-gst-amount" class="gold-text" style="font-size: 11px;">₹ 0</span>
                         </div>
+                        <div class="total-row">
+                            <span>Insured Shipping</span>
+                            <span class="gold-text">Complimentary (₹0)</span>
+                        </div>
+
                         <div class="total-row grand-total">
-                            <span>Total Due</span>
+                            <span>Total Payable (All Taxes Incl.)</span>
                             <span id="checkout-grand-total">₹ 0</span>
                         </div>
+                        <div class="tax-disclaimer" style="font-size: 9.5px; color: var(--grey-dark); line-height: 1.5; margin-top: 0.8rem; border-top: 1px dashed rgba(197, 160, 89, 0.2); padding-top: 0.6rem;">
+                            <i class="fa-solid fa-file-invoice" style="color: var(--gold);"></i> All product prices are 100% inclusive of 12% GST under HSN Code 6204. No extra charges applied at checkout.
+                        </div>
                     </div>
+
                 </div>
+
             </div>
         </div>
     </div>
@@ -576,7 +607,8 @@
     </div>
 
     <!-- Main JavaScript Logic -->
-    <script src="index.js?v=2.0"></script>
+    <script src="index.js?v=3.5"></script>
+
 
 
 

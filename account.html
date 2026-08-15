@@ -460,28 +460,56 @@
                             <tbody>
                                 ${items.map(item => `
                                     <tr>
-                                        <td><strong>${item.title}</strong></td>
+                                        <td><strong>${item.title}</strong><br><span style="font-size: 9px; color: #777;">HSN Code: 6204 (Apparel &amp; Couture)</span></td>
                                         <td>${item.size || 'Custom'}</td>
                                         <td>₹${item.price.toLocaleString("en-IN")}</td>
                                         <td>${item.quantity || 1}</td>
                                         <td style="text-align: right;">₹${((item.price || 0) * (item.quantity || 1)).toLocaleString("en-IN")}</td>
                                     </tr>
                                 `).join('')}
-                                <tr>
-                                    <td colspan="4" style="text-align: right; font-weight: 600;">White-Glove Insured Delivery:</td>
-                                    <td style="text-align: right; color: #C5A059; font-weight: bold;">Complimentary (₹0)</td>
-                                </tr>
-                                <tr class="total-row">
-                                    <td colspan="4" style="text-align: right;">Grand Total:</td>
-                                    <td style="text-align: right;">₹${total.toLocaleString("en-IN")}</td>
-                                </tr>
+                                ${(() => {
+                                    const gstRate = 0.12;
+                                    const taxableBase = Math.round(total / (1 + gstRate));
+                                    const totalGst = total - taxableBase;
+                                    const cgst = Math.round(totalGst / 2);
+                                    const sgst = totalGst - cgst;
+                                    return `
+                                        <tr>
+                                            <td colspan="4" style="text-align: right; color: #555;">Taxable Base Value (Excl. GST):</td>
+                                            <td style="text-align: right; color: #333;">₹${taxableBase.toLocaleString("en-IN")}</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4" style="text-align: right; color: #555;">CGST @ 6%:</td>
+                                            <td style="text-align: right; color: #333;">₹${cgst.toLocaleString("en-IN")}</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4" style="text-align: right; color: #555;">SGST @ 6%:</td>
+                                            <td style="text-align: right; color: #333;">₹${sgst.toLocaleString("en-IN")}</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4" style="text-align: right; font-weight: 600;">Insured Courier Delivery:</td>
+                                            <td style="text-align: right; color: #C5A059; font-weight: bold;">Complimentary (₹0)</td>
+                                        </tr>
+                                        <tr class="total-row">
+                                            <td colspan="4" style="text-align: right; font-weight: 700;">Grand Total (Taxes Incl.):</td>
+                                            <td style="text-align: right; font-weight: 700; color: #000;">₹${total.toLocaleString("en-IN")}</td>
+                                        </tr>
+                                        ${order.gstin ? `
+                                        <tr>
+                                            <td colspan="5" style="text-align: left; font-size: 10px; color: #444; background: #f9f9f9; padding: 6px 10px;">
+                                                <strong>Client Business GSTIN:</strong> ${order.gstin}
+                                            </td>
+                                        </tr>` : ''}
+                                    `;
+                                })()}
                             </tbody>
                         </table>
 
                         <div class="inv-footer">
-                            <strong>Store Policy & Terms:</strong><br>
+                            <strong>Store Policy &amp; Tax Terms:</strong><br>
                             • Handcrafted to order: standard dispatch time is 15 – 22 working days.<br>
-                            • Due to custom bespoke artisanal sizing, items are non-returnable and non-exchangeable.<br>
+                            • All taxes (CGST 6% + SGST 6%) are computed under HSN Code 6204.<br>
+                            • Exchanges are accepted strictly for verified manufacturing defects reported within 48 hours.<br>
                             • For styling consultations and updates, please contact atelier concierge at +91 98333 92756.
                         </div>
                         <script>
