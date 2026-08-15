@@ -158,15 +158,143 @@
 
     <!-- Tab Bar -->
     <div class="tab-bar">
-        <button class="tab-btn active" onclick="openTab('reviews', this)"><i class="fa-brands fa-google"></i> &nbsp;Reviews</button>
+        <button class="tab-btn active" onclick="openTab('policy', this)"><i class="fa-solid fa-shield-halved"></i> &nbsp;Store Policies</button>
+        <button class="tab-btn" onclick="openTab('terms', this)"><i class="fa-solid fa-file-contract"></i> &nbsp;Terms &amp; Conditions</button>
+        <button class="tab-btn" onclick="openTab('privacy', this)"><i class="fa-solid fa-user-shield"></i> &nbsp;Privacy Policy</button>
+        <button class="tab-btn" onclick="openTab('refund', this)"><i class="fa-solid fa-rotate-left"></i> &nbsp;Refund &amp; Exchange</button>
+        <button class="tab-btn" onclick="openTab('cancellation', this)"><i class="fa-solid fa-ban"></i> &nbsp;Cancellation</button>
         <button class="tab-btn" onclick="openTab('faq', this)"><i class="fa-solid fa-circle-question"></i> &nbsp;FAQs</button>
-        <button class="tab-btn" onclick="openTab('policy', this)"><i class="fa-solid fa-shield-halved"></i> &nbsp;Delivery &amp; Policy</button>
+        <button class="tab-btn" onclick="openTab('reviews', this)"><i class="fa-brands fa-google"></i> &nbsp;Reviews</button>
     </div>
 
-    <!-- REVIEWS TAB -->
-    <div class="tab-content active" id="tab-reviews">
+    <!-- 1. GENERAL STORE POLICY & DELIVERY TAB -->
+    <div class="tab-content active" id="tab-policy">
+        <div class="policy-section">
+            <h3>Delivery Timeline &amp; Insured Shipping</h3>
+            <p>Every garment at Shapes By Satiinder Kaur is custom-handcrafted by master artisans exclusively for each client. Please allow adequate time for authentic handloom weaving, zardozi embroidery, and precision tailoring.</p>
+            <div class="badges-row">
+                <div class="policy-badge gold"><i class="fa-solid fa-clock"></i> 15 – 22 Working Days</div>
+                <div class="policy-badge gold"><i class="fa-solid fa-truck-fast"></i> Complimentary Insured Shipping</div>
+            </div>
+            <ul class="policy-list">
+                <li>Delivery time: <strong>15 to 22 working days</strong> from the date of confirmed online payment.</li>
+                <li>You will receive an official order reference number (e.g. <code>#SH-0001</code>) immediately upon payment confirmation.</li>
+                <li>Our atelier concierge will contact you within 24 hours to re-verify sizing and structural fit.</li>
+                <li>Shipped in signature archival hard-box packaging with fabric-lined sleeves via insured white-glove couriers across India.</li>
+                <li><strong>No Cash on Delivery (COD)</strong> — All orders must be prepaid online via secure Razorpay checkout.</li>
+            </ul>
+        </div>
+    </div>
 
-        <!-- Aggregate Score -->
+    <!-- 2. TERMS & CONDITIONS TAB -->
+    <div class="tab-content" id="tab-terms">
+        <div class="policy-section">
+            <h3>Terms and Conditions</h3>
+            <p>Welcome to <strong>Shapes By Satiinder Kaur</strong> (accessible at <a href="https://shapesbysatinderkaur.com" style="color:var(--gold);">shapesbysatinderkaur.com</a>). By browsing, using our online showroom, or purchasing made-to-order garments from our atelier, you agree to comply with and be bound by the following terms and conditions:</p>
+            <ul class="policy-list">
+                <li><strong>Artisanal Made-to-Order Nature:</strong> All creations (corsets, bridal lehengas, pret tunics, and draped sets) are individually crafted to client order. Minor variations in hand-embroidery, dye shades, and weave textures are inherent characteristics of authentic handcraftsmanship.</li>
+                <li><strong>Pricing &amp; Payment:</strong> All prices are displayed in Indian Rupees (INR ₹) inclusive of applicable taxes. International currency conversions are indicative. We reserve the right to modify prices without prior notice. Full payment via Razorpay is mandatory to confirm order processing.</li>
+                <li><strong>Intellectual Property:</strong> All designs, photography, copy, logos, and visual elements on this website are the exclusive intellectual property of Shapes By Satiinder Kaur and protected under applicable copyright laws.</li>
+                <li><strong>Governing Law &amp; Jurisdiction:</strong> Any dispute, controversy, or claim arising out of your purchase or use of this website shall be governed by the laws of India and subject to the exclusive jurisdiction of the courts in Mumbai, Maharashtra.</li>
+                <li><strong>Atelier Contact:</strong> Shop No 4, Bus Stop, Ghatla Village Rd, Near Maitri Park, Basant Garden, Chembur, Mumbai 400071. Telephone: +91 98333 92756. Email: shapesbysatiinderkaur@gmail.com.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 3. PRIVACY POLICY TAB -->
+    <div class="tab-content" id="tab-privacy">
+        <div class="policy-section">
+            <h3>Privacy Policy</h3>
+            <p>At Shapes By Satiinder Kaur, we take your personal privacy with utmost seriousness. This Privacy Policy outlines how your personal data is collected, protected, and utilized:</p>
+            <ul class="policy-list">
+                <li><strong>Information Collected:</strong> When you place an order, create an account, or contact our atelier, we collect essential client details such as your name, billing &amp; shipping address, contact phone number, and email address.</li>
+                <li><strong>Payment Security:</strong> All financial and payment card transactions are processed through <strong>Razorpay's PCI-DSS compliant 256-bit encrypted secure gateway</strong>. We do not store, view, or retain your credit/debit card numbers, CVV, or banking passwords on our servers.</li>
+                <li><strong>Data Usage:</strong> Your personal data is used solely to craft your garments, confirm measurements, dispatch packages, provide live tracking updates, and communicate directly regarding your orders.</li>
+                <li><strong>Third-Party Sharing:</strong> We strictly never sell, rent, or trade your personal data to external advertisers. Data is shared exclusively with our verified courier logistics partners solely for delivery fulfilment.</li>
+                <li><strong>Data Security:</strong> We implement industry-standard SSL encryption and Firebase security rules to protect your stored account data from unauthorized access.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 4. REFUND & DEFECT EXCHANGE POLICY TAB -->
+    <div class="tab-content" id="tab-refund">
+        <div class="policy-section">
+            <h3>Refund &amp; Exchange Policy (Exchange Only on Defects)</h3>
+            <p>Due to the bespoke, made-to-order artisanal nature of our bridal couture and structured corsetry, <strong>all sales are final. We do not offer cash or monetary refunds under any circumstances.</strong></p>
+            <div class="badges-row">
+                <div class="policy-badge red"><i class="fa-solid fa-ban"></i> No Cash Refunds</div>
+                <div class="policy-badge gold"><i class="fa-solid fa-arrows-rotate"></i> Exchange Only on Verified Defects</div>
+            </div>
+            
+            <h4 style="font-family: var(--font-serif); font-size: 1.15rem; color: var(--gold); margin: 1.5rem 0 0.5rem 0;">Eligibility for Defect Exchange:</h4>
+            <ul class="policy-list">
+                <li><strong>Manufacturing Defects &amp; Transit Damage:</strong> An exchange is provided strictly and solely in the rare event that the garment has arrived with a verifiable manufacturing defect, torn fabric, broken structural boning, or physical transit damage.</li>
+                <li><strong>Reporting Timeframe (48 Hours):</strong> You must report the issue within <strong>48 hours of delivery</strong> by emailing us at <a href="mailto:shapesbysatiinderkaur@gmail.com" style="color:var(--gold);">shapesbysatiinderkaur@gmail.com</a> or messaging our official atelier concierge on WhatsApp at <a href="https://wa.me/919833392756" style="color:var(--gold);">+91 98333 92756</a> with your Order Reference Number (e.g. <code>#SH-0001</code>).</li>
+                <li><strong>Unboxing Video / Photo Proof Required:</strong> Clear photographs and/or an unboxing video displaying the specific defect and original packaging tags are mandatory for inspection by our quality assurance team.</li>
+                <li><strong>Exchange Fulfilment:</strong> Upon verification and approval, our team will arrange a complimentary pickup. We will repair the defect or craft a brand-new replacement piece and deliver it to you at zero additional cost.</li>
+                <li><strong>Non-Eligible Cases:</strong> Exchanges or returns are not accepted for change of mind, personal preference, or minor natural handloom slub variations. Fit alterations can be scheduled complimentary at our Chembur, Mumbai flagship boutique.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 5. CANCELLATION POLICY TAB -->
+    <div class="tab-content" id="tab-cancellation">
+        <div class="policy-section">
+            <h3>Cancellation Policy (Strict No-Cancellation Policy)</h3>
+            <p>At Shapes By Satiinder Kaur, every single piece—from our structured zardozi corsets to our palace bridal lehengas—is custom handcrafted exclusively to order. As artisan allocation, raw silk sourcing, and embroidery drafting commence immediately upon transaction authorization, <strong>orders cannot be cancelled or modified once placed.</strong></p>
+            <div class="badges-row">
+                <div class="policy-badge red"><i class="fa-solid fa-ban"></i> No Cancellations Allowed</div>
+                <div class="policy-badge gold"><i class="fa-solid fa-gem"></i> 100% Made-to-Order Couture</div>
+            </div>
+            <ul class="policy-list">
+                <li><strong>Immediate Artisanal Allocation:</strong> Once an order is confirmed and prepaid through Razorpay, handloom fabrics and zardozi metalwires are specifically assigned to your creation. Therefore, <strong>all orders are final upon placement</strong>.</li>
+                <li><strong>No Post-Order Modifications:</strong> We are unable to cancel or alter orders once submitted. We urge clients to double-check their selected designs, categories, and size choices carefully before completing checkout.</li>
+                <li><strong>Sizing Re-Verification:</strong> Within 24 hours of placing your order, our atelier concierge will reach out to you directly to confirm precise bust, waist, and hip measurements to ensure a flawless bespoke fit before tailoring begins.</li>
+                <li><strong>Defects &amp; Damage Support:</strong> While orders cannot be cancelled, if your piece arrives with any verified transit damage or manufacturing defect, we will immediately provide a complimentary replacement under our <a href="#refund" onclick="openTab('refund', document.querySelectorAll('.tab-btn')[3])" style="color:var(--gold);">Defect Exchange Policy</a>.</li>
+                <li><strong>Assistance:</strong> For any pre-order styling inquiries or bespoke measurement questions, please call our atelier at <a href="tel:+919833392756" style="color:var(--gold);">+91 98333 92756</a> before placing your order.</li>
+            </ul>
+        </div>
+    </div>
+
+
+    <!-- 6. FAQ TAB -->
+    <div class="tab-content" id="tab-faq">
+        <p class="faq-intro">Everything you need to know about ordering, delivery, and sizing at Shapes By Satiinder Kaur. Questions? Call us at <a href="tel:+919833392756" style="color:var(--gold);">+91 98333 92756</a>.</p>
+
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">How do I place an order? <i class="fa-solid fa-chevron-down"></i></button>
+            <div class="faq-answer">Browse our collection, select your item and size, add to bag, and proceed to secure checkout. Payment is processed instantly and securely through Razorpay. Once payment is confirmed you will receive an order reference number (#SH-XXXX).</div>
+        </div>
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">What are the accepted payment methods? <i class="fa-solid fa-chevron-down"></i></button>
+            <div class="faq-answer">We accept all major credit and debit cards, UPI (PhonePe, Google Pay, Paytm), net banking, and EMI options via Razorpay. <strong>Cash on Delivery (COD) is not available.</strong></div>
+        </div>
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">How long does delivery take? <i class="fa-solid fa-chevron-down"></i></button>
+            <div class="faq-answer">All pieces are handcrafted to order by master artisans. Delivery typically takes <strong>15 to 22 working days</strong> from the date of confirmed payment.</div>
+        </div>
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">What is your return &amp; exchange policy? <i class="fa-solid fa-chevron-down"></i></button>
+            <div class="faq-answer">All sales are final. <strong>Exchanges are accepted strictly for verified manufacturing defects or transit damage</strong> reported within 48 hours with video/photo proof. No cash refunds.</div>
+        </div>
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">Is shipping free? <i class="fa-solid fa-chevron-down"></i></button>
+            <div class="faq-answer">Yes! Complimentary white-glove courier shipping is included on all orders within India. Your creation will be packaged in our signature archival hard-box with fabric-lined sleeves.</div>
+        </div>
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">How do I track my order? <i class="fa-solid fa-chevron-down"></i></button>
+            <div class="faq-answer">Visit our <a href="track.html" style="color:var(--gold);">Order Tracking page</a> and enter your order reference (e.g. SH-0001) to see live progress. You can also log into your <a href="account.html" style="color:var(--gold);">My Account</a>.</div>
+        </div>
+
+        <div class="contact-cta">
+            <h4>Still Have Questions?</h4>
+            <p>Our team is available Mon – Sun, 11 AM to 8 PM</p>
+            <a href="tel:+919833392756" class="cta-link"><i class="fa-solid fa-phone"></i> Call +91 98333 92756</a>
+        </div>
+    </div>
+
+    <!-- 7. REVIEWS TAB -->
+    <div class="tab-content" id="tab-reviews">
         <div class="aggregate-box">
             <div class="agg-score">4.9</div>
             <div class="agg-stars">★★★★★</div>
@@ -200,18 +328,6 @@
                 <div class="reviewer-name">Priya Mehta</div>
                 <div class="reviewer-source"><i class="fa-brands fa-google google-icon"></i> Google Review</div>
             </div>
-            <div class="review-card">
-                <div class="review-stars">★★★★★</div>
-                <p class="review-text">"Satiinder ji has a remarkable eye for detail. She understood exactly what I wanted and delivered perfection."</p>
-                <div class="reviewer-name">Ananya Singh</div>
-                <div class="reviewer-source"><i class="fa-brands fa-google google-icon"></i> Google Review</div>
-            </div>
-            <div class="review-card">
-                <div class="review-stars">★★★★★</div>
-                <p class="review-text">"The zardozi work on my corset is museum quality. I received compliments all night at my sangeet."</p>
-                <div class="reviewer-name">Meera Kapoor</div>
-                <div class="reviewer-source"><i class="fa-brands fa-google google-icon"></i> Google Review</div>
-            </div>
         </div>
 
         <div class="contact-cta" style="margin-top: 2.5rem;">
@@ -223,119 +339,11 @@
         </div>
     </div>
 
-    <!-- FAQ TAB -->
-    <div class="tab-content" id="tab-faq">
-        <p class="faq-intro">Everything you need to know about ordering, delivery and sizing at Shapes By Satiinder Kaur. Can't find your answer? Call us at <a href="tel:+919833392756" style="color:var(--gold);">+91 98333 92756</a>.</p>
-
-        <div class="faq-item">
-            <button class="faq-question" onclick="toggleFaq(this)">How do I place an order? <i class="fa-solid fa-chevron-down"></i></button>
-            <div class="faq-answer">Browse our collection on the website, select your item and size, add to bag, and proceed to secure checkout. Payment is processed instantly and securely through Razorpay. Once payment is confirmed you will receive an order reference number.</div>
-        </div>
-        <div class="faq-item">
-            <button class="faq-question" onclick="toggleFaq(this)">What are the accepted payment methods? <i class="fa-solid fa-chevron-down"></i></button>
-            <div class="faq-answer">We accept all major credit and debit cards, UPI (PhonePe, Google Pay, Paytm), net banking, and EMI options — all processed via Razorpay's secure gateway. <strong>Cash on Delivery (COD) is not available.</strong> All orders must be paid online at checkout.</div>
-        </div>
-        <div class="faq-item">
-            <button class="faq-question" onclick="toggleFaq(this)">How long does delivery take? <i class="fa-solid fa-chevron-down"></i></button>
-            <div class="faq-answer">All pieces are handcrafted to order by our master artisans. Delivery typically takes <strong>15 to 22 working days</strong> from the date of confirmed payment. For urgent requirements, please call us directly before placing your order.</div>
-        </div>
-        <div class="faq-item">
-            <button class="faq-question" onclick="toggleFaq(this)">Do you offer returns or exchanges? <i class="fa-solid fa-chevron-down"></i></button>
-            <div class="faq-answer"><strong>All sales are final.</strong> We do not accept returns or exchanges as every piece is handcrafted exclusively for each client. We encourage you to review sizing carefully before purchase. Please contact us before ordering if you have any queries about fit or customisation.</div>
-        </div>
-        <div class="faq-item">
-            <button class="faq-question" onclick="toggleFaq(this)">How does sizing work? <i class="fa-solid fa-chevron-down"></i></button>
-            <div class="faq-answer">We offer standard sizes S, M, L and XL. After your order is placed, a member of our team will contact you to confirm measurements and any adjustments before we begin crafting. If you have specific measurements, please note them in the special instructions or call us directly.</div>
-        </div>
-        <div class="faq-item">
-            <button class="faq-question" onclick="toggleFaq(this)">Is shipping free? <i class="fa-solid fa-chevron-down"></i></button>
-            <div class="faq-answer">Yes. Complimentary white-glove courier shipping is included on all orders within India. Your creation will be packaged in our signature archival hard-box with fabric-lined sleeves, shipped fully insured.</div>
-        </div>
-        <div class="faq-item">
-            <button class="faq-question" onclick="toggleFaq(this)">Can I customise a piece or request a bespoke creation? <i class="fa-solid fa-chevron-down"></i></button>
-            <div class="faq-answer">Yes. For custom or bespoke commissions please contact us directly by phone at <a href="tel:+919833392756" style="color:var(--gold);">+91 98333 92756</a> or visit us at our Mumbai flagship in Chembur. We are happy to create something exclusively for you.</div>
-        </div>
-        <div class="faq-item">
-            <button class="faq-question" onclick="toggleFaq(this)">How do I track my order? <i class="fa-solid fa-chevron-down"></i></button>
-            <div class="faq-answer">Once your order is placed you can visit our <a href="track.html" style="color:var(--gold);">Order Tracking page</a> and enter your order reference number (e.g. SH-0001) to see the current status of your creation. You can also log into your <a href="account.html" style="color:var(--gold);">My Account</a> to view all order history.</div>
-        </div>
-        <div class="faq-item">
-            <button class="faq-question" onclick="toggleFaq(this)">How do I care for my garment? <i class="fa-solid fa-chevron-down"></i></button>
-            <div class="faq-answer">All our pieces should be dry cleaned only. Store in the provided archival box away from direct light, moisture, and synthetic fragrances. Do not fold zardozi or metallic-embroidered areas — hang or store flat to protect the embroidery structure.</div>
-        </div>
-
-        <div class="contact-cta">
-            <h4>Still Have Questions?</h4>
-            <p>Our team is available Mon – Sun, 11 AM to 8 PM</p>
-            <a href="tel:+919833392756" class="cta-link"><i class="fa-solid fa-phone"></i> Call +91 98333 92756</a>
-        </div>
-    </div>
-
-    <!-- DELIVERY & POLICY TAB -->
-    <div class="tab-content" id="tab-policy">
-
-        <div class="policy-section">
-            <h3>Delivery Timeline</h3>
-            <p>All garments at Shapes By Satiinder Kaur are handcrafted exclusively for each client. Because every piece is made to order by our master artisans, please allow adequate time for creation and dispatch.</p>
-            <div class="badges-row">
-                <div class="policy-badge gold"><i class="fa-solid fa-clock"></i> 15 – 22 Working Days</div>
-            </div>
-            <ul class="policy-list">
-                <li>Delivery time begins from the date of confirmed online payment.</li>
-                <li>You will receive an order reference number immediately after payment.</li>
-                <li>Our team will contact you within 24 hours to confirm sizing details.</li>
-                <li>For urgent requirements, please call us before placing an order.</li>
-                <li>Delivery is via fully insured white-glove courier throughout India.</li>
-            </ul>
-        </div>
-
-        <div class="policy-section">
-            <h3>Shipping</h3>
-            <p>Complimentary shipping is included on every order within India. Your creation will be packaged in our signature archival hard-box with fabric-lined sleeves to protect all metalwork and embroidery.</p>
-            <div class="badges-row">
-                <div class="policy-badge gold"><i class="fa-solid fa-truck-fast"></i> Free Shipping Across India</div>
-            </div>
-        </div>
-
-        <div class="policy-section">
-            <h3>Return &amp; Exchange Policy</h3>
-            <p>As every piece is handcrafted exclusively to individual order, <strong>all sales are final.</strong> We are unable to accept returns or exchanges once an order has been placed and payment confirmed.</p>
-            <div class="badges-row">
-                <div class="policy-badge red"><i class="fa-solid fa-ban"></i> No Returns</div>
-                <div class="policy-badge red"><i class="fa-solid fa-ban"></i> No Exchanges</div>
-            </div>
-            <ul class="policy-list">
-                <li>Please review product details and sizing carefully before checkout.</li>
-                <li>Our team will contact you after purchase to confirm all measurements.</li>
-                <li>Minor fit alterations may be arranged at our Chembur boutique.</li>
-                <li>Contact us before ordering if you have any concerns.</li>
-            </ul>
-        </div>
-
-        <div class="policy-section">
-            <h3>Payment Policy</h3>
-            <p>All payments are processed securely through Razorpay, India's leading payment gateway. We accept UPI, credit cards, debit cards, net banking, and EMI.</p>
-            <div class="badges-row">
-                <div class="policy-badge red"><i class="fa-solid fa-ban"></i> No Cash on Delivery (COD)</div>
-            </div>
-            <ul class="policy-list">
-                <li>Full payment is required at time of checkout to confirm your order.</li>
-                <li>Cash on delivery is not available under any circumstances.</li>
-                <li>All transactions are protected by 256-bit SSL encryption.</li>
-                <li>You will receive an email receipt from Razorpay after payment.</li>
-            </ul>
-        </div>
-
-        <div class="contact-cta">
-            <h4>Questions About Your Order?</h4>
-            <p>Our boutique team is here to help — Mon to Sun, 11 AM – 8 PM</p>
-            <a href="tel:+919833392756" class="cta-link"><i class="fa-solid fa-phone"></i> Call +91 98333 92756</a>
-        </div>
-    </div>
-
+    <!-- Footer -->
     <footer class="info-footer">
-        &copy; 2026 Shapes By Satiinder Kaur &nbsp;·&nbsp; Chembur, Mumbai 400071 &nbsp;·&nbsp;
+        &copy; 2026 Shapes By Satiinder Kaur &nbsp;·&nbsp; Shop No 4, Bus Stop, Ghatla Village Rd, Near Maitri Park, Basant Garden, Chembur, Mumbai 400071<br>
         <a href="tel:+919833392756">+91 98333 92756</a> &nbsp;·&nbsp;
+        <a href="mailto:shapesbysatiinderkaur@gmail.com">shapesbysatiinderkaur@gmail.com</a> &nbsp;·&nbsp;
         <a href="index.html">Return to Showroom</a>
     </footer>
 
@@ -343,36 +351,51 @@
         function openTab(id, btn) {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById('tab-' + id).classList.add('active');
-            btn.classList.add('active');
+            
+            const target = document.getElementById('tab-' + id);
+            if (target) target.classList.add('active');
+            if (btn) btn.classList.add('active');
 
-            // Handle URL hash for direct linking
-            const map = { reviews: 'reviews', faq: 'faq', policy: 'policy' };
-            window.location.hash = map[id] || '';
+            window.location.hash = id;
+            window.scrollTo({ top: 120, behavior: 'smooth' });
         }
 
         function toggleFaq(btn) {
             const answer = btn.nextElementSibling;
             const isOpen = answer.classList.contains('open');
-            // Close all
             document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('open'));
             document.querySelectorAll('.faq-question').forEach(q => q.classList.remove('open'));
-            // Open clicked if it was closed
             if (!isOpen) {
                 answer.classList.add('open');
                 btn.classList.add('open');
             }
         }
 
-        // Handle deep-linking via URL hash
+        // Deep-linking hash routing
         window.addEventListener('DOMContentLoaded', () => {
-            const hash = window.location.hash.replace('#', '');
-            const tabMap = { reviews: 0, faq: 1, policy: 2 };
-            if (hash && tabMap[hash] !== undefined) {
-                const btn = document.querySelectorAll('.tab-btn')[tabMap[hash]];
-                if (btn) openTab(hash, btn);
-            }
+            const hash = window.location.hash.replace('#', '').toLowerCase();
+            const tabMap = {
+                'policy': 'policy',
+                'delivery': 'policy',
+                'shipping': 'policy',
+                'terms': 'terms',
+                'privacy': 'privacy',
+                'refund': 'refund',
+                'refunds': 'refund',
+                'return': 'refund',
+                'returns': 'refund',
+                'cancellation': 'cancellation',
+                'cancel': 'cancellation',
+                'faq': 'faq',
+                'faqs': 'faq',
+                'reviews': 'reviews'
+            };
+
+            const targetTab = tabMap[hash] || 'policy';
+            const btn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.getAttribute('onclick').includes(targetTab));
+            if (btn) openTab(targetTab, btn);
         });
     </script>
 </body>
 </html>
+

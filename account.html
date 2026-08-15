@@ -378,11 +378,14 @@
                         <div class="order-items-preview">${itemsSummary}</div>
                         <div class="order-actions">
                             <a class="btn-wa" href="https://wa.me/919833392756?text=${waMsg}" target="_blank">
-                                <i class="fa-brands fa-whatsapp"></i> Contact Boutique
+                                <i class="fa-brands fa-whatsapp"></i> WhatsApp
                             </a>
                             <a class="btn-track" href="track.html?ref=${o.ref}" target="_blank">
-                                <i class="fa-solid fa-truck-fast"></i> Track Order
+                                <i class="fa-solid fa-truck-fast"></i> Track
                             </a>
+                            <button class="btn-track" onclick="printAccountInvoice('${encodeURIComponent(JSON.stringify(o))}')" style="cursor:pointer; background:none; border: 1px solid var(--gold); color:var(--gold);">
+                                <i class="fa-solid fa-print"></i> Invoice
+                            </button>
                         </div>
                     </div>`;
                 });
@@ -396,6 +399,99 @@
                 list.innerHTML = `<p style="text-align:center;color:var(--grey);font-size:12px;">Error loading orders: ${err.message}</p>`;
             }
         }
+
+        // Printable Tax Invoice for Customer Portal
+        window.printAccountInvoice = function(encodedOrder) {
+            try {
+                const o = JSON.parse(decodeURIComponent(encodedOrder));
+                const items = o.items || [];
+                const total = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                const dateStr = o.date ? new Date(o.date).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" }) : "—";
+
+                const printWindow = window.open('', '_blank');
+                printWindow.document.write(`
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                        <title>Invoice - ${o.ref} | Shapes By Satiinder Kaur</title>
+                        <style>
+                            body { font-family: 'Helvetica Neue', Arial, sans-serif; color: #222; margin: 40px; }
+                            .inv-header { display: flex; justify-content: space-between; border-bottom: 2px solid #C5A059; padding-bottom: 20px; }
+                            .inv-logo { font-size: 26px; font-weight: bold; letter-spacing: 2px; color: #111; }
+                            .inv-sub { font-size: 11px; color: #C5A059; text-transform: uppercase; letter-spacing: 3px; }
+                            .inv-meta { text-align: right; font-size: 13px; color: #555; }
+                            table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 13px; }
+                            th { background: #f7f7f7; text-align: left; padding: 10px; border-bottom: 2px solid #ddd; font-weight: 600; }
+                            td { padding: 12px 10px; border-bottom: 1px solid #eee; }
+                            .total-row td { font-size: 15px; font-weight: bold; border-top: 2px solid #C5A059; color: #111; }
+                            .inv-footer { margin-top: 50px; font-size: 11px; color: #777; border-top: 1px solid #ddd; padding-top: 20px; line-height: 1.6; }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="inv-header">
+                            <div>
+                                <div class="inv-logo">SHAPES</div>
+                                <div class="inv-sub">By Satiinder Kaur Atelier</div>
+                                <p style="font-size: 12px; color: #666; margin-top: 5px;">Shop No 4, Bus Stop, Ghatla Village Rd, Near Maitri Park,<br>Basant Garden, Chembur, Mumbai 400071<br>T: +91 98333 92756</p>
+                            </div>
+                            <div class="inv-meta">
+                                <h2 style="margin: 0 0 5px 0; color: #C5A059;">TAX INVOICE</h2>
+                                <div><strong>Invoice No:</strong> INV-${o.ref}</div>
+                                <div><strong>Order Ref:</strong> ${o.ref}</div>
+                                <div><strong>Payment ID:</strong> ${o.paymentId || 'Prepaid'}</div>
+                                <div><strong>Date:</strong> ${dateStr}</div>
+                            </div>
+                        </div>
+
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Item Description</th>
+                                    <th>Size</th>
+                                    <th>Unit Price</th>
+                                    <th>Qty</th>
+                                    <th style="text-align: right;">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${items.map(item => `
+                                    <tr>
+                                        <td><strong>${item.title}</strong></td>
+                                        <td>${item.size || 'Custom'}</td>
+                                        <td>₹${item.price.toLocaleString("en-IN")}</td>
+                                        <td>${item.quantity || 1}</td>
+                                        <td style="text-align: right;">₹${((item.price || 0) * (item.quantity || 1)).toLocaleString("en-IN")}</td>
+                                    </tr>
+                                `).join('')}
+                                <tr>
+                                    <td colspan="4" style="text-align: right; font-weight: 600;">White-Glove Insured Delivery:</td>
+                                    <td style="text-align: right; color: #C5A059; font-weight: bold;">Complimentary (₹0)</td>
+                                </tr>
+                                <tr class="total-row">
+                                    <td colspan="4" style="text-align: right;">Grand Total:</td>
+                                    <td style="text-align: right;">₹${total.toLocaleString("en-IN")}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="inv-footer">
+                            <strong>Store Policy & Terms:</strong><br>
+                            • Handcrafted to order: standard dispatch time is 15 – 22 working days.<br>
+                            • Due to custom bespoke artisanal sizing, items are non-returnable and non-exchangeable.<br>
+                            • For styling consultations and updates, please contact atelier concierge at +91 98333 92756.
+                        </div>
+                        <script>
+                            window.onload = function() { window.print(); };
+                        <\/script>
+                    </body>
+                    </html>
+                `);
+                printWindow.document.close();
+            } catch (e) {
+                alert("Error preparing invoice: " + e.message);
+            }
+        };
+
 
 
         window.handleLogin = async () => {

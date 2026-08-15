@@ -399,8 +399,16 @@
                             <div class="step-label pending">Delivered</div>
                             <div class="step-time">Pending</div>
                         </div>
-                    </div>
-                </div>
+            <!-- Print Invoice Button -->
+            <div style="margin-top: 2rem; text-align: center; border-top: 1px solid rgba(197, 160, 89, 0.15); padding-top: 1.5rem;">
+                <button class="print-invoice-btn" onclick="printInvoice()" style="
+                    background: transparent; border: 1px solid var(--gold); color: var(--gold);
+                    padding: 0.8rem 1.8rem; font-size: 11px; font-family: var(--font-sans);
+                    font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase;
+                    cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
+                    border-radius: 3px; transition: all 0.2s;">
+                    <i class="fa-solid fa-print"></i> Download / Print Tax Invoice
+                </button>
             </div>
         </div>
     </div>
@@ -420,6 +428,8 @@
     </footer>
 
     <script>
+        let currentLoadedOrder = null;
+
         // Auto-fill order ref from URL param
         window.addEventListener("DOMContentLoaded", () => {
             const params = new URLSearchParams(window.location.search);
@@ -448,6 +458,8 @@
                 notFound.style.display = "block";
                 return;
             }
+
+            currentLoadedOrder = order;
 
             // Populate result
             document.getElementById("result-ref").textContent = "Order " + order.ref;
@@ -480,6 +492,95 @@
             resultPanel.scrollIntoView({ behavior: "smooth" });
         }
 
+        // Printable Invoice Generator
+        function printInvoice() {
+            if (!currentLoadedOrder) return;
+            const o = currentLoadedOrder;
+            const total = o.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const dateStr = new Date(o.date).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" });
+
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Invoice - ${o.ref} | Shapes By Satiinder Kaur</title>
+                    <style>
+                        body { font-family: 'Helvetica Neue', Arial, sans-serif; color: #222; margin: 40px; }
+                        .inv-header { display: flex; justify-content: space-between; border-bottom: 2px solid #C5A059; padding-bottom: 20px; }
+                        .inv-logo { font-size: 26px; font-weight: bold; letter-spacing: 2px; color: #111; }
+                        .inv-sub { font-size: 11px; color: #C5A059; text-transform: uppercase; letter-spacing: 3px; }
+                        .inv-meta { text-align: right; font-size: 13px; color: #555; }
+                        .inv-grid { display: grid; grid-template-columns: 1fr 1fr; margin: 30px 0; gap: 20px; font-size: 13px; }
+                        table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 13px; }
+                        th { background: #f7f7f7; text-align: left; padding: 10px; border-bottom: 2px solid #ddd; font-weight: 600; }
+                        td { padding: 12px 10px; border-bottom: 1px solid #eee; }
+                        .total-row td { font-size: 15px; font-weight: bold; border-top: 2px solid #C5A059; color: #111; }
+                        .inv-footer { margin-top: 50px; font-size: 11px; color: #777; border-top: 1px solid #ddd; padding-top: 20px; line-height: 1.6; }
+                    </style>
+                </head>
+                <body>
+                    <div class="inv-header">
+                        <div>
+                            <div class="inv-logo">SHAPES</div>
+                            <div class="inv-sub">By Satiinder Kaur Atelier</div>
+                            <p style="font-size: 12px; color: #666; margin-top: 5px;">Shop No 4, Bus Stop, Ghatla Village Rd, Near Maitri Park,<br>Basant Garden, Chembur, Mumbai 400071<br>T: +91 98333 92756</p>
+                        </div>
+                        <div class="inv-meta">
+                            <h2 style="margin: 0 0 5px 0; color: #C5A059;">TAX INVOICE</h2>
+                            <div><strong>Invoice No:</strong> INV-${o.ref}</div>
+                            <div><strong>Order Ref:</strong> ${o.ref}</div>
+                            <div><strong>Payment ID:</strong> ${o.paymentId || 'Prepaid'}</div>
+                            <div><strong>Date:</strong> ${dateStr}</div>
+                        </div>
+                    </div>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Item Description</th>
+                                <th>Size</th>
+                                <th>Unit Price</th>
+                                <th>Qty</th>
+                                <th style="text-align: right;">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${o.items.map(item => `
+                                <tr>
+                                    <td><strong>${item.title}</strong></td>
+                                    <td>${item.size}</td>
+                                    <td>₹${item.price.toLocaleString("en-IN")}</td>
+                                    <td>${item.quantity}</td>
+                                    <td style="text-align: right;">₹${(item.price * item.quantity).toLocaleString("en-IN")}</td>
+                                </tr>
+                            `).join('')}
+                            <tr>
+                                <td colspan="4" style="text-align: right; font-weight: 600;">White-Glove Insured Delivery:</td>
+                                <td style="text-align: right; color: #C5A059; font-weight: bold;">Complimentary (₹0)</td>
+                            </tr>
+                            <tr class="total-row">
+                                <td colspan="4" style="text-align: right;">Grand Total:</td>
+                                <td style="text-align: right;">₹${total.toLocaleString("en-IN")}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="inv-footer">
+                        <strong>Store Policy & Terms:</strong><br>
+                        • Handcrafted to order: standard dispatch time is 15 – 22 working days.<br>
+                        • Due to custom bespoke artisanal sizing, items are non-returnable and non-exchangeable.<br>
+                        • For styling consultations and updates, please contact atelier concierge at +91 98333 92756.
+                    </div>
+                    <script>
+                        window.onload = function() { window.print(); };
+                    <\/script>
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+        }
+
         // Allow Enter key to search
         document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("track-input").addEventListener("keypress", (e) => {
@@ -487,5 +588,6 @@
             });
         });
     </script>
+
 </body>
 </html>

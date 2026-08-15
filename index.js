@@ -98,9 +98,11 @@ function initStore() {
     // Render elements
     renderStorefront();
     updateCartCount();
+    updateWishlistCount();
     setupEventListeners();
     setupScrollAnimations();
 }
+
 
 // Render storefront elements
 function renderStorefront() {
@@ -193,10 +195,14 @@ function updateCatalogGrid() {
 
     filtered.forEach(p => {
         const isSoldOut = p.inventory <= 0;
+        const isFav = wishlist.includes(p.id);
         const cardHtml = `
             <div class="product-card" data-id="${p.id}">
                 <div class="product-card-img-wrapper">
                     ${isSoldOut ? '<span class="sold-out-badge">Retired / Sold Out</span>' : ''}
+                    <button class="product-wishlist-btn ${isFav ? 'active' : ''}" onclick="toggleWishlist('${p.id}', event)" title="Save to Wishlist">
+                        <i class="${isFav ? 'fa-solid' : 'fa-regular'} fa-heart"></i>
+                    </button>
                     <img src="${cleanImagePath(p.image)}" alt="${p.title}">
                     <div class="product-card-quickview">Quick Inspection</div>
                 </div>
@@ -212,14 +218,51 @@ function updateCatalogGrid() {
 
     // Add card click listeners
     document.querySelectorAll(".product-card").forEach(card => {
-        card.addEventListener("click", () => {
+        card.addEventListener("click", (e) => {
+            if (e.target.closest(".product-wishlist-btn")) return;
             openProductDetail(card.dataset.id);
         });
     });
 }
 
-// Currency formatter
-// Clean Image Path Helper to extract filename and strip quotes/backslashes
+// Multi-Currency Exchange Rates & Conversion
+let currentCurrency = localStorage.getItem("shapes_currency") || "INR";
+const CURRENCY_RATES = {
+    INR: { rate: 1, symbol: "₹", locale: "en-IN", code: "INR" },
+    USD: { rate: 0.012, symbol: "$", locale: "en-US", code: "USD" },
+    GBP: { rate: 0.0095, symbol: "£", locale: "en-GB", code: "GBP" },
+    AED: { rate: 0.044, symbol: "AED ", locale: "en-AE", code: "AED" },
+    EUR: { rate: 0.011, symbol: "€", locale: "de-DE", code: "EUR" }
+};
+
+function formatCurrency(amountInInr) {
+    const config = CURRENCY_RATES[currentCurrency] || CURRENCY_RATES.INR;
+    const converted = amountInInr * config.rate;
+
+    if (currentCurrency === "INR") {
+        return new Intl.NumberFormat('en-IN', {
+            style: 'currency',
+            currency: 'INR',
+            maximumFractionDigits: 0
+        }).format(amountInInr);
+    } else {
+        return config.symbol + Math.round(converted).toLocaleString(config.locale);
+    }
+}
+
+function setCurrency(newCurrency) {
+    if (CURRENCY_RATES[newCurrency]) {
+        currentCurrency = newCurrency;
+        localStorage.setItem("shapes_currency", newCurrency);
+        updateCatalogGrid();
+        renderCartItems();
+        if (currentActiveProduct) {
+            document.getElementById("modal-product-price").innerText = formatCurrency(currentActiveProduct.price);
+        }
+    }
+}
+
+// Clean Image Path Helper
 function cleanImagePath(path) {
     if (!path) return "zardozi_corset.png";
     let clean = path.replace(/['"]/g, '').trim();
@@ -227,13 +270,115 @@ function cleanImagePath(path) {
     return clean;
 }
 
-function formatCurrency(amount) {
-    return new Intl.NumberFormat('en-IN', {
-        style: 'currency',
-        currency: 'INR',
-        maximumFractionDigits: 0
-    }).format(amount);
+// ─────────────────────────────────────────────────────────────
+// WISHLIST MANAGEMENT
+// ─────────────────────────────────────────────────────────────
+let wishlist = JSON.parse(localStorage.getItem("shapes_wishlist") || "[]");
+
+function toggleWishlist(productId, event) {
+    if (event) event.stopPropagation();
+
+    const idx = wishlist.indexOf(productId);
+    const p = products.find(prod => prod.id === productId);
+
+    if (idx > -1) {
+        wishlist.splice(idx, 1);
+        showMobileToast(`Removed "${p ? p.title : 'Item'}" from Wishlist`);
+    } else {
+        wishlist.push(productId);
+        showMobileToast(`Saved "${p ? p.title : 'Item'}" to Wishlist`);
+    }
+
+    localStorage.setItem("shapes_wishlist", JSON.stringify(wishlist));
+    updateWishlistCount();
+    updateCatalogGrid();
+    updateModalWishlistState();
+    renderWishlistItems();
 }
+
+function updateWishlistCount() {
+    const countEl = document.getElementById("wishlist-count");
+    if (countEl) countEl.innerText = wishlist.length;
+}
+
+function openWishlistDrawer() {
+    renderWishlistItems();
+    document.getElementById("wishlist-drawer").classList.add("active");
+}
+
+function closeWishlistDrawer() {
+    document.getElementById("wishlist-drawer").classList.remove("active");
+}
+
+function renderWishlistItems() {
+    const container = document.getElementById("wishlist-items-container");
+    if (!container) return;
+    container.innerHTML = "";
+
+    if (wishlist.length === 0) {
+        container.innerHTML = `
+            <div class="cart-empty-msg">
+                <i class="fa-regular fa-heart" style="font-size: 2rem; color: var(--gold); margin-bottom: 0.8rem;"></i>
+                <p>Your saved wishlist is empty.<br>Click the heart icon on any design to bookmark it.</p>
+            </div>
+        `;
+        return;
+    }
+
+    wishlist.forEach(id => {
+        const p = products.find(prod => prod.id === id);
+        if (!p) return;
+
+        const itemHtml = `
+            <div class="cart-item">
+                <div class="cart-item-img-wrapper" style="cursor: pointer;" onclick="openProductDetail('${p.id}'); closeWishlistDrawer();">
+                    <img src="${cleanImagePath(p.image)}" alt="${p.title}">
+                </div>
+                <div class="cart-item-info">
+                    <h4 class="cart-item-title" style="cursor: pointer;" onclick="openProductDetail('${p.id}'); closeWishlistDrawer();">${p.title}</h4>
+                    <span class="cart-item-meta">${p.category}</span>
+                    <span class="cart-item-price">${formatCurrency(p.price)}</span>
+                    <div class="cart-item-controls" style="margin-top: 6px;">
+                        <button class="remove-item-btn" style="color: var(--gold); border-color: var(--gold); padding: 3px 8px;" onclick="openProductDetail('${p.id}'); closeWishlistDrawer();">View Piece</button>
+                        <button class="remove-item-btn" onclick="toggleWishlist('${p.id}')">Remove</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        container.innerHTML += itemHtml;
+    });
+}
+
+function updateModalWishlistState() {
+    const btn = document.getElementById("modal-wishlist-btn");
+    if (!btn || !currentActiveProduct) return;
+    const isFav = wishlist.includes(currentActiveProduct.id);
+    if (isFav) {
+        btn.classList.add("active");
+        btn.innerHTML = `<i class="fa-solid fa-heart" style="color: #E05666;"></i> <span>Saved</span>`;
+    } else {
+        btn.classList.remove("active");
+        btn.innerHTML = `<i class="fa-regular fa-heart"></i> <span>Save</span>`;
+    }
+}
+
+// ─────────────────────────────────────────────────────────────
+// 1-CLICK PRODUCT SHARING ON WHATSAPP
+// ─────────────────────────────────────────────────────────────
+function shareActiveProduct() {
+    if (!currentActiveProduct) return;
+    const p = currentActiveProduct;
+    const shareText = encodeURIComponent(
+        `✨ Check out this luxury creation by Shapes By Satiinder Kaur!\n\n` +
+        `*${p.title}*\n` +
+        `Category: ${p.category}\n` +
+        `Price: ₹${p.price.toLocaleString("en-IN")}\n\n` +
+        `Handcrafted to order (15–22 days delivery). Explore details at:\n` +
+        `https://shapesbysatinderkaur.com`
+    );
+    window.open(`https://wa.me/?text=${shareText}`, '_blank');
+}
+
 
 // Open Product Detail Modal
 function openProductDetail(productId) {
@@ -270,14 +415,44 @@ function openProductDetail(productId) {
         addToCartBtn.innerText = "ADD TO BAG";
     }
 
+    // Render Razorpay Affordability & EMI Widget
+    renderAffordabilityWidget(p.price);
+
     // Reset size selectors
     document.querySelectorAll(".size-option").forEach(btn => {
         btn.classList.remove("active");
     });
 
+    updateModalWishlistState();
+
     document.getElementById("product-detail-modal").classList.add("active");
     document.body.style.overflow = "hidden";
 }
+
+// Razorpay Affordability & EMI Widget Initializer
+function renderAffordabilityWidget(priceInInr) {
+    const container = document.getElementById("razorpay-affordability-widget");
+    if (!container) return;
+    container.innerHTML = "";
+
+    const rzpKey = config.razorpayKey || "rzp_test_TPmS0ErfrzcYCA";
+    const amountInPaise = (priceInInr || 0) * 100;
+
+    if (typeof RazorpayAffordabilitySuite !== "undefined") {
+        try {
+            const widgetConfig = {
+                "key": rzpKey,
+                "amount": amountInPaise
+            };
+            const rzpAffordabilitySuite = new RazorpayAffordabilitySuite(widgetConfig);
+            rzpAffordabilitySuite.render();
+        } catch (e) {
+            console.warn("Razorpay Affordability Widget render:", e.message);
+        }
+    }
+}
+
+
 
 // Setup Event Listeners
 function setupEventListeners() {
@@ -433,12 +608,58 @@ function setupEventListeners() {
         openCartDrawer();
     });
 
+    // Modal Wishlist & Share buttons
+    const modalWishlistBtn = document.getElementById("modal-wishlist-btn");
+    if (modalWishlistBtn) {
+        modalWishlistBtn.addEventListener("click", () => {
+            if (currentActiveProduct) toggleWishlist(currentActiveProduct.id);
+        });
+    }
+
+    const modalShareBtn = document.getElementById("modal-share-wa-btn");
+    if (modalShareBtn) {
+        modalShareBtn.addEventListener("click", shareActiveProduct);
+    }
+
+    // Currency Switcher
+    const currencySelect = document.getElementById("currency-select");
+    if (currencySelect) {
+        currencySelect.value = currentCurrency;
+        currencySelect.addEventListener("change", (e) => {
+            setCurrency(e.target.value);
+        });
+    }
+
+    // Wishlist Drawer triggers
+    const openWishlistBtn = document.getElementById("open-wishlist-btn");
+    if (openWishlistBtn) openWishlistBtn.addEventListener("click", openWishlistDrawer);
+    const closeWishlistBtn = document.getElementById("close-wishlist-btn");
+    if (closeWishlistBtn) closeWishlistBtn.addEventListener("click", closeWishlistDrawer);
+    const wishlistShopBtn = document.getElementById("wishlist-shop-btn");
+    if (wishlistShopBtn) wishlistShopBtn.addEventListener("click", closeWishlistDrawer);
+    const wishlistDrawer = document.getElementById("wishlist-drawer");
+    if (wishlistDrawer) {
+        wishlistDrawer.addEventListener("click", (e) => {
+            if (e.target.id === "wishlist-drawer") closeWishlistDrawer();
+        });
+    }
+
     // Bag drawer triggers
     document.getElementById("open-cart-btn").addEventListener("click", openCartDrawer);
+
+    const mobileBarCartBtn = document.getElementById("mobile-bar-cart-btn");
+    if (mobileBarCartBtn) mobileBarCartBtn.addEventListener("click", openCartDrawer);
+    const toastViewBagBtn = document.getElementById("toast-view-bag-btn");
+    if (toastViewBagBtn) toastViewBagBtn.addEventListener("click", () => {
+        document.getElementById("mobile-toast").classList.remove("active");
+        openCartDrawer();
+    });
+
     document.getElementById("close-cart-btn").addEventListener("click", closeCartDrawer);
     document.getElementById("cart-drawer").addEventListener("click", (e) => {
         if (e.target.id === "cart-drawer") closeCartDrawer();
     });
+
 
     // Checkout trigger
     document.getElementById("proceed-checkout-btn").addEventListener("click", () => {
@@ -496,6 +717,23 @@ function addToCart(productId, size) {
 
     saveCartState();
     updateCartCount();
+    showMobileToast(`Added "${p.title}" to Bag`);
+}
+
+// Mobile Floating Toast Alert
+let toastTimer = null;
+function showMobileToast(msg) {
+    const toast = document.getElementById("mobile-toast");
+    const msgEl = document.getElementById("toast-message");
+    if (!toast || !msgEl) return;
+
+    msgEl.textContent = msg;
+    toast.classList.add("active");
+
+    if (toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+        toast.classList.remove("active");
+    }, 3500);
 }
 
 // Update Cart Quantity
@@ -537,10 +775,14 @@ function saveCartState() {
     localStorage.setItem("shapes_cart", JSON.stringify(cart));
 }
 
-// Cart badge counts
+// Cart badge counts (Sync desktop + mobile badges)
 function updateCartCount() {
     const count = cart.reduce((total, item) => total + item.quantity, 0);
-    document.getElementById("cart-count").innerText = count;
+    const desktopBadge = document.getElementById("cart-count");
+    const mobileBadge = document.getElementById("mobile-cart-count");
+
+    if (desktopBadge) desktopBadge.innerText = count;
+    if (mobileBadge) mobileBadge.innerText = count;
 }
 
 // Open Bag Drawer
@@ -548,6 +790,7 @@ function openCartDrawer() {
     renderCartItems();
     document.getElementById("cart-drawer").classList.add("active");
 }
+
 
 function closeCartDrawer() {
     document.getElementById("cart-drawer").classList.remove("active");
@@ -938,3 +1181,11 @@ window.completeOrder = async function(paymentId) {
         if (latest) await saveOrderToFirestore(latest);
     } catch (e) { /* silent */ }
 };
+
+// Global Window Exports
+window.toggleWishlist = toggleWishlist;
+window.openWishlistDrawer = openWishlistDrawer;
+window.closeWishlistDrawer = closeWishlistDrawer;
+window.setCurrency = setCurrency;
+window.openProductDetail = openProductDetail;
+

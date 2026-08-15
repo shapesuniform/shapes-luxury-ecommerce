@@ -16,14 +16,30 @@
     <link rel="dns-prefetch" href="https://checkout.razorpay.com">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
     <!-- FontAwesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="index.css" media="all">
+    <link rel="stylesheet" href="index.css?v=2.0" media="all">
     <link rel="manifest" href="manifest.json">
-    <!-- Razorpay Standard Checkout SDK -->
+    <!-- Razorpay Standard Checkout & Affordability Widget SDK -->
     <script src="https://checkout.razorpay.com/v1/checkout.js" defer></script>
+    <script src="https://cdn.razorpay.com/widgets/affordability/affordability.js" defer></script>
 </head>
 
+
+
 <body>
+
+
+    <!-- Top Luxury Announcement Bar -->
+    <div class="top-announcement-bar">
+        <div class="announcement-track">
+            <span>✨ COMPLIMENTARY INSURED COURIER ACROSS INDIA</span>
+            <span class="bullet">•</span>
+            <span>HANDCRAFTED TO ORDER (15–22 WORKING DAYS)</span>
+            <span class="bullet">•</span>
+            <span>CHEMBUR ATELIER FLAGSHIP: +91 98333 92756</span>
+            <span class="bullet">•</span>
+            <span>NO RETURNS · NO COD · ONLINE PAYMENT ONLY</span>
+        </div>
+    </div>
 
     <!-- Sticky Navigation Header -->
     <header class="luxury-header" id="header">
@@ -44,8 +60,25 @@
                 </a>
             </div>
 
-            <!-- Right Navigation: Support & Bag -->
+            <!-- Right Navigation: Currency, Wishlist & Bag -->
             <nav class="nav-right">
+                <!-- Currency Switcher -->
+                <div class="currency-selector-wrapper">
+                    <select id="currency-select" class="currency-select" title="Select Currency">
+                        <option value="INR">INR ₹</option>
+                        <option value="USD">USD $</option>
+                        <option value="GBP">GBP £</option>
+                        <option value="AED">AED د.إ</option>
+                        <option value="EUR">EUR €</option>
+                    </select>
+                </div>
+
+                <!-- Wishlist Button -->
+                <button class="nav-icon-btn wishlist-btn-container" id="open-wishlist-btn" title="Saved Wishlist">
+                    <i class="fa-regular fa-heart"></i>
+                    <span class="cart-badge wishlist-badge" id="wishlist-count">0</span>
+                </button>
+
                 <a href="#story-section" class="nav-link story-nav-trigger">Our Story</a>
                 <button class="nav-icon-btn cart-btn-container" id="open-cart-btn" title="Shopping Bag">
                     <i class="fa-solid fa-bag-shopping"></i>
@@ -60,6 +93,7 @@
             </button>
         </div>
     </header>
+
 
     <!-- Mobile Drawer Navigation -->
     <div class="mobile-nav-drawer" id="mobile-nav">
@@ -255,34 +289,41 @@
                 </ul>
             </div>
             <div class="footer-col">
-                <h4>Boutique Support</h4>
+                <h4>Legal &amp; Policies</h4>
                 <ul>
-                    <li><a href="account.html" target="_blank">My Account &amp; Orders</a></li>
-                    <li><a href="track.html" target="_blank">Track My Order</a></li>
-                    <li><a href="info.html#faq" target="_blank">FAQs</a></li>
-                    <li><a href="info.html#policy" target="_blank">Delivery &amp; Return Policy</a></li>
-                    <li><a href="info.html#reviews" target="_blank">Customer Reviews</a></li>
-                    <li><a href="tel:+919833392756">Call +91 98333 92756</a></li>
+                    <li><a href="info.html#terms" target="_blank">Terms &amp; Conditions</a></li>
+                    <li><a href="info.html#privacy" target="_blank">Privacy Policy</a></li>
+                    <li><a href="info.html#refund" target="_blank">Refund &amp; Exchange Policy</a></li>
+                    <li><a href="info.html#cancellation" target="_blank">Cancellation Policy</a></li>
+                    <li><a href="info.html#policy" target="_blank">Shipping &amp; Delivery</a></li>
+                    <li><a href="info.html#faq" target="_blank">Frequently Asked Questions</a></li>
                 </ul>
             </div>
             <div class="footer-col contact-info-col">
-                <h4>Mumbai Flagship</h4>
-                <p style="font-size: 12px; line-height: 1.6; color: var(--grey-medium); margin-bottom: 1rem;">
+                <h4>Mumbai Flagship Atelier</h4>
+                <p style="font-size: 12px; line-height: 1.6; color: var(--grey-medium); margin-bottom: 0.8rem;">
                     Shop No 4, Bus Stop, Ghatla Village Rd, Near Maitri Park, Basant Garden, Chembur, Mumbai 400071<br>
                     <strong>T:</strong> <a href="tel:+919833392756" style="color: var(--gold);">+91 98333 92756</a><br>
-                    <strong>Hours:</strong> 11:00 AM – 8:00 PM (Mon - Sun)
+                    <strong>E:</strong> <a href="mailto:shapesbysatiinderkaur@gmail.com" style="color: var(--gold);">shapesbysatiinderkaur@gmail.com</a>
                 </p>
                 <div style="background: rgba(197,160,89,0.08); border: 1px solid rgba(197,160,89,0.2); border-radius: 3px; padding: 0.8rem 1rem; font-size: 10px; line-height: 1.7; color: var(--grey-medium);">
-                    <div style="color: var(--gold); font-weight: 600; letter-spacing: 0.1em; margin-bottom: 0.4rem;">📦 DELIVERY &amp; POLICY</div>
+                    <div style="color: var(--gold); font-weight: 600; letter-spacing: 0.1em; margin-bottom: 0.4rem;">📦 ATELIER POLICY HIGHLIGHTS</div>
                     <div>⏱ Delivery: <strong style="color: #fff;">15 – 22 working days</strong></div>
-                    <div>🚫 No Returns / No Exchanges</div>
-                    <div>💳 Online Payment Only — No COD</div>
+                    <div>🔄 <strong style="color: #fff;">Exchange ONLY on Verified Defects</strong> (48h proof)</div>
+                    <div>🚫 No Monetary / Cash Refunds</div>
+                    <div>💳 100% Secure Online Payment (No COD)</div>
                 </div>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2026 Shapes By Satiinder Kaur. All Rights Reserved. Created as a luxury showroom application.</p>
+            <p>&copy; 2026 Shapes By Satiinder Kaur. All Rights Reserved. &nbsp;|&nbsp; 
+                <a href="info.html#terms" style="color: var(--grey-medium); text-decoration:none;">Terms</a> &nbsp;·&nbsp;
+                <a href="info.html#privacy" style="color: var(--grey-medium); text-decoration:none;">Privacy</a> &nbsp;·&nbsp;
+                <a href="info.html#refund" style="color: var(--grey-medium); text-decoration:none;">Refunds &amp; Exchanges</a> &nbsp;·&nbsp;
+                <a href="info.html#cancellation" style="color: var(--grey-medium); text-decoration:none;">Cancellations</a>
+            </p>
         </div>
+
     </footer>
 
     <!-- Shopping Bag Drawer -->
@@ -300,8 +341,26 @@
                     <span>Subtotal</span>
                     <span id="cart-subtotal">₹ 0</span>
                 </div>
-                <p class="shipping-notice">Complimentary shipping · 15–22 working days · No COD · No Returns</p>
+                <p class="shipping-notice">Complimentary shipping · 15–22 working days · Exchange on Defects Only · No COD</p>
+
                 <button class="checkout-btn" id="proceed-checkout-btn">PROCEED TO SECURE CHECKOUT</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wishlist Drawer -->
+    <div class="cart-drawer-overlay" id="wishlist-drawer">
+        <div class="cart-drawer">
+            <div class="cart-drawer-header">
+                <h3>YOUR SAVED WISHLIST</h3>
+                <button class="close-drawer-btn" id="close-wishlist-btn">&times;</button>
+            </div>
+            <div class="cart-items-list" id="wishlist-items-container">
+                <!-- Populate via JS -->
+            </div>
+            <div class="cart-drawer-footer">
+                <p class="shipping-notice" style="margin-bottom: 0.8rem;">Saved luxury creations are reserved in your private shortlist.</p>
+                <button class="checkout-btn" id="wishlist-shop-btn" style="background: transparent; border: 1px solid var(--gold); color: var(--gold);">CONTINUE BROWSING</button>
             </div>
         </div>
     </div>
@@ -323,7 +382,10 @@
                     <span class="modal-product-category" id="modal-product-category"></span>
                     <h2 class="modal-product-title" id="modal-product-title"></h2>
                     <div class="modal-product-price" id="modal-product-price"></div>
+                    <!-- Razorpay Affordability & EMI Widget -->
+                    <div id="razorpay-affordability-widget" style="margin: 6px 0 12px 0;"></div>
                     <div class="modal-stock-status" id="modal-product-stock"></div>
+
                     
                     <p class="modal-product-desc" id="modal-product-desc"></p>
 
@@ -338,7 +400,19 @@
                         </div>
                     </div>
 
-                    <button class="add-to-cart-action-btn" id="modal-add-to-cart-btn">ADD TO BAG</button>
+                    <!-- Modal Actions Grid -->
+                    <div class="modal-action-buttons-grid">
+                        <button class="add-to-cart-action-btn" id="modal-add-to-cart-btn">ADD TO BAG</button>
+                        <div class="secondary-modal-actions">
+                            <button class="modal-wishlist-toggle-btn" id="modal-wishlist-btn" title="Save to Wishlist">
+                                <i class="fa-regular fa-heart"></i> <span>Save</span>
+                            </button>
+                            <button class="modal-share-wa-btn" id="modal-share-wa-btn" title="Share Design on WhatsApp">
+                                <i class="fa-brands fa-whatsapp"></i> <span>Share</span>
+                            </button>
+                        </div>
+                    </div>
+
 
                     <!-- Accordion Info -->
                     <div class="accordion-group">
@@ -357,9 +431,10 @@
                                 <i class="fa-solid fa-chevron-down"></i>
                             </button>
                             <div class="accordion-body">
-                                Delivered in signature archival hard-boxes with fabric-lined sleeves. <strong>Delivery time: 15–22 working days</strong> from order confirmation. <strong>No returns or exchanges</strong> on custom-crafted pieces. Online payment only — no cash on delivery.
+                                Delivered in signature archival hard-boxes with fabric-lined sleeves. <strong>Delivery time: 15–22 working days</strong>. All creations are made-to-order. <strong>Exchange is offered strictly on verified manufacturing defects</strong> reported within 48 hours of delivery with unboxing proof. No cash refunds. 100% secure online payment (No COD).
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -460,8 +535,46 @@
         </div>
     </div>
 
+    <!-- Mobile Bottom App Navigation Bar -->
+    <div class="mobile-bottom-bar" id="mobile-bottom-bar">
+        <a href="index.html" class="mobile-bar-item active">
+            <i class="fa-solid fa-house"></i>
+            <span>Home</span>
+        </a>
+        <a href="#catalog" class="mobile-bar-item mobile-shop-trigger" data-category="All">
+            <i class="fa-solid fa-shapes"></i>
+            <span>Shop</span>
+        </a>
+        <a href="track.html" class="mobile-bar-item">
+            <i class="fa-solid fa-truck-fast"></i>
+            <span>Track</span>
+        </a>
+        <a href="account.html" class="mobile-bar-item">
+            <i class="fa-solid fa-circle-user"></i>
+            <span>Account</span>
+        </a>
+        <button class="mobile-bar-item" id="mobile-bar-cart-btn" aria-label="Shopping Bag">
+            <div style="position:relative; display:inline-block;">
+                <i class="fa-solid fa-bag-shopping"></i>
+                <span class="mobile-bar-badge" id="mobile-cart-count">0</span>
+            </div>
+            <span>Bag</span>
+        </button>
+    </div>
+
+    <!-- Mobile Added-to-Bag Toast Notification -->
+    <div class="mobile-toast-alert" id="mobile-toast">
+        <div class="toast-content">
+            <i class="fa-solid fa-circle-check gold-icon"></i>
+            <span id="toast-message">Added to Shopping Bag</span>
+        </div>
+        <button class="toast-action-btn" id="toast-view-bag-btn">VIEW BAG →</button>
+    </div>
+
     <!-- Main JavaScript Logic -->
-    <script src="index.js"></script>
+    <script src="index.js?v=2.0"></script>
+
+
 
     <!-- Firebase Auth + Firestore (ESM module, non-blocking) -->
     <script type="module">
