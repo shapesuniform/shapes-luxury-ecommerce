@@ -1103,7 +1103,6 @@ function completeOrder(paymentId) {
     // 6. Build WhatsApp confirmation message
     const custName = document.getElementById("cust-name").value.trim() || "Customer";
     const itemsSummary = orderedItems.map(i => `${i.title} (Size: ${i.size} x${i.quantity})`).join(", ");
-    const totalAmt = orderedItems.reduce((t, i) => t + (i.price * i.quantity), 0);
     const waMsg = encodeURIComponent(
         `Hello Shapes By Satiinder Kaur! 🌟\n\n` +
         `I just completed my order and would like to confirm:\n\n` +
@@ -1114,6 +1113,7 @@ function completeOrder(paymentId) {
         `Name: ${custName}\n\n` +
         `Please confirm my order. Thank you!`
     );
+
     const waLink = `https://wa.me/919833392756?text=${waMsg}`;
     document.getElementById("whatsapp-confirm-btn").href = waLink;
 
