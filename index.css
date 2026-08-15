@@ -2,20 +2,21 @@
 
 /* Root Variables */
 :root {
-    --charcoal: #121212;
+    --charcoal: #111111;
     --charcoal-light: #1e1e1e;
     --ivory: #FAF6F0;
     --ivory-dark: #f0eae1;
     --gold: #C5A059;
-    --gold-dark: #A27D3A;
+    --gold-dark: #8C6527;
     --gold-light: #E0C899;
     --gold-rgb: 197, 160, 89;
     --white: #FFFFFF;
     --black: #000000;
     --grey-light: #F9F9F9;
-    --grey-medium: #E5E5E5;
-    --grey-dark: #777777;
+    --grey-medium: #CCCCCC;
+    --grey-dark: #333333;
     --crimson: #3D0C11;
+
     
     --font-serif: 'Cormorant Garamond', serif;
     --font-sans: 'Montserrat', sans-serif;
@@ -2064,9 +2065,10 @@ button, a, input, select, textarea {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 9px;
+    color: #FFFFFF !important;
+    font-size: 9.5px;
     font-family: var(--font-sans);
+    font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     text-decoration: none;
@@ -2080,19 +2082,19 @@ button, a, input, select, textarea {
 }
 
 .mobile-bar-item i {
-    font-size: 1.15rem;
-    color: rgba(255, 255, 255, 0.65);
+    font-size: 1.25rem;
+    color: #FFFFFF !important;
     transition: color 0.2s, transform 0.2s;
 }
 
 .mobile-bar-item.active,
 .mobile-bar-item:hover {
-    color: var(--gold);
+    color: var(--gold-light) !important;
 }
 
 .mobile-bar-item.active i,
 .mobile-bar-item:hover i {
-    color: var(--gold);
+    color: var(--gold-light) !important;
     transform: translateY(-1px);
 }
 
@@ -2100,17 +2102,17 @@ button, a, input, select, textarea {
     position: absolute;
     top: -5px;
     right: -8px;
-    background: var(--gold);
-    color: var(--charcoal);
-    font-size: 8px;
+    background: #E05666;
+    color: #FFFFFF;
+    font-size: 8.5px;
     font-weight: 700;
-    width: 15px;
-    height: 15px;
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid var(--charcoal);
+    border: 1px solid #111111;
 }
 
 /* Floating Mobile Toast Notification */
@@ -2121,15 +2123,15 @@ button, a, input, select, textarea {
     transform: translateX(-50%);
     width: calc(100% - 2rem);
     max-width: 440px;
-    background: rgba(26, 26, 26, 0.96);
-    border: 1px solid var(--gold);
+    background: rgba(26, 26, 26, 0.98);
+    border: 1.5px solid var(--gold);
     border-radius: 8px;
     padding: 0.85rem 1.2rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
     z-index: 1001;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
     transition: bottom 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
@@ -2141,23 +2143,23 @@ button, a, input, select, textarea {
     display: flex;
     align-items: center;
     gap: 0.6rem;
-    font-size: 11px;
-    font-weight: 500;
-    color: var(--white);
+    font-size: 11.5px;
+    font-weight: 600;
+    color: #FFFFFF;
 }
 
 .toast-content i.gold-icon {
-    color: var(--gold);
-    font-size: 1.1rem;
+    color: var(--gold-light);
+    font-size: 1.15rem;
 }
 
 .toast-action-btn {
     background: var(--gold);
-    color: var(--charcoal);
+    color: #111111;
     border: none;
-    padding: 0.4rem 0.9rem;
+    padding: 0.45rem 1rem;
     border-radius: 4px;
-    font-size: 9px;
+    font-size: 9.5px;
     font-weight: 700;
     letter-spacing: 0.1em;
     cursor: pointer;
@@ -2177,9 +2179,9 @@ button, a, input, select, textarea {
    TOP ANNOUNCEMENT BAR
    ───────────────────────────────────────────────────────────── */
 .top-announcement-bar {
-    background: #111111;
-    color: var(--gold);
-    border-bottom: 1px solid rgba(197, 160, 89, 0.25);
+    background: #0A0A0A;
+    color: #FFFFFF;
+    border-bottom: 1px solid rgba(197, 160, 89, 0.35);
     font-size: 10px;
     font-family: var(--font-sans);
     font-weight: 600;
@@ -2198,21 +2200,28 @@ button, a, input, select, textarea {
     justify-content: center;
     gap: 12px;
     flex-wrap: wrap;
+    color: #FFFFFF;
+}
+
+.announcement-track span {
+    color: #FFFFFF;
 }
 
 .announcement-track .bullet {
-    color: rgba(197, 160, 89, 0.4);
+    color: var(--gold);
+    font-weight: 900;
 }
 
 @media (max-width: 768px) {
     .top-announcement-bar {
         font-size: 8.5px;
-        padding: 5px 0.5rem;
+        padding: 6px 0.5rem;
     }
     .announcement-track {
         gap: 6px;
     }
 }
+
 
 /* ─────────────────────────────────────────────────────────────
    CURRENCY SELECTOR

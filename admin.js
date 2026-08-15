@@ -62,7 +62,14 @@ let config = {};
 
 // Initialize Admin Portal
 function initAdmin() {
-    // 1. Sync from shared localStorage
+    // 1. Sync from shared localStorage with automatic cleanup
+    if (localStorage.getItem("shapes_catalog_version") !== "satiinder_kaur_v3_clean") {
+        localStorage.removeItem("shapes_products");
+        localStorage.setItem("shapes_products", JSON.stringify(DEFAULT_PRODUCTS));
+        localStorage.setItem("shapes_categories", JSON.stringify(DEFAULT_CATEGORIES));
+        localStorage.setItem("shapes_catalog_version", "satiinder_kaur_v3_clean");
+    }
+
     if (!localStorage.getItem("shapes_products")) {
         localStorage.setItem("shapes_products", JSON.stringify(DEFAULT_PRODUCTS));
     }
@@ -73,9 +80,13 @@ function initAdmin() {
         localStorage.setItem("shapes_config", JSON.stringify(DEFAULT_CONFIG));
     }
 
-    products = JSON.parse(localStorage.getItem("shapes_products"));
-    categories = JSON.parse(localStorage.getItem("shapes_categories"));
-    config = JSON.parse(localStorage.getItem("shapes_config"));
+    let rawProducts = JSON.parse(localStorage.getItem("shapes_products")) || [];
+    products = rawProducts.filter(p => p && p.title && !p.title.toLowerCase().includes("haha") && !p.id.includes("1786736236272") && !p.title.toLowerCase().includes("test"));
+    if (products.length === 0) products = [...DEFAULT_PRODUCTS];
+    localStorage.setItem("shapes_products", JSON.stringify(products));
+
+    categories = JSON.parse(localStorage.getItem("shapes_categories")) || DEFAULT_CATEGORIES;
+    config = JSON.parse(localStorage.getItem("shapes_config")) || DEFAULT_CONFIG;
 
     // 2. Check login state
     checkCMSLock();
@@ -83,6 +94,7 @@ function initAdmin() {
     // 3. Setup CMS UI listeners
     setupCMSListeners();
 }
+
 
 // Passcode verify login checks
 function checkCMSLock() {
