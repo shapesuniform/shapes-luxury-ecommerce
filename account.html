@@ -17,8 +17,24 @@
     <meta property="og:image" content="https://shapesbysatinderkaur.com/app_icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Cache-Buster & Deep Cache Wipe for Instant Multi-Device Sync -->
+    <script>
+        try {
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.getRegistrations().then(function(regs) {
+                    for (var r of regs) r.unregister();
+                }).catch(function() {});
+            }
+            if ('caches' in window) {
+                caches.keys().then(function(names) {
+                    for (var n of names) caches.delete(n);
+                }).catch(function() {});
+            }
+        } catch(e) {}
+    </script>
+
 
 
     <style>
@@ -440,10 +456,11 @@
                     <body>
                         <div class="inv-header">
                             <div>
-                                <div class="inv-logo">SHAPES</div>
-                                <div class="inv-sub">By Satiinder Kaur Atelier</div>
-                                <p style="font-size: 12px; color: #666; margin-top: 5px;">Shop No 4, Bus Stop, Ghatla Village Rd, Near Maitri Park,<br>Basant Garden, Chembur, Mumbai 400071<br>T: +91 98333 92756</p>
+                                <div class="inv-logo">SHAPES UNIFORM</div>
+                                <div class="inv-sub">Shapes By Satiinder Kaur Atelier</div>
+                                <p style="font-size: 12px; color: #666; margin-top: 5px;"><strong>Legal Entity:</strong> SHAPES UNIFORM<br>Shop No 4, Bus Stop, Ghatla Village Rd, Near Maitri Park,<br>Basant Garden, Chembur, Mumbai 400071<br>T: +91 98333 92756 | E: shapesuniform@gmail.com</p>
                             </div>
+
                             <div class="inv-meta">
                                 <h2 style="margin: 0 0 5px 0; color: #C5A059;">TAX INVOICE</h2>
                                 <div><strong>Invoice No:</strong> INV-${o.ref}</div>
@@ -493,9 +510,10 @@
                                             <td style="text-align: right; color: #333;">₹${sgst.toLocaleString("en-IN")}</td>
                                         </tr>
                                         <tr>
-                                            <td colspan="4" style="text-align: right; font-weight: 600;">Insured Courier Delivery:</td>
+                                            <td colspan="4" style="text-align: right; font-weight: 600;">Courier Delivery:</td>
                                             <td style="text-align: right; color: #C5A059; font-weight: bold;">Complimentary (₹0)</td>
                                         </tr>
+
                                         <tr class="total-row">
                                             <td colspan="4" style="text-align: right; font-weight: 700;">Grand Total (Taxes Incl.):</td>
                                             <td style="text-align: right; font-weight: 700; color: #000;">₹${total.toLocaleString("en-IN")}</td>

@@ -64,13 +64,14 @@ let config = {};
 // Initialize Admin Portal
 function initAdmin() {
     // 1. Sync from shared localStorage with automatic cleanup
-    if (localStorage.getItem("shapes_catalog_version") !== "satiinder_kaur_v4_live") {
+    if (localStorage.getItem("shapes_catalog_version") !== "shapes_v5_live_sync") {
         localStorage.removeItem("shapes_products");
         localStorage.setItem("shapes_products", JSON.stringify(DEFAULT_PRODUCTS));
         localStorage.setItem("shapes_categories", JSON.stringify(DEFAULT_CATEGORIES));
         localStorage.setItem("shapes_config", JSON.stringify(DEFAULT_CONFIG));
-        localStorage.setItem("shapes_catalog_version", "satiinder_kaur_v4_live");
+        localStorage.setItem("shapes_catalog_version", "shapes_v5_live_sync");
     }
+
 
 
     if (!localStorage.getItem("shapes_products")) {
@@ -461,6 +462,21 @@ async function loadAdminOrders() {
     }
 }
 
+function getStatusBadge(status) {
+    switch (status) {
+        case "in_production":
+            return `<span style="background:rgba(197,160,89,0.15);color:var(--gold);font-size:8.5px;font-weight:600;letter-spacing:0.05em;padding:0.25rem 0.6rem;border-radius:20px;">🧵 In Production</span>`;
+        case "shipped":
+            return `<span style="background:rgba(33,150,243,0.15);color:#2196F3;font-size:8.5px;font-weight:600;letter-spacing:0.05em;padding:0.25rem 0.6rem;border-radius:20px;">📦 Shipped</span>`;
+        case "out_for_delivery":
+            return `<span style="background:rgba(255,152,0,0.15);color:#FF9800;font-size:8.5px;font-weight:600;letter-spacing:0.05em;padding:0.25rem 0.6rem;border-radius:20px;">🚚 Out for Delivery</span>`;
+        case "delivered":
+            return `<span style="background:rgba(76,175,80,0.15);color:#4CAF50;font-size:8.5px;font-weight:600;letter-spacing:0.05em;padding:0.25rem 0.6rem;border-radius:20px;">🟢 Delivered</span>`;
+        default:
+            return `<span style="background:rgba(37,211,102,0.15);color:#25D366;font-size:8.5px;font-weight:600;letter-spacing:0.05em;padding:0.25rem 0.6rem;border-radius:20px;">✓ Confirmed</span>`;
+    }
+}
+
 function renderOrdersTable(orders) {
     const tbody = document.getElementById("orders-tbody");
     if (!orders.length) {
@@ -471,8 +487,17 @@ function renderOrdersTable(orders) {
         const date = o.date ? new Date(o.date).toLocaleDateString("en-IN", { day:"numeric", month:"short", year:"numeric" }) : "—";
         const items = (o.items || []).map(i => `${i.title} (${i.size}×${i.quantity})`).join(", ");
         const total = (o.items || []).reduce((t, i) => t + (i.price * i.quantity), 0);
-        const waMsg = encodeURIComponent(`Hi ${o.customerName || ""}, this is Shapes By Satiinder Kaur. Regarding your order *${o.ref}* — we'd like to confirm details. 🙏`);
-        const waLink = `https://wa.me/${(o.customerPhone || "").replace(/\D/g,"")}?text=${waMsg}`;
+        const courierText = o.courierName ? `<br><small style="color:var(--gold);font-size:9px;">${o.courierName}${o.trackingNumber ? ` · ${o.trackingNumber}` : ''}</small>` : '';
+        
+        let waMsg = `Hi ${o.customerName || "there"}, this is Shapes By Satiinder Kaur. Regarding your order *${o.ref}*`;
+        if (o.status === "shipped" && o.trackingNumber) {
+            waMsg += ` — Your bespoke creation has been dispatched via ${o.courierName || 'Express Courier'}. Tracking Ref: *${o.trackingNumber}*. You can track it here: https://shapesbysatinderkaur.com/track.html?ref=${o.ref} ✨`;
+        } else {
+
+            waMsg += ` — we have confirmed your order and will begin tailoring your piece. 🙏`;
+        }
+        const waLink = `https://wa.me/${(o.customerPhone || "").replace(/\D/g,"")}?text=${encodeURIComponent(waMsg)}`;
+        
         return `<tr>
             <td><strong style="color:var(--gold)">${o.ref}</strong></td>
             <td>${o.customerName || "—"}</td>
@@ -482,14 +507,88 @@ function renderOrdersTable(orders) {
             <td>₹${total.toLocaleString("en-IN")}</td>
             <td style="font-size:9px;color:var(--grey)">${o.paymentId || "—"}</td>
             <td style="font-size:10px">${date}</td>
-            <td><span style="background:rgba(37,211,102,0.15);color:#25D366;font-size:8px;font-weight:600;letter-spacing:0.1em;padding:0.25rem 0.6rem;border-radius:20px;">✓ Confirmed</span></td>
+            <td>${getStatusBadge(o.status)}${courierText}</td>
             <td>
-                ${o.customerPhone ? `<a href="${waLink}" target="_blank" style="display:inline-flex;align-items:center;gap:4px;background:#25D366;color:#fff;padding:0.35rem 0.7rem;border-radius:3px;text-decoration:none;font-size:9px;font-weight:600;"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>` : ""}
+                <button onclick="openOrderStatusModal('${o.ref}')" style="display:inline-flex;align-items:center;gap:4px;background:var(--gold);color:var(--charcoal);border:none;padding:0.35rem 0.7rem;border-radius:3px;font-size:9px;font-weight:700;cursor:pointer;letter-spacing:0.05em;">
+                    <i class="fa-solid fa-pen-to-square"></i> Status &amp; Courier
+                </button>
+                ${o.customerPhone ? `<a href="${waLink}" target="_blank" style="display:inline-flex;align-items:center;gap:4px;background:#25D366;color:#fff;padding:0.35rem 0.7rem;border-radius:3px;text-decoration:none;font-size:9px;font-weight:600;margin-left:4px;"><i class="fa-brands fa-whatsapp"></i> Update Client</a>` : ""}
                 <a href="track.html?ref=${o.ref}" target="_blank" style="display:inline-flex;align-items:center;gap:4px;background:transparent;color:var(--gold);border:1px solid var(--gold);padding:0.35rem 0.7rem;border-radius:3px;text-decoration:none;font-size:9px;font-weight:600;margin-left:4px;"><i class="fa-solid fa-truck-fast"></i> Track</a>
             </td>
         </tr>`;
     }).join("");
 }
+
+// Open Status & Courier Modal
+function openOrderStatusModal(ref) {
+    const o = _allOrders.find(ord => ord.ref === ref);
+    if (!o) return;
+    document.getElementById("manage-order-ref").value = o.ref;
+    document.getElementById("modal-order-ref").innerHTML = `Order Reference: <strong style="color:var(--gold);">${o.ref}</strong> · Customer: ${o.customerName || 'Client'}`;
+    document.getElementById("manage-order-status").value = o.status || "confirmed";
+    document.getElementById("manage-courier-name").value = o.courierName || "";
+    document.getElementById("manage-tracking-number").value = o.trackingNumber || "";
+    document.getElementById("manage-delivery-note").value = o.deliveryNote || "";
+    document.getElementById("order-status-modal").style.display = "flex";
+}
+
+function closeOrderStatusModal() {
+    document.getElementById("order-status-modal").style.display = "none";
+}
+
+// Save Updated Status & Courier Info
+async function saveOrderStatus(e) {
+    e.preventDefault();
+    const ref = document.getElementById("manage-order-ref").value;
+    const newStatus = document.getElementById("manage-order-status").value;
+    const courierName = document.getElementById("manage-courier-name").value.trim();
+    const trackingNumber = document.getElementById("manage-tracking-number").value.trim();
+    const deliveryNote = document.getElementById("manage-delivery-note").value.trim();
+
+    // 1. Update in LocalStorage
+    const localOrders = JSON.parse(localStorage.getItem("shapes_orders") || "[]");
+    const targetIdx = localOrders.findIndex(o => o.ref === ref);
+    if (targetIdx > -1) {
+        localOrders[targetIdx].status = newStatus;
+        localOrders[targetIdx].courierName = courierName;
+        localOrders[targetIdx].trackingNumber = trackingNumber;
+        localOrders[targetIdx].deliveryNote = deliveryNote;
+        localStorage.setItem("shapes_orders", JSON.stringify(localOrders));
+    }
+
+    // 2. Update in cached array
+    const cachedOrder = _allOrders.find(o => o.ref === ref);
+    if (cachedOrder) {
+        cachedOrder.status = newStatus;
+        cachedOrder.courierName = courierName;
+        cachedOrder.trackingNumber = trackingNumber;
+        cachedOrder.deliveryNote = deliveryNote;
+    }
+
+    // 3. Update in Firestore if available
+    try {
+        if (window._dbAdmin && cachedOrder && cachedOrder.id) {
+            const orderDocRef = window._docAdmin(window._dbAdmin, "orders", cachedOrder.id);
+            await window._updateDocAdmin(orderDocRef, {
+                status: newStatus,
+                courierName: courierName,
+                trackingNumber: trackingNumber,
+                deliveryNote: deliveryNote
+            });
+        }
+    } catch(err) {
+        console.warn("Firestore status update skipped:", err.message);
+    }
+
+    closeOrderStatusModal();
+    renderOrdersTable(_allOrders);
+    alert(`Order ${ref} updated to "${newStatus.toUpperCase()}" with tracking details.`);
+}
+
+window.openOrderStatusModal = openOrderStatusModal;
+window.closeOrderStatusModal = closeOrderStatusModal;
+window.saveOrderStatus = saveOrderStatus;
+
 
 function filterOrders() {
     const q = (document.getElementById("orders-search")?.value || "").toLowerCase();

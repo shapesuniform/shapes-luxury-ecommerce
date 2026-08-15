@@ -72,13 +72,14 @@ let currentSort = "default";
 // Initialize Store App
 function initStore() {
     // Force clean migration and assign live Razorpay key
-    if (localStorage.getItem("shapes_catalog_version") !== "satiinder_kaur_v4_live") {
+    if (localStorage.getItem("shapes_catalog_version") !== "shapes_v5_live_sync") {
         localStorage.removeItem("shapes_products");
         localStorage.setItem("shapes_products", JSON.stringify(DEFAULT_PRODUCTS));
         localStorage.setItem("shapes_categories", JSON.stringify(DEFAULT_CATEGORIES));
         localStorage.setItem("shapes_config", JSON.stringify(DEFAULT_CONFIG));
-        localStorage.setItem("shapes_catalog_version", "satiinder_kaur_v4_live");
+        localStorage.setItem("shapes_catalog_version", "shapes_v5_live_sync");
     }
+
 
 
     // Load from LocalStorage or write defaults

@@ -339,22 +339,73 @@
         </div>
     </div>
 
+    <!-- Order Status & Courier Management Modal -->
+    <div id="order-status-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.75); backdrop-filter:blur(5px); z-index:9999; justify-content:center; align-items:center; padding:1.5rem;">
+        <div style="background:var(--charcoal); border:1px solid var(--gold); border-radius:6px; width:100%; max-width:550px; padding:2rem; color:var(--white); box-shadow:0 20px 40px rgba(0,0,0,0.8); position:relative;">
+            <button onclick="closeOrderStatusModal()" style="position:absolute; top:1rem; right:1.2rem; background:none; border:none; color:var(--grey); font-size:1.5rem; cursor:pointer;">&times;</button>
+            <h3 style="font-family:var(--font-serif); font-size:1.6rem; color:var(--gold); margin-bottom:0.4rem;">Manage Order &amp; Courier</h3>
+            <p id="modal-order-ref" style="font-size:11px; color:var(--grey); margin-bottom:1.5rem; letter-spacing:0.05em;"></p>
+
+            <form id="order-status-form" onsubmit="saveOrderStatus(event)">
+                <input type="hidden" id="manage-order-ref">
+
+                <div style="margin-bottom:1.2rem;">
+                    <label style="display:block; font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--gold); margin-bottom:0.4rem;">Order Status</label>
+                    <select id="manage-order-status" style="width:100%; background:rgba(255,255,255,0.06); border:1px solid rgba(197,160,89,0.3); color:#fff; padding:0.75rem; border-radius:3px; font-family:var(--font-sans); font-size:12px; outline:none;">
+                        <option value="confirmed">🟡 Order Confirmed &amp; Sizing Verified</option>
+                        <option value="in_production">🧵 In Production (Weaving &amp; Hand-Embroidery)</option>
+                        <option value="shipped">📦 Dispatched / Shipped with Courier</option>
+                        <option value="out_for_delivery">🚚 Out for Delivery</option>
+                        <option value="delivered">🟢 Delivered Successfully</option>
+                    </select>
+                </div>
+
+                <div style="margin-bottom:1.2rem;">
+                    <label style="display:block; font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--gold); margin-bottom:0.4rem;">Courier Service Partner</label>
+                    <input type="text" id="manage-courier-name" placeholder="e.g. Shiprocket / BlueDart / Delhivery / DTDC / DHL" style="width:100%; background:rgba(255,255,255,0.06); border:1px solid rgba(197,160,89,0.3); color:#fff; padding:0.75rem; border-radius:3px; font-family:var(--font-sans); font-size:12px; outline:none;">
+                </div>
+
+                <div style="margin-bottom:1.2rem;">
+                    <label style="display:block; font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--gold); margin-bottom:0.4rem;">Courier AWB / Tracking Number or URL</label>
+                    <input type="text" id="manage-tracking-number" placeholder="e.g. AWB123456789 or https://shiprocket.co/tracking/..." style="width:100%; background:rgba(255,255,255,0.06); border:1px solid rgba(197,160,89,0.3); color:#fff; padding:0.75rem; border-radius:3px; font-family:var(--font-sans); font-size:12px; outline:none;">
+                </div>
+
+                <div style="margin-bottom:1.5rem;">
+                    <label style="display:block; font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--gold); margin-bottom:0.4rem;">Estimated Delivery / Notes for Client</label>
+                    <input type="text" id="manage-delivery-note" placeholder="e.g. Expected by 25th Aug · Signature Hard-Box" style="width:100%; background:rgba(255,255,255,0.06); border:1px solid rgba(197,160,89,0.3); color:#fff; padding:0.75rem; border-radius:3px; font-family:var(--font-sans); font-size:12px; outline:none;">
+
+                </div>
+
+                <div style="display:flex; gap:1rem;">
+                    <button type="submit" style="flex:1; background:var(--gold); color:var(--charcoal); border:none; padding:0.85rem; font-family:var(--font-sans); font-size:11px; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; cursor:pointer; border-radius:3px;">
+                        SAVE &amp; UPDATE TRACKING
+                    </button>
+                    <button type="button" onclick="closeOrderStatusModal()" style="background:transparent; color:var(--grey); border:1px solid var(--grey); padding:0.85rem 1.2rem; font-family:var(--font-sans); font-size:11px; cursor:pointer; border-radius:3px;">
+                        CANCEL
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- Firebase Admin Module -->
     <script type="module">
-        import { auth, db, onAuthStateChanged, collection, getDocs, query, orderBy, where } from './firebase-config.js';
+        import { auth, db, onAuthStateChanged, collection, getDocs, query, orderBy, where, doc, updateDoc } from './firebase-config.js';
         window._dbAdmin = db;
         window._collAdmin = collection;
         window._getDocsAdmin = getDocs;
         window._queryAdmin = query;
         window._orderByAdmin = orderBy;
         window._whereAdmin = where;
-        // Load after unlock
+        window._docAdmin = doc;
+        window._updateDocAdmin = updateDoc;
         window._firebaseReady = true;
     </script>
 
     <!-- CMS JavaScript Controller -->
-    <script src="admin.js?v=3.5"></script>
+    <script src="admin.js?v=5.0"></script>
 </body>
 </html>
+
 
 

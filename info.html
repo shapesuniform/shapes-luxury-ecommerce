@@ -17,9 +17,24 @@
     <meta property="og:image" content="https://shapesbysatinderkaur.com/app_icon.png">
     <meta property="og:type" content="website">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Cache-Buster & Deep Cache Wipe for Instant Multi-Device Sync -->
+    <script>
+        try {
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.getRegistrations().then(function(regs) {
+                    for (var r of regs) r.unregister();
+                }).catch(function() {});
+            }
+            if ('caches' in window) {
+                caches.keys().then(function(names) {
+                    for (var n of names) caches.delete(n);
+                }).catch(function() {});
+            }
+        } catch(e) {}
+    </script>
+
 
 
     <style>
@@ -183,37 +198,40 @@
     <!-- 1. GENERAL STORE POLICY & DELIVERY TAB -->
     <div class="tab-content active" id="tab-policy">
         <div class="policy-section">
-            <h3>Delivery Timeline &amp; Insured Shipping</h3>
+            <h3>Delivery Timeline &amp; Shipping</h3>
             <p>Every garment at Shapes By Satiinder Kaur is custom-handcrafted by master artisans exclusively for each client. Please allow adequate time for authentic handloom weaving, zardozi embroidery, and precision tailoring.</p>
             <div class="badges-row">
                 <div class="policy-badge gold"><i class="fa-solid fa-clock"></i> 15 – 22 Working Days</div>
-                <div class="policy-badge gold"><i class="fa-solid fa-truck-fast"></i> Complimentary Insured Shipping</div>
+                <div class="policy-badge gold"><i class="fa-solid fa-truck-fast"></i> Complimentary Courier Delivery</div>
             </div>
             <ul class="policy-list">
                 <li>Delivery time: <strong>15 to 22 working days</strong> from the date of confirmed online payment.</li>
                 <li>You will receive an official order reference number (e.g. <code>#SH-0001</code>) immediately upon payment confirmation.</li>
                 <li>Our atelier concierge will contact you within 24 hours to re-verify sizing and structural fit.</li>
-                <li>Shipped in signature archival hard-box packaging with fabric-lined sleeves via insured courier partners across India.</li>
+                <li>Shipped in signature archival hard-box packaging with fabric-lined sleeves via courier partners across India.</li>
 
                 <li><strong>No Cash on Delivery (COD)</strong> — All orders must be prepaid online via secure Razorpay checkout.</li>
             </ul>
         </div>
     </div>
 
+
     <!-- 2. TERMS & CONDITIONS TAB -->
     <div class="tab-content" id="tab-terms">
         <div class="policy-section">
             <h3>Terms and Conditions</h3>
-            <p>Welcome to <strong>Shapes By Satiinder Kaur</strong> (accessible at <a href="https://shapesbysatinderkaur.com" style="color:var(--gold);">shapesbysatinderkaur.com</a>). By browsing, using our online showroom, or purchasing made-to-order garments from our atelier, you agree to comply with and be bound by the following terms and conditions:</p>
+            <p>Welcome to <strong>Shapes By Satiinder Kaur</strong>, operated by the registered legal business entity <strong>SHAPES UNIFORM</strong> (accessible at <a href="https://shapesbysatinderkaur.com" style="color:var(--gold);">shapesbysatinderkaur.com</a>). By browsing, using our online showroom, or purchasing made-to-order garments from our atelier, you agree to comply with and be bound by the following terms and conditions:</p>
             <ul class="policy-list">
+                <li><strong>Registered Legal Entity:</strong> <strong>SHAPES UNIFORM</strong> (Trade/Brand Name: Shapes By Satiinder Kaur).</li>
                 <li><strong>Artisanal Made-to-Order Nature:</strong> All creations (corsets, bridal lehengas, pret tunics, and draped sets) are individually crafted to client order. Minor variations in hand-embroidery, dye shades, and weave textures are inherent characteristics of authentic handcraftsmanship.</li>
                 <li><strong>Pricing &amp; Payment:</strong> All prices are displayed in Indian Rupees (INR ₹) inclusive of applicable taxes. International currency conversions are indicative. We reserve the right to modify prices without prior notice. Full payment via Razorpay is mandatory to confirm order processing.</li>
-                <li><strong>Intellectual Property:</strong> All designs, photography, copy, logos, and visual elements on this website are the exclusive intellectual property of Shapes By Satiinder Kaur and protected under applicable copyright laws.</li>
+                <li><strong>Intellectual Property:</strong> All designs, photography, copy, logos, and visual elements on this website are the exclusive intellectual property of SHAPES UNIFORM / Shapes By Satiinder Kaur and protected under applicable copyright laws.</li>
                 <li><strong>Governing Law &amp; Jurisdiction:</strong> Any dispute, controversy, or claim arising out of your purchase or use of this website shall be governed by the laws of India and subject to the exclusive jurisdiction of the courts in Mumbai, Maharashtra.</li>
-                <li><strong>Atelier Contact:</strong> Shop No 4, Bus Stop, Ghatla Village Rd, Near Maitri Park, Basant Garden, Chembur, Mumbai 400071. Telephone: +91 98333 92756. Email: shapesuniform@gmail.com.</li>
+                <li><strong>Atelier &amp; Entity Contact:</strong> SHAPES UNIFORM, Shop No 4, Bus Stop, Ghatla Village Rd, Near Maitri Park, Basant Garden, Chembur, Mumbai 400071. Telephone: +91 98333 92756. Email: shapesuniform@gmail.com.</li>
             </ul>
         </div>
     </div>
+
 
     <!-- 3. PRIVACY POLICY TAB -->
     <div class="tab-content" id="tab-privacy">
@@ -313,10 +331,13 @@
 
             <h4 style="font-family: var(--font-serif); font-size: 1.15rem; color: var(--gold); margin: 1.5rem 0 0.5rem 0;">Grievance Redressal &amp; Merchant Details:</h4>
             <ul class="policy-list">
-                <li><strong>Legal Entity Name:</strong> Shapes By Satiinder Kaur</li>
+                <li><strong>Registered Business Name (Legal Entity):</strong> SHAPES UNIFORM</li>
+                <li><strong>Trade / Brand Name:</strong> Shapes By Satiinder Kaur</li>
                 <li><strong>Grievance Officer:</strong> Satiinder Kaur (Founder &amp; Principal Designer)</li>
+                <li><strong>Registered Address:</strong> Shop No 4, Bus Stop, Ghatla Village Rd, Near Maitri Park, Basant Garden, Chembur, Mumbai 400071</li>
                 <li><strong>Response Time:</strong> All customer queries and grievance emails are responded to within <strong>24 to 48 business hours</strong>.</li>
             </ul>
+
         </div>
     </div>
 
@@ -343,9 +364,9 @@
         </div>
         <div class="faq-item">
             <button class="faq-question" onclick="toggleFaq(this)">Is shipping free? <i class="fa-solid fa-chevron-down"></i></button>
-            <div class="faq-answer">Yes! Complimentary insured courier shipping is included on all orders within India. Your creation will be packaged in our signature archival hard-box with fabric-lined sleeves.</div>
-
+            <div class="faq-answer">Yes! Complimentary courier shipping is included on all orders within India. Your creation will be packaged in our signature archival hard-box with fabric-lined sleeves.</div>
         </div>
+
         <div class="faq-item">
             <button class="faq-question" onclick="toggleFaq(this)">How do I track my order? <i class="fa-solid fa-chevron-down"></i></button>
             <div class="faq-answer">Visit our <a href="track.html" style="color:var(--gold);">Order Tracking page</a> and enter your order reference (e.g. SH-0001) to see live progress. You can also log into your <a href="account.html" style="color:var(--gold);">My Account</a>.</div>
@@ -406,9 +427,10 @@
 
     <!-- Footer -->
     <footer class="info-footer">
-        &copy; 2026 Shapes By Satiinder Kaur &nbsp;·&nbsp; Shop No 4, Bus Stop, Ghatla Village Rd, Near Maitri Park, Basant Garden, Chembur, Mumbai 400071<br>
+        &copy; 2026 <strong>SHAPES UNIFORM</strong> (Operating as Shapes By Satiinder Kaur) &nbsp;·&nbsp; Shop No 4, Bus Stop, Ghatla Village Rd, Near Maitri Park, Basant Garden, Chembur, Mumbai 400071<br>
         <a href="tel:+919833392756">+91 98333 92756</a> &nbsp;·&nbsp;
         <a href="mailto:shapesuniform@gmail.com">shapesuniform@gmail.com</a> &nbsp;·&nbsp;
+
 
         <a href="index.html">Return to Showroom</a>
     </footer>

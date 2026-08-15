@@ -49,12 +49,15 @@
           "@type": "ClothingStore",
           "@id": "https://shapesbysatinderkaur.com/#store",
           "name": "Shapes By Satiinder Kaur",
+          "legalName": "SHAPES UNIFORM",
+          "alternateName": "SHAPES UNIFORM",
           "url": "https://shapesbysatinderkaur.com",
           "logo": "https://shapesbysatinderkaur.com/app_icon.png",
           "image": "https://shapesbysatinderkaur.com/app_icon.png",
-          "description": "Exclusive Indian Luxury Couture, Bridal Lehengas, Handcrafted Zardozi Corsets and Pret collections in Chembur, Mumbai.",
+          "description": "Exclusive Indian Luxury Couture, Bridal Lehengas, Handcrafted Zardozi Corsets and Pret collections by SHAPES UNIFORM in Chembur, Mumbai.",
           "telephone": "+91 98333 92756",
           "email": "shapesuniform@gmail.com",
+
           "priceRange": "₹₹₹₹",
           "currenciesAccepted": "INR, USD, GBP, EUR, AED",
           "paymentAccepted": "Credit Card, Debit Card, UPI, Net Banking",
@@ -165,7 +168,7 @@
     <link rel="dns-prefetch" href="https://checkout.razorpay.com">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
 
-    <!-- Cache-Buster & Background SW Unregister -->
+    <!-- Cache-Buster & Deep Cache Wipe for Instant Multi-Device Sync -->
     <script>
         try {
             if ('serviceWorker' in navigator) {
@@ -173,10 +176,17 @@
                     for (var r of regs) r.unregister();
                 }).catch(function() {});
             }
+            if ('caches' in window) {
+                caches.keys().then(function(names) {
+                    for (var n of names) caches.delete(n);
+                }).catch(function() {});
+            }
         } catch(e) {}
     </script>
 
-    <link rel="stylesheet" href="index.css?v=4.0" media="all">
+    <link rel="stylesheet" href="index.css?v=6.0" media="all">
+
+
 
     <link rel="manifest" href="manifest.json">
     <!-- Razorpay Standard Checkout & Affordability Widget SDK -->
@@ -190,71 +200,89 @@
 <body>
 
 
-    <!-- Top Luxury Announcement Bar -->
-    <div class="top-announcement-bar">
-        <div class="announcement-track">
-            <span>✨ COMPLIMENTARY INSURED COURIER ACROSS INDIA</span>
-            <span class="bullet">•</span>
-            <span>HANDCRAFTED TO ORDER (15–22 WORKING DAYS)</span>
-            <span class="bullet">•</span>
-            <span>CHEMBUR ATELIER FLAGSHIP: +91 98333 92756</span>
-            <span class="bullet">•</span>
-            <span>NO RETURNS · NO COD · ONLINE PAYMENT ONLY</span>
-        </div>
-    </div>
-
-    <!-- Sticky Navigation Header -->
-    <header class="luxury-header" id="header">
-        <div class="nav-container">
-            <!-- Left Navigation: Categories -->
-            <nav class="nav-left">
-                <a href="#bridal" class="nav-link shop-nav-trigger" data-category="Bridal">Bridal</a>
-                <a href="#couture" class="nav-link shop-nav-trigger" data-category="Couture">Couture</a>
-                <a href="#pret" class="nav-link shop-nav-trigger" data-category="Pret">Pret</a>
-                <a href="#accessories" class="nav-link shop-nav-trigger" data-category="Accessories">Accessories</a>
-            </nav>
-
-            <!-- Center Logo -->
-            <div class="nav-center">
-                <a href="#" class="brand-logo" id="brand-logo-text">
-                    <span class="logo-main">SHAPES</span>
-                    <span class="logo-sub">by Satiinder Kaur</span>
-                </a>
+    <!-- Unified Header Master Wrapper (Prevents Any Overlapping) -->
+    <div class="header-master-wrapper" id="header-master-wrapper">
+        <!-- Top Luxury Announcement Bar -->
+        <div class="top-announcement-bar">
+            <div class="announcement-marquee">
+                <div class="announcement-track">
+                    <span>✨ COMPLIMENTARY COURIER ACROSS INDIA</span>
+                    <span class="bullet">•</span>
+                    <span>HANDCRAFTED TO ORDER (15–22 WORKING DAYS)</span>
+                    <span class="bullet">•</span>
+                    <span>CHEMBUR ATELIER: +91 98333 92756</span>
+                    <span class="bullet">•</span>
+                    <span>NO RETURNS · NO COD · ONLINE PAYMENT ONLY</span>
+                    <span class="bullet">•</span>
+                </div>
+                <div class="announcement-track" aria-hidden="true">
+                    <span>✨ COMPLIMENTARY COURIER ACROSS INDIA</span>
+                    <span class="bullet">•</span>
+                    <span>HANDCRAFTED TO ORDER (15–22 WORKING DAYS)</span>
+                    <span class="bullet">•</span>
+                    <span>CHEMBUR ATELIER: +91 98333 92756</span>
+                    <span class="bullet">•</span>
+                    <span>NO RETURNS · NO COD · ONLINE PAYMENT ONLY</span>
+                    <span class="bullet">•</span>
+                </div>
             </div>
+        </div>
 
-            <!-- Right Navigation: Currency, Wishlist & Bag -->
-            <nav class="nav-right">
-                <!-- Currency Switcher -->
-                <div class="currency-selector-wrapper">
-                    <select id="currency-select" class="currency-select" title="Select Currency">
-                        <option value="INR">INR ₹</option>
-                        <option value="USD">USD $</option>
-                        <option value="GBP">GBP £</option>
-                        <option value="AED">AED د.إ</option>
-                        <option value="EUR">EUR €</option>
-                    </select>
+
+        <!-- Sticky Navigation Header -->
+        <header class="luxury-header" id="header">
+            <div class="nav-container">
+                <!-- Left Navigation: Categories -->
+                <nav class="nav-left">
+                    <a href="#bridal" class="nav-link shop-nav-trigger" data-category="Bridal">Bridal</a>
+                    <a href="#couture" class="nav-link shop-nav-trigger" data-category="Couture">Couture</a>
+                    <a href="#pret" class="nav-link shop-nav-trigger" data-category="Pret">Pret</a>
+                    <a href="#accessories" class="nav-link shop-nav-trigger" data-category="Accessories">Accessories</a>
+                </nav>
+
+                <!-- Center Logo -->
+                <div class="nav-center">
+                    <a href="#" class="brand-logo" id="brand-logo-text">
+                        <span class="logo-main">SHAPES</span>
+                        <span class="logo-sub">by Satiinder Kaur</span>
+                    </a>
                 </div>
 
-                <!-- Wishlist Button -->
-                <button class="nav-icon-btn wishlist-btn-container" id="open-wishlist-btn" title="Saved Wishlist">
-                    <i class="fa-regular fa-heart"></i>
-                    <span class="cart-badge wishlist-badge" id="wishlist-count">0</span>
-                </button>
+                <!-- Right Navigation: Currency, Wishlist & Bag -->
+                <nav class="nav-right">
+                    <!-- Currency Switcher -->
+                    <div class="currency-selector-wrapper">
+                        <select id="currency-select" class="currency-select" title="Select Currency">
+                            <option value="INR">INR ₹</option>
+                            <option value="USD">USD $</option>
+                            <option value="GBP">GBP £</option>
+                            <option value="AED">AED د.إ</option>
+                            <option value="EUR">EUR €</option>
+                        </select>
+                    </div>
 
-                <a href="#story-section" class="nav-link story-nav-trigger">Our Story</a>
-                <button class="nav-icon-btn cart-btn-container" id="open-cart-btn" title="Shopping Bag">
-                    <i class="fa-solid fa-bag-shopping"></i>
-                    <span class="cart-badge" id="cart-count">0</span>
+                    <!-- Wishlist Button -->
+                    <button class="nav-icon-btn wishlist-btn-container" id="open-wishlist-btn" title="Saved Wishlist">
+                        <i class="fa-regular fa-heart"></i>
+                        <span class="cart-badge wishlist-badge" id="wishlist-count">0</span>
+                    </button>
+
+                    <a href="#story-section" class="nav-link story-nav-trigger">Our Story</a>
+                    <button class="nav-icon-btn cart-btn-container" id="open-cart-btn" title="Shopping Bag">
+                        <i class="fa-solid fa-bag-shopping"></i>
+                        <span class="cart-badge" id="cart-count">0</span>
+                    </button>
+                </nav>
+                
+                <!-- Mobile Menu Toggle -->
+                <button class="mobile-menu-toggle" id="mobile-toggle" aria-label="Toggle Menu">
+                    <span></span>
+                    <span></span>
                 </button>
-            </nav>
-            
-            <!-- Mobile Menu Toggle -->
-            <button class="mobile-menu-toggle" id="mobile-toggle" aria-label="Toggle Menu">
-                <span></span>
-                <span></span>
-            </button>
-        </div>
-    </header>
+            </div>
+        </header>
+    </div>
+
 
 
     <!-- Mobile Drawer Navigation -->
@@ -428,6 +456,9 @@
             <div class="footer-col brand-info">
                 <h3>Shapes By Satiinder Kaur</h3>
                 <p>Boutique of high fashion, bridal couture, and fine heritage wear.</p>
+                <div style="margin-top: 0.6rem; font-size: 10px; color: var(--gold); letter-spacing: 0.05em;">
+                    Registered Business Entity:<br><strong style="color: #fff; font-size: 11px; letter-spacing: 0.1em;">SHAPES UNIFORM</strong>
+                </div>
                 <!-- Google Rating -->
                 <div style="margin-top: 1rem; display: inline-flex; flex-direction: column; gap: 2px;">
                     <div style="font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 4px;">Google Rating</div>
@@ -453,7 +484,7 @@
             <div class="footer-col">
                 <h4>Legal &amp; Policies</h4>
                 <ul>
-                    <li><a href="info.html#contact" target="_blank">Contact Us</a></li>
+                    <li><a href="contact.html" target="_blank">Contact Us</a></li>
                     <li><a href="info.html#terms" target="_blank">Terms &amp; Conditions</a></li>
                     <li><a href="info.html#privacy" target="_blank">Privacy Policy</a></li>
                     <li><a href="info.html#refund" target="_blank">Refund &amp; Exchange Policy</a></li>
@@ -466,9 +497,9 @@
                 <h4>Mumbai Flagship Atelier</h4>
                 <p style="font-size: 12px; line-height: 1.6; color: var(--grey-medium); margin-bottom: 0.8rem;">
                     Shop No 4, Bus Stop, Ghatla Village Rd, Near Maitri Park, Basant Garden, Chembur, Mumbai 400071<br>
+                    <strong>Entity:</strong> <span style="color: #fff;">SHAPES UNIFORM</span><br>
                     <strong>T:</strong> <a href="tel:+919833392756" style="color: var(--gold);">+91 98333 92756</a><br>
                     <strong>E:</strong> <a href="mailto:shapesuniform@gmail.com" style="color: var(--gold);">shapesuniform@gmail.com</a>
-
                 </p>
                 <div style="background: rgba(197,160,89,0.08); border: 1px solid rgba(197,160,89,0.2); border-radius: 3px; padding: 0.8rem 1rem; font-size: 10px; line-height: 1.7; color: var(--grey-medium);">
                     <div style="color: var(--gold); font-weight: 600; letter-spacing: 0.1em; margin-bottom: 0.4rem;">📦 ATELIER POLICY HIGHLIGHTS</div>
@@ -480,16 +511,14 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2026 Shapes By Satiinder Kaur. All Rights Reserved. &nbsp;|&nbsp; 
-                <a href="info.html#contact" style="color: var(--grey-medium); text-decoration:none;">Contact Us</a> &nbsp;·&nbsp;
+            <p>&copy; 2026 <strong>SHAPES UNIFORM</strong> (Operating as Shapes By Satiinder Kaur). All Rights Reserved. &nbsp;|&nbsp; 
+                <a href="contact.html" style="color: var(--grey-medium); text-decoration:none;">Contact Us</a> &nbsp;·&nbsp;
                 <a href="info.html#terms" style="color: var(--grey-medium); text-decoration:none;">Terms</a> &nbsp;·&nbsp;
                 <a href="info.html#privacy" style="color: var(--grey-medium); text-decoration:none;">Privacy</a> &nbsp;·&nbsp;
                 <a href="info.html#refund" style="color: var(--grey-medium); text-decoration:none;">Refunds &amp; Exchanges</a> &nbsp;·&nbsp;
                 <a href="info.html#cancellation" style="color: var(--grey-medium); text-decoration:none;">Cancellations</a>
             </p>
         </div>
-
-
     </footer>
 
     <!-- Shopping Bag Drawer -->
@@ -696,9 +725,10 @@
                             <span id="checkout-gst-amount" class="gold-text" style="font-size: 11px;">₹ 0</span>
                         </div>
                         <div class="total-row">
-                            <span>Insured Shipping</span>
+                            <span>Courier Shipping</span>
                             <span class="gold-text">Complimentary (₹0)</span>
                         </div>
+
 
                         <div class="total-row grand-total">
                             <span>Total Payable (All Taxes Incl.)</span>
@@ -752,7 +782,9 @@
     </div>
 
     <!-- Main JavaScript Logic -->
-    <script src="index.js?v=4.0"></script>
+    <script src="index.js?v=6.0"></script>
+
+
 
 
 

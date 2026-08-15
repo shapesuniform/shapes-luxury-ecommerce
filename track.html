@@ -17,8 +17,24 @@
     <meta property="og:image" content="https://shapesbysatinderkaur.com/app_icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Cache-Buster & Deep Cache Wipe for Instant Multi-Device Sync -->
+    <script>
+        try {
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.getRegistrations().then(function(regs) {
+                    for (var r of regs) r.unregister();
+                }).catch(function() {});
+            }
+            if ('caches' in window) {
+                caches.keys().then(function(names) {
+                    for (var n of names) caches.delete(n);
+                }).catch(function() {});
+            }
+        } catch(e) {}
+    </script>
+
 
 
     <style>
@@ -374,41 +390,29 @@
             </div>
             <div class="tracking-timeline">
                 <h4>Delivery Journey</h4>
-                <div class="timeline">
-                    <div class="timeline-step">
-                        <div class="step-dot done"></div>
-                        <div>
-                            <div class="step-label">Order Confirmed & Payment Received</div>
-                            <div class="step-time" id="step1-time">—</div>
-                        </div>
+                
+                <!-- Dynamic Courier Tracking Card -->
+                <div id="courier-card" style="display:none; background:rgba(197,160,89,0.08); border:1px solid var(--gold); border-radius:4px; padding:1.2rem; margin-bottom:1.5rem;">
+                    <div style="font-size:10px; color:var(--gold); text-transform:uppercase; letter-spacing:0.15em; font-weight:600; margin-bottom:0.4rem;">
+                        <i class="fa-solid fa-truck-fast"></i> Courier Shipment Details
                     </div>
-                    <div class="timeline-step">
-                        <div class="step-dot active"></div>
-                        <div>
-                            <div class="step-label">Artisan Workshop — Preparation in Progress</div>
-                            <div class="step-time">Our master craftsmen are preparing your creation</div>
-                        </div>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.8rem; font-size:12px;">
+                        <div><strong>Courier:</strong> <span id="track-courier-name">—</span></div>
+                        <div><strong>AWB / Tracking Ref:</strong> <span id="track-awb-num">—</span></div>
                     </div>
-                    <div class="timeline-step">
-                        <div class="step-dot"></div>
-                        <div>
-                            <div class="step-label pending">Quality Review</div>
-                            <div class="step-time">Pending</div>
-                        </div>
+                    <div id="track-delivery-note-container" style="font-size:11px; color:rgba(255,255,255,0.8); margin-top:0.6rem; border-top:1px dashed rgba(197,160,89,0.3); padding-top:0.6rem;">
+                        <strong>Dispatch Note:</strong> <span id="track-delivery-note">—</span>
                     </div>
-                    <div class="timeline-step">
-                        <div class="step-dot"></div>
-                        <div>
-                            <div class="step-label pending">Luxury Packaging & Dispatch</div>
-                            <div class="step-time">Pending</div>
-                        </div>
-                    </div>
-                    <div class="timeline-step">
-                        <div class="step-dot"></div>
-                        <div>
-                            <div class="step-label pending">Delivered</div>
-                            <div class="step-time">Pending</div>
-                        </div>
+                    <a id="track-courier-btn" href="#" target="_blank" style="display:inline-flex; align-items:center; gap:6px; background:var(--gold); color:var(--charcoal); font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; padding:0.5rem 1rem; border-radius:3px; text-decoration:none; margin-top:0.8rem;">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i> Track on Courier Website &rarr;
+                    </a>
+                </div>
+
+                <div class="timeline" id="timeline-container">
+                    <!-- Populated dynamically via JS -->
+                </div>
+            </div>
+
             <!-- Print Invoice Button -->
             <div style="margin-top: 2rem; text-align: center; border-top: 1px solid rgba(197, 160, 89, 0.15); padding-top: 1.5rem;">
                 <button class="print-invoice-btn" onclick="printInvoice()" style="
@@ -422,6 +426,7 @@
             </div>
         </div>
     </div>
+
 
     <!-- Not Found -->
     <div class="not-found" id="not-found">
@@ -471,18 +476,89 @@
 
             currentLoadedOrder = order;
 
-            // Populate result
+            // 1. Status and Meta
+            const statusMap = {
+                "confirmed": { label: "✓ Order Confirmed", step: 1 },
+                "in_production": { label: "🧵 In Production", step: 2 },
+                "shipped": { label: "📦 Shipped & Dispatched", step: 3 },
+                "out_for_delivery": { label: "🚚 Out for Delivery", step: 4 },
+                "delivered": { label: "🟢 Delivered", step: 5 }
+            };
+            const currentStatusObj = statusMap[order.status] || statusMap["confirmed"];
+
             document.getElementById("result-ref").textContent = "Order " + order.ref;
-            document.getElementById("result-badge").textContent = "✓ Order Confirmed";
+            document.getElementById("result-badge").textContent = currentStatusObj.label;
             document.getElementById("result-payment").textContent = order.paymentId || "—";
 
             const dateObj = new Date(order.date);
             document.getElementById("result-date").textContent = dateObj.toLocaleDateString("en-IN", {
                 day: "numeric", month: "long", year: "numeric"
             });
-            document.getElementById("step1-time").textContent = dateObj.toLocaleString("en-IN");
 
-            // Populate items
+            // 2. Populate Courier Card
+            const courierCard = document.getElementById("courier-card");
+            if (order.courierName || order.trackingNumber) {
+                courierCard.style.display = "block";
+                document.getElementById("track-courier-name").textContent = order.courierName || "Luxury Courier";
+                document.getElementById("track-awb-num").textContent = order.trackingNumber || "Assigned";
+                
+                const noteContainer = document.getElementById("track-delivery-note-container");
+                if (order.deliveryNote) {
+                    noteContainer.style.display = "block";
+                    document.getElementById("track-delivery-note").textContent = order.deliveryNote;
+                } else {
+                    noteContainer.style.display = "none";
+                }
+
+                const trackBtn = document.getElementById("track-courier-btn");
+                if (order.trackingNumber && order.trackingNumber.startsWith("http")) {
+                    trackBtn.href = order.trackingNumber;
+                    trackBtn.style.display = "inline-flex";
+                } else if (order.trackingNumber) {
+                    trackBtn.href = `https://www.google.com/search?q=${encodeURIComponent((order.courierName || 'courier') + ' tracking ' + order.trackingNumber)}`;
+                    trackBtn.style.display = "inline-flex";
+                } else {
+                    trackBtn.style.display = "none";
+                }
+            } else {
+                courierCard.style.display = "none";
+            }
+
+            // 3. Dynamic Timeline Rendering
+            const currentStep = currentStatusObj.step;
+            const steps = [
+                { name: "Order Confirmed & Sizing Verified", desc: dateObj.toLocaleString("en-IN") },
+                { name: "Artisan Workshop — Tailoring & Hand-Embroidery", desc: currentStep >= 2 ? "Master artisans are handcrafting your bespoke piece" : "Pending" },
+                { name: "Quality Check & Courier Dispatch", desc: order.courierName ? `Dispatched via ${order.courierName}` : (currentStep >= 3 ? "Package handed over to courier partner" : "Pending") },
+                { name: "Out for Delivery", desc: currentStep >= 4 ? "Courier is out for final doorstep delivery" : "Pending" },
+                { name: "Delivered to Client", desc: currentStep >= 5 ? "Package delivered safely" : "Pending" }
+            ];
+
+
+            const timelineContainer = document.getElementById("timeline-container");
+            timelineContainer.innerHTML = steps.map((s, idx) => {
+                const stepNum = idx + 1;
+                let dotClass = "step-dot";
+                let labelClass = "step-label";
+                if (stepNum < currentStep) {
+                    dotClass += " done";
+                } else if (stepNum === currentStep) {
+                    dotClass += " active";
+                } else {
+                    labelClass += " pending";
+                }
+                return `
+                    <div class="timeline-step">
+                        <div class="${dotClass}"></div>
+                        <div>
+                            <div class="${labelClass}">${s.name}</div>
+                            <div class="step-time">${s.desc}</div>
+                        </div>
+                    </div>
+                `;
+            }).join("");
+
+            // 4. Populate items
             const itemsContainer = document.getElementById("result-items");
             itemsContainer.innerHTML = "";
             order.items.forEach(item => {
@@ -501,6 +577,7 @@
             resultPanel.style.display = "block";
             resultPanel.scrollIntoView({ behavior: "smooth" });
         }
+
 
         // Printable Invoice Generator
         function printInvoice() {
@@ -532,10 +609,11 @@
                 <body>
                     <div class="inv-header">
                         <div>
-                            <div class="inv-logo">SHAPES</div>
-                            <div class="inv-sub">By Satiinder Kaur Atelier</div>
-                            <p style="font-size: 12px; color: #666; margin-top: 5px;">Shop No 4, Bus Stop, Ghatla Village Rd, Near Maitri Park,<br>Basant Garden, Chembur, Mumbai 400071<br>T: +91 98333 92756</p>
+                            <div class="inv-logo">SHAPES UNIFORM</div>
+                            <div class="inv-sub">Shapes By Satiinder Kaur Atelier</div>
+                            <p style="font-size: 12px; color: #666; margin-top: 5px;"><strong>Legal Entity:</strong> SHAPES UNIFORM<br>Shop No 4, Bus Stop, Ghatla Village Rd, Near Maitri Park,<br>Basant Garden, Chembur, Mumbai 400071<br>T: +91 98333 92756 | E: shapesuniform@gmail.com</p>
                         </div>
+
                         <div class="inv-meta">
                             <h2 style="margin: 0 0 5px 0; color: #C5A059;">TAX INVOICE</h2>
                             <div><strong>Invoice No:</strong> INV-${o.ref}</div>
@@ -585,9 +663,9 @@
                                         <td style="text-align: right; color: #333;">₹${sgst.toLocaleString("en-IN")}</td>
                                     </tr>
                                     <tr>
-                                        <td colspan="4" style="text-align: right; font-weight: 600;">Insured Courier Delivery:</td>
-                                        <td style="text-align: right; color: #C5A059; font-weight: bold;">Complimentary (₹0)</td>
-                                    </tr>
+                                         <td colspan="4" style="text-align: right; font-weight: 600;">Courier Delivery:</td>
+                                         <td style="text-align: right; color: #C5A059; font-weight: bold;">Complimentary (₹0)</td>
+                                     </tr>
                                     <tr class="total-row">
                                         <td colspan="4" style="text-align: right; font-weight: 700;">Grand Total (Taxes Incl.):</td>
                                         <td style="text-align: right; font-weight: 700; color: #000;">₹${total.toLocaleString("en-IN")}</td>

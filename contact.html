@@ -12,8 +12,24 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Cache-Buster & Deep Cache Wipe for Instant Multi-Device Sync -->
+    <script>
+        try {
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.getRegistrations().then(function(regs) {
+                    for (var r of regs) r.unregister();
+                }).catch(function() {});
+            }
+            if ('caches' in window) {
+                caches.keys().then(function(names) {
+                    for (var n of names) caches.delete(n);
+                }).catch(function() {});
+            }
+        } catch(e) {}
+    </script>
+
     
     <style>
         :root {
@@ -458,12 +474,13 @@
             <!-- Info Side -->
             <div class="info-side">
                 <h3>Merchant Information</h3>
-                <p>Shapes By Satiinder Kaur is a registered luxury fashion atelier operating in Mumbai, Maharashtra. All transactions are securely processed via Razorpay.</p>
+                <p>Shapes By Satiinder Kaur is operated by the registered business entity <strong>SHAPES UNIFORM</strong> in Mumbai, Maharashtra. All transactions are securely processed via Razorpay.</p>
 
                 <div class="merchant-box">
                     <h4>Official Merchant Registry</h4>
                     <ul>
-                        <li><strong>Legal Entity Name:</strong> Shapes By Satiinder Kaur</li>
+                        <li><strong>Registered Business Name (Legal Entity):</strong> SHAPES UNIFORM</li>
+                        <li><strong>Brand / Trade Name:</strong> Shapes By Satiinder Kaur</li>
                         <li><strong>Principal Founder:</strong> Satiinder Kaur</li>
                         <li><strong>GST HSN Category:</strong> 6204 (Apparel &amp; Couture)</li>
                         <li><strong>Grievance Officer:</strong> Satiinder Kaur</li>
@@ -502,8 +519,9 @@
             <span>·</span>
             <a href="track.html">Track Order</a>
         </div>
-        <p>&copy; 2026 Shapes By Satiinder Kaur. All Rights Reserved. &nbsp;|&nbsp; Chembur, Mumbai, Maharashtra 400071</p>
+        <p>&copy; 2026 <strong>SHAPES UNIFORM</strong> (Operating as Shapes By Satiinder Kaur). All Rights Reserved. &nbsp;|&nbsp; Chembur, Mumbai, Maharashtra 400071</p>
     </footer>
+
 
     <script>
         function handleInquirySubmit(e) {
