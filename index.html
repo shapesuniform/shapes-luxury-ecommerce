@@ -5,6 +5,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#121212">
 
+    <!-- ================================================================
+         SECURITY POLICIES (meta tag approach for GitHub Pages hosting)
+         Note: HSTS is automatic on GitHub Pages custom domains.
+         COOP + XFO require Cloudflare or a server — add via Cloudflare
+         Transform Rules if you use Cloudflare in front of GitHub Pages.
+         ================================================================ -->
+
+    <!-- Content Security Policy — whitelists all trusted origins -->
+    <meta http-equiv="Content-Security-Policy" content="
+      default-src 'self';
+      script-src 'self' 'unsafe-inline'
+        https://www.gstatic.com
+        https://apis.google.com
+        https://checkout.razorpay.com
+        https://cdnjs.cloudflare.com
+        https://shapes-boutique-e269d.firebaseapp.com;
+      style-src 'self' 'unsafe-inline'
+        https://fonts.googleapis.com
+        https://cdnjs.cloudflare.com;
+      font-src 'self'
+        https://fonts.gstatic.com
+        https://cdnjs.cloudflare.com;
+      img-src 'self' data: blob: https:;
+      connect-src 'self'
+        https://firestore.googleapis.com
+        https://identitytoolkit.googleapis.com
+        https://securetoken.googleapis.com
+        https://www.googleapis.com
+        https://shapes-boutique-e269d.firebaseapp.com
+        https://api.razorpay.com
+        https://lumberjack.razorpay.com;
+      frame-src 'self'
+        https://shapes-boutique-e269d.firebaseapp.com
+        https://api.razorpay.com
+        https://checkout.razorpay.com;
+      frame-ancestors 'self';
+      object-src 'none';
+      base-uri 'self';
+      form-action 'self' https://checkout.razorpay.com;
+      upgrade-insecure-requests;
+    ">
+
+    <!-- Referrer Policy -->
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+
+    <!-- X-Content-Type-Options (honoured by some browsers via meta) -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">

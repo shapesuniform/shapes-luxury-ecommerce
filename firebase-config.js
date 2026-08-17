@@ -1,15 +1,12 @@
 // ============================================================
 // FIREBASE CONFIGURATION — SHAPES BY SATIINDER KAUR
 // ============================================================
-// INSTRUCTIONS: Replace the placeholder values below with
-// your real Firebase project config.
-//
-// To get your config:
-// 1. Go to https://console.firebase.google.com
-// 2. Open your project → ⚙️ Project Settings
-// 3. Scroll to "Your apps" → Click your web app
-// 4. Copy the firebaseConfig object and paste it below
+// NOTE: Firebase API keys for web apps are INTENTIONALLY public.
+// Security is enforced via Firebase Security Rules (firestore.rules),
+// not by hiding this key. It is safe to commit this file to GitHub.
+// See: https://firebase.google.com/docs/projects/api-keys
 // ============================================================
+
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
