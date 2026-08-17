@@ -58,6 +58,7 @@ let activeCategory = "All";
 let searchQuery = "";
 let currentSort = "default";
 function initStore() {
+    setupMobileMenuToggle();
     setupReviewModalAndToast();
  if (localStorage.getItem("shapes_catalog_version") !== "shapes_v8_coord_collection") {
  localStorage.removeItem("shapes_products");
@@ -1512,4 +1513,25 @@ function showCartToast() {
     setTimeout(() => {
         toast.classList.remove("show");
     }, 3500);
+}
+
+
+/* Mobile Menu Toggle Logic */
+function setupMobileMenuToggle() {
+    const mobileBtn = document.getElementById("mobile-menu-btn");
+    const mobileDrawer = document.getElementById("mobile-nav-drawer");
+    if (!mobileBtn || !mobileDrawer) return;
+
+    mobileBtn.addEventListener("click", () => {
+        mobileBtn.classList.toggle("active");
+        mobileDrawer.classList.toggle("open");
+    });
+
+    const mobileLinks = mobileDrawer.querySelectorAll("a");
+    mobileLinks.forEach(link => {
+        link.addEventListener("click", () => {
+            mobileBtn.classList.remove("active");
+            mobileDrawer.classList.remove("open");
+        });
+    });
 }
