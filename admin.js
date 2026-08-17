@@ -859,8 +859,118 @@ window.deleteCMSCategory = deleteCMSCategory;
 
 
 // Run initial loading
-
 window.addEventListener("DOMContentLoaded", initAdmin);
+
+// ═══════════════════════════════════════════════════════════
+// LIVE AUTO-REFRESH ENGINE
+// Automatically detects new orders / client registrations
+// written to localStorage by index.js and refreshes admin
+// ═══════════════════════════════════════════════════════════
+
+window.addEventListener("storage", function(e) {
+    // Only react to the shapes_ keys written by the storefront
+    if (!e.key) return;
+
+    if (e.key === "shapes_orders") {
+        // A new order was placed in the storefront → reload orders table
+        console.log("[Admin] New order detected via storage event — refreshing orders panel");
+        try {
+            const updatedOrders = JSON.parse(e.newValue || "[]");
+            if (Array.isArray(updatedOrders) && typeof _allOrders !== "undefined") {
+                _allOrders = updatedOrders;
+                if (typeof renderOrdersTable === "function") renderOrdersTable(_allOrders);
+                // Flash notification badge
+                showAdminLiveAlert("🛍 New order received! Orders table updated.", "gold");
+            }
+        } catch(err) { console.warn("Order refresh error:", err); }
+    }
+
+    if (e.key === "shapes_registered_clients") {
+        // A new client registered or placed an order → reload clients table
+        console.log("[Admin] New client data detected via storage event — refreshing clients panel");
+        try {
+            if (typeof renderRegisteredClientsTable === "function") {
+                renderRegisteredClientsTable();
+                showAdminLiveAlert("👤 Client directory updated with new registration.", "green");
+            }
+        } catch(err) { console.warn("Client refresh error:", err); }
+    }
+
+    if (e.key === "shapes_client_reviews") {
+        console.log("[Admin] New review submitted — please refresh the Reviews panel.");
+        showAdminLiveAlert("⭐ New client review submitted!", "blue");
+    }
+});
+
+// Also check for sessionStorage signal (same-tab fallback for browsers that
+// don't fire storage events for same-origin tabs)
+function pollForNewOrders() {
+    const signal = sessionStorage.getItem("shapes_new_order");
+    if (signal !== window._lastOrderSignal) {
+        window._lastOrderSignal = signal;
+        if (signal) {
+            try {
+                const freshOrders = JSON.parse(localStorage.getItem("shapes_orders") || "[]");
+                if (freshOrders.length > 0 && typeof _allOrders !== "undefined") {
+                    _allOrders = freshOrders;
+                    if (typeof renderOrdersTable === "function") renderOrdersTable(_allOrders);
+                    if (typeof renderRegisteredClientsTable === "function") renderRegisteredClientsTable();
+                    showAdminLiveAlert("🛍 New order synced from storefront!", "gold");
+                }
+            } catch(err) {}
+        }
+    }
+}
+// Poll every 3 seconds for same-tab updates
+setInterval(pollForNewOrders, 3000);
+
+// Helper: show a non-blocking live alert banner in admin
+function showAdminLiveAlert(msg, color) {
+    let alertEl = document.getElementById("admin-live-alert-banner");
+    if (!alertEl) {
+        alertEl = document.createElement("div");
+        alertEl.id = "admin-live-alert-banner";
+        alertEl.style.cssText = `
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 9999;
+            padding: 0.9rem 1.4rem;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            max-width: 320px;
+        `;
+        document.body.appendChild(alertEl);
+    }
+
+    const colorMap = {
+        gold:  { bg: "rgba(197,160,89,0.95)",  text: "#111" },
+        green: { bg: "rgba(37,211,102,0.95)",  text: "#111" },
+        blue:  { bg: "rgba(33,150,243,0.95)",  text: "#fff" }
+    };
+    const c = colorMap[color] || colorMap.gold;
+    alertEl.style.background  = c.bg;
+    alertEl.style.color       = c.text;
+    alertEl.style.opacity     = "1";
+    alertEl.style.transform   = "translateX(0)";
+    alertEl.textContent       = msg;
+
+    clearTimeout(alertEl._hideTimer);
+    alertEl._hideTimer = setTimeout(() => {
+        alertEl.style.opacity   = "0";
+        alertEl.style.transform = "translateX(20px)";
+    }, 5000);
+}
+
+window.showAdminLiveAlert = showAdminLiveAlert;
+
 
 
 
@@ -3753,28 +3863,58 @@ function renderRegisteredClientsTable() {
     const tableBody = document.getElementById("admin-clients-table-body");
     if (!tableBody) return;
 
+    /* Seed defaults if empty */
     const defaultClients = [
-        { name: "Rhea Dhameja", email: "rhea.dhameja@gmail.com", phone: "+91 98201 44321", authProvider: "Google", joinedDate: "12 Aug 2026", totalOrders: 3, status: "VIP Client" },
-        { name: "Wilma Vaz", email: "wilma.vaz@outlook.com", phone: "+91 98334 11290", authProvider: "Google", joinedDate: "14 Aug 2026", totalOrders: 2, status: "Active Client" },
-        { name: "Dr. Nishtha Mishra", email: "dr.nishtha@mishrahospital.com", phone: "+91 99102 88712", authProvider: "Email / Password", joinedDate: "15 Aug 2026", totalOrders: 4, status: "VIP Client" },
-        { name: "Pooja Sawant", email: "pooja.sawant@gmail.com", phone: "+91 98112 00984", authProvider: "Google", joinedDate: "16 Aug 2026", totalOrders: 1, status: "Active Client" }
+        { name: "Rhea Dhameja",    email: "rhea.dhameja@gmail.com",       phone: "+91 98201 44321", authProvider: "Google",          joinedDate: "12 Aug 2026", totalOrders: 3, totalSpent: 26700, status: "VIP Client"    },
+        { name: "Wilma Vaz",       email: "wilma.vaz@outlook.com",         phone: "+91 98334 11290", authProvider: "Google",          joinedDate: "14 Aug 2026", totalOrders: 2, totalSpent: 17980, status: "Active Client" },
+        { name: "Dr. Nishtha Mishra", email: "dr.nishtha@mishrahospital.com", phone: "+91 99102 88712", authProvider: "Email / Password", joinedDate: "15 Aug 2026", totalOrders: 4, totalSpent: 46000, status: "VIP Client"    },
+        { name: "Pooja Sawant",    email: "pooja.sawant@gmail.com",        phone: "+91 98112 00984", authProvider: "Google",          joinedDate: "16 Aug 2026", totalOrders: 1, totalSpent: 7490,  status: "Active Client" }
     ];
 
-    let clients = JSON.parse(localStorage.getItem("shapes_registered_clients") || "[]");
-    if (clients.length === 0) {
+    let clients = [];
+    try { clients = JSON.parse(localStorage.getItem("shapes_registered_clients") || "[]"); } catch(e) {}
+    if (!clients || clients.length === 0) {
         clients = defaultClients;
         localStorage.setItem("shapes_registered_clients", JSON.stringify(clients));
     }
 
-    tableBody.innerHTML = clients.map(c => `
+    tableBody.innerHTML = clients.map(c => {
+        /* Support both old format (authProvider, joinedDate) and new checkout format (source, joinDate) */
+        const name        = c.name        || "—";
+        const email       = c.email       || "—";
+        const phone       = c.phone       || "—";
+        const provider    = c.authProvider || c.source     || "Online Checkout";
+        const joined      = c.joinedDate  || c.joinDate    || "Recent";
+        const orders      = c.totalOrders || c.orderCount  || 1;
+        const spent       = c.totalSpent  || 0;
+        const status      = c.status      || (orders >= 3 ? "VIP Client" : "Active Client");
+
+        const statusColor = status === "VIP Client" ? "gold" : "#25D366";
+        const waLink      = phone !== "—" ? `https://wa.me/${phone.replace(/\D/g,"")}?text=${encodeURIComponent("Hello " + name + ", this is Shapes By Satiinder Kaur! 🌟")}` : "#";
+
+        return `
         <tr>
-            <td><strong>${c.name}</strong></td>
-            <td>${c.email}</td>
-            <td>${c.phone || '+91 Contact Pending'}</td>
-            <td><span class="status-pill status-paid">${c.authProvider || 'Google'}</span></td>
-            <td>${c.joinedDate || 'Recent'}</td>
-            <td><strong>${c.totalOrders || 1} Orders</strong></td>
-            <td><span class="status-pill status-fulfilled">${c.status || 'Active'}</span></td>
-        </tr>
-    `).join("");
+            <td><strong>${name}</strong></td>
+            <td style="font-size:10px">${email}</td>
+            <td>${phone}</td>
+            <td>
+                <span class="status-pill status-paid">${provider}</span>
+            </td>
+            <td style="font-size:10px">${joined}</td>
+            <td>
+                <span style="background:rgba(197,160,89,0.15);color:var(--gold);padding:0.2rem 0.7rem;border-radius:20px;font-size:10px;font-weight:700;">${orders}</span>
+            </td>
+            <td style="font-weight:700;color:var(--gold);">
+                ${spent > 0 ? "₹" + spent.toLocaleString("en-IN") : "—"}
+            </td>
+            <td>
+                <span style="background:${statusColor === "gold" ? "rgba(197,160,89,0.15)" : "rgba(37,211,102,0.15)"};color:${statusColor};padding:0.2rem 0.7rem;border-radius:20px;font-size:9px;font-weight:700;">
+                    ${status}
+                </span>
+            </td>
+            <td>
+                ${phone !== "—" ? `<a href="${waLink}" target="_blank" style="display:inline-flex;align-items:center;gap:4px;background:#25D366;color:#fff;padding:0.3rem 0.7rem;border-radius:3px;text-decoration:none;font-size:9px;font-weight:600;"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>` : ""}
+            </td>
+        </tr>`;
+    }).join("");
 }

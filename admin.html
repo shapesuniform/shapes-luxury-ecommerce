@@ -827,22 +827,30 @@
         </div>
     </div>
 
+    <!-- PDF Invoice + EmailJS for admin invoice reprint -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+
     <!-- Firebase Admin Module -->
     <script type="module">
-        import { auth, db, onAuthStateChanged, collection, getDocs, query, orderBy, where, doc, updateDoc } from './firebase-config.js';
-        window._dbAdmin = db;
-        window._collAdmin = collection;
-        window._getDocsAdmin = getDocs;
-        window._queryAdmin = query;
-        window._orderByAdmin = orderBy;
-        window._whereAdmin = where;
-        window._docAdmin = doc;
-        window._updateDocAdmin = updateDoc;
-        window._firebaseReady = true;
+        import { auth, db, onAuthStateChanged, collection, getDocs, query, orderBy, where, doc, updateDoc, onSnapshot, addDoc } from './firebase-config.js';
+        window._dbAdmin         = db;
+        window._collAdmin       = collection;
+        window._getDocsAdmin    = getDocs;
+        window._queryAdmin      = query;
+        window._orderByAdmin    = orderBy;
+        window._whereAdmin      = where;
+        window._docAdmin        = doc;
+        window._updateDocAdmin  = updateDoc;
+        window._onSnapshotAdmin = onSnapshot;
+        window._addDocAdmin     = addDoc;
+        window._firebaseReady   = true;
+        // Notify admin.js that Firebase module is ready
+        window.dispatchEvent(new CustomEvent('admin-firebase-ready'));
     </script>
 
     <!-- CMS JavaScript Controller -->
-    <script src="admin.js?v=5.0"></script>
+    <script src="admin.js?v=5.1"></script>
 </body>
 </html>
 
