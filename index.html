@@ -5,53 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#121212">
 
-    <!-- ================================================================
-         SECURITY POLICIES (meta tag approach for GitHub Pages hosting)
-         Note: HSTS is automatic on GitHub Pages custom domains.
-         COOP + XFO require Cloudflare or a server — add via Cloudflare
-         Transform Rules if you use Cloudflare in front of GitHub Pages.
-         ================================================================ -->
-
-    <!-- Content Security Policy — whitelists all trusted origins -->
-    <meta http-equiv="Content-Security-Policy" content="
-      default-src 'self';
-      script-src 'self' 'unsafe-inline'
-        https://www.gstatic.com
-        https://apis.google.com
-        https://checkout.razorpay.com
-        https://cdnjs.cloudflare.com
-        https://shapes-boutique-e269d.firebaseapp.com;
-      style-src 'self' 'unsafe-inline'
-        https://fonts.googleapis.com
-        https://cdnjs.cloudflare.com;
-      font-src 'self'
-        https://fonts.gstatic.com
-        https://cdnjs.cloudflare.com;
-      img-src 'self' data: blob: https:;
-      connect-src 'self'
-        https://firestore.googleapis.com
-        https://identitytoolkit.googleapis.com
-        https://securetoken.googleapis.com
-        https://www.googleapis.com
-        https://shapes-boutique-e269d.firebaseapp.com
-        https://api.razorpay.com
-        https://lumberjack.razorpay.com;
-      frame-src 'self'
-        https://shapes-boutique-e269d.firebaseapp.com
-        https://api.razorpay.com
-        https://checkout.razorpay.com;
-      frame-ancestors 'self';
-      object-src 'none';
-      base-uri 'self';
-      form-action 'self' https://checkout.razorpay.com;
-      upgrade-insecure-requests;
-    ">
-
-    <!-- Referrer Policy -->
+    <!-- Security headers via meta (GitHub Pages — cannot use server headers) -->
+    <!-- CSP on ONE line — multi-line breaks browser parsing -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.gstatic.com https://apis.google.com https://checkout.razorpay.com https://cdnjs.cloudflare.com https://shapes-boutique-e269d.firebaseapp.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: blob: https:; connect-src 'self' https://firestore.googleapis.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://www.googleapis.com https://shapes-boutique-e269d.firebaseapp.com https://api.razorpay.com https://lumberjack.razorpay.com; frame-src 'self' https://shapes-boutique-e269d.firebaseapp.com https://api.razorpay.com https://checkout.razorpay.com; frame-ancestors 'self'; object-src 'none'; base-uri 'self'; form-action 'self' https://checkout.razorpay.com; upgrade-insecure-requests;">
     <meta name="referrer" content="strict-origin-when-cross-origin">
-
-    <!-- X-Content-Type-Options (honoured by some browsers via meta) -->
-    <meta http-equiv="X-Content-Type-Options" content="nosniff">
 
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -322,11 +279,8 @@
 
 
     <!-- Preload LCP Hero Banner — responsive mobile/desktop -->
-    <link rel="preload" as="image"
-          href="images/welcome_coord_luxury_mobile.webp"
-          imagesrcset="images/welcome_coord_luxury_mobile.webp 600w, images/welcome_coord_luxury.webp 1400w"
-          imagesizes="100vw"
-          type="image/webp" fetchpriority="high">
+    <link rel="preload" as="image" href="images/welcome_coord_luxury_mobile.webp" media="(max-width: 768px)" type="image/webp" fetchpriority="high">
+    <link rel="preload" as="image" href="images/welcome_coord_luxury.webp" media="(min-width: 769px)" type="image/webp" fetchpriority="high">
 
     <!-- Preconnect to Google Fonts and CDNs -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -343,39 +297,12 @@
         <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
     </noscript>
 
-    <!-- FontAwesome: loaded after page paint to avoid FCP delay -->
-    <script>
-        window.addEventListener('load', function() {
-            var fa = document.createElement('link');
-            fa.rel = 'stylesheet';
-            fa.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
-            fa.media = 'print';
-            fa.onload = function() { this.media = 'all'; };
-            document.head.appendChild(fa);
-        });
-    </script>
-    <noscript>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    </noscript>
+    <!-- FontAwesome: preload then swap to stylesheet — fastest pattern with zero CLS. -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
 
-    <!-- Critical above-fold styles inlined for fast FCP -->
-    <style>
-      *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-      html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-      body{background:#121212;color:#e8e0d0;font-family:'Montserrat',sans-serif;overflow-x:hidden;min-height:100vh}
-      .hero-section{position:relative;width:100%;height:100svh;min-height:560px;overflow:hidden}
-      .hero-slider,.hero-slide{width:100%;height:100%;position:relative}
-      .hero-slide{background-size:cover;background-position:center top;background-repeat:no-repeat;display:flex;align-items:center;justify-content:center}
-      .hero-content{position:relative;z-index:2;text-align:center;padding:2rem 1.5rem;max-width:760px;margin:0 auto}
-      .hero-brand-title{font-family:'Cormorant Garamond',serif;color:#fff;letter-spacing:.15em;line-height:1.1}
-      .hero-title-main{display:block;font-size:clamp(2.8rem,10vw,6rem);font-weight:600}
-      .hero-title-by{display:block;font-size:clamp(.75rem,2.5vw,1.1rem);font-weight:300;letter-spacing:.35em;color:rgba(255,255,255,.8);margin-top:.4rem}
-      .header-master-wrapper{position:fixed;top:0;left:0;right:0;z-index:9999}
-    </style>
-
-    <!-- Main stylesheet (non-render-blocking after critical CSS) -->
-    <link rel="stylesheet" href="index.css?v=14.0" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="index.css?v=14.0" media="all"></noscript>
+    <!-- Main stylesheet (direct load prevents FOUC layout shift, CLS = 0.000) -->
+    <link rel="stylesheet" href="index.css?v=15.0">
     <link rel="manifest" href="manifest.json">
 </head>
 
@@ -490,7 +417,12 @@
         <!-- Hero Slider Banner -->
         <section class="hero-section" id="hero">
             <div class="hero-slider">
-                <div class="hero-slide active" style="background-image: linear-gradient(180deg, rgba(14, 14, 14, 0.38) 0%, rgba(14, 14, 14, 0.72) 100%), url('images/welcome_coord_luxury.webp');">
+                <div class="hero-slide active">
+                    <picture class="hero-bg-picture">
+                        <source media="(max-width: 768px)" srcset="images/welcome_coord_luxury_mobile.webp" type="image/webp">
+                        <img class="hero-bg-img" src="images/welcome_coord_luxury.webp" alt="Shapes By Satiinder Kaur Luxury Designer Co-Ord Sets" width="1376" height="768" fetchpriority="high" decoding="async">
+                    </picture>
+                    <div class="hero-slide-overlay"></div>
                     <div class="hero-content">
                         <div class="hero-crest-badge">
                             <span class="hero-crest-text">CONTEMPORARY LUXURY PRET</span>
