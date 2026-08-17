@@ -198,7 +198,6 @@ function renderProductsGrid() {
 
     c.innerHTML = filtered.map(p => {
         const isWish = wishlist.includes(p.id);
-        const monthlyEMI = Math.round(p.price / 3);
         return `
         <div class="product-card" data-id="${p.id}">
             <div class="product-card-img-wrapper">
@@ -218,12 +217,8 @@ function renderProductsGrid() {
                     <span class="product-card-price">${formatPrice(p.price)}</span>
                     <span class="gst-tag">INCL. GST</span>
                 </div>
-                <div class="card-emi-offer">
-                    <i class="fa-solid fa-bolt" style="color:var(--gold);font-size:10px;"></i>
-                    <span>Or 3 interest-free EMIs of <strong>${formatPrice(monthlyEMI)}</strong></span>
-                </div>
                 <button class="card-action-tap-btn" data-id="${p.id}" data-action="open-detail">
-                    <i class="fa-solid fa-eye"></i> View Details &amp; EMI
+                    <i class="fa-solid fa-eye"></i> View Details
                 </button>
             </div>
         </div>`;
@@ -321,7 +316,6 @@ function openProductDetail(productId) {
     set("modal-product-category", p.category || "");
     set("modal-product-title",    p.title    || "");
     set("modal-product-price",    formatPrice(p.price));
-    set("modal-emi-monthly-val",   formatPrice(Math.round(p.price / 3)));
     set("modal-product-desc",     p.description || "");
     set("modal-product-fabric",   p.fabric   || "100% Pure Modal Silk");
     set("modal-product-fit",      p.fit      || "Relaxed, tailored 2-piece co-ord silhouette");
@@ -329,6 +323,9 @@ function openProductDetail(productId) {
 
     const img = document.getElementById("modal-product-image");
     if (img) { img.src = p.image; img.alt = p.title; }
+
+    /* Render Official Razorpay Affordability / EMI Suite */
+    renderRazorpayAffordabilityWidget(p.price);
 
     /* Reset sizes */
     document.querySelectorAll(".size-option").forEach(o => {
@@ -347,6 +344,28 @@ function openProductDetail(productId) {
     /* Open modal */
     const modal = document.getElementById("product-detail-modal");
     if (modal) { modal.classList.add("active"); lockScroll(); }
+}
+
+function renderRazorpayAffordabilityWidget(priceInINR) {
+    const targetEl = document.getElementById("razorpay-affordability-widget");
+    if (!targetEl) return;
+    targetEl.innerHTML = "";
+
+    const cfg = getLocal("shapes_config", {});
+    const rzpKey = cfg.razorpayKey || "rzp_live_TQ0RwUwXQjD3tq";
+
+    if (window.RazorpayAffordabilitySuite && rzpKey) {
+        try {
+            const suite = new window.RazorpayAffordabilitySuite({
+                key: rzpKey,
+                amount: Math.round(priceInINR * 100),
+                target: "#razorpay-affordability-widget"
+            });
+            suite.render();
+        } catch(e) {
+            console.warn("Razorpay Affordability:", e);
+        }
+    }
 }
 
 function closeProductDetailModal() {
@@ -457,7 +476,7 @@ function closeShippingModal() {
     unlockScroll();
 }
 
-function processFinalRazorpayPayment(selectedMethod = "direct_boutique") {
+function processFinalRazorpayPayment() {
     if (!customerShippingInfo) return;
     const info       = customerShippingInfo;
     const totalINR   = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -471,54 +490,58 @@ function processFinalRazorpayPayment(selectedMethod = "direct_boutique") {
         completeOrderSuccess(orderId, paymentRef, info, totalINR, fullAddr, itemList);
     };
 
-    if (selectedMethod === "cod") {
-        onPaymentComplete("COD_PENDING");
-        return;
-    }
-
-    if (selectedMethod === "direct_boutique") {
-        onPaymentComplete("BOUTIQUE_CONFIRMED");
-        return;
-    }
-
-    /* Razorpay Payment */
     const cfg = getLocal("shapes_config", {});
     const rzpKey = cfg.razorpayKey || "rzp_live_TQ0RwUwXQjD3tq";
 
-    if (typeof Razorpay !== "undefined" && rzpKey) {
-        try {
-            const rzp = new Razorpay({
-                key: rzpKey,
-                amount: totalINR * 100,
-                currency: "INR",
-                name: "Shapes By Satiinder Kaur",
-                description: `Order ${orderId}`,
-                handler: function(resp) {
-                    onPaymentComplete(resp.razorpay_payment_id || "RAZORPAY_PAID");
-                },
-                prefill: { name: info.fullName, email: info.email, contact: info.phone },
-                notes: { shipping_address: fullAddr, order_id: orderId },
-                theme: { color: "#C5A059" },
-                modal: {
-                    ondismiss: function() {
-                        onPaymentComplete("BOUTIQUE_PAYMENT");
-                    }
-                }
-            });
-
-            rzp.on("payment.failed", function(resp) {
-                console.warn("Razorpay notice:", resp.error);
-                onPaymentComplete("BOUTIQUE_CONFIRMED");
-            });
-
-            rzp.open();
-            return;
-        } catch(e) {
-            console.warn("Razorpay checkout fallback:", e);
-        }
+    if (typeof Razorpay === "undefined") {
+        alert("Razorpay payment gateway is loading. Please verify your connection and try again.");
+        return;
     }
-    /* Fallback */
-    onPaymentComplete("BOUTIQUE_PAYMENT");
+
+    try {
+        const rzp = new Razorpay({
+            key: rzpKey,
+            amount: Math.round(totalINR * 100),
+            currency: "INR",
+            name: "Shapes By Satiinder Kaur",
+            description: `Order ${orderId}`,
+            handler: function(resp) {
+                if (resp && resp.razorpay_payment_id) {
+                    onPaymentComplete(resp.razorpay_payment_id);
+                } else {
+                    onPaymentComplete("RAZORPAY_PAID");
+                }
+            },
+            prefill: {
+                name: info.fullName,
+                email: info.email,
+                contact: info.phone
+            },
+            notes: {
+                shipping_address: fullAddr,
+                order_id: orderId,
+                items: itemList.substring(0, 200)
+            },
+            theme: {
+                color: "#C5A059"
+            },
+            modal: {
+                ondismiss: function() {
+                    console.log("Razorpay payment window closed.");
+                }
+            }
+        });
+
+        rzp.on("payment.failed", function(resp) {
+            console.error("Razorpay Payment Failed:", resp.error);
+            alert("Payment could not be completed: " + (resp.error ? resp.error.description : "Transaction declined"));
+        });
+
+        rzp.open();
+    } catch(e) {
+        console.error("Razorpay Init Error:", e);
+        alert("Unable to open Razorpay checkout: " + e.message);
+    }
 }
 
 /* ── ADMIN SYNC ───────────────────────────────────────────── */
@@ -1160,9 +1183,8 @@ function initForms() {
                 return;
             }
 
-            const selectedMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value || "direct_boutique";
-            customerShippingInfo = { fullName: name, phone, email, address, city, state, pincode, paymentMethod: selectedMethod };
-            processFinalRazorpayPayment(selectedMethod);
+            customerShippingInfo = { fullName: name, phone, email, address, city, state, pincode };
+            processFinalRazorpayPayment();
         });
     }
 

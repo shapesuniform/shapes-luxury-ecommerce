@@ -34,16 +34,17 @@
     <link rel="stylesheet" href="index.css?v=30.0">
     <link rel="manifest" href="manifest.json">
 
-    <!-- PDF Invoice — jsPDF + AutoTable -->
+    <!-- PDF Invoice Generation -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
 
-    <!-- EmailJS — client-side email sending -->
+    <!-- Email Notifications -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
-    <!-- Razorpay — loaded async, no defer so it's available immediately -->
-    <script src="https://checkout.razorpay.com/v1/checkout.js" async></script>
-    <script src="index.js?v=31.0" defer></script>
+    <!-- Razorpay Checkout & Affordability Suite -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="https://cdn.razorpay.com/widgets/affordability/affordability.js"></script>
+    <script src="index.js?v=32.0" defer></script>
 </head>
 <body>
 
@@ -200,8 +201,7 @@
                 <div class="product-card-info">
                     <h3 class="product-card-title">The Noir Botanical Silk Set</h3>
                     <div class="product-card-price-row"><span class="product-card-price">₹8,900</span><span class="gst-tag">INCL. GST</span></div>
-                    <div class="card-emi-offer"><i class="fa-solid fa-bolt" style="color:var(--gold);font-size:10px;"></i><span>Or 3 interest-free EMIs of <strong>₹2,967</strong></span></div>
-                    <button class="card-action-tap-btn" data-id="p1" data-action="open-detail"><i class="fa-solid fa-eye"></i> View Details &amp; EMI</button>
+                    <button class="card-action-tap-btn" data-id="p1" data-action="open-detail"><i class="fa-solid fa-eye"></i> View Details</button>
                 </div>
             </div>
 
@@ -215,8 +215,7 @@
                 <div class="product-card-info">
                     <h3 class="product-card-title">Ivory &amp; Sand Linen Set</h3>
                     <div class="product-card-price-row"><span class="product-card-price">₹7,490</span><span class="gst-tag">INCL. GST</span></div>
-                    <div class="card-emi-offer"><i class="fa-solid fa-bolt" style="color:var(--gold);font-size:10px;"></i><span>Or 3 interest-free EMIs of <strong>₹2,497</strong></span></div>
-                    <button class="card-action-tap-btn" data-id="p2" data-action="open-detail"><i class="fa-solid fa-eye"></i> View Details &amp; EMI</button>
+                    <button class="card-action-tap-btn" data-id="p2" data-action="open-detail"><i class="fa-solid fa-eye"></i> View Details</button>
                 </div>
             </div>
 
@@ -230,8 +229,7 @@
                 <div class="product-card-info">
                     <h3 class="product-card-title">The Emerald Festive Silk Set</h3>
                     <div class="product-card-price-row"><span class="product-card-price">₹11,500</span><span class="gst-tag">INCL. GST</span></div>
-                    <div class="card-emi-offer"><i class="fa-solid fa-bolt" style="color:var(--gold);font-size:10px;"></i><span>Or 3 interest-free EMIs of <strong>₹3,833</strong></span></div>
-                    <button class="card-action-tap-btn" data-id="p3" data-action="open-detail"><i class="fa-solid fa-eye"></i> View Details &amp; EMI</button>
+                    <button class="card-action-tap-btn" data-id="p3" data-action="open-detail"><i class="fa-solid fa-eye"></i> View Details</button>
                 </div>
             </div>
 
@@ -245,8 +243,7 @@
                 <div class="product-card-info">
                     <h3 class="product-card-title">Indigo Heritage Handblock Set</h3>
                     <div class="product-card-price-row"><span class="product-card-price">₹7,990</span><span class="gst-tag">INCL. GST</span></div>
-                    <div class="card-emi-offer"><i class="fa-solid fa-bolt" style="color:var(--gold);font-size:10px;"></i><span>Or 3 interest-free EMIs of <strong>₹2,663</strong></span></div>
-                    <button class="card-action-tap-btn" data-id="p4" data-action="open-detail"><i class="fa-solid fa-eye"></i> View Details &amp; EMI</button>
+                    <button class="card-action-tap-btn" data-id="p4" data-action="open-detail"><i class="fa-solid fa-eye"></i> View Details</button>
                 </div>
             </div>
         </div>
@@ -525,25 +522,8 @@
                     <span class="modal-gst-tag">Incl. all taxes · Free Delivery</span>
                 </div>
 
-                <!-- Razorpay EMI & Affordability Widget -->
-                <div class="razorpay-emi-widget" id="modal-emi-widget">
-                    <div class="emi-widget-header">
-                        <span class="emi-widget-title">
-                            <i class="fa-solid fa-credit-card" style="color:var(--gold);"></i> Razorpay Affordability
-                        </span>
-                        <span class="emi-badge-highlight">NO COST EMI</span>
-                    </div>
-                    <div class="emi-plans-summary">
-                        Or pay in <strong>3 interest-free EMIs of <span id="modal-emi-monthly-val" style="color:var(--gold);">₹0</span>/mo</strong>
-                    </div>
-                    <div class="emi-bank-logos">
-                        <span class="emi-pill"><i class="fa-solid fa-building-columns"></i> HDFC</span>
-                        <span class="emi-pill"><i class="fa-solid fa-building-columns"></i> ICICI</span>
-                        <span class="emi-pill"><i class="fa-solid fa-building-columns"></i> SBI</span>
-                        <span class="emi-pill"><i class="fa-solid fa-building-columns"></i> Axis</span>
-                        <span class="emi-pill"><i class="fa-solid fa-bolt"></i> Cardless / Snapmint</span>
-                    </div>
-                </div>
+                <!-- Official Razorpay Affordability / EMI Widget (Rendered dynamically by Razorpay) -->
+                <div id="razorpay-affordability-widget" style="margin: 0.8rem 0;"></div>
 
                 <!-- Size Selection -->
                 <div class="size-row-header">
@@ -743,27 +723,11 @@
                     <label for="ship-pincode">Pincode *</label>
                     <input type="text" id="ship-pincode" name="pincode" placeholder="400071" required pattern="[0-9]{6}" maxlength="6">
                 </div>
-            <div class="form-group" style="margin-top:0.8rem;">
-                <label style="font-weight:600;color:var(--gold);margin-bottom:0.5rem;display:block;">Select Payment Method *</label>
-                <div style="display:flex;flex-direction:column;gap:0.6rem;background:rgba(255,255,255,0.03);padding:0.9rem;border-radius:6px;border:1px solid rgba(197,160,89,0.25);">
-                    <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:0.85rem;color:#eee;">
-                        <input type="radio" name="paymentMethod" value="direct_boutique" checked style="accent-color:var(--gold);">
-                        <span><strong>🛍️ Boutique Direct / UPI / Concierge Order</strong> (Instant Tax Invoice)</span>
-                    </label>
-                    <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:0.85rem;color:#eee;">
-                        <input type="radio" name="paymentMethod" value="cod" style="accent-color:var(--gold);">
-                        <span><strong>💵 Cash on Delivery / Pay on Trial</strong> (Complimentary Insured Shipping)</span>
-                    </label>
-                    <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:0.85rem;color:#eee;">
-                        <input type="radio" name="paymentMethod" value="razorpay" style="accent-color:var(--gold);">
-                        <span><strong>💳 Online Payment via Razorpay</strong> (Cards, UPI, NetBanking)</span>
-                    </label>
-                </div>
             </div>
             <button type="submit" class="submit-pay-btn" id="confirm-shipping-pay-btn">
-                <i class="fa-solid fa-lock"></i> Confirm Order &amp; Generate Invoice
+                <i class="fa-solid fa-lock"></i> Proceed to Pay via Razorpay
             </button>
-            <p class="secure-note"><i class="fa-solid fa-shield-halved"></i> 256-bit SSL encrypted. Official boutique order confirmation.</p>
+            <p class="secure-note"><i class="fa-solid fa-shield-halved"></i> 256-bit SSL encrypted. Powered by Razorpay (UPI, Cards, NetBanking, EMI).</p>
         </form>
     </div>
 </div>

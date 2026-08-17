@@ -228,18 +228,41 @@ function handleAdminUnlock() {
     const errorMsg = document.getElementById("cms-login-error");
     const loginBlock = document.getElementById("cms-login-block");
     const mainContent = document.getElementById("cms-main-content");
-    const pass = passInput ? passInput.value.trim().toLowerCase() : "luxury2026";
-    const validCodes = ["luxury2026", "shapes2026", "admin", "admin123", "shapes", "satinder", "1234"];
-    if (validCodes.includes(pass) || pass === "luxury2026" || !pass) {
+    const rawPass = passInput ? passInput.value : "";
+    const pass = rawPass.trim().toLowerCase();
+
+    // Accepted Administrator Passcodes
+    const validCodes = [
+        "luxury2026",
+        "shapes2026",
+        "admin",
+        "admin123",
+        "shapes",
+        "shapesuniform",
+        "shapesuniform@gmail.com",
+        "satinder",
+        "satinderkaur",
+        "1234"
+    ];
+
+    if (pass && (validCodes.includes(pass) || pass === "luxury2026")) {
         sessionStorage.setItem("shapes_cms_unlocked", "true");
         localStorage.setItem("shapes_cms_unlocked", "true");
         if (loginBlock) loginBlock.style.display = "none";
         if (mainContent) mainContent.style.display = "grid";
+        if (errorMsg) errorMsg.style.display = "none";
+        if (passInput) passInput.style.borderColor = "var(--gold)";
         loadCMSPanels();
+        switchCMSTab("cms-products-tab");
     } else {
         if (errorMsg) {
             errorMsg.style.display = "block";
-            errorMsg.textContent = "Access code invalid. Default code: luxury2026";
+            errorMsg.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> <strong>Incorrect access code.</strong> Please try again.`;
+        }
+        if (passInput) {
+            passInput.style.borderColor = "#d32f2f";
+            passInput.focus();
+            passInput.select();
         }
     }
 }
@@ -258,15 +281,19 @@ function checkCMSLock() {
         if (loginBlock) loginBlock.style.display = "none";
         if (mainContent) mainContent.style.display = "grid";
         loadCMSPanels();
+        switchCMSTab("cms-products-tab");
     } else {
         if (loginBlock) loginBlock.style.display = "flex";
         if (mainContent) mainContent.style.display = "none";
-        if (passInput) passInput.value = "";
+        if (passInput) {
+            passInput.value = "";
+            passInput.style.borderColor = "var(--gold)";
+        }
         if (errorMsg) errorMsg.style.display = "none";
 
         if (loginBtn) loginBtn.onclick = handleAdminUnlock;
         if (passInput) {
-            passInput.onkeypress = (e) => {
+            passInput.onkeydown = (e) => {
                 if (e.key === "Enter") handleAdminUnlock();
             };
         }
@@ -280,6 +307,50 @@ function lockCMSSession() {
     checkCMSLock();
 }
 
+// Global Tab Switching Function
+function switchCMSTab(tabId) {
+    if (!tabId) return;
+
+    // Update sidebar buttons
+    document.querySelectorAll(".cms-sidebar-btn").forEach(btn => {
+        if (btn.getAttribute("data-tab") === tabId) {
+            btn.classList.add("active");
+        } else {
+            btn.classList.remove("active");
+        }
+    });
+
+    // Update tab panels
+    document.querySelectorAll(".cms-tab-panel").forEach(panel => {
+        if (panel.id === tabId) {
+            panel.classList.add("active");
+            panel.style.display = "block";
+        } else {
+            panel.classList.remove("active");
+            panel.style.display = "none";
+        }
+    });
+
+    // Lazy load tab data safely with try...catch
+    try {
+        if (tabId === "cms-products-tab") renderCMSProducts();
+        if (tabId === "cms-categories-tab") populateCMSCategories();
+        if (tabId === "cms-settings-tab") populateCMSSettings();
+        if (tabId === "cms-orders-tab") loadAdminOrders();
+        if (tabId === "cms-customers-tab") loadAdminCustomers();
+        if (tabId === "cms-reviews-tab") loadAdminReviews();
+        if (tabId === "cms-analytics-tab") loadAdminAnalytics();
+        if (tabId === "cms-workshop-tab") loadAdminWorkshop();
+        if (tabId === "cms-broadcast-tab") loadAdminBroadcast();
+        if (tabId === "cms-journal-tab") loadAdminJournal();
+        if (tabId === "cms-feeds-tab") loadAdminFeeds();
+        if (tabId === "cms-push-tab") loadAdminPush();
+    } catch(e) {
+        console.warn("Tab data load error for " + tabId, e);
+    }
+}
+window.switchCMSTab = switchCMSTab;
+
 // Load configurations into panels with fail-safe error handling
 function loadCMSPanels() {
     try { renderCMSProducts(); } catch(e) { console.warn("Products render error:", e); }
@@ -290,216 +361,102 @@ function loadCMSPanels() {
     try { if (typeof renderRegisteredClientsTable === "function") renderRegisteredClientsTable(); } catch(e) {}
 }
 
-
-
 // Setup core listener triggers
-
 function setupCMSListeners() {
-
-    // Lock button click
-
-    document.getElementById("lock-cms-btn").addEventListener("click", lockCMSSession);
-
-
+    const lockBtn = document.getElementById("lock-cms-btn");
+    if (lockBtn) lockBtn.onclick = lockCMSSession;
 
     // Sidebar tab clicks
-
     document.querySelectorAll(".cms-sidebar-btn").forEach(btn => {
-
-        btn.addEventListener("click", () => {
-
-            document.querySelectorAll(".cms-sidebar-btn").forEach(b => b.classList.remove("active"));
-
-            document.querySelectorAll(".cms-tab-panel").forEach(p => p.classList.remove("active"));
-
-
-
-            btn.classList.add("active");
-
-            const target = btn.dataset.tab;
-
-            document.getElementById(target).classList.add("active");
-
-
-
-            // Lazy-load data on tab open
-
-            if (target === "cms-orders-tab" && window._firebaseReady) loadAdminOrders();
-
-            if (target === "cms-customers-tab" && window._firebaseReady) loadAdminCustomers();
-
-            if (target === "cms-reviews-tab") loadAdminReviews();
-
-            if (target === "cms-analytics-tab") loadAdminAnalytics();
-
-            if (target === "cms-workshop-tab") loadAdminWorkshop();
-
-            if (target === "cms-broadcast-tab") loadAdminBroadcast();
-
-            if (target === "cms-journal-tab") loadAdminJournal();
-
-            if (target === "cms-feeds-tab") loadAdminFeeds();
-
-            if (target === "cms-push-tab") loadAdminPush();
-
-        });
-
+        btn.onclick = () => {
+            const target = btn.getAttribute("data-tab");
+            if (target) switchCMSTab(target);
+        };
     });
-
-
 
     // Preset Image Selector
-
     const imgPreset = document.getElementById("p-image-preset");
-
     const imgInput = document.getElementById("p-image");
-
-    imgPreset.addEventListener("change", () => {
-
-        if (imgPreset.value) {
-
-            imgInput.value = imgPreset.value;
-
-        }
-
-    });
-
-
+    if (imgPreset && imgInput) {
+        imgPreset.onchange = () => {
+            if (imgPreset.value) imgInput.value = imgPreset.value;
+        };
+    }
 
     // Form Submissions
+    const prodForm = document.getElementById("product-cms-form");
+    if (prodForm) {
+        prodForm.onsubmit = (e) => {
+            e.preventDefault();
+            saveCMSProduct();
+        };
+    }
 
-    document.getElementById("product-cms-form").addEventListener("submit", (e) => {
-
-        e.preventDefault();
-
-        saveCMSProduct();
-
-    });
-
-
-
-    document.getElementById("cms-form-cancel-btn").addEventListener("click", resetCMSProductForm);
-
-
+    const cancelBtn = document.getElementById("cms-form-cancel-btn");
+    if (cancelBtn) cancelBtn.onclick = resetCMSProductForm;
 
     // Add category click
+    const addCatBtn = document.getElementById("add-cat-btn");
+    if (addCatBtn) {
+        addCatBtn.onclick = () => {
+            const input = document.getElementById("new-cat-name");
+            if (!input) return;
+            const val = input.value.trim();
+            if (!val) return;
 
-    document.getElementById("add-cat-btn").addEventListener("click", () => {
+            if (categories.some(c => c.toLowerCase() === val.toLowerCase())) {
+                alert("Category already exists.");
+                return;
+            }
 
-        const input = document.getElementById("new-cat-name");
-
-        const val = input.value.trim();
-
-        if (!val) return;
-
-
-
-        if (categories.some(c => c.toLowerCase() === val.toLowerCase())) {
-
-            alert("Category already exists.");
-
-            return;
-
-        }
-
-
-
-        categories.push(val);
-
-        localStorage.setItem("shapes_categories", JSON.stringify(categories));
-
-        input.value = "";
-
-        
-
-        populateCMSCategories();
-
-    });
-
-
+            categories.push(val);
+            localStorage.setItem("shapes_categories", JSON.stringify(categories));
+            input.value = "";
+            populateCMSCategories();
+        };
+    }
 
     // Save Editorial update form
-
-    document.getElementById("store-settings-form").addEventListener("submit", (e) => {
-
-        e.preventDefault();
-
-        
-
-        config.brandName = document.getElementById("setting-brand-name").value.trim();
-
-        config.heroTitle = document.getElementById("setting-hero-title").value.trim();
-
-        config.storyTitle = document.getElementById("setting-story-title").value.trim();
-
-        config.storyDesc = document.getElementById("setting-story-desc").value.trim();
-
-        config.razorpayKey = document.getElementById("setting-razorpay-key").value.trim();
-
-
-
-        localStorage.setItem("shapes_config", JSON.stringify(config));
-
-        alert("Editorial elements saved. Refresh the showroom page to see live updates!");
-
-    });
-
-
+    // Save Editorial update form
+    const settingsForm = document.getElementById("store-settings-form");
+    if (settingsForm) {
+        settingsForm.onsubmit = (e) => {
+            e.preventDefault();
+            saveCMSSettings();
+        };
+    }
 
     // Export local storage database backup
-
-    document.getElementById("export-db-btn").addEventListener("click", () => {
-
-        const container = document.getElementById("export-area-container");
-
-        const textarea = document.getElementById("export-data-textarea");
-
-        
-
-        const backupData = {
-
-            products: JSON.parse(localStorage.getItem("shapes_products") || "[]"),
-
-            categories: JSON.parse(localStorage.getItem("shapes_categories") || "[]"),
-
-            config: JSON.parse(localStorage.getItem("shapes_config") || "{}")
-
+    const exportBtn = document.getElementById("export-db-btn");
+    if (exportBtn) {
+        exportBtn.onclick = () => {
+            const container = document.getElementById("export-area-container");
+            const textarea = document.getElementById("export-data-textarea");
+            const backupData = {
+                products: JSON.parse(localStorage.getItem("shapes_products") || "[]"),
+                categories: JSON.parse(localStorage.getItem("shapes_categories") || "[]"),
+                config: JSON.parse(localStorage.getItem("shapes_config") || "{}")
+            };
+            if (textarea) textarea.value = JSON.stringify(backupData, null, 2);
+            if (container) container.style.display = "block";
+            if (textarea) textarea.select();
         };
-
-        
-
-        textarea.value = JSON.stringify(backupData, null, 2);
-
-        container.style.display = "block";
-
-        textarea.select();
-
-    });
-
-
+    }
 
     // Reset local database defaults
-
-    document.getElementById("reset-db-btn").addEventListener("click", () => {
-
-        if (confirm("Are you sure you want to reset the database to default settings? This will delete all customized products and restore default models.")) {
-
-            localStorage.removeItem("shapes_currency_version");
-
-            localStorage.removeItem("shapes_products");
-
-            localStorage.removeItem("shapes_categories");
-
-            localStorage.removeItem("shapes_config");
-
-            alert("Database reset. Reloading page...");
-
-            window.location.reload();
-
-        }
-
-    });
-
+    const resetBtn = document.getElementById("reset-db-btn");
+    if (resetBtn) {
+        resetBtn.onclick = () => {
+            if (confirm("Are you sure you want to reset the database to default settings? This will delete all customized products and restore default models.")) {
+                localStorage.removeItem("shapes_currency_version");
+                localStorage.removeItem("shapes_products");
+                localStorage.removeItem("shapes_categories");
+                localStorage.removeItem("shapes_config");
+                alert("Database reset. Reloading page...");
+                window.location.reload();
+            }
+        };
+    }
 }
 
 
@@ -516,103 +473,68 @@ function cleanImagePath(path) {
 
 
 // Render Products catalog table
-
 function renderCMSProducts() {
-
     const tbody = document.getElementById("cms-products-tbody");
-
+    if (!tbody) return;
     tbody.innerHTML = "";
 
-
+    if (!Array.isArray(products) || products.length === 0) {
+        products = [...DEFAULT_PRODUCTS];
+    }
 
     products.forEach(p => {
-
+        if (!p) return;
         const tr = `
-
             <tr>
-
-                <td><img src="${cleanImagePath(p.image)}" class="table-thumb" alt=""></td>
-
-                <td><strong>${p.title}</strong></td>
-
-                <td>${p.category}</td>
-
-                <td>${formatCurrency(p.price)}</td>
-
-                <td>${p.inventory} units</td>
-
+                <td><img src="${cleanImagePath(p.image)}" class="table-thumb" alt="${p.title || ''}"></td>
+                <td><strong>${p.title || 'Untitled'}</strong></td>
+                <td>${p.category || 'Pret'}</td>
+                <td>${formatCurrency(p.price || 0)}</td>
+                <td>${p.inventory || 10} units</td>
                 <td>
-
                     <button class="action-icon-btn edit-btn" onclick="editCMSProduct('${p.id}')" title="Edit details"><i class="fa-solid fa-pen-to-square"></i></button>
-
                     <button class="action-icon-btn delete-btn" onclick="deleteCMSProduct('${p.id}')" title="Delete product"><i class="fa-solid fa-trash"></i></button>
-
                 </td>
-
             </tr>
-
         `;
-
         tbody.innerHTML += tr;
-
     });
-
 }
-
-
 
 // Populate product form dropdown categories and configuration columns
-
 function populateCMSCategories() {
-
     const select = document.getElementById("p-category");
-
-    select.innerHTML = "";
-
-    
-
     const listUl = document.getElementById("cms-category-list-ul");
 
-    listUl.innerHTML = "";
+    if (select) select.innerHTML = "";
+    if (listUl) listUl.innerHTML = "";
 
-
-
-    categories.forEach(cat => {
-
-        select.innerHTML += `<option value="${cat}">${cat}</option>`;
-
-        listUl.innerHTML += `
-
-            <li>
-
-                <span>${cat}</span>
-
-                <span class="delete-cat-link" onclick="deleteCMSCategory('${cat}')">Delete</span>
-
-            </li>
-
-        `;
-
+    (categories || DEFAULT_CATEGORIES).forEach(cat => {
+        if (select) select.innerHTML += `<option value="${cat}">${cat}</option>`;
+        if (listUl) {
+            listUl.innerHTML += `
+                <li>
+                    <span>${cat}</span>
+                    <span class="delete-cat-link" onclick="deleteCMSCategory('${cat}')">Delete</span>
+                </li>
+            `;
+        }
     });
-
 }
 
-
-
 // Populate settings page inputs
-
 function populateCMSSettings() {
+    const brand = document.getElementById("setting-brand-name");
+    const hero = document.getElementById("setting-hero-title");
+    const story = document.getElementById("setting-story-title");
+    const storyDesc = document.getElementById("setting-story-desc");
+    const rzp = document.getElementById("setting-razorpay-key");
 
-    document.getElementById("setting-brand-name").value = config.brandName;
-
-    document.getElementById("setting-hero-title").value = config.heroTitle;
-
-    document.getElementById("setting-story-title").value = config.storyTitle;
-
-    document.getElementById("setting-story-desc").value = config.storyDesc;
-
-    document.getElementById("setting-razorpay-key").value = config.razorpayKey || "";
-
+    if (brand) brand.value = config.brandName || "";
+    if (hero) hero.value = config.heroTitle || "";
+    if (story) story.value = config.storyTitle || "";
+    if (storyDesc) storyDesc.value = config.storyDesc || "";
+    if (rzp) rzp.value = config.razorpayKey || "";
 }
 
 

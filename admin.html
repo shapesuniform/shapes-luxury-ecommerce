@@ -36,15 +36,17 @@
         <div class="cms-login-lock" id="cms-login-block">
             <i class="fa-solid fa-lock security-lock-icon"></i>
             <h3>ENTER ACCESS CODE</h3>
-            <p>Please enter the administrator access code to configure products, update inventory levels, and manage live orders.</p>
-            <div class="login-input-group">
-                <input type="password" id="cms-pass-input" placeholder="Enter Access Code (luxury2026)" autocomplete="current-password">
+            <p>Please enter your administrator access code to manage catalog, orders, and boutique settings.</p>
+            <div class="login-input-group" style="position:relative; display:flex; align-items:center;">
+                <input type="password" id="cms-pass-input" placeholder="Enter Access Code" autocomplete="current-password" onkeydown="if(event.key==='Enter') handleAdminUnlock()">
+                <button type="button" onclick="const inp=document.getElementById('cms-pass-input');inp.type=inp.type==='password'?'text':'password';" style="background:none; border:none; color:var(--grey-dark); padding:0 12px; cursor:pointer;" title="Show/Hide Passcode">
+                    <i class="fa-solid fa-eye"></i>
+                </button>
                 <button type="button" id="cms-login-btn" onclick="handleAdminUnlock()">UNLOCK</button>
             </div>
-            <p class="login-error-msg" id="cms-login-error" style="display: none;">Access code invalid. Default code: luxury2026</p>
-            <button type="button" onclick="sessionStorage.setItem('shapes_cms_unlocked','true');localStorage.setItem('shapes_cms_unlocked','true');document.getElementById('cms-login-block').style.display='none';document.getElementById('cms-main-content').style.display='grid';if(typeof loadCMSPanels==='function')loadCMSPanels();" style="margin-top:1.2rem; background:none; border:none; color:var(--gold); font-size:11px; cursor:pointer; text-decoration:underline; opacity:0.85;">
-                <i class="fa-solid fa-key"></i> Direct Owner Access (Click to bypass lock)
-            </button>
+            <div class="login-error-msg" id="cms-login-error" style="display: none; color: #d32f2f; background: rgba(211,47,47,0.08); border: 1px solid #d32f2f; padding: 0.6rem 1.2rem; border-radius: 4px; font-size: 13px; font-weight: 600; margin-top: 1rem; max-width: 420px; text-align: center;">
+                <i class="fa-solid fa-triangle-exclamation"></i> Incorrect access code. Please try again.
+            </div>
         </div>
 
 
@@ -53,47 +55,47 @@
             <!-- Left Sidebar Navigation -->
             <aside class="cms-sidebar">
                 <div style="padding: 0.8rem 1.2rem 0.2rem; font-size: 9px; text-transform: uppercase; letter-spacing: 0.15em; color: var(--gold-dark); font-weight: 700;">Catalog &amp; Store</div>
-                <button class="cms-sidebar-btn active" data-tab="cms-products-tab">
+                <button class="cms-sidebar-btn active" data-tab="cms-products-tab" onclick="switchCMSTab('cms-products-tab')">
                     <i class="fa-solid fa-shirt"></i> Product Inventory
                 </button>
-                <button class="cms-sidebar-btn" data-tab="cms-add-product-tab">
+                <button class="cms-sidebar-btn" data-tab="cms-add-product-tab" onclick="switchCMSTab('cms-add-product-tab')">
                     <i class="fa-solid fa-plus"></i> Add New Product
                 </button>
-                <button class="cms-sidebar-btn" data-tab="cms-categories-tab">
+                <button class="cms-sidebar-btn" data-tab="cms-categories-tab" onclick="switchCMSTab('cms-categories-tab')">
                     <i class="fa-solid fa-tags"></i> Edit Categories
                 </button>
-                <button class="cms-sidebar-btn" data-tab="cms-settings-tab">
+                <button class="cms-sidebar-btn" data-tab="cms-settings-tab" onclick="switchCMSTab('cms-settings-tab')">
                     <i class="fa-solid fa-sliders"></i> Store Copy &amp; Hero
                 </button>
                 
                 <div style="padding: 0.8rem 1.2rem 0.2rem; font-size: 9px; text-transform: uppercase; letter-spacing: 0.15em; color: var(--gold-dark); font-weight: 700;">Sales &amp; Production</div>
-                <button class="cms-sidebar-btn" data-tab="cms-analytics-tab">
+                <button class="cms-sidebar-btn" data-tab="cms-analytics-tab" onclick="switchCMSTab('cms-analytics-tab')">
                     <i class="fa-solid fa-chart-line"></i> Revenue &amp; Analytics
                 </button>
-                <button class="cms-sidebar-btn" data-tab="cms-orders-tab">
+                <button class="cms-sidebar-btn" data-tab="cms-orders-tab" onclick="switchCMSTab('cms-orders-tab')">
                     <i class="fa-solid fa-receipt"></i> Orders &amp; Invoices
                 </button>
-                <button class="cms-sidebar-btn" data-tab="cms-workshop-tab">
+                <button class="cms-sidebar-btn" data-tab="cms-workshop-tab" onclick="switchCMSTab('cms-workshop-tab')">
                     <i class="fa-solid fa-scissors"></i> Workshop Queue
                 </button>
 
                 <div style="padding: 0.8rem 1.2rem 0.2rem; font-size: 9px; text-transform: uppercase; letter-spacing: 0.15em; color: var(--gold-dark); font-weight: 700;">Client Relations &amp; Growth</div>
-                <button class="cms-sidebar-btn" data-tab="cms-customers-tab">
+                <button class="cms-sidebar-btn" data-tab="cms-customers-tab" onclick="switchCMSTab('cms-customers-tab')">
                     <i class="fa-solid fa-users"></i> Customers
                 </button>
-                <button class="cms-sidebar-btn" data-tab="cms-reviews-tab">
+                <button class="cms-sidebar-btn" data-tab="cms-reviews-tab" onclick="switchCMSTab('cms-reviews-tab')">
                     <i class="fa-solid fa-star"></i> Client Reviews
                 </button>
-                <button class="cms-sidebar-btn" data-tab="cms-broadcast-tab">
+                <button class="cms-sidebar-btn" data-tab="cms-broadcast-tab" onclick="switchCMSTab('cms-broadcast-tab')">
                     <i class="fa-brands fa-whatsapp"></i> WhatsApp Broadcast
                 </button>
-                <button class="cms-sidebar-btn" data-tab="cms-journal-tab">
+                <button class="cms-sidebar-btn" data-tab="cms-journal-tab" onclick="switchCMSTab('cms-journal-tab')">
                     <i class="fa-solid fa-book-open"></i> Luxury Journal (Blog)
                 </button>
-                <button class="cms-sidebar-btn" data-tab="cms-feeds-tab">
+                <button class="cms-sidebar-btn" data-tab="cms-feeds-tab" onclick="switchCMSTab('cms-feeds-tab')">
                     <i class="fa-solid fa-rss"></i> Google &amp; Meta Feeds
                 </button>
-                <button class="cms-sidebar-btn" data-tab="cms-push-tab">
+                <button class="cms-sidebar-btn" data-tab="cms-push-tab" onclick="switchCMSTab('cms-push-tab')">
                     <i class="fa-solid fa-bell"></i> VIP Push Alerts
                 </button>
                 
