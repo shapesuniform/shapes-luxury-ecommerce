@@ -58,6 +58,7 @@ let activeCategory = "All";
 let searchQuery = "";
 let currentSort = "default";
 function initStore() {
+    setupReviewModalAndToast();
  if (localStorage.getItem("shapes_catalog_version") !== "shapes_v8_coord_collection") {
  localStorage.removeItem("shapes_products");
  localStorage.setItem("shapes_products", JSON.stringify(DEFAULT_PRODUCTS));
@@ -1432,4 +1433,83 @@ if (document.readyState === "loading") {
  document.addEventListener("DOMContentLoaded", initStore);
 } else {
  initStore();
+}
+
+
+/* Client Review Modal & Toast Event Listeners */
+function setupReviewModalAndToast() {
+    const openReviewBtn = document.getElementById("open-review-modal-btn");
+    const closeReviewBtn = document.getElementById("close-review-modal");
+    const reviewModal = document.getElementById("review-modal");
+    const reviewForm = document.getElementById("client-review-form");
+
+    if (openReviewBtn && reviewModal) {
+        openReviewBtn.addEventListener("click", () => {
+            reviewModal.classList.add("active");
+            document.body.style.overflow = "hidden";
+        });
+    }
+
+    if (closeReviewBtn && reviewModal) {
+        closeReviewBtn.addEventListener("click", () => {
+            reviewModal.classList.remove("active");
+            document.body.style.overflow = "";
+        });
+    }
+
+    if (reviewForm) {
+        reviewForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const rating = document.getElementById("review-rating-select").value;
+            const name = document.getElementById("review-author-name").value;
+            const location = document.getElementById("review-author-location").value;
+            const garment = document.getElementById("review-garment-name").value;
+            const text = document.getElementById("review-body-text").value;
+
+            const newReview = {
+                id: "rev_" + Date.now(),
+                authorName: name,
+                location: location,
+                garmentPurchased: garment,
+                reviewText: text,
+                rating: parseInt(rating),
+                categoryLabel: "Verified Client Review",
+                date: "Just Now"
+            };
+
+            const reviewsList = JSON.parse(localStorage.getItem("shapes_client_reviews") || "[]");
+            reviewsList.unshift(newReview);
+            localStorage.setItem("shapes_client_reviews", JSON.stringify(reviewsList));
+
+            reviewModal.classList.remove("active");
+            document.body.style.overflow = "";
+            reviewForm.reset();
+
+            if (typeof renderClientReviews === "function") {
+                renderClientReviews();
+            }
+
+            alert("Thank you! Your gracious client review has been published.");
+        });
+    }
+
+    const toastViewBagBtn = document.getElementById("toast-view-bag-btn");
+    if (toastViewBagBtn) {
+        toastViewBagBtn.addEventListener("click", () => {
+            if (typeof openCartDrawer === "function") {
+                openCartDrawer();
+            }
+            const toast = document.getElementById("cart-toast-notification");
+            if (toast) toast.classList.remove("show");
+        });
+    }
+}
+
+function showCartToast() {
+    const toast = document.getElementById("cart-toast-notification");
+    if (!toast) return;
+    toast.classList.add("show");
+    setTimeout(() => {
+        toast.classList.remove("show");
+    }, 3500);
 }

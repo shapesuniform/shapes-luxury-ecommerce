@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="theme-color" content="#FFFFFF">
+    <meta name="theme-color" content="#111111">
 
     <!-- Priority LCP Image Preload -->
     <link rel="preload" as="image" href="images/welcome_coord_luxury_mobile.webp" type="image/webp" fetchpriority="high">
@@ -11,6 +11,24 @@
     <title>Shapes Boutique | Shapes By Satiinder Kaur | Luxury Designer Co-Ord Sets Mumbai</title>
     <meta name="description" content="Shapes Boutique (Shapes By Satiinder Kaur) is Chembur Mumbai's premier designer fashion boutique for luxury printed co-ord sets, pure linen sets, festive silk co-ords &amp; contemporary pret starting from ₹7,000. Shop online or visit our boutique at Basant Garden, Chembur, Mumbai.">
     <meta name="keywords" content="Shapes, Shapes Boutique, Shapes Boutique Chembur, Shapes By Satiinder Kaur, Shapes Uniform, Shapes Mumbai, designer co ord sets Mumbai, women cotton co ord set, luxury floral printed co ords, pure linen co ord set, festive silk co ord set, designer pret Mumbai, Ghatla Village Road Chembur, Maitri Park Chembur boutique, luxury 2 piece sets India, women designer clothing Mumbai">
+    <meta name="author" content="Satiinder Kaur">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <link rel="canonical" href="https://shapesbysatinderkaur.com/">
+
+    <!-- Geo-Location Tags -->
+    <meta name="geo.region" content="IN-MH">
+    <meta name="geo.placename" content="Mumbai, Chembur">
+    <meta name="geo.position" content="19.0522;72.8995">
+    <meta name="ICBM" content="19.0522, 72.8995">
+
+    <!-- Open Graph (OG) -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://shapesbysatinderkaur.com/">
+    <meta property="og:title" content="Shapes Boutique | Shapes By Satiinder Kaur | Luxury Designer Co-Ord Sets">
+    <meta property="og:description" content="Discover handcrafted luxury printed silk, organic linen, and festive designer co-ord sets by Shapes By Satiinder Kaur in Chembur, Mumbai.">
+    <meta property="og:image" content="https://shapesbysatinderkaur.com/images/hero_coord_editorial.webp">
+    <meta property="og:site_name" content="Shapes Boutique · Shapes By Satiinder Kaur">
+    <meta property="og:locale" content="en_IN">
 
     <!-- Google Fonts & FontAwesome -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,2044 +36,471 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Inlined Authentic Luxury Theme Stylesheet -->
-    <style>
-/* ============================================================
-   SHAPES BY SATIINDER KAUR — AUTHENTIC LUXURY DESIGN SYSTEM
-   ============================================================ */
-
-:root {
-    --charcoal: #111111;
-    --charcoal-light: #1e1e1e;
-    --ivory: #FAF6F0;
-    --ivory-dark: #f0eae1;
-    --gold: #C5A059;
-    --gold-dark: #8C6527;
-    --gold-light: #E0C899;
-    --white: #FFFFFF;
-    --black: #000000;
-    --grey-light: #F9F9F9;
-    --grey-medium: #CCCCCC;
-    --grey-dark: #666666;
-    --crimson: #8B0000;
-    --font-serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
-    --font-sans: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    --header-height: 85px;
-    --transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-html {
-    scroll-behavior: smooth;
-    overflow-x: hidden;
-}
-
-body {
-    background-color: var(--white);
-    color: var(--charcoal);
-    font-family: var(--font-sans);
-    font-size: 14px;
-    line-height: 1.6;
-    letter-spacing: 0.02em;
-    overflow-x: hidden;
-    min-height: 100vh;
-    width: 100%;
-}
-
-a {
-    color: inherit;
-    text-decoration: none;
-    transition: var(--transition);
-}
-
-img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-}
-
-button, input, select, textarea {
-    font-family: inherit;
-    font-size: inherit;
-    color: inherit;
-    background: none;
-    border: none;
-    outline: none;
-}
-
-::-webkit-scrollbar {
-    width: 6px;
-}
-::-webkit-scrollbar-track {
-    background: #f1f1f1;
-}
-::-webkit-scrollbar-thumb {
-    background: var(--gold);
-    border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-    background: var(--gold-dark);
-}
-
-.divider-gold {
-    width: 60px;
-    height: 1.5px;
-    background-color: var(--gold);
-    margin: 1.2rem auto 0 auto;
-}
-
-/* Top Announcement Bar */
-.top-announcement-bar {
-    height: 34px;
-    background: var(--charcoal);
-    color: #FFFFFF;
-    border-bottom: 1px solid rgba(197, 160, 89, 0.3);
-    display: flex;
-    align-items: center;
-    overflow: hidden;
-    font-size: 10.5px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    position: relative;
-    z-index: 1001;
-}
-
-.announcement-marquee {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    overflow: hidden;
-    white-space: nowrap;
-}
-
-.announcement-track {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
-    white-space: nowrap;
-    color: #FFFFFF;
-    width: 100%;
-    text-align: center;
-}
-
-.announcement-item {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    color: rgba(255, 255, 255, 0.95);
-}
-
-.announcement-item i {
-    color: var(--gold);
-    font-size: 11px;
-}
-
-/* Header & Navigation */
-.header-master-wrapper {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000;
-    transition: var(--transition);
-}
-
-.luxury-header {
-    position: relative;
-    width: 100%;
-    height: var(--header-height);
-    background-color: rgba(255, 255, 255, 0.96);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    border-bottom: 1px solid rgba(197, 160, 89, 0.25);
-    transition: var(--transition);
-    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
-}
-
-.luxury-header.scrolled {
-    height: 70px;
-    background-color: rgba(255, 255, 255, 0.98);
-    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.12);
-}
-
-.nav-container {
-    max-width: 1600px;
-    height: 100%;
-    margin: 0 auto;
-    padding: 0 4rem;
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    align-items: center;
-}
-
-.nav-left {
-    display: flex;
-    gap: 2.5rem;
-}
-
-.nav-right {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 2rem;
-}
-
-.nav-link {
-    font-size: 11px;
-    text-transform: uppercase;
-    font-weight: 600;
-    letter-spacing: 0.18em;
-    color: var(--charcoal);
-    position: relative;
-    padding: 0.5rem 0;
-}
-
-.nav-link::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 1.5px;
-    background-color: var(--gold);
-    transition: var(--transition);
-}
-
-.nav-link:hover {
-    color: var(--gold-dark);
-}
-
-.nav-link:hover::after {
-    width: 100%;
-}
-
-.brand-logo {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    line-height: 1.1;
-    transition: var(--transition);
-    text-align: center;
-    text-decoration: none;
-}
-
-.logo-main {
-    font-family: var(--font-serif);
-    font-size: 2.2rem;
-    font-weight: 500;
-    letter-spacing: 0.22em;
-    color: var(--charcoal);
-    text-transform: uppercase;
-    transition: var(--transition);
-    transform: translateX(0.11em);
-}
-
-.logo-sub {
-    font-family: var(--font-sans);
-    font-size: 9px;
-    font-weight: 600;
-    letter-spacing: 0.25em;
-    color: var(--gold-dark);
-    text-transform: uppercase;
-    margin-top: 0.15rem;
-    transition: var(--transition);
-    transform: translateX(0.11em);
-}
-
-.brand-logo:hover .logo-main {
-    color: var(--gold-dark);
-}
-
-.currency-select {
-    background: #FFFFFF;
-    border: 1px solid rgba(197, 160, 89, 0.4);
-    color: var(--charcoal);
-    padding: 0.35rem 0.6rem;
-    border-radius: 4px;
-    font-size: 11px;
-    font-family: var(--font-sans);
-    cursor: pointer;
-    transition: var(--transition);
-    font-weight: 500;
-}
-
-.currency-select:hover, .currency-select:focus {
-    border-color: var(--gold);
-    box-shadow: 0 0 10px rgba(197, 160, 89, 0.25);
-}
-
-.nav-icon-btn {
-    cursor: pointer;
-    font-size: 1.15rem;
-    color: var(--charcoal);
-    position: relative;
-    padding: 0.5rem;
-    transition: var(--transition);
-    background: transparent;
-    border: none;
-}
-
-.nav-icon-btn:hover {
-    color: var(--gold-dark);
-}
-
-.cart-btn-container {
-    display: flex;
-    align-items: center;
-}
-
-.cart-badge {
-    position: absolute;
-    top: -2px;
-    right: -2px;
-    background-color: var(--crimson);
-    color: var(--white);
-    font-size: 9px;
-    font-weight: 700;
-    width: 17px;
-    height: 17px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid var(--gold);
-}
-
-.main-content-layout {
-    margin-top: 119px;
-}
-
-/* Hero Section */
-.hero-section {
-    position: relative;
-    width: 100%;
-    height: calc(100vh - 119px);
-    min-height: 560px;
-    background: var(--charcoal);
-    overflow: hidden;
-}
-
-.hero-slider {
-    width: 100%;
-    height: 100%;
-    position: relative;
-}
-
-.hero-slide {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    position: relative;
-}
-
-.hero-bg-picture {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    pointer-events: none;
-    overflow: hidden;
-}
-
-.hero-bg-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center 25%;
-    display: block;
-}
-
-.hero-slide-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, rgba(14, 14, 14, 0.4) 0%, rgba(14, 14, 14, 0.75) 100%);
-    z-index: 2;
-    pointer-events: none;
-}
-
-.hero-content {
-    position: relative;
-    z-index: 3;
-    max-width: 860px;
-    padding: 2.5rem 1.5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.hero-crest-badge {
-    display: inline-block;
-    padding: 6px 18px;
-    background: rgba(18, 18, 18, 0.65);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(197, 160, 89, 0.4);
-    border-radius: 20px;
-    margin-bottom: 1.2rem;
-}
-
-.hero-crest-text {
-    font-family: var(--font-sans);
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.3em;
-    color: var(--gold-light);
-    text-transform: uppercase;
-}
-
-.hero-brand-title {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    line-height: 1;
-    margin-bottom: 1rem;
-}
-
-.hero-title-main {
-    font-family: var(--font-serif);
-    font-size: clamp(3rem, 9vw, 5.5rem);
-    font-weight: 300;
-    letter-spacing: 0.28em;
-    color: #FFFFFF;
-    text-transform: uppercase;
-    transform: translateX(0.14em);
-    text-shadow: 0 4px 25px rgba(0, 0, 0, 0.85);
-}
-
-.hero-title-by {
-    font-family: var(--font-sans);
-    font-size: clamp(10px, 2.5vw, 14px);
-    font-weight: 600;
-    letter-spacing: 0.38em;
-    color: var(--gold);
-    text-transform: uppercase;
-    margin-top: 0.4rem;
-    transform: translateX(0.19em);
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9);
-}
-
-.hero-filigree-divider {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    width: 220px;
-    margin: 0.5rem 0 1.2rem 0;
-}
-
-.filigree-line {
-    flex-grow: 1;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--gold), transparent);
-}
-
-.filigree-gem {
-    color: var(--gold);
-    font-size: 11px;
-}
-
-.hero-tagline {
-    font-family: var(--font-sans);
-    font-size: 12px;
-    font-weight: 400;
-    letter-spacing: 0.16em;
-    color: rgba(255, 255, 255, 0.92);
-    text-transform: uppercase;
-    margin-bottom: 2.2rem;
-    max-width: 620px;
-    line-height: 1.6;
-}
-
-.hero-action-buttons {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1.2rem;
-    flex-wrap: wrap;
-}
-
-.hero-cta-btn {
-    min-height: 48px;
-    padding: 0.85rem 2.2rem;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    text-decoration: none;
-    border-radius: 4px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-    cursor: pointer;
-}
-
-.hero-cta-gold {
-    background: var(--gold);
-    color: var(--charcoal);
-    border: 1px solid var(--gold);
-    box-shadow: 0 6px 25px rgba(197, 160, 89, 0.35);
-}
-
-.hero-cta-gold:hover {
-    background: var(--gold-light);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(197, 160, 89, 0.5);
-}
-
-.hero-cta-glass {
-    background: rgba(18, 18, 18, 0.6);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    color: #FFFFFF;
-    border: 1px solid rgba(255, 255, 255, 0.4);
-}
-
-.hero-cta-glass:hover {
-    border-color: var(--gold);
-    color: var(--gold-light);
-    background: rgba(18, 18, 18, 0.8);
-    transform: translateY(-2px);
-}
-
-/* Sections Shared */
-section {
-    padding: 6rem 0;
-}
-
-.section-header {
-    text-align: center;
-    margin-bottom: 3.5rem;
-}
-
-.sub-title {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.25em;
-    color: var(--gold-dark) !important;
-    margin-bottom: 0.6rem;
-    display: block;
-    font-weight: 600;
-}
-
-.section-title {
-    font-family: var(--font-serif);
-    font-size: 2.8rem;
-    font-weight: 400;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--charcoal) !important;
-}
-
-/* Catalog Section */
-.catalog-section {
-    max-width: 1600px;
-    margin: 0 auto;
-    padding: 6rem 4rem;
-    background-color: var(--white);
-}
-
-.catalog-tabs {
-    display: flex;
-    justify-content: center;
-    gap: 1.2rem;
-    margin-bottom: 3rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-    padding-bottom: 1.2rem;
-    flex-wrap: wrap;
-}
-
-.tab-btn {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    cursor: pointer;
-    padding: 0.6rem 1.4rem;
-    border-radius: 20px;
-    color: var(--charcoal);
-    background: var(--ivory);
-    border: 1px solid rgba(197, 160, 89, 0.3);
-    transition: var(--transition);
-    font-weight: 500;
-}
-
-.tab-btn:hover {
-    border-color: var(--gold);
-    color: var(--gold-dark);
-}
-
-.tab-btn.active {
-    background: var(--gold) !important;
-    color: #FFFFFF !important;
-    border-color: var(--gold) !important;
-    font-weight: 600 !important;
-    box-shadow: 0 4px 15px rgba(197, 160, 89, 0.35);
-}
-
-.boutique-controls-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-    padding-bottom: 1.2rem;
-    margin-bottom: 3.5rem;
-    gap: 2rem;
-}
-
-.boutique-search-wrapper {
-    display: flex;
-    align-items: center;
-    border: 1px solid rgba(197, 160, 89, 0.4);
-    border-radius: 6px;
-    padding: 0.5rem 1rem;
-    flex-grow: 1;
-    max-width: 450px;
-    background: var(--ivory);
-}
-
-.search-icon-gold {
-    color: var(--gold-dark);
-    margin-right: 0.8rem;
-    font-size: 1rem;
-}
-
-#boutique-search-input {
-    width: 100%;
-    font-size: 13px;
-    color: var(--charcoal);
-    outline: none;
-    border: none;
-    background: transparent;
-}
-
-#boutique-search-input::placeholder {
-    color: #777777;
-}
-
-.boutique-sort-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.boutique-sort-wrapper label {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--gold-dark);
-    font-weight: 600;
-}
-
-#boutique-sort-select {
-    padding: 0.6rem 2.6rem 0.6rem 1.2rem;
-    border: 1px solid rgba(197, 160, 89, 0.4);
-    border-radius: 6px;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    background-color: var(--ivory);
-    color: var(--charcoal);
-    cursor: pointer;
-    appearance: none;
-    -webkit-appearance: none;
-}
-
-.product-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 3rem 2rem;
-}
-
-.product-card {
-    position: relative;
-    cursor: pointer;
-    background: #FFFFFF;
-    border-radius: 10px;
-    overflow: hidden;
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-    transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
-    display: flex;
-    flex-direction: column;
-}
-
-.product-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
-    border-color: var(--gold);
-}
-
-.product-card-img-wrapper {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 3 / 4;
-    overflow: hidden;
-    background-color: var(--ivory);
-}
-
-.product-card-img-wrapper img {
-    width: 100%;
-    height: 100%;
-    display: block;
-    object-fit: cover;
-    object-position: center top;
-    transition: transform 0.8s ease;
-}
-
-.product-card:hover .product-card-img-wrapper img {
-    transform: scale(1.06);
-}
-
-.product-card-badge {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    z-index: 3;
-    padding: 4px 10px;
-    background: rgba(255, 255, 255, 0.92);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    color: var(--gold-dark);
-    font-size: 8.5px;
-    font-weight: 700;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    border-radius: 3px;
-    border: 1px solid rgba(197, 160, 89, 0.4);
-}
-
-.product-wishlist-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    z-index: 3;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.9);
-    border: 1px solid rgba(0, 0, 0, 0.12);
-    color: var(--charcoal);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    font-size: 14px;
-    transition: transform 0.2s, background 0.2s, color 0.2s;
-}
-
-.product-wishlist-btn:hover, .product-wishlist-btn.active {
-    background: var(--crimson);
-    color: #FFFFFF;
-    border-color: var(--crimson);
-}
-
-.product-card-info {
-    padding: 1.2rem 1.1rem;
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    justify-content: space-between;
-    background: #FFFFFF;
-}
-
-.product-card-title {
-    font-family: var(--font-serif);
-    font-size: 1.3rem;
-    font-weight: 500;
-    line-height: 1.25;
-    color: var(--charcoal) !important;
-    margin-bottom: 0.5rem;
-}
-
-.product-card-price-row {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    margin-bottom: 0.9rem;
-}
-
-.product-card-price {
-    font-family: var(--font-sans);
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: var(--gold-dark) !important;
-}
-
-.gst-tag {
-    font-size: 9px;
-    font-weight: 600;
-    color: #777777 !important;
-    text-transform: uppercase;
-}
-
-.card-action-tap-btn {
-    width: 100%;
-    min-height: 42px;
-    background: var(--ivory);
-    color: var(--charcoal);
-    border: 1px solid var(--gold);
-    border-radius: 5px;
-    font-size: 10.5px;
-    font-weight: 600;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    cursor: pointer;
-    transition: background 0.25s, color 0.25s;
-}
-
-.card-action-tap-btn:hover {
-    background: var(--gold);
-    color: #FFFFFF;
-}
-
-/* Reviews Section */
-.testimonials-section {
-    background-color: var(--ivory);
-    padding: 6rem 0;
-    border-top: 1px solid rgba(197, 160, 89, 0.2);
-}
-
-.testimonials-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2.5rem;
-    margin-top: 3.5rem;
-    max-width: 1400px;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 0 2rem;
-}
-
-.testimonial-card {
-    background: #FFFFFF;
-    border: 1px solid rgba(197, 160, 89, 0.25);
-    border-radius: 10px;
-    padding: 2.5rem 2rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
-    transition: transform 0.35s ease, border-color 0.35s ease;
-}
-
-.testimonial-card:hover {
-    transform: translateY(-5px);
-    border-color: var(--gold);
-}
-
-.stars-row {
-    color: var(--gold-dark);
-    font-size: 13px;
-    margin-bottom: 1.2rem;
-    display: flex;
-    gap: 4px;
-}
-
-.review-text {
-    font-family: var(--font-serif);
-    font-size: 1.2rem;
-    line-height: 1.6;
-    color: var(--charcoal);
-    margin-bottom: 1.5rem;
-    font-weight: 400;
-}
-
-.reviewer-meta {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-top: 1px solid rgba(0, 0, 0, 0.08);
-    padding-top: 1rem;
-}
-
-.client-name {
-    font-weight: 600;
-    color: var(--charcoal);
-    font-size: 13px;
-}
-
-.client-location {
-    font-size: 11px;
-    color: var(--gold-dark);
-}
-
-/* Story Section */
-.story-section {
-    background-color: var(--charcoal);
-    color: #FFFFFF;
-    padding: 6rem 0;
-}
-
-.story-container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 2rem;
-    display: grid;
-    grid-template-columns: 1fr 1.2fr;
-    gap: 6rem;
-    align-items: center;
-}
-
-.story-image-side {
-    border: 1px solid rgba(197, 160, 89, 0.3);
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
-}
-
-.story-image-side img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    filter: brightness(0.95);
-    transition: transform 0.8s ease;
-}
-
-.story-text-side {
-    max-width: 650px;
-}
-
-.story-tag {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.25em;
-    color: var(--gold-light);
-    display: block;
-    margin-bottom: 0.8rem;
-    font-weight: 600;
-}
-
-.story-title {
-    font-family: var(--font-serif);
-    font-size: 2.8rem;
-    font-weight: 300;
-    letter-spacing: 0.12em;
-    color: #FFFFFF !important;
-    text-transform: uppercase;
-    margin-bottom: 1.5rem;
-}
-
-.story-paragraph {
-    font-family: var(--font-sans);
-    font-size: 13.5px;
-    line-height: 1.8;
-    color: rgba(255, 255, 255, 0.85);
-    margin-bottom: 1.5rem;
-    font-weight: 300;
-}
-
-.story-signature {
-    font-family: var(--font-serif);
-    font-size: 2.2rem;
-    font-style: italic;
-    color: var(--gold);
-    margin-top: 1.5rem;
-}
-
-/* Journal Section */
-.journal-section {
-    background-color: var(--white);
-    padding: 6rem 0;
-    border-top: 1px solid rgba(0, 0, 0, 0.08);
-}
-
-.journal-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2.5rem;
-    max-width: 1400px;
-    margin: 3.5rem auto 0 auto;
-    padding: 0 2rem;
-}
-
-.journal-card {
-    background: #FFFFFF;
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-    transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-}
-
-.journal-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
-    border-color: var(--gold);
-}
-
-.journal-card-img-wrapper {
-    position: relative;
-    height: 240px;
-    overflow: hidden;
-    background: var(--ivory);
-}
-
-.journal-card-img-wrapper img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.8s ease;
-}
-
-.journal-card-body {
-    padding: 1.8rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    flex-grow: 1;
-}
-
-.journal-tag {
-    font-size: 9.5px;
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-    color: var(--gold-dark);
-    font-weight: 700;
-    margin-bottom: 0.6rem;
-}
-
-.journal-title {
-    font-family: var(--font-serif);
-    font-size: 1.45rem;
-    font-weight: 500;
-    color: var(--charcoal);
-    margin-bottom: 0.8rem;
-    line-height: 1.3;
-}
-
-.journal-snippet {
-    font-size: 12.5px;
-    color: #666666;
-    line-height: 1.6;
-    margin-bottom: 1.4rem;
-}
-
-.journal-read-more {
-    font-size: 10.5px;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: var(--gold-dark);
-    font-weight: 700;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-}
-
-/* FAQ Section */
-.boutique-faq-section {
-    background-color: var(--ivory);
-    border-top: 1px solid rgba(197, 160, 89, 0.2);
-    padding: 6rem 0;
-}
-
-.faq-accordion-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1.2rem;
-    max-width: 950px;
-    margin: 0 auto;
-    padding: 0 1.5rem;
-}
-
-.faq-item {
-    background: #FFFFFF;
-    border: 1px solid rgba(197, 160, 89, 0.3);
-    border-radius: 8px;
-    overflow: hidden;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
-}
-
-.faq-item:hover {
-    border-color: var(--gold);
-}
-
-.faq-item.active {
-    border-color: var(--gold);
-    box-shadow: 0 6px 25px rgba(197, 160, 89, 0.2);
-}
-
-.faq-question-btn {
-    width: 100%;
-    text-align: left;
-    padding: 1.4rem 1.8rem;
-    background: transparent;
-    border: none;
-    color: var(--charcoal);
-    font-family: var(--font-serif);
-    font-size: 1.25rem;
-    font-weight: 500;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-}
-
-.faq-chevron {
-    color: var(--gold-dark);
-    font-size: 13px;
-    transition: transform 0.3s ease;
-}
-
-.faq-item.active .faq-chevron {
-    transform: rotate(180deg);
-}
-
-.faq-answer-content {
-    padding: 0 1.8rem 1.5rem 1.8rem;
-    font-family: var(--font-sans);
-    font-size: 13.5px;
-    line-height: 1.8;
-    color: #555555;
-    border-top: 1px solid rgba(0, 0, 0, 0.06);
-    display: none;
-}
-
-.faq-item.active .faq-answer-content {
-    display: block;
-}
-
-/* Luxury Footer */
-.luxury-footer {
-    background-color: var(--charcoal);
-    color: #FFFFFF;
-    padding: 6rem 4rem 2rem 4rem;
-    border-top: 1px solid rgba(197, 160, 89, 0.3);
-}
-
-.footer-container {
-    max-width: 1600px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1.4fr 1fr 1fr 1.2fr;
-    gap: 4rem;
-    margin-bottom: 4rem;
-}
-
-.footer-col h3 {
-    font-family: var(--font-serif);
-    font-size: 2.4rem;
-    letter-spacing: 0.2em;
-    color: #FFFFFF;
-    margin-bottom: 1.2rem;
-    text-transform: uppercase;
-}
-
-.footer-col h4 {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.22em;
-    color: var(--gold-light);
-    margin-bottom: 1.5rem;
-    font-weight: 600;
-}
-
-.footer-col p {
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 13px;
-    line-height: 1.8;
-    max-width: 340px;
-    margin-bottom: 1.5rem;
-}
-
-.footer-col ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.footer-col ul li {
-    margin-bottom: 0.9rem;
-}
-
-.footer-col ul li a {
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 12.5px;
-    transition: color 0.3s ease, padding-left 0.3s ease;
-    display: inline-block;
-}
-
-.footer-col ul li a:hover {
-    color: var(--gold-light);
-    padding-left: 6px;
-}
-
-.social-links {
-    display: flex;
-    gap: 1.5rem;
-    margin-top: 1.5rem;
-}
-
-.social-links a {
-    font-size: 1.25rem;
-    color: rgba(255, 255, 255, 0.85);
-    transition: color 0.3s ease, transform 0.3s ease;
-}
-
-.social-links a:hover {
-    color: var(--gold-light);
-    transform: translateY(-3px);
-}
-
-.footer-bottom {
-    max-width: 1600px;
-    margin: 0 auto;
-    padding-top: 2rem;
-    border-top: 1px solid rgba(197, 160, 89, 0.2);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 11.5px;
-}
-
-/* Modals & Drawers */
-.luxury-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.75);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1001;
-    opacity: 0;
-    visibility: hidden;
-    transition: var(--transition);
-}
-
-.luxury-modal.active {
-    opacity: 1;
-    visibility: visible;
-}
-
-.modal-content-wrapper {
-    background-color: #FFFFFF;
-    color: var(--charcoal);
-    width: 90%;
-    max-width: 1100px;
-    height: 85%;
-    max-height: 760px;
-    position: relative;
-    border: 1px solid var(--gold);
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-}
-
-.close-modal-btn {
-    position: absolute;
-    top: 1.5rem;
-    right: 1.5rem;
-    font-size: 2rem;
-    color: var(--charcoal);
-    cursor: pointer;
-    transition: var(--transition);
-    z-index: 10;
-}
-
-.close-modal-btn:hover {
-    color: var(--gold-dark);
-}
-
-/* Responsive */
-@media (max-width: 1200px) {
-    .nav-container { padding: 0 2rem; }
-    .product-grid { grid-template-columns: repeat(3, 1fr); }
-    .testimonials-grid, .journal-grid { grid-template-columns: repeat(2, 1fr); }
-}
-
-@media (max-width: 992px) {
-    .product-grid { grid-template-columns: repeat(2, 1fr) !important; }
-    .testimonials-grid, .journal-grid, .story-container, .footer-container { grid-template-columns: 1fr; }
-    .catalog-section { padding: 4rem 1.5rem; }
-}
-
-    </style>
+    <!-- External Stylesheet -->
+    <link rel="stylesheet" href="index.css?v=20.0">
+
+    <!-- Razorpay Payment Gateway & Main Script -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="index.js?v=20.0" defer></script>
     <link rel="manifest" href="manifest.json">
 </head>
 <body>
-<div class="header-master-wrapper" id="header-master-wrapper">
-<div class="top-announcement-bar">
-<div class="announcement-marquee">
-<div class="announcement-track">
-<span>✨ SHAPES BY SATIINDER KAUR · BESPOKE LUXURY COUTURE</span>
-<span class="bullet">•</span>
-<span>FLAGSHIP BOUTIQUE: CHEMBUR, MUMBAI (+91 98333 92756)</span>
-<span class="bullet">•</span>
-<span>COMPLIMENTARY COURIER ACROSS INDIA</span>
-<span class="bullet">•</span>
-<span>HANDCRAFTED TO ORDER (15–22 WORKING DAYS)</span>
-<span class="bullet">•</span>
-</div>
-<div class="announcement-track" aria-hidden="true">
-<span>✨ SHAPES BY SATIINDER KAUR · BESPOKE LUXURY COUTURE</span>
-<span class="bullet">•</span>
-<span>FLAGSHIP BOUTIQUE: CHEMBUR, MUMBAI (+91 98333 92756)</span>
-<span class="bullet">•</span>
-<span>COMPLIMENTARY COURIER ACROSS INDIA</span>
-<span class="bullet">•</span>
-<span>HANDCRAFTED TO ORDER (15–22 WORKING DAYS)</span>
-<span class="bullet">•</span>
-</div>
-</div>
-</div>
-<header class="luxury-header" id="header">
-<div class="nav-container">
-<nav class="nav-left">
-<a href="#printed" class="nav-link shop-nav-trigger" data-category="Printed Co-Ords">Printed Co-Ords</a>
-<a href="#linen" class="nav-link shop-nav-trigger" data-category="Linen &amp; Cotton">Linen &amp; Cotton</a>
-<a href="#festive" class="nav-link shop-nav-trigger" data-category="Festive Co-Ords">Festive Sets</a>
-<a href="#fusion" class="nav-link shop-nav-trigger" data-category="Fusion Sets">Fusion Wear</a>
-</nav>
-<div class="nav-center">
-<a href="#" class="brand-logo" id="brand-logo-text">
-<span class="logo-main">SHAPES</span>
-<span class="logo-sub">BY SATIINDER KAUR</span>
-</a>
-</div>
-<nav class="nav-right">
-<div class="currency-selector-wrapper">
-<select id="currency-select" class="currency-select" title="Select Currency">
-<option value="INR">INR ₹</option>
-<option value="USD">USD $</option>
-<option value="GBP">GBP £</option>
-<option value="AED">AED د.إ</option>
-<option value="EUR">EUR €</option>
-</select>
-</div>
-<button class="nav-icon-btn wishlist-btn-container" id="open-wishlist-btn" title="Saved Wishlist">
-<i class="fa-regular fa-heart">
-</i>
-<span class="cart-badge wishlist-badge" id="wishlist-count">0</span>
-</button>
-<a href="#story-section" class="nav-link story-nav-trigger">Our Story</a>
-<button class="nav-icon-btn cart-btn-container" id="open-cart-btn" title="Shopping Bag">
-<i class="fa-solid fa-bag-shopping">
-</i>
-<span class="cart-badge" id="cart-count">0</span>
-</button>
-</nav>
-<button class="mobile-menu-toggle" id="mobile-toggle" aria-label="Toggle Menu">
-<span>
-</span>
-<span>
-</span>
-</button>
-</div>
-</header>
-</div>
-<div class="mobile-nav-drawer" id="mobile-nav">
-<nav class="mobile-nav-links">
-<a href="#catalog" class="mobile-link mobile-shop-trigger" data-category="All">Shop All Co-Ords</a>
-<a href="#printed" class="mobile-link mobile-shop-trigger" data-category="Printed Co-Ords">Printed Co-Ords</a>
-<a href="#linen" class="mobile-link mobile-shop-trigger" data-category="Linen &amp; Cotton">Linen &amp; Cotton</a>
-<a href="#festive" class="mobile-link mobile-shop-trigger" data-category="Festive Co-Ords">Festive Sets</a>
-<a href="#fusion" class="mobile-link mobile-shop-trigger" data-category="Fusion Sets">Fusion Wear</a>
-<a href="#story-section" class="mobile-link mobile-story-trigger">Our Story</a>
-<a href="account.html" class="mobile-link" style="color: var(--gold);">
-<i class="fa-solid fa-circle-user">
-</i> My Account</a>
-<a href="track.html" class="mobile-link">
-<i class="fa-solid fa-truck-fast">
-</i> Track Order</a>
-</nav>
-</div>
-<main class="main-content-layout">
-<section class="hero-section" id="hero">
-<div class="hero-slider">
-<div class="hero-slide active">
-<picture class="hero-bg-picture">
-<source media="(max-width: 768px)" srcset="images/welcome_coord_luxury_mobile.webp" type="image/webp">
-<img class="hero-bg-img" src="images/welcome_coord_luxury.webp" alt="Shapes By Satiinder Kaur Luxury Designer Co-Ord Sets" width="1376" height="768" fetchpriority="high" decoding="async">
-</picture>
-<div class="hero-slide-overlay">
-</div>
-<div class="hero-content">
-<div class="hero-crest-badge">
-<span class="hero-crest-text">CONTEMPORARY LUXURY PRET</span>
-</div>
-<h1 class="hero-brand-title">
-<span class="hero-title-main">SHAPES</span>
-<span class="hero-title-by">BY SATIINDER KAUR</span>
-</h1>
-<div class="hero-filigree-divider">
-<span class="filigree-line">
-</span>
-<span class="filigree-gem">✦</span>
-<span class="filigree-line">
-</span>
-</div>
-<p class="hero-tagline" id="hero-tagline-text">
- Effortless Elegance &amp; Tailored 2-Piece Designer Co-Ord Sets · Chembur Mumbai Flagship
- </p>
-<div class="hero-action-buttons">
-<a href="#catalog" class="hero-cta-btn hero-cta-gold" id="hero-discover-btn">EXPLORE CO-ORDS</a>
-<a href="#story-section" class="hero-cta-btn hero-cta-glass">OUR HERITAGE</a>
-</div>
-</div>
-</div>
-</div>
-<div class="scroll-indicator">
-<span class="scroll-text">Scroll</span>
-<div class="scroll-line">
-</div>
-</div>
-</section>
-<section class="lookbook-section" id="lookbook">
-<div class="section-header">
-<span class="sub-title">Editorial Lookbook</span>
-<h2 class="section-title">THE ART OF EFFORTLESS LUXURY</h2>
-<div class="divider-gold">
-</div>
-</div>
-<div class="lookbook-grid">
-<div class="lookbook-item lookbook-large animate-on-scroll">
-<div class="lookbook-img-wrapper">
-<img src="images/coord_black_floral.webp" alt="The Noir Botanical Silk Co-Ord Set" width="800" height="1000" loading="lazy" decoding="async">
-</div>
-<div class="lookbook-info">
-<span class="item-tag">Pure Modal Silk</span>
-<h3>Botanical Silk Sets</h3>
-<p>Fluid shirt tunics paired with relaxed wide-leg trousers in rich floral prints.</p>
-</div>
-</div>
-<div class="lookbook-item lookbook-small animate-on-scroll">
-<div class="lookbook-img-wrapper">
-<img src="images/coord_indigo_print.webp" alt="Indigo Heritage Handblock Modal Set" width="800" height="1000" loading="lazy" decoding="async">
-</div>
-<div class="lookbook-info">
-<span class="item-tag">Handblock</span>
-<h3>Indigo Artisanal Craft</h3>
-<p>Rooted in authentic Indian dyes with a modern, breathable silhouette.</p>
-</div>
-</div>
-</div>
-</section>
-<section class="catalog-section" id="catalog">
-<div class="section-header">
-<span class="sub-title">Signature Collections</span>
-<h2 class="section-title" id="catalog-title-text">DESIGNER CO-ORD SETS</h2>
-<div class="divider-gold">
-</div>
-</div>
-<div class="catalog-tabs" id="catalog-tabs-container">
-</div>
-<div class="catalog-controls-container">
-<div class="boutique-controls-bar">
-<div class="boutique-search-wrapper">
-<i class="fa-solid fa-magnifying-glass search-icon-gold">
-</i>
-<input type="text" id="boutique-search-input" placeholder="Search creations...">
-</div>
-<div class="boutique-sort-wrapper">
-<label for="boutique-sort-select">Sort By</label>
-<select id="boutique-sort-select">
-<option value="default">Default Showroom</option>
-<option value="price-asc">Price: Low to High</option>
-<option value="price-desc">Price: High to Low</option>
-<option value="title-asc">Alphabetical: A to Z</option>
-</select>
-</div>
-</div>
-</div>
-<div class="product-grid" id="product-list-container">
-</div>
-</section>
-<section class="testimonials-section section-padding" id="reviews-section">
-<div class="container" style="max-width: 1600px; margin: 0 auto; padding: 0 2rem;">
-<div class="section-header animate-on-scroll" style="text-align: center;">
-<span class="section-tag" style="text-transform: uppercase; font-size: 11px; letter-spacing: 0.25em; color: var(--gold); display: block; margin-bottom: 0.5rem;">Voices of Distinction</span>
-<h2 class="section-title" style="font-family: var(--font-serif); font-size: 2.6rem; font-weight: 300; letter-spacing: 0.1em; color: var(--ivory); text-transform: uppercase;">CLIENT TESTIMONIALS &amp; REVIEWS</h2>
-<div class="divider-gold">
-</div>
-</div>
-<div class="reviews-summary-bar animate-on-scroll">
-<div class="rating-aggregate-badge">
-<div class="rating-score-huge">4.9</div>
-<div class="rating-stars-stack">
-<div class="rating-stars-gold">
-<i class="fa-solid fa-star">
-</i>
-<i class="fa-solid fa-star">
-</i>
-<i class="fa-solid fa-star">
-</i>
-<i class="fa-solid fa-star">
-</i>
-<i class="fa-solid fa-star">
-</i>
-</div>
-<div class="rating-count-label" id="reviews-count-display">49 Verified Google Reviews</div>
-</div>
-</div>
-<div class="reviews-actions-group">
-<button type="button" class="write-review-trigger-btn" onclick="openWriteReviewModal()">
-<i class="fa-solid fa-pen-nib">
-</i> Write a Review
- </button>
-</div>
-</div>
-<div class="reviews-filter-pills animate-on-scroll">
-<button class="review-filter-pill active" onclick="filterClientReviews('All', this)">All Reviews (49)</button>
-<button class="review-filter-pill" onclick="filterClientReviews('Co-Ord', this)">Co-Ord Sets</button>
-<button class="review-filter-pill" onclick="filterClientReviews('Fitting', this)">Stitching &amp; Fitting</button>
-<button class="review-filter-pill" onclick="filterClientReviews('Service', this)">Boutique Service</button>
-<button class="review-filter-pill" onclick="filterClientReviews('Festive', this)">Festive Sets</button>
-</div>
-<div class="testimonials-grid animate-on-scroll" id="testimonials-grid-container">
-</div>
-</div>
-</section>
-<section class="story-section" id="story-section">
-<div class="story-container">
-<div class="story-image-side animate-on-scroll">
-<img src="images/heritage_craft.webp" alt="Embroidery detail hands" width="800" height="900" loading="lazy" decoding="async">
-</div>
-<div class="story-text-side animate-on-scroll">
-<span class="story-tag">Our Legacy</span>
-<h2 class="story-title" id="story-title-text">CRAFTED FOR ROYALS</h2>
-<div class="divider-gold-left">
-</div>
-<p class="story-paragraph" id="story-desc-text">
- Every creation at Shapes By Satiinder Kaur begins as a dream of fabric and thread. Our master craftsmen revive age-old techniques of zardozi, badla, and beadwork from royal households, fusing them seamlessly with structural silhouettes that contour the modern form.
- </p>
-<p class="story-paragraph">
- We celebrate heritage that refuses to remain in the past, transforming ancient handlooms into breathtaking contemporary treasures.
- </p>
-<div class="story-signature">Shapes By Satiinder Kaur</div>
-</div>
-</div>
-</section>
-<section class="luxury-journal-section" id="journal-section">
-<div class="container" style="max-width: 1600px; margin: 0 auto; padding: 0 2rem;">
-<div class="section-header animate-on-scroll" style="text-align: center;">
-<span class="section-tag" style="text-transform: uppercase; font-size: 11px; letter-spacing: 0.25em; color: var(--gold); display: block; margin-bottom: 0.5rem;">Couture Editorial</span>
-<h2 class="section-title" style="font-family: var(--font-serif); font-size: 2.6rem; font-weight: 300; letter-spacing: 0.1em; color: var(--ivory); text-transform: uppercase;">THE SHAPES JOURNAL</h2>
-<div class="divider-gold">
-</div>
-<p style="font-size: 12px; color: var(--grey-dark); max-width: 600px; margin: 0.8rem auto 0; font-family: var(--font-serif); font-style: italic;">
- Curated narratives on heritage embroidery, bridal trousseau architecture, and modern royal corsetry.
- </p>
-</div>
-<div class="journal-grid animate-on-scroll" id="store-journal-grid">
-</div>
-</div>
-</section>
-<section class="boutique-faq-section section-padding" id="faq-section" style="background: #111111; border-top: 1px solid rgba(197,160,89,0.15); padding: 5rem 0;">
-<div class="container" style="max-width: 1100px; margin: 0 auto; padding: 0 1.5rem;">
-<div class="section-header animate-on-scroll" style="text-align: center; margin-bottom: 3.5rem;">
-<span class="section-tag" style="text-transform: uppercase; font-size: 11px; letter-spacing: 0.25em; color: var(--gold); display: block; margin-bottom: 0.5rem;">Client Guidance &amp; Information</span>
-<h2 class="section-title" style="font-family: var(--font-serif); font-size: 2.4rem; font-weight: 300; letter-spacing: 0.1em; color: var(--ivory); text-transform: uppercase;">FREQUENTLY ASKED QUESTIONS</h2>
-<div class="divider-gold">
-</div>
-<p style="font-size: 13px; color: var(--grey-medium); max-width: 650px; margin: 0.8rem auto 0; font-family: var(--font-sans); line-height: 1.6;">
- Everything you need to know about bespoke designer co-ord sets, tailored fits, fabric care, and visiting Shapes Boutique in Chembur, Mumbai.
- </p>
-</div>
-<div class="faq-accordion-list" style="display: flex; flex-direction: column; gap: 1rem;">
-<div class="faq-item" style="background: #161616; border: 1px solid rgba(197,160,89,0.2); border-radius: 6px; overflow: hidden; transition: all 0.3s ease;">
-<button type="button" class="faq-question-btn" onclick="this.parentElement.classList.toggle('active')" style="width: 100%; text-align: left; padding: 1.25rem 1.5rem; background: transparent; border: none; color: #FFFFFF; font-family: var(--font-serif); font-size: 1.2rem; font-weight: 500; display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
-<span>Where is Shapes Boutique located in Mumbai?</span>
-<i class="fa-solid fa-chevron-down faq-chevron" style="color: var(--gold); font-size: 13px; transition: transform 0.3s ease;">
-</i>
-</button>
-<div class="faq-answer-content" style="padding: 0 1.5rem 1.25rem 1.5rem; font-family: var(--font-sans); font-size: 13px; line-height: 1.7; color: rgba(255,255,255,0.8); border-top: 1px solid rgba(197,160,89,0.1); display: none;">
-<p style="margin-top: 0.8rem;">
-<strong>Shapes Boutique</strong> is located at <strong>Shop No 4, Bus Stop, Ghatla Village Rd, Near Maitri Park, Basant Garden, Chembur, Mumbai, Maharashtra 400071, India</strong>. Our flagship boutique is open Monday through Sunday from 11:00 AM to 8:00 PM IST for walk-in shopping and private styling appointments.
- </p>
-</div>
-</div>
-<div class="faq-item" style="background: #161616; border: 1px solid rgba(197,160,89,0.2); border-radius: 6px; overflow: hidden; transition: all 0.3s ease;">
-<button type="button" class="faq-question-btn" onclick="this.parentElement.classList.toggle('active')" style="width: 100%; text-align: left; padding: 1.25rem 1.5rem; background: transparent; border: none; color: #FFFFFF; font-family: var(--font-serif); font-size: 1.2rem; font-weight: 500; display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
-<span>What collections does Shapes Boutique specialize in?</span>
-<i class="fa-solid fa-chevron-down faq-chevron" style="color: var(--gold); font-size: 13px; transition: transform 0.3s ease;">
-</i>
-</button>
-<div class="faq-answer-content" style="padding: 0 1.5rem 1.25rem 1.5rem; font-family: var(--font-sans); font-size: 13px; line-height: 1.7; color: rgba(255,255,255,0.8); border-top: 1px solid rgba(197,160,89,0.1); display: none;">
-<p style="margin-top: 0.8rem;">
- Shapes Boutique (Shapes By Satiinder Kaur) specializes in designer 2-piece <strong>co-ord sets</strong>, pure modal silk floral printed sets, breathable organic linen sets, festive raw silk sets with hand embroidery, and contemporary Indian luxury pret starting from approximately ₹7,000.
- </p>
-</div>
-</div>
-<div class="faq-item" style="background: #161616; border: 1px solid rgba(197,160,89,0.2); border-radius: 6px; overflow: hidden; transition: all 0.3s ease;">
-<button type="button" class="faq-question-btn" onclick="this.parentElement.classList.toggle('active')" style="width: 100%; text-align: left; padding: 1.25rem 1.5rem; background: transparent; border: none; color: #FFFFFF; font-family: var(--font-serif); font-size: 1.2rem; font-weight: 500; display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
-<span>What sizes are available and do you offer custom tailoring?</span>
-<i class="fa-solid fa-chevron-down faq-chevron" style="color: var(--gold); font-size: 13px; transition: transform 0.3s ease;">
-</i>
-</button>
-<div class="faq-answer-content" style="padding: 0 1.5rem 1.25rem 1.5rem; font-family: var(--font-sans); font-size: 13px; line-height: 1.7; color: rgba(255,255,255,0.8); border-top: 1px solid rgba(197,160,89,0.1); display: none;">
-<p style="margin-top: 0.8rem;">
- We offer standard sizes from <strong>XS to XXL</strong> with detailed size charts. We also provide custom size adjustments (tunic length, sleeve length, trouser inseam, and waistband comfort elastic) tailored to your exact measurements.
- </p>
-</div>
-</div>
-<div class="faq-item" style="background: #161616; border: 1px solid rgba(197,160,89,0.2); border-radius: 6px; overflow: hidden; transition: all 0.3s ease;">
-<button type="button" class="faq-question-btn" onclick="this.parentElement.classList.toggle('active')" style="width: 100%; text-align: left; padding: 1.25rem 1.5rem; background: transparent; border: none; color: #FFFFFF; font-family: var(--font-serif); font-size: 1.2rem; font-weight: 500; display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
-<span>What are your production and delivery timelines across India and globally?</span>
-<i class="fa-solid fa-chevron-down faq-chevron" style="color: var(--gold); font-size: 13px; transition: transform 0.3s ease;">
-</i>
-</button>
-<div class="faq-answer-content" style="padding: 0 1.5rem 1.25rem 1.5rem; font-family: var(--font-sans); font-size: 13px; line-height: 1.7; color: rgba(255,255,255,0.8); border-top: 1px solid rgba(197,160,89,0.1); display: none;">
-<p style="margin-top: 0.8rem;">
- Since each garment is individually tailored and finished to order, standard crafting and delivery takes <strong>15 to 22 working days</strong>. We provide complimentary insured express courier delivery across India and express worldwide shipping with real-time tracking.
- </p>
-</div>
-</div>
-<div class="faq-item" style="background: #161616; border: 1px solid rgba(197,160,89,0.2); border-radius: 6px; overflow: hidden; transition: all 0.3s ease;">
-<button type="button" class="faq-question-btn" onclick="this.parentElement.classList.toggle('active')" style="width: 100%; text-align: left; padding: 1.25rem 1.5rem; background: transparent; border: none; color: #FFFFFF; font-family: var(--font-serif); font-size: 1.2rem; font-weight: 500; display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
-<span>How do I visit or contact Shapes Boutique in Chembur?</span>
-<i class="fa-solid fa-chevron-down faq-chevron" style="color: var(--gold); font-size: 13px; transition: transform 0.3s ease;">
-</i>
-</button>
-<div class="faq-answer-content" style="padding: 0 1.5rem 1.25rem 1.5rem; font-family: var(--font-sans); font-size: 13px; line-height: 1.7; color: rgba(255,255,255,0.8); border-top: 1px solid rgba(197,160,89,0.1); display: none;">
-<p style="margin-top: 0.8rem;">
- You can visit us directly at our Chembur showroom or contact us via telephone / WhatsApp at <a href="tel:+919833392756" style="color: var(--gold); text-decoration: underline;">+91 98333 92756</a> or email at <a href="mailto:shapesuniform@gmail.com" style="color: var(--gold); text-decoration: underline;">shapesuniform@gmail.com</a>.
- </p>
-</div>
-</div>
-</div>
-</div>
-</section>
-</main>
-<footer class="luxury-footer">
-<div class="footer-container">
-<div class="footer-col brand-info">
-<h3>Shapes By Satiinder Kaur</h3>
-<p>Boutique of high fashion, bridal couture, and fine heritage wear.</p>
-<div style="margin-top: 0.6rem; font-size: 10px; color: var(--gold); letter-spacing: 0.05em;">
- Registered Business Entity:<br>
-<strong style="color: #fff; font-size: 11px; letter-spacing: 0.1em;">SHAPES UNIFORM</strong>
-</div>
-<div style="margin-top: 1rem; display: inline-flex; flex-direction: column; gap: 2px;">
-<div style="font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 4px;">Google Rating</div>
-<div style="display: flex; align-items: center; gap: 8px;">
-<span style="font-family: var(--font-serif); font-size: 1.8rem; color: var(--gold); line-height: 1;">4.9</span>
-<div>
-<div style="color: #FFD700; font-size: 12px; letter-spacing: 2px;">★★★★★</div>
-<div style="font-size: 9px; color: var(--grey-medium); margin-top: 2px;">49 Google Reviews</div>
-</div>
-</div>
-<a href="info.html#reviews" target="_blank" style="font-size: 9px; color: var(--gold); text-decoration: none; letter-spacing: 0.1em; margin-top: 4px;">Read All Reviews →</a>
-</div>
-</div>
-<div class="footer-col">
-<h4>Collections</h4>
-<ul>
-<li>
-<a href="#printed" class="footer-shop-trigger" data-category="Printed Co-Ords">Printed Co-Ords</a>
-</li>
-<li>
-<a href="#linen" class="footer-shop-trigger" data-category="Linen &amp; Cotton">Linen &amp; Cotton Sets</a>
-</li>
-<li>
-<a href="#festive" class="footer-shop-trigger" data-category="Festive Co-Ords">Festive Silk Co-Ords</a>
-</li>
-<li>
-<a href="#fusion" class="footer-shop-trigger" data-category="Fusion Sets">Fusion Pret Wear</a>
-</li>
-</ul>
-</div>
-<div class="footer-col">
-<h4>Legal &amp; Policies</h4>
-<ul>
-<li>
-<a href="contact.html" target="_blank">Contact Us</a>
-</li>
-<li>
-<a href="info.html#terms" target="_blank">Terms &amp; Conditions</a>
-</li>
-<li>
-<a href="info.html#privacy" target="_blank">Privacy Policy</a>
-</li>
-<li>
-<a href="info.html#refund" target="_blank">Refund &amp; Exchange Policy</a>
-</li>
-<li>
-<a href="info.html#cancellation" target="_blank">Cancellation Policy</a>
-</li>
-<li>
-<a href="info.html#policy" target="_blank">Shipping &amp; Delivery</a>
-</li>
-<li>
-<a href="info.html#faq" target="_blank">Frequently Asked Questions</a>
-</li>
-</ul>
-</div>
-<div class="footer-col contact-info-col">
-<h4>Mumbai Flagship Boutique</h4>
-<p style="font-size: 12px; line-height: 1.6; color: var(--grey-medium); margin-bottom: 0.8rem;">
-<strong style="color: #fff;">SHAPES BOUTIQUE</strong>
-<br>
- Shop No 4, Bus Stop, Ghatla Village Rd, Near Maitri Park, Basant Garden, Chembur, Mumbai 400071<br>
-<strong>Entity:</strong>
-<span style="color: #fff;">SHAPES UNIFORM</span>
-<br>
-<strong>T:</strong>
-<a href="tel:+919833392756" style="color: var(--gold);">+91 98333 92756</a>
-<br>
-<strong>E:</strong>
-<a href="mailto:shapesuniform@gmail.com" style="color: var(--gold);">shapesuniform@gmail.com</a>
-</p>
-<div style="background: rgba(197,160,89,0.08); border: 1px solid rgba(197,160,89,0.2); border-radius: 3px; padding: 0.8rem 1rem; font-size: 10px; line-height: 1.7; color: var(--grey-medium);">
-<div style="color: var(--gold); font-weight: 600; letter-spacing: 0.1em; margin-bottom: 0.4rem;">📦 STORE POLICY HIGHLIGHTS</div>
-<div>⏱ Delivery: <strong style="color: #fff;">15 – 22 working days</strong>
-</div>
-<div>🔄 <strong style="color: #fff;">Exchange ONLY on Verified Defects</strong> (48h proof)</div>
-<div>🚫 No Monetary / Cash Refunds</div>
-<div>💳 100% Secure Online Payment (No COD)</div>
-</div>
-</div>
-</div>
-<div class="footer-bottom">
-<p>&copy; 2026 <strong>SHAPES UNIFORM</strong> (Operating as Shapes By Satiinder Kaur). All Rights Reserved. &nbsp;|&nbsp; 
- <a href="contact.html" style="color: var(--grey-medium); text-decoration:none;">Contact Us</a> &nbsp;·&nbsp;
- <a href="info.html#terms" style="color: var(--grey-medium); text-decoration:none;">Terms</a> &nbsp;·&nbsp;
- <a href="info.html#privacy" style="color: var(--grey-medium); text-decoration:none;">Privacy</a> &nbsp;·&nbsp;
- <a href="info.html#refund" style="color: var(--grey-medium); text-decoration:none;">Refunds &amp; Exchanges</a> &nbsp;·&nbsp;
- <a href="info.html#cancellation" style="color: var(--grey-medium); text-decoration:none;">Cancellations</a>
-</p>
-</div>
-</footer>
-<div class="cart-drawer-overlay" id="cart-drawer">
-<div class="cart-drawer">
-<div class="cart-drawer-header">
-<h3>YOUR SHOPPING BAG</h3>
-<button class="close-drawer-btn" id="close-cart-btn">&times;</button>
-</div>
-<div class="cart-items-list" id="cart-items-container">
-</div>
-<div class="cart-drawer-footer">
-<div class="cart-summary-row">
-<span>Subtotal</span>
-<span id="cart-subtotal">₹ 0</span>
-</div>
-<p class="shipping-notice">Complimentary shipping · 15–22 working days · Exchange on Defects Only · No COD</p>
-<button class="checkout-btn" id="proceed-checkout-btn">PROCEED TO SECURE CHECKOUT</button>
-</div>
-</div>
-</div>
-<div class="cart-drawer-overlay" id="wishlist-drawer">
-<div class="cart-drawer">
-<div class="cart-drawer-header">
-<h3>YOUR SAVED WISHLIST</h3>
-<button class="close-drawer-btn" id="close-wishlist-btn">&times;</button>
-</div>
-<div class="cart-items-list" id="wishlist-items-container">
-</div>
-<div class="cart-drawer-footer">
-<p class="shipping-notice" style="margin-bottom: 0.8rem;">Saved luxury creations are reserved in your private shortlist.</p>
-<button class="checkout-btn" id="wishlist-shop-btn" style="background: transparent; border: 1px solid var(--gold); color: var(--gold);">CONTINUE BROWSING</button>
-</div>
-</div>
-</div>
-<div class="luxury-modal" id="product-detail-modal">
-<div class="modal-content-wrapper">
-<button class="close-modal-btn" id="close-product-modal">&times;</button>
-<div class="modal-grid">
-<div class="modal-image-side">
-<div class="image-zoom-container" id="zoom-container">
-<img loading="lazy" decoding="async" src="" alt="" id="modal-product-image">
-</div>
-<p class="zoom-help">
-<i class="fa-solid fa-magnifying-glass">
-</i> Hover over image to inspect weave detail</p>
-</div>
-<div class="modal-info-side">
-<span class="modal-product-category" id="modal-product-category">
-</span>
-<h2 class="modal-product-title" id="modal-product-title">
-</h2>
-<div class="modal-product-price" id="modal-product-price">
-</div>
-<div id="razorpay-affordability-widget" style="margin: 6px 0 12px 0;">
-</div>
-<div class="modal-stock-status" id="modal-product-stock">
-</div>
-<p class="modal-product-desc" id="modal-product-desc">
-</p>
-<div class="size-selection-area">
-<label>Select Size</label>
-<div class="sizes-grid">
-<button class="size-option" data-size="S">S</button>
-<button class="size-option" data-size="M">M</button>
-<button class="size-option" data-size="L">L</button>
-<button class="size-option" data-size="XL">XL</button>
-</div>
-</div>
-<div class="modal-action-buttons-grid">
-<button class="add-to-cart-action-btn" id="modal-add-to-cart-btn">ADD TO BAG</button>
-<div class="secondary-modal-actions">
-<button class="modal-wishlist-toggle-btn" id="modal-wishlist-btn" title="Save to Wishlist">
-<i class="fa-regular fa-heart">
-</i>
-<span>Save</span>
-</button>
-<button class="modal-share-wa-btn" id="modal-share-wa-btn" title="Share Design on WhatsApp">
-<i class="fa-brands fa-whatsapp">
-</i>
-<span>Share</span>
-</button>
-</div>
-</div>
-<div class="accordion-group">
-<div class="accordion-item">
-<button class="accordion-header">
-<span>The Craftsmanship</span>
-<i class="fa-solid fa-chevron-down">
-</i>
-</button>
-<div class="accordion-body" id="modal-craftsmanship-detail">
- Handcrafted by regional master weavers. Utilizes organic threads, heavy embroideries, and delicate borders. Dry clean only.
- </div>
-</div>
-<div class="accordion-item">
-<button class="accordion-header">
-<span>Delivery &amp; Policy</span>
-<i class="fa-solid fa-chevron-down">
-</i>
-</button>
-<div class="accordion-body">
- Delivered in signature archival hard-boxes with fabric-lined sleeves. <strong>Delivery time: 15–22 working days</strong>. All creations are made-to-order. <strong>Exchange is offered strictly on verified manufacturing defects</strong> reported within 48 hours of delivery with unboxing proof. No cash refunds. 100% secure online payment (No COD).
- </div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="luxury-modal" id="checkout-modal">
-<div class="checkout-modal-card">
-<button class="close-modal-btn" id="close-checkout-btn">&times;</button>
-<div class="checkout-layout">
-<div class="checkout-form-container" id="checkout-main-form">
-<h2>SECURE CHECKOUT</h2>
-<div class="divider-gold-left">
-</div>
-<form id="billing-shipping-form">
-<h3>Shipping & Concierge Details</h3>
-<div class="form-row">
-<div class="input-field">
-<label for="cust-name">Full Name</label>
-<input type="text" id="cust-name" required placeholder="Arthur Hastings">
-</div>
-<div class="input-field">
-<label for="cust-email">Email Address</label>
-<input type="email" id="cust-email" required placeholder="concierge@shapescouture.com">
-</div>
-</div>
-<div class="input-field">
-<label for="cust-address">Delivery Address</label>
-<input type="text" id="cust-address" required placeholder="74 Park Avenue, Penthouse B, Mumbai">
-</div>
-<div class="form-row">
-<div class="input-field">
-<label for="cust-phone">Contact Number</label>
-<input type="tel" id="cust-phone" required placeholder="+91 98333 92756">
-</div>
-<div class="input-field">
-<label for="cust-zip">Zip/Postal Code</label>
-<input type="text" id="cust-zip" required placeholder="400071">
-</div>
-</div>
-<div class="input-field">
-<label for="cust-gstin">Company GSTIN / Tax ID <span style="font-size: 9px; color: var(--gold);">(Optional for B2B Input Credit)</span>
-</label>
-<input type="text" id="cust-gstin" placeholder="e.g. 27AAAAA0000A1Z5">
-</div>
-<button type="submit" class="submit-order-btn">CONFIRM &amp; PAY SECURELY</button>
-</form>
-</div>
-<div class="order-success-screen" id="order-success-screen" style="display: none;">
-<i class="fa-solid fa-circle-check gold-success-icon">
-</i>
-<h2>ORDER AUTHORIZED</h2>
-<span class="success-subtitle">Welcome to the World of Shapes By Satiinder Kaur</span>
-<div class="divider-gold">
-</div>
-<p>
- Your exclusive order has been successfully placed. A luxury concierge will contact you shortly at your registered number and email to review sizing details and coordinate delivery.
- </p>
-<div class="order-id-display">Order Reference: <strong id="order-ref-code">#SH-0001</strong>
-</div>
-<div style="display: flex; flex-direction: column; gap: 0.8rem; margin-top: 1.5rem; width: 100%;">
-<a id="whatsapp-confirm-btn" href="#" target="_blank" rel="noopener"
- style="display: flex; align-items: center; justify-content: center; gap: 0.6rem;
- background: #25D366; color: #fff; padding: 0.9rem 1.5rem; border-radius: 3px;
- font-family: var(--font-sans); font-size: 11px; font-weight: 600;
- letter-spacing: 0.15em; text-decoration: none; text-transform: uppercase; transition: opacity 0.2s;">
-<i class="fa-brands fa-whatsapp" style="font-size: 16px;">
-</i> CONFIRM ORDER ON WHATSAPP
- </a>
-<a id="track-order-btn" href="track.html" target="_blank" rel="noopener"
- style="display: flex; align-items: center; justify-content: center; gap: 0.6rem;
- background: transparent; color: var(--gold); padding: 0.9rem 1.5rem; border-radius: 3px;
- font-family: var(--font-sans); font-size: 11px; font-weight: 600;
- letter-spacing: 0.15em; text-decoration: none; text-transform: uppercase;
- border: 1px solid var(--gold); transition: all 0.2s;">
-<i class="fa-solid fa-truck-fast">
-</i> TRACK MY ORDER &amp; INVOICE
- </a>
-<button class="close-success-btn" id="finish-checkout-btn">RETURN TO SHOWROOM</button>
-</div>
-</div>
-<div class="checkout-summary-side">
-<h3>Bag &amp; Tax Summary</h3>
-<div class="checkout-items-summary" id="checkout-items-list">
-</div>
-<div class="checkout-totals">
-<div class="total-row">
-<span>Subtotal (Inclusive of GST)</span>
-<span id="checkout-subtotal">₹ 0</span>
-</div>
-<div class="total-row">
-<span style="font-size: 11px; color: var(--grey-dark);">&#8627; Includes 12% GST (CGST + SGST)</span>
-<span id="checkout-gst-amount" class="gold-text" style="font-size: 11px;">₹ 0</span>
-</div>
-<div class="total-row">
-<span>Courier Shipping</span>
-<span class="gold-text">Complimentary (₹0)</span>
-</div>
-<div class="total-row grand-total">
-<span>Total Payable (All Taxes Incl.)</span>
-<span id="checkout-grand-total">₹ 0</span>
-</div>
-<div class="tax-disclaimer" style="font-size: 9.5px; color: var(--grey-dark); line-height: 1.5; margin-top: 0.8rem; border-top: 1px dashed rgba(197, 160, 89, 0.2); padding-top: 0.6rem;">
-<i class="fa-solid fa-file-invoice" style="color: var(--gold);">
-</i> All product prices are 100% inclusive of 12% GST under HSN Code 6204. No extra charges applied at checkout.
- </div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="mobile-bottom-bar" id="mobile-bottom-bar">
-<a href="index.html" class="mobile-bar-item active">
-<i class="fa-solid fa-house">
-</i>
-<span>Home</span>
-</a>
-<a href="#catalog" class="mobile-bar-item mobile-shop-trigger" data-category="All">
-<i class="fa-solid fa-shapes">
-</i>
-<span>Shop</span>
-</a>
-<a href="track.html" class="mobile-bar-item">
-<i class="fa-solid fa-truck-fast">
-</i>
-<span>Track</span>
-</a>
-<a href="account.html" class="mobile-bar-item">
-<i class="fa-solid fa-circle-user">
-</i>
-<span>Account</span>
-</a>
-<button class="mobile-bar-item" id="mobile-bar-cart-btn" aria-label="Shopping Bag">
-<div style="position:relative; display:inline-block;">
-<i class="fa-solid fa-bag-shopping">
-</i>
-<span class="mobile-bar-badge" id="mobile-cart-count">0</span>
-</div>
-<span>Bag</span>
-</button>
-</div>
-<div class="mobile-toast-alert" id="mobile-toast">
-<div class="toast-content">
-<i class="fa-solid fa-circle-check gold-icon">
-</i>
-<span id="toast-message">Added to Shopping Bag</span>
-</div>
-<button class="toast-action-btn" id="toast-view-bag-btn">VIEW BAG →</button>
-</div>
-<div class="review-modal-overlay" id="write-review-modal" role="dialog" aria-modal="true">
-<div class="review-modal-card">
-<button class="close-review-modal-btn" onclick="closeWriteReviewModal()" aria-label="Close Modal">&times;</button>
-<div class="review-form-header">
-<span style="font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 4px;">Client Experience</span>
-<h3>Share Your Experience</h3>
-<p>Your gracious words inspire our master artisans and help other couture seekers.</p>
-</div>
-<form id="write-review-form" onsubmit="handleClientReviewSubmit(event)">
-<div class="star-rating-picker-wrapper">
-<span class="star-rating-label">Select Your Rating</span>
-<div class="star-picker-interactive" id="review-stars-picker">
-<i class="fa-solid fa-star selected" data-rating="1">
-</i>
-<i class="fa-solid fa-star selected" data-rating="2">
-</i>
-<i class="fa-solid fa-star selected" data-rating="3">
-</i>
-<i class="fa-solid fa-star selected" data-rating="4">
-</i>
-<i class="fa-solid fa-star selected" data-rating="5">
-</i>
-</div>
-<div class="star-rating-feedback-text" id="star-rating-feedback">★★★★★ Exceptional (5 / 5 Stars)</div>
-<input type="hidden" id="review-rating-value" value="5">
-</div>
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-<div class="review-input-group">
-<label for="rev-author-name">Your Full Name *</label>
-<input type="text" id="rev-author-name" placeholder="e.g. Rhea Sharma" required>
-</div>
-<div class="review-input-group">
-<label for="rev-author-city">City / Location *</label>
-<input type="text" id="rev-author-city" placeholder="e.g. Mumbai / London" required>
-</div>
-</div>
-<div class="review-input-group">
-<label for="rev-category-select">Garment / Collection Purchased *</label>
-<select id="rev-category-select" required>
-<option value="Bridal">Palace Bridal Lehenga &amp; Blouse</option>
-<option value="Corset" selected>Handcrafted Zardozi Corset</option>
-<option value="Pret">Contemporary Pret &amp; Draped Ensemble</option>
-<option value="Couture">Custom Bespoke Couture</option>
-</select>
-</div>
-<div class="review-input-group">
-<label for="rev-story-text">Your Review / Experience *</label>
-<textarea id="rev-story-text" placeholder="Describe the fit, embroidery precision, fabric feel, styling consultation, or delivery experience..." required>
-</textarea>
-</div>
-<button type="submit" class="submit-review-action-btn" id="submit-review-btn">
-<i class="fa-solid fa-sparkles">
-</i> Publish Client Review
- </button>
-</form>
-</div>
-</div>
-<div class="journal-modal-overlay" id="journal-reader-modal" role="dialog" aria-modal="true">
-<div class="journal-modal-card">
-<button class="journal-modal-close-btn" onclick="closeArticleReader()" aria-label="Close Article">&times;</button>
-<div id="journal-reader-content">
-</div>
-</div>
-</div>
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-<script src="index.js?v=15.0" defer>
-</script>
-<script>(function() { var fbLoaded = false; function loadFirebase() { if (fbLoaded) return; fbLoaded = true; const s = document.createElement('script'); s.type = 'module'; s.textContent = ` import { auth, db, onAuthStateChanged, collection, addDoc, getDocs, query, where, orderBy, doc, updateDoc } from './firebase-config.js'; window._dbStore = db; window._collectionStore = collection; window._addDocStore = addDoc; async function syncCloudReviews() { try { const snap = await getDocs(collection(db, "reviews")); if (!snap.empty) { const cloudRevs = []; snap.forEach(d => { const data = d.data(); cloudRevs.push({ id: d.id, ...data }); }); const localRevs = JSON.parse(localStorage.getItem("shapes_client_reviews") || "[]"); const merged = [...cloudRevs]; localRevs.forEach(lr => { if (!merged.some(mr => (mr.id && mr.id === lr.id) || (mr.text && mr.text === lr.text && mr.author === lr.author))) merged.push(lr); }); localStorage.setItem("shapes_client_reviews", JSON.stringify(merged)); if (typeof window.renderClientReviews === "function") window.renderClientReviews(); } } catch (err) { console.warn("Firestore reviews sync:", err.message); } } async function syncCustomer(user) { try { const q = query(collection(db, "customers"), where("uid", "==", user.uid)); const snap = await getDocs(q); const now = new Date().toISOString(); const displayName = user.displayName || (user.email ? user.email.split('@')[0] : "Client"); if (snap.empty) { await addDoc(collection(db, "customers"), { uid: user.uid, name: displayName, email: user.email || "", phone: user.phoneNumber || "", createdAt: now, lastLoginAt: now, loginCount: 1 }); } } catch (e) { console.warn("Customer sync:", e.message); } } onAuthStateChanged(auth, (user) => { if (typeof window._onAuthUser === "function") window._onAuthUser(user); if (user) syncCustomer(user); }); syncCloudReviews(); `; document.head.appendChild(s); } if ('requestIdleCallback' in window) { requestIdleCallback(loadFirebase, { timeout: 4000 }); } else { window.addEventListener('load', function() { setTimeout(loadFirebase, 3000); }); } ['scroll', 'click', 'touchstart', 'keydown'].forEach(function(evt) { window.addEventListener(evt, loadFirebase, { once: true, passive: true }); }); })();</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"ClothingStore","@id":"https://shapesbysatinderkaur.com/#store","name":"Shapes Boutique","alternateName":["Shapes","Shapes By Satiinder Kaur","Shapes Uniform","Shapes Boutique Chembur","Shapes Mumbai","Shapes Luxury Pret"],"legalName":"SHAPES UNIFORM","url":"https://shapesbysatinderkaur.com","logo":"https://shapesbysatinderkaur.com/images/app_icon.webp","image":"https://shapesbysatinderkaur.com/images/welcome_coord_luxury.webp","description":"Shapes Boutique (operating brand: Shapes By Satiinder Kaur) is an exclusive designer boutique based in Chembur, Mumbai. Specializing in luxury printed silk co-ord sets, pure organic linen 2-piece sets, festive embroidered co-ords, and contemporary Indian luxury pret.","telephone":"+91 98333 92756","email":"shapesuniform@gmail.com","priceRange":"\u20b9\u20b9\u20b9","currenciesAccepted":"INR, USD, GBP, EUR, AED","paymentAccepted":"Credit Card, Debit Card, UPI, Net Banking, Razorpay","hasMap":"https://maps.google.com/?q=Shapes+Boutique+Chembur+Mumbai","address":{"@type":"PostalAddress","streetAddress":"Shop No 4, Bus Stop, Ghatla Village Rd, Near Maitri Park, Basant Garden, Chembur","addressLocality":"Mumbai","addressRegion":"Maharashtra","postalCode":"400071","addressCountry":"IN"},"geo":{"@type":"GeoCoordinates","latitude":19.0522,"longitude":72.8995},"areaServed":["Mumbai","Maharashtra","India","Worldwide"],"openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],"opens":"11:00","closes":"20:00"}],"aggregateRating":{"@type":"AggregateRating","ratingValue":"4.9","reviewCount":"49","bestRating":"5","worstRating":"1"},{"@type":"WebSite","@id":"https://shapesbysatinderkaur.com/#website","url":"https://shapesbysatinderkaur.com","name":"Shapes Boutique","alternateName":"Shapes By Satiinder Kaur","publisher":{"@id":"https://shapesbysatinderkaur.com/#store"},"potentialAction":{"@type":"SearchAction","target":"https://shapesbysatinderkaur.com/#catalog?q={search_term_string}","query-input":"required name=search_term_string"},{"@type":"BreadcrumbList","@id":"https://shapesbysatinderkaur.com/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://shapesbysatinderkaur.com/"},{"@type":"ListItem","position":2,"name":"Designer Co-Ord Sets","item":"https://shapesbysatinderkaur.com/#catalog"},{"@type":"ListItem","position":3,"name":"Our Story","item":"https://shapesbysatinderkaur.com/#story-section"},{"@type":"ListItem","position":4,"name":"Reviews","item":"https://shapesbysatinderkaur.com/#reviews-section"}]},{"@type":"FAQPage","@id":"https://shapesbysatinderkaur.com/#faq","mainEntity":[{"@type":"Question","name":"Where is Shapes Boutique located in Mumbai?","acceptedAnswer":{"@type":"Answer","text":"Shapes Boutique is located at Shop No 4, Bus Stop, Ghatla Village Rd, Near Maitri Park, Basant Garden, Chembur, Mumbai, Maharashtra 400071, India. Open Monday to Sunday from 11:00 AM to 8:00 PM IST."},{"@type":"Question","name":"What collections does Shapes Boutique specialize in?","acceptedAnswer":{"@type":"Answer","text":"Shapes Boutique (Shapes By Satiinder Kaur) specializes in designer 2-piece co-ord sets, pure modal silk printed sets, organic linen V-neck co-ords, festive embroidered silk sets, and contemporary luxury pret."},{"@type":"Question","name":"What is the price range of designer co-ord sets at Shapes?","acceptedAnswer":{"@type":"Answer","text":"Designer co-ord sets at Shapes Boutique start from approximately \u20b97,000 to \u20b912,000, handcrafted in premium natural fabrics including pure linen, modal silk, and raw silk with tailored comfort fits."},{"@type":"Question","name":"Does Shapes Boutique ship across India and internationally?","acceptedAnswer":{"@type":"Answer","text":"Yes, Shapes Boutique provides complimentary insured express courier delivery across India and international express shipping worldwide supporting multi-currency payments in INR, USD, GBP, EUR, and AED."}]},{"@type":"ItemList","itemListElement":[{"@type":"Product","position":1,"name":"The Noir Botanical Silk Co-Ord Set","description":"Opulent two-piece luxury designer co-ord set in pure modal silk with tailored button-down longline shirt tunic and matching wide-leg trousers.","image":"https://shapesbysatinderkaur.com/images/coord_black_floral.webp","brand":{"@type":"Brand","name":"Shapes By Satiinder Kaur"},"offers":{"@type":"Offer","price":"8900","priceCurrency":"INR","availability":"https://schema.org/InStock","url":"https://shapesbysatinderkaur.com/#catalog"},{"@type":"Product","position":2,"name":"Ivory & Sand Minimalist Linen Co-Ord","description":"Refined everyday luxury two-piece set crafted from breathable pure slub linen with V-neck tunic and straight-cut trousers.","image":"https://shapesbysatinderkaur.com/images/coord_beige_linen.webp","brand":{"@type":"Brand","name":"Shapes By Satiinder Kaur"},"offers":{"@type":"Offer","price":"7490","priceCurrency":"INR","availability":"https://schema.org/InStock","url":"https://shapesbysatinderkaur.com/#catalog"},{"@type":"Product","position":3,"name":"The Emerald Festive Silk Co-Ord Set","description":"Jewel-toned festive luxury co-ord set in rich emerald raw silk with hand-embroidered antique gold zardozi cuffs and palazzo trousers.","image":"https://shapesbysatinderkaur.com/images/coord_royal_emerald.webp","brand":{"@type":"Brand","name":"Shapes By Satiinder Kaur"},"offers":{"@type":"Offer","price":"11500","priceCurrency":"INR","availability":"https://schema.org/InStock","url":"https://shapesbysatinderkaur.com/#catalog"},{"@type":"Product","position":4,"name":"Indigo Heritage Handblock Modal Set","description":"Artisanal two-piece fusion set in rich indigo blue handblock modal cotton with collared tunic and wide-leg trousers.","image":"https://shapesbysatinderkaur.com/images/coord_indigo_print.webp","brand":{"@type":"Brand","name":"Shapes By Satiinder Kaur"},"offers":{"@type":"Offer","price":"7990","priceCurrency":"INR","availability":"https://schema.org/InStock","url":"https://shapesbysatinderkaur.com/#catalog"}]}]}</script>
+    <!-- Top Announcement Bar -->
+    <div class="top-announcement-bar">
+        <div class="announcement-marquee">
+            <div class="announcement-track">
+                <span class="announcement-item"><i class="fa-solid fa-gem"></i> SHAPES BY SATIINDER KAUR · LUXURY PRET &amp; CO-ORD SETS</span>
+                <span class="announcement-item"><i class="fa-solid fa-crown"></i> BOUTIQUE LOCATION: BASANT GARDEN, CHEMBUR, MUMBAI</span>
+                <span class="announcement-item"><i class="fa-solid fa-truck-fast"></i> COMPLIMENTARY EXPRESS INSURED SHIPPING ACROSS INDIA</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header & Navigation -->
+    <div class="header-master-wrapper">
+        <header class="luxury-header" id="main-header">
+            <div class="nav-container">
+                <nav class="nav-left">
+                    <a href="#catalog" class="nav-link">Collections</a>
+                    <a href="#story-section" class="nav-link">Our Heritage</a>
+                    <a href="#journal-section" class="nav-link">Journal</a>
+                    <a href="#faq-section" class="nav-link">Boutique FAQ</a>
+                </nav>
+
+                <a href="#" class="brand-logo">
+                    <span class="logo-main">SHAPES</span>
+                    <span class="logo-sub">BY SATIINDER KAUR</span>
+                </a>
+
+                <div class="nav-right">
+                    <select class="currency-select" id="currency-selector" title="Select Currency">
+                        <option value="INR">INR (₹)</option>
+                        <option value="USD">USD ($)</option>
+                        <option value="AED">AED (AED)</option>
+                        <option value="GBP">GBP (£)</option>
+                        <option value="EUR">EUR (€)</option>
+                    </select>
+
+                    <button class="nav-icon-btn" id="wishlist-nav-trigger" title="Wishlist">
+                        <i class="fa-regular fa-heart"></i>
+                    </button>
+
+                    <div class="cart-btn-container">
+                        <button class="nav-icon-btn" id="cart-nav-trigger" title="Shopping Bag">
+                            <i class="fa-solid fa-bag-shopping"></i>
+                            <span class="cart-badge" id="header-cart-count">0</span>
+                        </button>
+                    </div>
+
+                    <button class="mobile-menu-toggle" id="mobile-menu-btn" aria-label="Toggle Mobile Menu">
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </div>
+        </header>
+    </div>
+
+    <!-- Mobile Nav Drawer -->
+    <div class="mobile-nav-drawer" id="mobile-nav-drawer">
+        <div class="mobile-nav-links">
+            <a href="#catalog" class="mobile-link">Collections</a>
+            <a href="#story-section" class="mobile-link">Our Heritage</a>
+            <a href="#journal-section" class="mobile-link">Journal</a>
+            <a href="#faq-section" class="mobile-link">Boutique FAQ</a>
+            <a href="admin.html" class="mobile-link" style="font-size: 1.2rem; color: var(--gold);">Admin Portal</a>
+        </div>
+    </div>
+
+    <main class="main-content-layout" id="main-content">
+        <!-- Hero Section -->
+        <section class="hero-section" id="hero">
+            <div class="hero-slider">
+                <div class="hero-slide active">
+                    <picture class="hero-bg-picture">
+                        <source media="(max-width: 768px)" srcset="images/welcome_coord_luxury_mobile.webp">
+                        <img src="images/hero_coord_editorial.webp" alt="Shapes By Satiinder Kaur Luxury Co-Ord Collection" class="hero-bg-img" fetchpriority="high">
+                    </picture>
+                    <div class="hero-slide-overlay"></div>
+                    <div class="hero-content">
+                        <div class="hero-crest-badge">
+                            <span class="hero-crest-text">CHEMBUR, MUMBAI · DESIGNER PRET</span>
+                        </div>
+                        <div class="hero-brand-title">
+                            <span class="hero-title-main">SHAPES</span>
+                            <span class="hero-title-by">BY SATIINDER KAUR</span>
+                        </div>
+                        <div class="hero-filigree-divider">
+                            <span class="filigree-line"></span>
+                            <i class="fa-solid fa-gem filigree-gem"></i>
+                            <span class="filigree-line"></span>
+                        </div>
+                        <p class="hero-tagline">Designer Co-Ord Sets · Pure Modal Silks &amp; Handblock Linens · XS to XXL</p>
+                        <div class="hero-action-buttons">
+                            <a href="#catalog" class="hero-cta-btn hero-cta-gold">Explore Co-Ords</a>
+                            <a href="#story-section" class="hero-cta-btn hero-cta-glass">Our Heritage</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="scroll-indicator">
+                <span class="scroll-text">SCROLL</span>
+                <div class="scroll-line"></div>
+            </div>
+        </section>
+
+        <!-- Signature Collections Catalog Section -->
+        <section class="catalog-section" id="catalog">
+            <div class="section-header">
+                <span class="sub-title">Signature Collections</span>
+                <h2 class="section-title" id="catalog-title-text">DESIGNER CO-ORD SETS</h2>
+                <div class="divider-gold"></div>
+            </div>
+
+            <div class="catalog-tabs" id="catalog-tabs-container">
+                <!-- Dynamically Populated Tabs -->
+            </div>
+
+            <div class="catalog-controls-container">
+                <div class="boutique-controls-bar">
+                    <div class="boutique-search-wrapper">
+                        <i class="fa-solid fa-magnifying-glass search-icon-gold"></i>
+                        <input type="text" id="boutique-search-input" placeholder="Search creations by fabric, pattern or color...">
+                    </div>
+
+                    <div class="boutique-sort-wrapper">
+                        <label for="boutique-sort-select">Sort By</label>
+                        <select id="boutique-sort-select">
+                            <option value="default">Default Showroom</option>
+                            <option value="price-asc">Price: Low to High</option>
+                            <option value="price-desc">Price: High to Low</option>
+                            <option value="title-asc">Alphabetical: A to Z</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-grid" id="product-list-container">
+                <!-- Product Cards dynamically loaded by index.js -->
+            </div>
+        </section>
+
+        <!-- Client Reviews Section -->
+        <section class="testimonials-section" id="reviews-section">
+            <div class="section-header">
+                <span class="sub-title">Client Experiences</span>
+                <h2 class="section-title">PATRON REVIEWS</h2>
+                <div class="divider-gold"></div>
+            </div>
+
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <button id="open-review-modal-btn" class="hero-cta-btn hero-cta-gold" style="min-height: 40px; padding: 0.6rem 1.8rem;">
+                    <i class="fa-solid fa-pen-to-square" style="margin-right: 8px;"></i> Write a Review
+                </button>
+            </div>
+
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="stars-row">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="review-text">"Perfect stitching, great attention to detail, and excellent service by Satiinder Kaur. The fitting of my printed modal silk co-ord set was immaculate!"</p>
+                    <div class="reviewer-meta">
+                        <span class="client-name">Rhea Dhameja</span>
+                        <span class="client-location">Chembur, Mumbai</span>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="stars-row">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="review-text">"Hands down the finest designer boutique in Chembur for luxury co-ord sets. Breathable fabric and perfect contouring."</p>
+                    <div class="reviewer-meta">
+                        <span class="client-name">Wilma Vaz</span>
+                        <span class="client-location">Mumbai</span>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="stars-row">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="review-text">"Bought the Ivory &amp; Sand Linen Co-Ord Set. Super breathable, elegant drape, and got so many compliments at brunch!"</p>
+                    <div class="reviewer-meta">
+                        <span class="client-name">Pooja Sawant</span>
+                        <span class="client-location">Bandra, Mumbai</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Heritage Story Section -->
+        <section class="story-section" id="story-section">
+            <div class="story-container">
+                <div class="story-image-side">
+                    <img src="images/craftsmanship_detail_luxury.webp" alt="Shapes Atelier Craftsmanship" loading="lazy">
+                </div>
+                <div class="story-text-side">
+                    <span class="story-tag">CHEMBUR BOUTIQUE</span>
+                    <h2 class="story-title">THE ART OF SILHOUETTE</h2>
+                    <p class="story-paragraph">At Shapes By Satiinder Kaur, every 2-piece co-ord set represents a harmonious blend of comfortable luxury and refined Indian aesthetics. Handcrafted in our Chembur workshop using pure modal silks, natural slub linens, and handblock prints.</p>
+                    <p class="story-signature">Satiinder Kaur</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Journal Section -->
+        <section class="journal-section" id="journal-section">
+            <div class="section-header">
+                <span class="sub-title">Couture Editorial</span>
+                <h2 class="section-title">THE SHAPES JOURNAL</h2>
+                <div class="divider-gold"></div>
+            </div>
+
+            <div class="journal-grid">
+                <article class="journal-card">
+                    <div class="journal-card-img-wrapper">
+                        <img src="images/journal_coord_styling.webp" alt="Co-Ord Styling" loading="lazy">
+                    </div>
+                    <div class="journal-card-body">
+                        <span class="journal-tag">STYLE GUIDE</span>
+                        <h3 class="journal-title">5 Ways to Style Luxury Co-Ord Sets</h3>
+                        <p class="journal-snippet">How tailored 2-piece sets transition seamlessly from morning brunches to evening cocktail galas.</p>
+                        <span class="journal-read-more">Read Journal Story <i class="fa-solid fa-arrow-right"></i></span>
+                    </div>
+                </article>
+
+                <article class="journal-card">
+                    <div class="journal-card-img-wrapper">
+                        <img src="images/journal_linen_handblock.webp" alt="Linen Craft" loading="lazy">
+                    </div>
+                    <div class="journal-card-body">
+                        <span class="journal-tag">FABRIC &amp; CRAFT</span>
+                        <h3 class="journal-title">The Rise of Pure Linen &amp; Handblock Co-Ords</h3>
+                        <p class="journal-snippet">Exploring natural slub linen and artisanal handblock prints tailored for contemporary Indian weather.</p>
+                        <span class="journal-read-more">Read Journal Story <i class="fa-solid fa-arrow-right"></i></span>
+                    </div>
+                </article>
+
+                <article class="journal-card">
+                    <div class="journal-card-img-wrapper">
+                        <img src="images/journal_festive_jewel.webp" alt="Festive Jewels" loading="lazy">
+                    </div>
+                    <div class="journal-card-body">
+                        <span class="journal-tag">FESTIVE PRET</span>
+                        <h3 class="journal-title">Festive Jewel Tones &amp; Silk Detailing</h3>
+                        <p class="journal-snippet">Bridging rich emeralds and deep indigos with comfortable contemporary silhouettes.</p>
+                        <span class="journal-read-more">Read Journal Story <i class="fa-solid fa-arrow-right"></i></span>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="boutique-faq-section" id="faq-section">
+            <div class="section-header">
+                <span class="sub-title">Boutique Assistance</span>
+                <h2 class="section-title">FREQUENTLY ASKED QUESTIONS</h2>
+                <div class="divider-gold"></div>
+            </div>
+
+            <div class="faq-accordion-list">
+                <div class="faq-item">
+                    <button class="faq-question-btn">
+                        <span>What sizing options are available for co-ord sets?</span>
+                        <i class="fa-solid fa-chevron-down faq-chevron"></i>
+                    </button>
+                    <div class="faq-answer-content">
+                        <p>We offer standard sizes from XS to XXL, as well as custom fitting consultations at our Chembur boutique.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question-btn">
+                        <span>What fabrics are used in Shapes Co-Ord Sets?</span>
+                        <i class="fa-solid fa-chevron-down faq-chevron"></i>
+                    </button>
+                    <div class="faq-answer-content">
+                        <p>We craft our sets exclusively with high-grade modal silks, organic slub linen, pure cottons, and handblock printed modal.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question-btn">
+                        <span>How long does delivery take for handcrafted sets?</span>
+                        <i class="fa-solid fa-chevron-down faq-chevron"></i>
+                    </button>
+                    <div class="faq-answer-content">
+                        <p>In-stock sets ship within 48 hours. Made-to-measure orders take 7 to 14 business days.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Luxury Footer -->
+    <footer class="luxury-footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3>SHAPES</h3>
+                <p>Shapes Boutique by Satiinder Kaur (Registered Entity: Shapes Uniform). Premier designer pret &amp; co-ord sets in Chembur, Mumbai.</p>
+                <div class="social-links">
+                    <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://wa.me/919833392756" target="_blank" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="https://facebook.com" target="_blank" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h4>COLLECTIONS</h4>
+                <ul>
+                    <li><a href="#catalog">Printed Co-Ords</a></li>
+                    <li><a href="#catalog">Linen &amp; Cotton</a></li>
+                    <li><a href="#catalog">Festive Co-Ords</a></li>
+                    <li><a href="#catalog">Fusion Sets</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>BOUTIQUE CARE</h4>
+                <ul>
+                    <li><a href="#faq-section">Boutique FAQ</a></li>
+                    <li><a href="info.html">Shipping &amp; Returns</a></li>
+                    <li><a href="info.html#contact">Contact Boutique</a></li>
+                    <li><a href="track.html">Track Order</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>CHEMBUR BOUTIQUE</h4>
+                <p><i class="fa-solid fa-location-dot" style="color: var(--gold); margin-right: 6px;"></i> Basant Garden, Chembur, Mumbai, Maharashtra 400071</p>
+                <p><i class="fa-solid fa-phone" style="color: var(--gold); margin-right: 6px;"></i> +91 98333 92756</p>
+                <p><i class="fa-solid fa-envelope" style="color: var(--gold); margin-right: 6px;"></i> shapesuniform@gmail.com</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <span>&copy; 2026 Shapes Boutique (Shapes By Satiinder Kaur). All Rights Reserved.</span>
+            <span>Handcrafted in Mumbai</span>
+        </div>
+        <div class="footer-sub-bottom">
+            <span>&copy; 2026 SHAPES UNIFORM (Operating as Shapes By Satiinder Kaur). All Rights Reserved.</span>
+            <div class="legal-footer-links">
+                <a href="contact.html">Contact Us</a> &middot;
+                <a href="info.html#terms">Terms</a> &middot;
+                <a href="info.html#privacy">Privacy</a> &middot;
+                <a href="info.html#refund">Refunds &amp; Exchanges</a> &middot;
+                <a href="info.html#cancellation">Cancellations</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Product Detail Modal -->
+    <div class="luxury-modal" id="product-detail-modal">
+        <div class="modal-content-wrapper">
+            <span class="close-modal-btn" id="close-detail-modal">&times;</span>
+            <div class="modal-grid">
+                <div class="modal-image-side">
+                    <div class="image-zoom-container">
+                        <img src="" id="modal-product-image" alt="Product Image">
+                    </div>
+                </div>
+                <div class="modal-info-side">
+                    <span class="modal-product-category" id="modal-product-category">Category</span>
+                    <h2 class="modal-product-title" id="modal-product-title">Product Title</h2>
+                    <div class="modal-product-price" id="modal-product-price">₹0</div>
+                    <p class="modal-product-desc" id="modal-product-desc">Description</p>
+
+                    <div class="size-selection-area">
+                        <label>Select Size</label>
+                        <div class="sizes-grid" id="modal-sizes-container">
+                            <span class="size-option" data-size="XS">XS</span>
+                            <span class="size-option" data-size="S">S</span>
+                            <span class="size-option" data-size="M">M</span>
+                            <span class="size-option" data-size="L">L</span>
+                            <span class="size-option" data-size="XL">XL</span>
+                            <span class="size-option" data-size="XXL">XXL</span>
+                        </div>
+                    </div>
+
+                    <button class="add-to-cart-action-btn" id="modal-add-to-cart-btn">Add To Bag</button>
+                    <button class="add-to-cart-action-btn" id="modal-whatsapp-inquire-btn" style="background: transparent; border-color: var(--gold); color: #FFFFFF; margin-top: 10px;">Inquire On WhatsApp</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Drawer -->
+    <div class="cart-drawer-overlay" id="cart-drawer-overlay">
+        <div class="cart-drawer" id="cart-drawer">
+            <div class="cart-drawer-header">
+                <h3>Shopping Bag</h3>
+                <span class="close-drawer-btn" id="close-cart-drawer">&times;</span>
+            </div>
+            <div class="cart-items-list" id="cart-items-container">
+                <!-- Cart items dynamically loaded -->
+            </div>
+            <div class="cart-drawer-footer">
+                <div class="cart-subtotal-row" style="display: flex; justify-content: space-between; margin-bottom: 1.5rem; font-size: 1.1rem; font-weight: 600;">
+                    <span>Subtotal</span>
+                    <span id="cart-subtotal-val">₹0</span>
+                </div>
+                <button class="checkout-btn" id="proceed-checkout-btn">Proceed To Checkout</button>
+            </div>
+        </div>
+    </div>
+    <!-- Client Review Modal -->
+    <div class="luxury-modal" id="review-modal">
+        <div class="review-modal-content">
+            <span class="close-review-modal-btn" id="close-review-modal">&times;</span>
+            <div class="review-modal-header">
+                <span class="sub-title" style="margin-bottom: 0.3rem;">Client Experience</span>
+                <h2>Share Your Experience</h2>
+                <p class="review-modal-subtitle">Your gracious words inspire our master artisans and help other couture seekers.</p>
+            </div>
+            <form id="client-review-form" class="review-form">
+                <div class="form-group">
+                    <label for="review-rating-select">Select Your Rating *</label>
+                    <select id="review-rating-select" required>
+                        <option value="5">★★★★★ Exceptional (5 / 5 Stars)</option>
+                        <option value="4">★★★★☆ Excellent (4 / 5 Stars)</option>
+                        <option value="3">★★★☆☆ Good (3 / 5 Stars)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="review-author-name">Your Full Name *</label>
+                    <input type="text" id="review-author-name" placeholder="e.g. Rhea Sharma" required>
+                </div>
+                <div class="form-group">
+                    <label for="review-author-location">City / Location *</label>
+                    <input type="text" id="review-author-location" placeholder="e.g. Chembur, Mumbai" required>
+                </div>
+                <div class="form-group">
+                    <label for="review-garment-name">Garment / Collection Purchased *</label>
+                    <select id="review-garment-name" required>
+                        <option value="The Noir Botanical Silk Co-Ord Set">The Noir Botanical Silk Co-Ord Set</option>
+                        <option value="Ivory & Sand Linen Co-Ord Set">Ivory &amp; Sand Linen Co-Ord Set</option>
+                        <option value="The Emerald Festive Silk Co-Ord Set">The Emerald Festive Silk Co-Ord Set</option>
+                        <option value="Indigo Heritage Handblock Modal Set">Indigo Heritage Handblock Modal Set</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="review-body-text">Your Review / Experience *</label>
+                    <textarea id="review-body-text" rows="4" placeholder="Describe the fit, fabric feel, styling consultation, or delivery experience..." required></textarea>
+                </div>
+                <button type="submit" class="submit-review-btn">Publish Client Review</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Cart Notification Toast -->
+    <div class="cart-toast-notification" id="cart-toast-notification">
+        <div class="toast-message-text">
+            <i class="fa-solid fa-circle-check"></i>
+            <span>Added to Shopping Bag</span>
+        </div>
+        <a href="javascript:void(0)" class="toast-view-bag-btn" id="toast-view-bag-btn">VIEW BAG &rarr;</a>
+    </div>
 </body>
 </html>
