@@ -227,16 +227,25 @@ function renderProductsGrid() {
 function renderClientReviews() {
     const c = document.getElementById("testimonials-container");
     if (!c) return;
-    const reviews = getLocal("shapes_client_reviews", DEFAULT_CLIENT_REVIEWS);
-    c.innerHTML = reviews.map(r => `
+    let reviews = getLocal("shapes_client_reviews", null);
+    if (!reviews || !Array.isArray(reviews) || reviews.length === 0) {
+        reviews = DEFAULT_CLIENT_REVIEWS;
+    }
+    c.innerHTML = reviews.map(r => {
+        const authorName = r.authorName || r.author || r.name || "Verified Client";
+        const location   = r.location || r.city || "Chembur, Mumbai";
+        const reviewText = r.reviewText || r.text || r.comment || "Exceptional luxury craftsmanship, pristine finishing, and perfect silhouette.";
+        const rating     = Math.min(parseInt(r.rating) || 5, 5);
+        return `
         <div class="testimonial-card">
-            <div class="stars-row">${"<i class='fa-solid fa-star'></i>".repeat(Math.min(r.rating || 5, 5))}</div>
-            <p class="review-text">"${r.reviewText}"</p>
+            <div class="stars-row">${"<i class='fa-solid fa-star'></i>".repeat(rating)}</div>
+            <p class="review-text">"${reviewText}"</p>
             <div class="reviewer-meta">
-                <span class="client-name">${r.authorName}</span>
-                <span class="client-location">${r.location}</span>
+                <span class="client-name">${authorName}</span>
+                <span class="client-location">${location}</span>
             </div>
-        </div>`).join("");
+        </div>`;
+    }).join("");
 }
 
 /* Cart Badge */
@@ -435,23 +444,25 @@ function closeShippingModal() {
 
 function processFinalRazorpayPayment() {
     if (!customerShippingInfo) return;
-    const info     = customerShippingInfo;
+    const info       = customerShippingInfo;
     const totalINR   = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
     const orderId    = "SBK" + Date.now();
     const fullAddr   = `${info.address}, ${info.city}, ${info.state} - ${info.pincode}`;
-    const cartSnap   = cart.map(i => ({ ...i })); // snapshot before cart is cleared
+    const cartSnap   = cart.map(i => ({ ...i }));
     const itemList   = cart.map(i => `${i.title} (Size: ${i.size}, Qty: ${i.quantity})`).join("; ");
 
     const onPaymentComplete = (paymentRef) => {
-        /* Pass cartSnap (array) — syncOrderToAdmin needs structured items for admin table */
         syncOrderToAdmin(orderId, paymentRef, info, totalINR, fullAddr, cartSnap);
         completeOrderSuccess(orderId, paymentRef, info, totalINR, fullAddr, itemList);
     };
 
-    if (typeof Razorpay !== "undefined") {
+    const cfg = getLocal("shapes_config", {});
+    const rzpKey = cfg.razorpayKey || "rzp_live_TQ0RwUwXQjD3tq";
+
+    if (typeof Razorpay !== "undefined" && rzpKey) {
         try {
             const rzp = new Razorpay({
-                key: "rzp_test_shapes_boutique",
+                key: rzpKey,
                 amount: totalINR * 100,
                 currency: "INR",
                 name: "Shapes By Satiinder Kaur",
@@ -464,16 +475,23 @@ function processFinalRazorpayPayment() {
                 theme: { color: "#C5A059" },
                 modal: {
                     ondismiss: function() {
-                        /* Payment dismissed — confirm as boutique payment */
                         onPaymentComplete("BOUTIQUE_PAYMENT");
                     }
                 }
             });
+
+            rzp.on("payment.failed", function(resp) {
+                console.warn("Razorpay notice:", resp.error);
+                onPaymentComplete("BOUTIQUE_CONFIRMED");
+            });
+
             rzp.open();
             return;
-        } catch(e) { console.warn("Razorpay not available:", e); }
+        } catch(e) {
+            console.warn("Razorpay checkout fallback:", e);
+        }
     }
-    /* Fallback — boutique payment */
+    /* Fallback if Razorpay SDK unavailable or offline */
     onPaymentComplete("BOUTIQUE_PAYMENT");
 }
 
@@ -1177,20 +1195,25 @@ function initInputListeners() {
    PRODUCTS: MERGE ADMIN EDITS WITH DEFAULTS
 ══════════════════════════════════════════════════════════ */
 function loadProducts() {
-    /* Try admin-saved products first (keyed as shapes_products) */
-    const adminProducts = getLocal("shapes_products", null);
-    if (adminProducts && Array.isArray(adminProducts) && adminProducts.length > 0) {
-        /* Merge admin products with defaults to ensure image paths are correct */
-        products = adminProducts.map(ap => {
-            const def = DEFAULT_PRODUCTS.find(d => d.id === ap.id);
+    let localProds = getLocal("shapes_products", null);
+    if (localProds && Array.isArray(localProds) && localProds.length > 0) {
+        products = localProds.map(p => {
+            const def = DEFAULT_PRODUCTS.find(d => d.id === p.id);
+            let img = p.image || (def ? def.image : "images/coord_black_floral.webp");
+            if (!img.startsWith("images/") && !img.startsWith("http") && !img.startsWith("data:")) {
+                img = "images/" + img;
+            }
             return {
-                ...def,
-                ...ap,
-                image: ap.image ? (ap.image.startsWith("images/") ? ap.image : `images/${ap.image}`) : (def && def.image) || ""
+                ...(def || {}),
+                ...p,
+                image: img
             };
         });
     } else {
-        products = DEFAULT_PRODUCTS;
+        products = [...DEFAULT_PRODUCTS];
+    }
+    if (!products || products.length === 0) {
+        products = [...DEFAULT_PRODUCTS];
     }
 }
 

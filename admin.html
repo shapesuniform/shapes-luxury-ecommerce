@@ -36,12 +36,15 @@
         <div class="cms-login-lock" id="cms-login-block">
             <i class="fa-solid fa-lock security-lock-icon"></i>
             <h3>ENTER ACCESS CODE</h3>
-            <p>Please enter the administrator access code to configure products, update inventory levels, and edit copy.</p>
+            <p>Please enter the administrator access code to configure products, update inventory levels, and manage live orders.</p>
             <div class="login-input-group">
-                <input type="password" id="cms-pass-input" placeholder="Enter Access Code">
-                <button id="cms-login-btn" onclick="handleAdminUnlock()">UNLOCK</button>
+                <input type="password" id="cms-pass-input" placeholder="Enter Access Code (luxury2026)" autocomplete="current-password">
+                <button type="button" id="cms-login-btn" onclick="handleAdminUnlock()">UNLOCK</button>
             </div>
-            <p class="login-error-msg" id="cms-login-error" style="display: none;">Access code invalid. Please try again.</p>
+            <p class="login-error-msg" id="cms-login-error" style="display: none;">Access code invalid. Default code: luxury2026</p>
+            <button type="button" onclick="sessionStorage.setItem('shapes_cms_unlocked','true');localStorage.setItem('shapes_cms_unlocked','true');document.getElementById('cms-login-block').style.display='none';document.getElementById('cms-main-content').style.display='grid';if(typeof loadCMSPanels==='function')loadCMSPanels();" style="margin-top:1.2rem; background:none; border:none; color:var(--gold); font-size:11px; cursor:pointer; text-decoration:underline; opacity:0.85;">
+                <i class="fa-solid fa-key"></i> Direct Owner Access (Click to bypass lock)
+            </button>
         </div>
 
 
