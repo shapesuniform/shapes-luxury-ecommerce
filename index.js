@@ -122,29 +122,36 @@ function initStore() {
 function renderStorefront() {
     // 1. Text elements config
     document.querySelectorAll(".footer-col.brand-info h3").forEach(el => el.innerText = config.brandName);
-    document.getElementById("hero-title-text").innerText = config.heroTitle;
-    document.getElementById("story-title-text").innerText = config.storyTitle;
-    document.getElementById("story-desc-text").innerText = config.storyDesc;
+    const heroTitleEl = document.getElementById("hero-title-text");
+    if (heroTitleEl) heroTitleEl.innerText = config.heroTitle;
+    const heroTaglineEl = document.getElementById("hero-tagline-text");
+    if (heroTaglineEl && config.heroTagline) heroTaglineEl.innerText = config.heroTagline;
+    const storyTitleEl = document.getElementById("story-title-text");
+    if (storyTitleEl) storyTitleEl.innerText = config.storyTitle;
+    const storyDescEl = document.getElementById("story-desc-text");
+    if (storyDescEl) storyDescEl.innerText = config.storyDesc;
 
     // 2. Render Horizontal Category Filter Tabs in Catalog Section
     const tabsContainer = document.getElementById("catalog-tabs-container");
-    tabsContainer.innerHTML = `
-        <button class="tab-btn active" data-filter="All">Shop All</button>
-    `;
-    categories.forEach(cat => {
-        tabsContainer.innerHTML += `
-            <button class="tab-btn" data-filter="${cat}">${cat}</button>
+    if (tabsContainer) {
+        tabsContainer.innerHTML = `
+            <button class="tab-btn active" data-filter="All">Shop All</button>
         `;
-    });
-
-    // Horizontal category tabs click listeners
-    document.querySelectorAll(".tab-btn").forEach(btn => {
-        btn.addEventListener("click", () => {
-            selectCategoryTab(btn.dataset.filter);
+        categories.forEach(cat => {
+            tabsContainer.innerHTML += `
+                <button class="tab-btn" data-filter="${cat}">${cat}</button>
+            `;
         });
-    });
 
-    // 3. Render Catalog Grid (Initially filtered by active values)
+        // Horizontal category tabs click listeners
+        document.querySelectorAll(".tab-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                selectCategoryTab(btn.dataset.filter);
+            });
+        });
+    }
+
+    // 3. Initial Catalog Grid Render
     updateCatalogGrid();
 }
 
@@ -213,29 +220,36 @@ function updateCatalogGrid() {
         const cardHtml = `
             <div class="product-card" data-id="${p.id}">
                 <div class="product-card-img-wrapper">
-                    ${isSoldOut ? '<span class="sold-out-badge">Retired / Sold Out</span>' : ''}
+                    ${isSoldOut ? '<span class="sold-out-badge">Sold Out</span>' : ''}
+                    <span class="product-card-badge">${p.category}</span>
                     <button class="product-wishlist-btn ${isFav ? 'active' : ''}" onclick="toggleWishlist('${p.id}', event)" title="Save to Wishlist" aria-label="Save to Wishlist">
                         <i class="${isFav ? 'fa-solid' : 'fa-regular'} fa-heart"></i>
                     </button>
                     <img src="${cleanImagePath(p.image)}" alt="${p.title} — Handcrafted Luxury Indian Couture by Satiinder Kaur" width="600" height="800" loading="lazy" decoding="async">
-
-                    <div class="product-card-quickview">Quick View</div>
+                    <div class="product-card-hover-overlay">
+                        <span class="view-piece-text">Explore Piece</span>
+                    </div>
                 </div>
                 <div class="product-card-info">
-                    <span class="product-card-category">${p.category}</span>
                     <h3 class="product-card-title">${p.title}</h3>
-                    <span class="product-card-price">${formatCurrency(p.price)} <small style="font-size: 9.5px; font-weight: 400; color: var(--grey-dark); letter-spacing: 0.04em;">(Incl. GST)</small></span>
+                    <div class="product-card-price-row">
+                        <span class="product-card-price">${formatCurrency(p.price)}</span>
+                        <span class="gst-tag">Tax Incl.</span>
+                    </div>
+                    <button class="card-action-tap-btn" onclick="openProductDetail('${p.id}'); event.stopPropagation();">
+                        <span>View Details</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
                 </div>
             </div>
         `;
         listContainer.innerHTML += cardHtml;
     });
 
-
     // Add card click listeners
     document.querySelectorAll(".product-card").forEach(card => {
         card.addEventListener("click", (e) => {
-            if (e.target.closest(".product-wishlist-btn")) return;
+            if (e.target.closest(".product-wishlist-btn") || e.target.closest(".card-action-tap-btn")) return;
             openProductDetail(card.dataset.id);
         });
     });
