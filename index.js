@@ -341,14 +341,21 @@ function shareActiveProduct() {
  if (!currentActiveProduct) return;
  const p = currentActiveProduct;
  const shareText = encodeURIComponent(
- `✨ Check out this luxury creation by Shapes By Satiinder Kaur!\n\n` +
- `*${p.title}*\n` +
- `Category: ${p.category}\n` +
- `Price: ₹${p.price.toLocaleString("en-IN")}\n\n` +
- `Handcrafted to order (15–22 days delivery). Explore details at:\n` +
- `https:
+ `✨ Check out this luxury creation by Shapes By Satiinder Kaur!
+
+` +
+ `*${p.title}*
+` +
+ `Category: ${p.category}
+` +
+ `Price: ₹${p.price.toLocaleString("en-IN")}
+
+` +
+ `Handcrafted to order (15–22 days delivery). Explore details at:
+` +
+ `https://shapesbysatinderkaur.com/#catalog`
  );
- window.open(`https:
+ window.open(`https://api.whatsapp.com/send?text=${shareText}`, "_blank");
 }
 function openProductDetail(productId) {
  const p = products.find(prod => prod.id === productId);
@@ -904,7 +911,7 @@ function completeOrder(paymentId) {
  `Name: ${custName}\n\n` +
  `Please confirm my order. Thank you!`
  );
- const waLink = `https:
+ const waLink = `https://wa.me/919833392756?text=${waMsg}`;
  document.getElementById("whatsapp-confirm-btn").href = waLink;
  document.getElementById("track-order-btn").href = `track.html?ref=${refCode}`;
  document.getElementById("checkout-main-form").style.display = "none";
