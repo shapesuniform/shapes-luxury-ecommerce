@@ -1236,62 +1236,68 @@ const SAMPLE_ADMIN_ORDERS = [
 
 
 
+let _ordersUnsubscribe = null;
+
 async function loadAdminOrders() {
-
     const tbody = document.getElementById("orders-tbody");
-
     if (!tbody) return;
 
     tbody.innerHTML = `<tr><td colspan="10" style="text-align:center;padding:2rem;color:var(--grey);"><i class="fa-solid fa-circle-notch fa-spin"></i> Loading orders...</td></tr>`;
 
-    
-
     let ordersLoaded = false;
 
-    if (window._dbAdmin && window._getDocsAdmin) {
-
+    // 1. Live Real-time Firestore Listener via onSnapshot
+    if (window._dbAdmin && window._onSnapshotAdmin && window._collAdmin && window._queryAdmin && window._orderByAdmin) {
         try {
+            if (_ordersUnsubscribe) _ordersUnsubscribe();
 
-            const snap = await window._getDocsAdmin(
+            const q = window._queryAdmin(window._collAdmin(window._dbAdmin, "orders"), window._orderByAdmin("date", "desc"));
+            _ordersUnsubscribe = window._onSnapshotAdmin(q, (snapshot) => {
+                const fsOrders = [];
+                snapshot.forEach(doc => {
+                    fsOrders.push({ id: doc.id, ...doc.data() });
+                });
 
-                window._queryAdmin(window._collAdmin(window._dbAdmin, "orders"), window._orderByAdmin("date", "desc"))
+                if (fsOrders.length > 0) {
+                    _allOrders = fsOrders;
+                    localStorage.setItem("shapes_orders", JSON.stringify(_allOrders));
+                    renderOrdersTable(_allOrders);
+                    if (typeof showAdminLiveAlert === "function") {
+                        showAdminLiveAlert("⚡ Live Order Stream: Synchronized with Firestore", "gold");
+                    }
+                }
+            }, (error) => {
+                console.warn("Firestore onSnapshot error, falling back:", error);
+            });
 
-            );
-
-            _allOrders = [];
-
-            snap.forEach(d => _allOrders.push({ id: d.id, ...d.data() }));
-
-            if (_allOrders.length > 0) {
-
-                renderOrdersTable(_allOrders);
-
-                ordersLoaded = true;
-
-            }
-
-        } catch (e) {
-
-            console.warn("Firestore fetch error, falling back to local store:", e);
-
+            ordersLoaded = true;
+        } catch(e) {
+            console.warn("Firestore live listener error:", e);
         }
-
     }
 
-    
+    // 2. Fallback to getDocs / localStorage if onSnapshot not connected
+    if (!ordersLoaded && window._dbAdmin && window._getDocsAdmin) {
+        try {
+            const snap = await window._getDocsAdmin(
+                window._queryAdmin(window._collAdmin(window._dbAdmin, "orders"), window._orderByAdmin("date", "desc"))
+            );
+            _allOrders = [];
+            snap.forEach(d => _allOrders.push({ id: d.id, ...d.data() }));
+            if (_allOrders.length > 0) {
+                renderOrdersTable(_allOrders);
+                ordersLoaded = true;
+            }
+        } catch (e) {
+            console.warn("Firestore fetch error, falling back to local store:", e);
+        }
+    }
 
     if (!ordersLoaded) {
-
-        // Load from local storage or sample orders
-
         const localOrders = JSON.parse(localStorage.getItem("shapes_orders")) || [];
-
         _allOrders = localOrders.length > 0 ? localOrders : SAMPLE_ADMIN_ORDERS;
-
         renderOrdersTable(_allOrders);
-
     }
-
 }
 
 

@@ -58,6 +58,58 @@ const DEFAULT_PRODUCTS = [
         fit: "Contemporary tunic collar + fluid silhouette trousers",
         craft: "Artisanal Rajasthani handblock print · Natural dyes · Comfort-flex waistband",
         description: "Artisanal handblock printed modal silk co-ord set with contemporary tunic collar and fluid silhouette. Traditional indigo Rajasthani handblock print on breathable modal. Designed for all-day comfort and artistic expression."
+    },
+    {
+        id: "p5",
+        title: "Royal Banarasi Brocade Corset Set",
+        category: "Festive Co-Ords",
+        price: 14800,
+        badge: "EXCLUSIVE",
+        inventory: 6,
+        image: "images/brocade_corset.webp",
+        fabric: "Pure Banarasi Silk Brocade",
+        fit: "Structured boned corset top + pleated palazzo trousers",
+        craft: "Woven gold zari brocade motifs · Steel flex boning · Satin lining",
+        description: "An architectural fusion masterpiece combining classical Western corsetry with royal Banarasi silk brocade. Structured boned bodice with sweetheart neckline and flowing pleated silk palazzo trousers."
+    },
+    {
+        id: "p6",
+        title: "Opulent Draped Satin Corset Set",
+        category: "Printed Co-Ords",
+        price: 12900,
+        badge: "HOT SELLER",
+        inventory: 10,
+        image: "images/draped_corset_set.webp",
+        fabric: "Fluid Heavy Satin Silk",
+        fit: "Asymmetric cowl drape tunic + cigarette pants",
+        craft: "Hand-draped silk cowl detailing · Internal contour boning · Hidden side zip",
+        description: "A dramatic luxury co-ord set featuring a hand-draped asymmetric cowl tunic top over an internally boned corset structure, paired with tailored silk cigarette trousers."
+    },
+    {
+        id: "p7",
+        title: "Artisanal Botanical Pret Tunic Set",
+        category: "Linen & Cotton",
+        price: 8500,
+        badge: "NEW ARRIVAL",
+        inventory: 12,
+        image: "images/pret_tunic.webp",
+        fabric: "100% Breathable Cotton Linen",
+        fit: "Mandarin collar tunic + cropped trousers",
+        craft: "Handblock botanical print · Shell button placket · Utility side pockets",
+        description: "A chic pret tunic set crafted from natural slub cotton linen with delicate botanical motifs. Features a Mandarin collar placket and comfortable straight cropped trousers."
+    },
+    {
+        id: "p8",
+        title: "Zardozi Hand-Embroidered Velvet Set",
+        category: "Festive Co-Ords",
+        price: 16500,
+        badge: "ROYAL PRET",
+        inventory: 5,
+        image: "images/zardozi_corset.webp",
+        fabric: "Micro Velvet & Pure Raw Silk",
+        fit: "Structured bandhgala velvet tunic + wide palazzo",
+        craft: "Hand-embroidered zardozi & dabka work · Silk lining · Concealed zipper",
+        description: "A regal winter festive luxury co-ord set in deep royal velvet. Richly hand-embroidered with intricate zardozi wire and dabka work along the neckline and cuffs, paired with fluid silk palazzos."
     }
 ];
 
@@ -510,7 +562,7 @@ const EMAILJS_CONFIG = {
     serviceId:           "YOUR_EMAILJS_SERVICE_ID",     // EmailJS Dashboard → Email Services → Service ID
     customerTemplateId:  "YOUR_CUSTOMER_TEMPLATE_ID",   // Template for customer order confirmation
     ownerTemplateId:     "YOUR_OWNER_TEMPLATE_ID",      // Template for owner new order alert
-    ownerEmail:          "satinderkaurdesigner@gmail.com" // Boutique owner email
+    ownerEmail:          "shapesuniform@gmail.com"      // Boutique owner email
 };
 
 /* ── INIT EMAILJS ─────────────────────────────────────────── */
@@ -554,7 +606,7 @@ function generatePDFInvoice(orderData) {
     doc.setFont("helvetica", "normal");
     doc.setFontSize(8);
     doc.text("LUXURY PRET & CO-ORD SETS  ·  BASANT GARDEN, CHEMBUR, MUMBAI 400071", W / 2, 23, { align: "center" });
-    doc.text("Tel: +91 98333 92756  ·  Email: satinderkaurdesigner@gmail.com  ·  shapesbysatinderkaur.com", W / 2, 29, { align: "center" });
+    doc.text("Tel: +91 98333 92756  ·  Email: shapesuniform@gmail.com  ·  shapesbysatinderkaur.com", W / 2, 29, { align: "center" });
 
     /* ── TAX INVOICE label ── */
     doc.setFont("helvetica", "bold");
@@ -688,7 +740,7 @@ function generatePDFInvoice(orderData) {
     doc.setTextColor(140, 140, 140);
     doc.text("This is a computer-generated invoice and does not require a signature.", W / 2, y, { align: "center" });
     y += 5;
-    doc.text("For queries: +91 98333 92756  ·  satinderkaurdesigner@gmail.com  ·  shapesbysatinderkaur.com", W / 2, y, { align: "center" });
+    doc.text("For queries: +91 98333 92756  ·  shapesuniform@gmail.com  ·  shapesbysatinderkaur.com", W / 2, y, { align: "center" });
 
     _lastInvoicePdfDoc = doc;
     return doc;
