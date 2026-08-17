@@ -1,32 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
     <url>
         <loc>https://shapesbysatinderkaur.com/</loc>
-        <lastmod>2026-08-15</lastmod>
-        <changefreq>weekly</changefreq>
+        <lastmod>2026-08-17</lastmod>
+        <changefreq>daily</changefreq>
         <priority>1.0</priority>
+        <image:image>
+            <image:loc>https://shapesbysatinderkaur.com/images/hero_coord_editorial.webp</image:loc>
+            <image:title>Shapes Boutique Mumbai — Designer Luxury Co-Ord Sets</image:title>
+            <image:caption>Signature 2-piece designer co-ord sets by Shapes By Satiinder Kaur Chembur Mumbai</image:caption>
+        </image:image>
+        <image:image>
+            <image:loc>https://shapesbysatinderkaur.com/images/coord_black_floral.webp</image:loc>
+            <image:title>The Noir Botanical Silk Co-Ord Set — Shapes Boutique Chembur</image:title>
+            <image:caption>Pure modal silk floral printed longline shirt tunic with wide-leg trousers</image:caption>
+        </image:image>
+        <image:image>
+            <image:loc>https://shapesbysatinderkaur.com/images/coord_beige_linen.webp</image:loc>
+            <image:title>Ivory &amp; Sand Minimalist Linen Co-Ord Set — Shapes By Satiinder Kaur</image:title>
+            <image:caption>Breathable pure slub linen V-neck tunic and straight-cut trousers</image:caption>
+        </image:image>
+        <image:image>
+            <image:loc>https://shapesbysatinderkaur.com/images/coord_royal_emerald.webp</image:loc>
+            <image:title>The Emerald Festive Silk Co-Ord Set — Shapes Boutique Mumbai</image:title>
+            <image:caption>Jewel-toned festive raw silk co-ord set with handcrafted zardozi cuffs</image:caption>
+        </image:image>
+        <image:image>
+            <image:loc>https://shapesbysatinderkaur.com/images/coord_indigo_print.webp</image:loc>
+            <image:title>Indigo Heritage Handblock Modal Set — Shapes Boutique</image:title>
+            <image:caption>Artisanal indigo blue handblock printed fusion tunic and trousers</image:caption>
+        </image:image>
     </url>
     <url>
         <loc>https://shapesbysatinderkaur.com/contact.html</loc>
-        <lastmod>2026-08-15</lastmod>
+        <lastmod>2026-08-17</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
         <loc>https://shapesbysatinderkaur.com/info.html</loc>
-        <lastmod>2026-08-15</lastmod>
+        <lastmod>2026-08-17</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://shapesbysatinderkaur.com/track.html</loc>
-        <lastmod>2026-08-15</lastmod>
+        <lastmod>2026-08-17</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
         <loc>https://shapesbysatinderkaur.com/account.html</loc>
-        <lastmod>2026-08-15</lastmod>
+        <lastmod>2026-08-17</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
     </url>

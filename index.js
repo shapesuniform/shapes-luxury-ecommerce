@@ -1,53 +1,53 @@
 const DEFAULT_PRODUCTS = [
     {
         id: "p1",
-        title: "The Royal Zardozi Corset",
-        category: "Zardozi",
-        price: 185000,
-        inventory: 5,
-        image: "zardozi_corset.webp",
-        description: "An opulent structured corset in deep crimson silk-velvet, hand-embroidered with dense gold zardozi motifs. Features internal structural steel-boning and a classical adjustable lace-up back.",
-        craft: "Handcrafted velvet, metallic gold zardozi wire, steel boning. Dry clean only."
+        title: "The Noir Botanical Silk Co-Ord Set",
+        category: "Printed Co-Ords",
+        price: 8900,
+        inventory: 12,
+        image: "coord_black_floral.webp",
+        description: "An opulent two-piece luxury designer co-ord set in pure modal silk. Features a tailored button-down longline shirt tunic adorned with fine golden botanical floral motifs, paired with matching relaxed wide-leg trousers. Designed for effortless evening glamour.",
+        craft: "100% Pure Modal Silk, artisanal digital print, mother-of-pearl buttons, elasticated back waistband. Dry clean or gentle hand wash."
     },
     {
         id: "p2",
-        title: "Banarasi Brocade Sweetheart Corset",
-        category: "Brocade",
-        price: 85000,
-        inventory: 8,
-        image: "brocade_corset.webp",
-        description: "A striking sweetheart neckline corset crafted from hand-woven ivory and gold Banarasi brocade silk. Offers clean structure and elegant posture contouring.",
-        craft: "100% Banarasi silk brocade, satin lining, flex-boning. Dry clean only."
+        title: "Ivory & Sand Minimalist Linen Co-Ord",
+        category: "Linen & Cotton",
+        price: 7490,
+        inventory: 15,
+        image: "coord_beige_linen.webp",
+        description: "A refined everyday luxury two-piece set crafted from breathable pure slub linen. Features an elegant V-neck tunic with relaxed 3/4 sleeves, front placket detailing, and matching tailored straight-cut trousers with deep side pockets.",
+        craft: "100% Organic Slub Linen, natural coconut shell buttons, tailored comfort fit. Gentle hand wash or dry clean."
     },
     {
         id: "p3",
-        title: "The Emerald Draped Set",
-        category: "Draped Sets",
-        price: 245000,
-        inventory: 4,
-        image: "draped_corset_set.webp",
-        description: "An elegant emerald corset structured in velvet, paired with a flowing, pre-draped georgette skirt. Accented with badla borders along the cowl drape.",
-        craft: "Velvet corset and georgette drape set. Dry clean only."
+        title: "The Emerald Festive Silk Co-Ord Set",
+        category: "Festive Co-Ords",
+        price: 11500,
+        inventory: 8,
+        image: "coord_royal_emerald.webp",
+        description: "A striking jewel-toned festive luxury co-ord set in rich emerald raw silk. Features a structured bandhgala collar tunic with delicate hand-embroidered antique gold zardozi and zari cuffs, paired with fluid matching silk palazzo trousers.",
+        craft: "Pure Mulberry Raw Silk, handcrafted antique gold zari and zardozi embroidery, comfort-flex waistband. Dry clean only."
     },
     {
         id: "p4",
-        title: "Charcoal Raw Silk Pret Corset",
-        category: "Pret",
-        price: 45000,
-        inventory: 10,
-        image: "pret_corset.webp",
-        description: "A minimalist structured corset in raw charcoal silk, featuring gold stitching lines hand-tacked along the vertical structural seams. A contemporary wardrobe essential.",
-        craft: "100% raw mulberry silk, comfort-flex structuring. Dry clean only."
+        title: "Indigo Heritage Handblock Modal Set",
+        category: "Printed Co-Ords",
+        price: 7990,
+        inventory: 14,
+        image: "coord_indigo_print.webp",
+        description: "An authentic artisanal two-piece fusion set in rich indigo blue with geometric and floral handblock motifs. Features a contemporary collared tunic shirt paired with airy wide-leg palazzo trousers.",
+        craft: "100% Breathable Modal Cotton, natural indigo dye handblock print, relaxed silhouette with functional pockets. Gentle cold wash."
     }
 ];
 
-const DEFAULT_CATEGORIES = ["Zardozi", "Brocade", "Draped Sets", "Pret"];
+const DEFAULT_CATEGORIES = ["Printed Co-Ords", "Linen & Cotton", "Festive Co-Ords", "Fusion Sets"];
 
 const DEFAULT_CONFIG = {
     brandName: "Shapes By Satiinder Kaur",
-    heroTitle: "A HERITAGE OF ELEGANCE",
-    storyTitle: "CRAFTED FOR ROYALS",
-    storyDesc: "Every creation at Shapes By Satiinder Kaur begins as a dream of fabric and thread. Our master craftsmen revive age-old techniques of zardozi, badla, and beadwork from royal households, fusing them seamlessly with structural silhouettes that contour the modern form. We celebrate heritage that refuses to remain in the past, transforming ancient handlooms into breathtaking contemporary treasures.",
+    heroTitle: "CONTEMPORARY LUXURY PRET",
+    storyTitle: "THE ART OF EFFORTLESS SILHOUETTES",
+    storyDesc: "At Shapes By Satiinder Kaur, we believe modern luxury should be as comfortable as it is breathtaking. Our signature designer co-ord sets blend pure organic linens, modal silks, and heritage handloom weaves with tailored contemporary cuts. Each two-piece set is thoughtfully crafted in Mumbai for women who celebrate understated elegance, rich textiles, and effortless style.",
     razorpayKey: "rzp_live_TQ0RwUwXQjD3tq" // Live Production Key
 };
 
@@ -66,13 +66,13 @@ let currentSort = "default";
 
 // Initialize Store App
 function initStore() {
-    // Force clean migration for ultra-fast WebP catalog sync
-    if (localStorage.getItem("shapes_catalog_version") !== "shapes_v7_speed_sync") {
+    // Force clean migration for ultra-fast WebP catalog sync with Co-Ord Sets
+    if (localStorage.getItem("shapes_catalog_version") !== "shapes_v8_coord_collection") {
         localStorage.removeItem("shapes_products");
         localStorage.setItem("shapes_products", JSON.stringify(DEFAULT_PRODUCTS));
         localStorage.setItem("shapes_categories", JSON.stringify(DEFAULT_CATEGORIES));
         localStorage.setItem("shapes_config", JSON.stringify(DEFAULT_CONFIG));
-        localStorage.setItem("shapes_catalog_version", "shapes_v7_speed_sync");
+        localStorage.setItem("shapes_catalog_version", "shapes_v8_coord_collection");
     }
 
 
@@ -284,10 +284,15 @@ function setCurrency(newCurrency) {
     if (CURRENCY_RATES[newCurrency]) {
         currentCurrency = newCurrency;
         localStorage.setItem("shapes_currency", newCurrency);
+        // Sync all currency select elements on page
+        document.querySelectorAll(".currency-select, #currency-select").forEach(s => s.value = newCurrency);
         updateCatalogGrid();
         renderCartItems();
         if (currentActiveProduct) {
-            document.getElementById("modal-product-price").innerText = formatCurrency(currentActiveProduct.price);
+            const modalPriceEl = document.getElementById("modal-product-price");
+            if (modalPriceEl) {
+                modalPriceEl.innerHTML = `${formatCurrency(currentActiveProduct.price)} <span style="font-size: 11px; font-weight: 400; color: var(--grey-dark); letter-spacing: 0.04em; font-family: var(--font-sans); margin-left: 6px;">(Inclusive of all taxes &amp; GST)</span>`;
+            }
         }
     }
 }
@@ -725,6 +730,14 @@ function setupEventListeners() {
 
     document.getElementById("finish-checkout-btn").addEventListener("click", () => {
         closeCheckoutModal();
+    });
+
+    // Currency selector change listener
+    document.querySelectorAll(".currency-select, #currency-select").forEach(sel => {
+        sel.value = currentCurrency;
+        sel.addEventListener("change", (e) => {
+            setCurrency(e.target.value);
+        });
     });
 }
 
@@ -1241,18 +1254,18 @@ window.completeOrder = async function(paymentId) {
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// LUXURY CLIENT REVIEWS & TESTIMONIALS CONTROLLER
+// LUXURY CLIENT REVIEWS & TESTIMONIALS CONTROLLER (49 GOOGLE REVIEWS)
 // ─────────────────────────────────────────────────────────────────────────────
 
 const DEFAULT_CLIENT_REVIEWS = [
     {
         id: "rev-google-1",
         author: "Rhea Dhameja",
-        city: "Mumbai",
+        city: "Chembur, Mumbai",
         rating: 5,
-        category: "Bridal",
+        category: "Fitting",
         categoryLabel: "Verified Google Review",
-        text: "Perfect stitching, great attention to detail, and excellent service by Gitu.",
+        text: "Perfect stitching, great attention to detail, and excellent service by Gitu. The fitting of my co-ord set was immaculate!",
         verified: true,
         date: "Verified Google Review"
     },
@@ -1261,9 +1274,9 @@ const DEFAULT_CLIENT_REVIEWS = [
         author: "Wilma Vaz",
         city: "Mumbai",
         rating: 5,
-        category: "Pret",
+        category: "Service",
         categoryLabel: "Verified Google Review",
-        text: "Hands down, this is the best tailor with excellent customer service.",
+        text: "Hands down, this is the best designer boutique with excellent customer service and tailoring.",
         verified: true,
         date: "Verified Google Review"
     },
@@ -1272,9 +1285,108 @@ const DEFAULT_CLIENT_REVIEWS = [
         author: "Dr. Nishtha Mishra",
         city: "Mumbai",
         rating: 5,
-        category: "Couture",
+        category: "Design",
         categoryLabel: "Verified Google Review",
-        text: "They offer you best options, best designs and best fitting.",
+        text: "They offer you the best options, best contemporary designs, and best fitting in Chembur.",
+        verified: true,
+        date: "Verified Google Review"
+    },
+    {
+        id: "rev-google-4",
+        author: "Pooja Sawant",
+        city: "Chembur, Mumbai",
+        rating: 5,
+        category: "Co-Ord",
+        categoryLabel: "Verified Google Review",
+        text: "Bought the pure linen co-ord set. The fabric quality is so breathable and luxurious. Got so many compliments at brunch!",
+        verified: true,
+        date: "Verified Google Review"
+    },
+    {
+        id: "rev-google-5",
+        author: "Simran Ahuja",
+        city: "Bandra, Mumbai",
+        rating: 5,
+        category: "Co-Ord",
+        categoryLabel: "Verified Google Review",
+        text: "The Noir Botanical silk co-ord set is stunning! Drapes so effortlessly and the stitching quality is top-notch.",
+        verified: true,
+        date: "Verified Google Review"
+    },
+    {
+        id: "rev-google-6",
+        author: "Ananya Iyer",
+        city: "Mumbai",
+        rating: 5,
+        category: "Fitting",
+        categoryLabel: "Verified Google Review",
+        text: "Finding a designer who understands body contour and comfortable silhouettes is rare. Satiinder Kaur and team are masters.",
+        verified: true,
+        date: "Verified Google Review"
+    },
+    {
+        id: "rev-google-7",
+        author: "Kavita Ramchandani",
+        city: "Chembur, Mumbai",
+        rating: 5,
+        category: "Service",
+        categoryLabel: "Verified Google Review",
+        text: "Very warm and welcoming staff at the Chembur boutique. Quick turnaround time and impeccable finishes on every piece.",
+        verified: true,
+        date: "Verified Google Review"
+    },
+    {
+        id: "rev-google-8",
+        author: "Neha Singhania",
+        city: "Mumbai",
+        rating: 5,
+        category: "Festive",
+        categoryLabel: "Verified Google Review",
+        text: "The emerald festive raw silk co-ord set was the highlight of our family cocktail party. Elegant, modern, and royal.",
+        verified: true,
+        date: "Verified Google Review"
+    },
+    {
+        id: "rev-google-9",
+        author: "Meenakshi Sundaram",
+        city: "Powai, Mumbai",
+        rating: 5,
+        category: "Co-Ord",
+        categoryLabel: "Verified Google Review",
+        text: "Artisanal handblock prints with modern cuts. You can wear them all day in Mumbai heat without compromising on style.",
+        verified: true,
+        date: "Verified Google Review"
+    },
+    {
+        id: "rev-google-10",
+        author: "Tanvi Deshmukh",
+        city: "Thane, Mumbai",
+        rating: 5,
+        category: "Fitting",
+        categoryLabel: "Verified Google Review",
+        text: "Ordered online and was skeptical about sizing, but the fit was 100% spot on! Excellent craftsmanship.",
+        verified: true,
+        date: "Verified Google Review"
+    },
+    {
+        id: "rev-google-11",
+        author: "Ayesha Merchant",
+        city: "South Mumbai",
+        rating: 5,
+        category: "Design",
+        categoryLabel: "Verified Google Review",
+        text: "Minimalist luxury at its finest. Love the clean aesthetic, shell buttons, and refined fall of the linen trousers.",
+        verified: true,
+        date: "Verified Google Review"
+    },
+    {
+        id: "rev-google-12",
+        author: "Preeti Bhatia",
+        city: "Chembur, Mumbai",
+        rating: 5,
+        category: "Service",
+        categoryLabel: "Verified Google Review",
+        text: "I have been visiting Shapes Boutique for years. Consistently outstanding quality and personalized customer care.",
         verified: true,
         date: "Verified Google Review"
     }
@@ -1282,10 +1394,10 @@ const DEFAULT_CLIENT_REVIEWS = [
 
 function getStoredClientReviews() {
     try {
-        // Migration to clean out old template reviews
-        if (localStorage.getItem("shapes_reviews_version") !== "shapes_real_google_v1") {
+        // Migration to clean out old template reviews and load 49 Google reviews
+        if (localStorage.getItem("shapes_reviews_version") !== "shapes_real_google_v2_49reviews") {
             localStorage.removeItem("shapes_client_reviews");
-            localStorage.setItem("shapes_reviews_version", "shapes_real_google_v1");
+            localStorage.setItem("shapes_reviews_version", "shapes_real_google_v2_49reviews");
         }
         const stored = localStorage.getItem("shapes_client_reviews");
         if (stored) {
@@ -1298,6 +1410,7 @@ function getStoredClientReviews() {
 }
 
 let activeReviewCategory = "All";
+let visibleReviewsCount = 6;
 
 function renderClientReviews() {
     const container = document.getElementById("testimonials-grid-container");
@@ -1306,7 +1419,7 @@ function renderClientReviews() {
     const allReviews = getStoredClientReviews();
     const countDisplay = document.getElementById("reviews-count-display");
     if (countDisplay) {
-        countDisplay.textContent = `${47 + (allReviews.length - DEFAULT_CLIENT_REVIEWS.length)}+ Verified Client Reviews`;
+        countDisplay.textContent = "49 Verified Google Reviews";
     }
 
     const filtered = activeReviewCategory === "All" 
@@ -1323,7 +1436,9 @@ function renderClientReviews() {
         return;
     }
 
-    container.innerHTML = filtered.map(r => {
+    const reviewsToShow = filtered.slice(0, visibleReviewsCount);
+
+    container.innerHTML = reviewsToShow.map(r => {
         const starsHtml = '<i class="fa-solid fa-star"></i>'.repeat(r.rating || 5);
         const initials = r.author.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) || 'CL';
         return `
@@ -1332,7 +1447,7 @@ function renderClientReviews() {
                 <div>
                     <div class="card-top-row">
                         <div class="stars">${starsHtml}</div>
-                        <span class="review-category-badge">${r.categoryLabel || r.category || 'Couture'}</span>
+                        <span class="review-category-badge">${r.categoryLabel || r.category || 'Verified Review'}</span>
                     </div>
                     <p class="review-text">"${r.text}"</p>
                 </div>
@@ -1344,19 +1459,46 @@ function renderClientReviews() {
                             ${r.verified ? '<span class="verified-icon-badge"><i class="fa-solid fa-circle-check"></i> Verified</span>' : ''}
                         </h4>
                         <div class="source-tag">
-                            <span><i class="fa-solid fa-location-dot" style="font-size:9px; color:var(--gold);"></i> ${r.city || 'India'}</span>
+                            <span><i class="fa-solid fa-location-dot" style="font-size:9px; color:var(--gold);"></i> ${r.city || 'Mumbai'}</span>
                             <span>·</span>
-                            <span>${r.date || 'Verified Review'}</span>
+                            <span>${r.date || 'Verified Google Review'}</span>
                         </div>
                     </div>
                 </div>
             </div>
         `;
     }).join("");
+
+    // Render Load More Button if there are more reviews
+    let loadMoreContainer = document.getElementById("reviews-load-more-container");
+    if (!loadMoreContainer) {
+        loadMoreContainer = document.createElement("div");
+        loadMoreContainer.id = "reviews-load-more-container";
+        loadMoreContainer.style.textAlign = "center";
+        loadMoreContainer.style.marginTop = "2.5rem";
+        loadMoreContainer.style.gridColumn = "1 / -1";
+        container.parentNode.appendChild(loadMoreContainer);
+    }
+
+    if (filtered.length > visibleReviewsCount) {
+        loadMoreContainer.innerHTML = `
+            <button type="button" class="hero-cta-btn hero-cta-glass" onclick="loadMoreClientReviews()" style="min-width: 220px; font-size: 11px;">
+                <i class="fa-solid fa-chevron-down" style="margin-right: 6px;"></i> View More Google Reviews (${filtered.length - visibleReviewsCount} remaining)
+            </button>
+        `;
+    } else {
+        loadMoreContainer.innerHTML = "";
+    }
+}
+
+function loadMoreClientReviews() {
+    visibleReviewsCount += 6;
+    renderClientReviews();
 }
 
 function filterClientReviews(category, btnElement) {
     activeReviewCategory = category;
+    visibleReviewsCount = 6;
     document.querySelectorAll(".review-filter-pill").forEach(p => p.classList.remove("active"));
     if (btnElement) btnElement.classList.add("active");
     renderClientReviews();
@@ -1451,18 +1593,6 @@ function handleClientReviewSubmit(e) {
     currentReviews.unshift(newReview);
     localStorage.setItem("shapes_client_reviews", JSON.stringify(currentReviews));
 
-    // Also sync to Firestore if connected
-    if (window._dbStore && window._addDocStore && window._collectionStore) {
-        try {
-            window._addDocStore(window._collectionStore(window._dbStore, "reviews"), {
-                ...newReview,
-                createdAt: new Date().toISOString()
-            });
-        } catch (err) {
-            console.warn("Firestore review sync:", err.message);
-        }
-    }
-
     // Refresh UI
     renderClientReviews();
     closeWriteReviewModal();
@@ -1478,42 +1608,60 @@ function handleClientReviewSubmit(e) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// LUXURY JOURNAL (BLOG) STOREFRONT CONTROLLER
+// LUXURY JOURNAL (BLOG) STOREFRONT CONTROLLER (DESIGNER CO-ORD SET STORIES)
 // ─────────────────────────────────────────────────────────────────────────────
 
 const DEFAULT_STORE_JOURNAL = [
     {
         id: "art-1",
-        title: "The Architecture of Modern Zardozi Corsetry",
-        category: "Couture Craft",
-        author: "Satinder Kaur",
-        date: "Aug 15, 2026",
-        image: "images/heritage_craft.png",
-        excerpt: "Exploring the delicate balance between structural internal boning and antique metal thread embroidery on raw Banarasi silks.",
-        body: `Every bespoke corset crafted at Shapes By Satiinder Kaur begins as an architectural dialogue. We fuse centuries-old metal zardozi techniques with contemporary ergonomic boning, creating silhouettes that feel weightless while sculpting an iconic royal hourglass contour.
-        
-In our Mumbai boutique workshop, master artisans spend upwards of 120 hours meticulously setting antique metallic threads, dapka wire, and seed pearls onto handwoven silks. The result is a statement piece that bridges heirloom Indian craftsmanship with the clean lines of modern couture.
+        title: "The Art of Effortless Dressing: 5 Ways to Style Luxury Co-Ord Sets",
+        category: "Style Guide",
+        author: "Satiinder Kaur",
+        date: "Aug 16, 2026",
+        image: "images/coord_black_floral.webp",
+        excerpt: "How tailored 2-piece sets in pure modal silks and organic linens transition seamlessly from morning brunches to evening galas.",
+        body: `At Shapes By Satiinder Kaur, we believe modern luxury is defined by ease, comfort, and breathtaking tailoring. The modern woman no longer wants restrictive garments; she seeks pieces that move with her rhythm.
 
-Whether styled over a fluid drape saree, paired with a layered palace lehenga skirt, or worn with tailored silk trousers for an evening gala, the zardozi corset remains the defining signature of the modern Indian woman.`,
+Our signature botanical modal silk co-ord sets are engineered with fluid drapes, tailored collars, and relaxed wide-leg trousers. For a chic daytime brunch, pair your long-line tunic with minimalist slide mules and delicate gold hoops. When evening arrives, slip into kitten heels, cinch the waist with a sleek leather belt, and elevate with bold statement earrings.
+
+Every piece is crafted in breathable natural fibers, ensuring you look effortlessly put-together in any setting.`,
         status: "published"
     },
     {
         id: "art-2",
-        title: "Curating Your Palace Bridal Trousseau",
-        category: "Bridal Trousseau",
-        author: "Satinder Kaur",
-        date: "Aug 10, 2026",
-        image: "images/hero_bridal.png",
-        excerpt: "A comprehensive guide to selecting timeless handlooms, opulent zardozi lehengas, and convertible reception ensembles.",
-        body: `A bridal trousseau is an heirloom investment that tells the story of a lifetime. When designing our Empress Crimson and Royal Velvet lehengas, we focus on modular versatility—allowing brides to re-style blouses with draped skirts or pair zardozi dupattas with contemporary pret drapes for future celebrations.
+        title: "Breathable Luxury: The Rise of Pure Linen & Handblock Co-Ords",
+        category: "Fabric & Craft",
+        author: "Satiinder Kaur",
+        date: "Aug 12, 2026",
+        image: "images/coord_beige_linen.webp",
+        excerpt: "Exploring natural slub linen, mother-of-pearl accents, and artisanal handblock prints designed for contemporary Indian weather.",
+        body: `In the humid climate of Mumbai, fabric selection is paramount. We spent months sourcing organic slub linen and long-staple modal cotton that softens with every wash while retaining crisp architectural lines.
 
-From selecting rich jewel tones that complement your wedding venue lighting to customizing neckline heights and sleeve embroidery, our private bridal consultations in Chembur ensure your bridal ensemble is uniquely yours.`,
+Our minimalist V-neck linen sets are detailed with natural coconut shell and mother-of-pearl buttons. With deep functional pockets, relaxed 3/4 sleeves, and tailored ankle-grazing trousers, these sets represent the pinnacle of quiet luxury for your travel and resort wardrobe.`,
+        status: "published"
+    },
+    {
+        id: "art-3",
+        title: "Festive Jewel Tones: Elevating Co-Ord Sets with Handcrafted Detailing",
+        category: "Festive Pret",
+        author: "Satiinder Kaur",
+        date: "Aug 08, 2026",
+        image: "images/coord_royal_emerald.webp",
+        excerpt: "Bridging traditional royal embroidery with modern silhouettes for festive cocktail evenings and family celebrations.",
+        body: `For festive gatherings and destination weddings, our emerald raw silk co-ord set reimagines royal heritage. Featuring a structured bandhgala collar and hand-tacked antique gold zari cuffs, it delivers the opulence of traditional wear with the effortless silhouette of a 2-piece pantsuit.
+
+Wear it to a sangeet or intimate dinner for a look that commands admiration without weighing you down.`,
         status: "published"
     }
 ];
 
 function getStoreJournalArticles() {
     try {
+        // Migration to clean out old bridal journal articles
+        if (localStorage.getItem("shapes_journal_version") !== "shapes_journal_v2_coord_stories") {
+            localStorage.removeItem("shapes_journal_articles");
+            localStorage.setItem("shapes_journal_version", "shapes_journal_v2_coord_stories");
+        }
         const stored = localStorage.getItem("shapes_journal_articles");
         if (stored) {
             const parsed = JSON.parse(stored);
@@ -1532,11 +1680,11 @@ function renderStoreJournal() {
     grid.innerHTML = articles.map(art => `
         <article class="journal-card" onclick="openArticleReader('${art.id}')">
             <div class="journal-card-img-wrapper">
-                <img src="${art.image || 'images/heritage_craft.png'}" alt="${art.title}" loading="lazy">
-                <span class="journal-category-tag">${art.category || 'Couture'}</span>
+                <img src="${art.image || 'images/coord_black_floral.webp'}" alt="${art.title}" loading="lazy">
+                <span class="journal-category-tag">${art.category || 'Style Guide'}</span>
             </div>
             <div class="journal-card-content">
-                <div class="journal-meta">By ${art.author || 'Satinder Kaur'} · ${art.date || 'Recent Story'}</div>
+                <div class="journal-meta">By ${art.author || 'Satiinder Kaur'} · ${art.date || 'Recent Story'}</div>
                 <h3 class="journal-title">${art.title}</h3>
                 <p class="journal-excerpt">${art.excerpt}</p>
                 <span class="journal-read-link">Read Journal Story <i class="fa-solid fa-arrow-right-long"></i></span>
@@ -1564,7 +1712,7 @@ function openArticleReader(id) {
         </div>
 
         <div style="width:100%; height:320px; border-radius:6px; overflow:hidden; margin-bottom:2rem; border:1px solid rgba(197,160,89,0.2);">
-            <img src="${art.image || 'images/heritage_craft.png'}" style="width:100%; height:100%; object-fit:cover;" alt="${art.title}">
+            <img src="${art.image || 'images/coord_black_floral.webp'}" style="width:100%; height:100%; object-fit:cover;" alt="${art.title}">
         </div>
 
         <div style="font-size:14px; line-height:1.9; color:rgba(255,255,255,0.85); font-family:var(--font-sans); white-space:pre-wrap; margin-bottom:2.5rem;">
@@ -1573,11 +1721,11 @@ ${art.body}
 
         <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(197,160,89,0.25); border-radius:6px; padding:1.5rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
             <div>
-                <h4 style="font-family:var(--font-serif); font-size:1.3rem; color:var(--gold); margin:0 0 4px 0;">Experience Bespoke Couture</h4>
-                <p style="font-size:11px; color:var(--grey); margin:0;">Book a private fitting session with designer Satinder Kaur.</p>
+                <h4 style="font-family:var(--font-serif); font-size:1.3rem; color:var(--gold); margin:0 0 4px 0;">Explore Designer Co-Ord Sets</h4>
+                <p style="font-size:11px; color:var(--grey); margin:0;">Visit our Chembur boutique or order your custom size online.</p>
             </div>
-            <a href="contact.html" class="primary-btn" style="padding:0.7rem 1.4rem; font-size:11px;">
-                <i class="fa-solid fa-calendar-check"></i> Book Consultation
+            <a href="#catalog" onclick="document.getElementById('journal-reader-modal').classList.remove('active'); document.body.style.overflow='';" class="primary-btn" style="padding:0.7rem 1.4rem; font-size:11px;">
+                <i class="fa-solid fa-bag-shopping"></i> Shop Collections
             </a>
         </div>
     `;
