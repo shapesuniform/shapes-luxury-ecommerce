@@ -86,14 +86,27 @@ function initStore() {
     categories = JSON.parse(localStorage.getItem("shapes_categories")) || DEFAULT_CATEGORIES;
     config = JSON.parse(localStorage.getItem("shapes_config")) || DEFAULT_CONFIG;
     cart = JSON.parse(localStorage.getItem("shapes_cart")) || [];
+    wishlist = JSON.parse(localStorage.getItem("shapes_wishlist")) || [];
+
+    // Critical Path: Immediate store & cart init
     renderStorefront();
-    renderClientReviews();
-    renderStoreJournal();
-    initStarRatingPicker();
     updateCartCount();
     updateWishlistCount();
     setupEventListeners();
-    setupScrollAnimations();
+
+    // Non-Critical: Defer review, journal, star picker, and scroll observer off main thread
+    const deferWork = () => {
+        renderClientReviews();
+        renderStoreJournal();
+        initStarRatingPicker();
+        setupScrollAnimations();
+    };
+
+    if ('requestIdleCallback' in window) {
+        requestIdleCallback(deferWork, { timeout: 1500 });
+    } else {
+        setTimeout(deferWork, 80);
+    }
 }
 function renderStorefront() {
     document.querySelectorAll(".footer-col.brand-info h3").forEach(el => el.innerText = config.brandName);
@@ -167,10 +180,10 @@ function updateCatalogGrid() {
         listContainer.innerHTML = `<p class="cart-empty-msg" style="grid-column: 1/-1;">No creations found matching your query.</p>`;
         return;
     }
-    filtered.forEach(p => {
+    const cardsHtml = filtered.map(p => {
         const isSoldOut = p.inventory <= 0;
         const isFav = wishlist.includes(p.id);
-        const cardHtml = `
+        return `
             <div class="product-card" data-id="${p.id}">
                 <div class="product-card-img-wrapper">
                     ${isSoldOut ? '<span class="sold-out-badge">Sold Out</span>' : ''}
@@ -196,8 +209,8 @@ function updateCatalogGrid() {
                 </div>
             </div>
         `;
-        listContainer.innerHTML += cardHtml;
-    });
+    }).join("");
+    listContainer.innerHTML = cardsHtml;
     document.querySelectorAll(".product-card").forEach(card => {
         card.addEventListener("click", (e) => {
             if (e.target.closest(".product-wishlist-btn") || e.target.closest(".card-action-tap-btn")) return;
