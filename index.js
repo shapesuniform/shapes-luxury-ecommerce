@@ -399,11 +399,18 @@ function toggleWishlist(productId) {
 ══════════════════════════════════════════════════════════ */
 function openReviewModal() {
     const m = document.getElementById("review-modal");
-    if (m) { m.classList.add("active"); lockScroll(); }
+    if (m) {
+        m.classList.add("active");
+        m.style.display = "flex";
+        lockScroll();
+    }
 }
 function closeReviewModal() {
     const m = document.getElementById("review-modal");
-    if (m) m.classList.remove("active");
+    if (m) {
+        m.classList.remove("active");
+        m.style.display = "none";
+    }
     unlockScroll();
 }
 
@@ -546,8 +553,6 @@ function syncOrderToAdmin(orderId, paymentRef, info, totalINR, fullAddr, cartSna
     try {
         sessionStorage.setItem("shapes_new_order", orderId + "_" + Date.now());
     } catch(e) {}
-}
-
 }
 
 /* ══════════════════════════════════════════════════════════

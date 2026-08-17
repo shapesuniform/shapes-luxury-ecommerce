@@ -256,11 +256,60 @@
             <div class="divider-gold"></div>
         </div>
         <div style="text-align:center;margin-bottom:2.5rem;">
-            <button id="open-review-modal-btn" class="hero-cta-btn hero-cta-gold">
+            <button id="open-review-modal-btn" class="hero-cta-btn hero-cta-gold" onclick="openReviewModal()">
                 <i class="fa-solid fa-pen-to-square" style="margin-right:8px;"></i> Write a Review
             </button>
         </div>
-        <div class="testimonials-grid" id="testimonials-container"></div>
+        <div class="testimonials-grid" id="testimonials-container">
+            <div class="testimonial-card">
+                <div class="stars-row"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                <p class="review-text">"Perfect stitching, great attention to detail, and excellent service. The fitting of my co-ord set was immaculate!"</p>
+                <div class="reviewer-meta">
+                    <span class="client-name">Rhea Dhameja</span>
+                    <span class="client-location">Chembur, Mumbai</span>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="stars-row"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                <p class="review-text">"Hands down, this is the best designer boutique with excellent customer service and tailoring in Chembur."</p>
+                <div class="reviewer-meta">
+                    <span class="client-name">Wilma Vaz</span>
+                    <span class="client-location">Mumbai</span>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="stars-row"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                <p class="review-text">"They offer you the best options, best contemporary designs, and best fitting in Chembur."</p>
+                <div class="reviewer-meta">
+                    <span class="client-name">Dr. Nishtha Mishra</span>
+                    <span class="client-location">Mumbai</span>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="stars-row"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                <p class="review-text">"Bought the pure linen co-ord set. The fabric quality is so breathable and luxurious. Got so many compliments!"</p>
+                <div class="reviewer-meta">
+                    <span class="client-name">Pooja Sawant</span>
+                    <span class="client-location">Chembur, Mumbai</span>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="stars-row"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                <p class="review-text">"The Noir Botanical silk co-ord set is stunning! Drapes so effortlessly and the stitching quality is top-notch."</p>
+                <div class="reviewer-meta">
+                    <span class="client-name">Simran Ahuja</span>
+                    <span class="client-location">Bandra, Mumbai</span>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="stars-row"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                <p class="review-text">"Finding a designer who understands body contour and comfortable silhouettes is rare. Satiinder Kaur and team are masters."</p>
+                <div class="reviewer-meta">
+                    <span class="client-name">Ananya Iyer</span>
+                    <span class="client-location">Mumbai</span>
+                </div>
+            </div>
+        </div>
     </section>
 
     <!-- HERITAGE STORY -->
@@ -668,7 +717,7 @@
 ═══════════════════════════════════════════════════════════ -->
 <div class="luxury-modal" id="review-modal" role="dialog" aria-modal="true" aria-label="Write Review">
     <div class="form-modal-content">
-        <button class="close-modal-btn" id="close-review-modal" aria-label="Close review form">&times;</button>
+        <button class="close-modal-btn" id="close-review-modal" onclick="closeReviewModal()" aria-label="Close review form">&times;</button>
         <div class="form-modal-header">
             <i class="fa-solid fa-star form-modal-icon" style="color:var(--gold);"></i>
             <span class="sub-title" style="margin-bottom:0.3rem;">Client Experience</span>

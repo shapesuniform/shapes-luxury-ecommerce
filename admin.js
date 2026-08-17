@@ -203,75 +203,48 @@ function initAdmin() {
 
 
 // Passcode verify login checks
+function handleAdminUnlock() {
+    const passInput = document.getElementById("cms-pass-input");
+    const errorMsg = document.getElementById("cms-login-error");
+    const loginBlock = document.getElementById("cms-login-block");
+    const mainContent = document.getElementById("cms-main-content");
+    if (!passInput) return;
+    const pass = passInput.value.trim();
+    if (pass === "luxury2026") {
+        sessionStorage.setItem("shapes_cms_unlocked", "true");
+        if (loginBlock) loginBlock.style.display = "none";
+        if (mainContent) mainContent.style.display = "grid";
+        if (typeof loadCMSPanels === "function") loadCMSPanels();
+    } else {
+        if (errorMsg) errorMsg.style.display = "block";
+    }
+}
+window.handleAdminUnlock = handleAdminUnlock;
 
 function checkCMSLock() {
-
     const loginBlock = document.getElementById("cms-login-block");
-
     const mainContent = document.getElementById("cms-main-content");
-
     const passInput = document.getElementById("cms-pass-input");
-
     const loginBtn = document.getElementById("cms-login-btn");
-
     const errorMsg = document.getElementById("cms-login-error");
 
-
-
     if (sessionStorage.getItem("shapes_cms_unlocked") === "true") {
-
-        loginBlock.style.display = "none";
-
-        mainContent.style.display = "grid";
-
+        if (loginBlock) loginBlock.style.display = "none";
+        if (mainContent) mainContent.style.display = "grid";
         loadCMSPanels();
-
     } else {
+        if (loginBlock) loginBlock.style.display = "flex";
+        if (mainContent) mainContent.style.display = "none";
+        if (passInput) passInput.value = "";
+        if (errorMsg) errorMsg.style.display = "none";
 
-        loginBlock.style.display = "flex";
-
-        mainContent.style.display = "none";
-
-        passInput.value = "";
-
-        errorMsg.style.display = "none";
-
-
-
-        const handleLogin = () => {
-
-            const pass = passInput.value.trim();
-
-            if (pass === "luxury2026") {
-
-                sessionStorage.setItem("shapes_cms_unlocked", "true");
-
-                loginBlock.style.display = "none";
-
-                mainContent.style.display = "grid";
-
-                loadCMSPanels();
-
-            } else {
-
-                errorMsg.style.display = "block";
-
-            }
-
-        };
-
-
-
-        loginBtn.onclick = handleLogin;
-
-        passInput.onkeypress = (e) => {
-
-            if (e.key === "Enter") handleLogin();
-
-        };
-
+        if (loginBtn) loginBtn.onclick = handleAdminUnlock;
+        if (passInput) {
+            passInput.onkeypress = (e) => {
+                if (e.key === "Enter") handleAdminUnlock();
+            };
+        }
     }
-
 }
 
 
@@ -533,15 +506,10 @@ function setupCMSListeners() {
 // Clean Image Path Helper to extract filename and strip quotes/backslashes
 
 function cleanImagePath(path) {
-
     if (!path) return "zardozi_corset.png";
-
-    let clean = path.replace(/['"]/g, '').trim();
-
+    let clean = String(path).split('"').join('').split("'").join('').trim();
     clean = clean.split('\\').pop().split('/').pop();
-
     return clean;
-
 }
 
 
@@ -859,7 +827,11 @@ window.deleteCMSCategory = deleteCMSCategory;
 
 
 // Run initial loading
-window.addEventListener("DOMContentLoaded", initAdmin);
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initAdmin);
+} else {
+    initAdmin();
+}
 
 // ═══════════════════════════════════════════════════════════
 // LIVE AUTO-REFRESH ENGINE
@@ -1605,9 +1577,7 @@ function exportOrdersCSV() {
         const date = o.date ? new Date(o.date).toLocaleDateString("en-IN") : "";
 
         return [o.ref, o.customerName, o.customerEmail, o.customerPhone, items, total, o.paymentId, date]
-
-            .map(v => `"${(v||"").toString().replace(/"/g,'""')}"`).join(",");
-
+            .map(v => '"' + (v || '').toString().split('"').join('""') + '"').join(",");
     });
 
     const csv = [headers.join(","), ...rows].join("\n");
