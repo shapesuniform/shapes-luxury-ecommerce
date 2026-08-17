@@ -198,6 +198,7 @@ function renderProductsGrid() {
 
     c.innerHTML = filtered.map(p => {
         const isWish = wishlist.includes(p.id);
+        const monthlyEMI = Math.round(p.price / 3);
         return `
         <div class="product-card" data-id="${p.id}">
             <div class="product-card-img-wrapper">
@@ -217,6 +218,7 @@ function renderProductsGrid() {
                     <span class="product-card-price">${formatPrice(p.price)}</span>
                     <span class="gst-tag">INCL. GST</span>
                 </div>
+                <div class="card-emi-pill"><i class="fa-solid fa-bolt" style="font-size:9px;"></i><span>EMI from <strong>${formatPrice(monthlyEMI)}/mo</strong></span></div>
                 <button class="card-action-tap-btn" data-id="${p.id}" data-action="open-detail">
                     <i class="fa-solid fa-eye"></i> View Details
                 </button>
@@ -349,11 +351,31 @@ function openProductDetail(productId) {
 function renderRazorpayAffordabilityWidget(priceInINR) {
     const targetEl = document.getElementById("razorpay-affordability-widget");
     if (!targetEl) return;
-    targetEl.innerHTML = "";
+    const monthlyEMI = Math.round(priceInINR / 3);
+
+    targetEl.innerHTML = `
+        <div class="razorpay-affordability-box">
+            <div class="razorpay-affordability-header">
+                <span class="razorpay-affordability-title">
+                    <i class="fa-solid fa-credit-card"></i> Razorpay Affordability
+                </span>
+                <span class="razorpay-affordability-badge">EMI AVAILABLE</span>
+            </div>
+            <div class="razorpay-affordability-emi-text">
+                Or pay in <strong>3 monthly EMIs of <span id="modal-affordability-monthly" style="color:var(--gold);">${formatPrice(monthlyEMI)}</span>/mo</strong>
+            </div>
+            <div class="razorpay-affordability-banks">
+                <span class="razorpay-affordability-chip"><i class="fa-solid fa-building-columns"></i> HDFC</span>
+                <span class="razorpay-affordability-chip"><i class="fa-solid fa-building-columns"></i> ICICI</span>
+                <span class="razorpay-affordability-chip"><i class="fa-solid fa-building-columns"></i> SBI</span>
+                <span class="razorpay-affordability-chip"><i class="fa-solid fa-building-columns"></i> Axis</span>
+                <span class="razorpay-affordability-chip"><i class="fa-solid fa-bolt"></i> Snapmint / Cardless</span>
+            </div>
+        </div>
+    `;
 
     const cfg = getLocal("shapes_config", {});
     const rzpKey = cfg.razorpayKey || "rzp_live_TQ0RwUwXQjD3tq";
-    const monthlyEMI = Math.round(priceInINR / 3);
 
     if (window.RazorpayAffordabilitySuite && rzpKey) {
         try {
@@ -367,32 +389,6 @@ function renderRazorpayAffordabilityWidget(priceInINR) {
             console.warn("Razorpay Affordability SDK render:", e);
         }
     }
-
-    // Fail-safe guarantee: if SDK is loading or empty, display official affordability summary
-    setTimeout(() => {
-        if (!targetEl.innerHTML || targetEl.innerHTML.trim() === "") {
-            targetEl.innerHTML = `
-                <div style="background:linear-gradient(135deg, rgba(197,160,89,0.12), rgba(255,255,255,0.02)); border:1px solid rgba(197,160,89,0.3); border-radius:4px; padding:0.75rem 1rem; margin:0.8rem 0; font-size:0.82rem;">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-                        <span style="font-size:0.7rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--gold); font-weight:700;">
-                            <i class="fa-solid fa-credit-card"></i> Razorpay Affordability
-                        </span>
-                        <span style="font-size:0.65rem; background:rgba(197,160,89,0.2); color:var(--gold-light); padding:2px 8px; border-radius:10px; font-weight:600;">Bank &amp; Cardless EMI</span>
-                    </div>
-                    <div style="color:#fff; font-weight:500; margin-bottom:6px;">
-                        Or pay in <strong>3 monthly EMIs of <span style="color:var(--gold);">₹${monthlyEMI.toLocaleString('en-IN')}</span>/mo</strong>
-                    </div>
-                    <div style="display:flex; flex-wrap:wrap; gap:6px; font-size:0.65rem; color:#bbb;">
-                        <span style="background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.1); padding:2px 6px; border-radius:3px;">HDFC</span>
-                        <span style="background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.1); padding:2px 6px; border-radius:3px;">ICICI</span>
-                        <span style="background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.1); padding:2px 6px; border-radius:3px;">SBI</span>
-                        <span style="background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.1); padding:2px 6px; border-radius:3px;">Axis</span>
-                        <span style="background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.1); padding:2px 6px; border-radius:3px;">Snapmint</span>
-                    </div>
-                </div>
-            `;
-        }
-    }, 400);
 }
 
 function closeProductDetailModal() {
