@@ -198,7 +198,6 @@ function renderProductsGrid() {
 
     c.innerHTML = filtered.map(p => {
         const isWish = wishlist.includes(p.id);
-        const monthlyEMI = Math.round(p.price / 3);
         return `
         <div class="product-card" data-id="${p.id}">
             <div class="product-card-img-wrapper">
@@ -218,7 +217,6 @@ function renderProductsGrid() {
                     <span class="product-card-price">${formatPrice(p.price)}</span>
                     <span class="gst-tag">INCL. GST</span>
                 </div>
-                <div class="card-emi-pill"><i class="fa-solid fa-bolt" style="font-size:9px;"></i><span>EMI from <strong>${formatPrice(monthlyEMI)}/mo</strong></span></div>
                 <button class="card-action-tap-btn" data-id="${p.id}" data-action="open-detail">
                     <i class="fa-solid fa-eye"></i> View Details
                 </button>
@@ -351,28 +349,7 @@ function openProductDetail(productId) {
 function renderRazorpayAffordabilityWidget(priceInINR) {
     const targetEl = document.getElementById("razorpay-affordability-widget");
     if (!targetEl) return;
-    const monthlyEMI = Math.round(priceInINR / 3);
-
-    targetEl.innerHTML = `
-        <div class="razorpay-affordability-box">
-            <div class="razorpay-affordability-header">
-                <span class="razorpay-affordability-title">
-                    <i class="fa-solid fa-credit-card"></i> Razorpay Affordability
-                </span>
-                <span class="razorpay-affordability-badge">EMI AVAILABLE</span>
-            </div>
-            <div class="razorpay-affordability-emi-text">
-                Or pay in <strong>3 monthly EMIs of <span id="modal-affordability-monthly" style="color:var(--gold);">${formatPrice(monthlyEMI)}</span>/mo</strong>
-            </div>
-            <div class="razorpay-affordability-banks">
-                <span class="razorpay-affordability-chip"><i class="fa-solid fa-building-columns"></i> HDFC</span>
-                <span class="razorpay-affordability-chip"><i class="fa-solid fa-building-columns"></i> ICICI</span>
-                <span class="razorpay-affordability-chip"><i class="fa-solid fa-building-columns"></i> SBI</span>
-                <span class="razorpay-affordability-chip"><i class="fa-solid fa-building-columns"></i> Axis</span>
-                <span class="razorpay-affordability-chip"><i class="fa-solid fa-bolt"></i> Snapmint / Cardless</span>
-            </div>
-        </div>
-    `;
+    targetEl.innerHTML = "";
 
     const cfg = getLocal("shapes_config", {});
     const rzpKey = cfg.razorpayKey || "rzp_live_TQ0RwUwXQjD3tq";
