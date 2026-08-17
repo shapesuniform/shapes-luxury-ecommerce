@@ -182,7 +182,7 @@ function renderProductsGrid() {
             <div class="product-card" data-id="${p.id}" id="product-card-${p.id}">
                 <div class="product-card-img-wrapper">
                     <span class="product-card-badge">${p.badge || 'LUXURYPRET'}</span>
-                    <button class="product-wishlist-btn ${isWish ? 'active' : ''}" data-id="${p.id}" title="Wishlist">
+                    <button class="product-wishlist-btn ${isWish ? 'active' : ''}" data-id="${p.id}" onclick="event.stopPropagation(); toggleWishlist('${p.id}')" title="Wishlist">
                         <i class="${isWish ? 'fa-solid' : 'fa-regular'} fa-heart"></i>
                     </button>
                     <img src="${p.image}" alt="${p.title}" loading="lazy" decoding="async">
@@ -193,7 +193,7 @@ function renderProductsGrid() {
                         <span class="product-card-price">${formatPrice(p.price)}</span>
                         <span class="gst-tag">INCL. GST</span>
                     </div>
-                    <button class="card-action-tap-btn" data-id="${p.id}">
+                    <button class="card-action-tap-btn" data-id="${p.id}" onclick="openProductDetail('${p.id}')">
                         <i class="fa-solid fa-eye"></i> View Details
                     </button>
                 </div>
@@ -632,3 +632,22 @@ if (document.readyState === "loading") {
 } else {
     initStore();
 }
+
+// Expose all interactive functions to global window scope
+window.openProductDetail = openProductDetail;
+window.closeProductDetailModal = closeProductDetailModal;
+window.openCartDrawer = openCartDrawer;
+window.closeCartDrawer = closeCartDrawer;
+window.openReviewModal = openReviewModal;
+window.closeReviewModal = closeReviewModal;
+window.addToCart = addToCart;
+window.toggleWishlist = toggleWishlist;
+window.shareActiveProductOnWhatsApp = shareActiveProductOnWhatsApp;
+window.openCheckoutModal = openCheckoutModal;
+window.showCartToast = showCartToast;
+window.addCurrentActiveProductToCart = function() {
+    if (currentActiveProduct) {
+        addToCart(currentActiveProduct.id, selectedSize);
+        closeProductDetailModal();
+    }
+};

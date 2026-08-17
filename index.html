@@ -80,18 +80,18 @@
                         <option value="EUR">EUR (€)</option>
                     </select>
 
-                    <button class="nav-icon-btn" id="wishlist-nav-trigger" title="Wishlist">
+                    <button class="nav-icon-btn" id="wishlist-nav-trigger" onclick="alert('Your Wishlist contains saved items.')" title="Wishlist">
                         <i class="fa-regular fa-heart"></i>
                     </button>
 
                     <div class="cart-btn-container">
-                        <button class="nav-icon-btn" id="cart-nav-trigger" title="Shopping Bag">
+                        <button class="nav-icon-btn" id="cart-nav-trigger" onclick="openCartDrawer()" title="Shopping Bag">
                             <i class="fa-solid fa-bag-shopping"></i>
                             <span class="cart-badge" id="header-cart-count">0</span>
                         </button>
                     </div>
 
-                    <button class="mobile-menu-toggle" id="mobile-menu-btn" aria-label="Toggle Mobile Menu">
+                    <button class="mobile-menu-toggle" id="mobile-menu-btn" onclick="document.getElementById('mobile-nav-drawer').classList.toggle('open')" aria-label="Toggle Mobile Menu">
                         <span></span>
                         <span></span>
                     </button>
@@ -193,7 +193,7 @@
             </div>
 
             <div style="text-align: center; margin-bottom: 2.5rem;">
-                <button id="open-review-modal-btn" class="hero-cta-btn hero-cta-gold" style="min-height: 44px; padding: 0.7rem 2rem;">
+                <button id="open-review-modal-btn" onclick="openReviewModal()" class="hero-cta-btn hero-cta-gold" style="min-height: 44px; padding: 0.7rem 2rem;">
                     <i class="fa-solid fa-pen-to-square" style="margin-right: 8px;"></i> Write a Review
                 </button>
             </div>
@@ -368,7 +368,7 @@
     <!-- Product Detail Modal -->
     <div class="luxury-modal" id="product-detail-modal">
         <div class="modal-content-wrapper">
-            <span class="close-modal-btn" id="close-detail-modal">&times;</span>
+            <span class="close-modal-btn" id="close-detail-modal" onclick="closeProductDetailModal()">&times;</span>
             <div class="modal-grid">
                 <div class="modal-image-side">
                     <div class="image-zoom-container">
@@ -393,8 +393,8 @@
                         </div>
                     </div>
 
-                    <button class="add-to-cart-action-btn" id="modal-add-to-cart-btn">Add To Bag</button>
-                    <button class="add-to-cart-action-btn" id="modal-whatsapp-inquire-btn" style="background: transparent; border-color: var(--gold); color: #FFFFFF; margin-top: 10px;">Inquire On WhatsApp</button>
+                    <button class="add-to-cart-action-btn" id="modal-add-to-cart-btn" onclick="addCurrentActiveProductToCart()">Add To Bag</button>
+                    <button class="add-to-cart-action-btn" id="modal-whatsapp-inquire-btn" onclick="shareActiveProductOnWhatsApp()" style="background: transparent; border-color: var(--gold); color: #FFFFFF; margin-top: 10px;">Inquire On WhatsApp</button>
                 </div>
             </div>
         </div>
@@ -405,7 +405,7 @@
         <div class="cart-drawer" id="cart-drawer">
             <div class="cart-drawer-header">
                 <h3>Shopping Bag</h3>
-                <span class="close-drawer-btn" id="close-cart-drawer">&times;</span>
+                <span class="close-drawer-btn" id="close-cart-drawer" onclick="closeCartDrawer()">&times;</span>
             </div>
             <div class="cart-items-list" id="cart-items-container">
                 <!-- Cart items dynamically loaded -->
@@ -415,7 +415,7 @@
                     <span>Subtotal</span>
                     <span id="cart-subtotal-val">₹0</span>
                 </div>
-                <button class="checkout-btn" id="proceed-checkout-btn">Proceed To Checkout</button>
+                <button class="checkout-btn" id="proceed-checkout-btn" onclick="openCheckoutModal()">Proceed To Checkout</button>
             </div>
         </div>
     </div>
@@ -423,7 +423,7 @@
     <!-- Client Review Modal -->
     <div class="luxury-modal" id="review-modal">
         <div class="review-modal-content">
-            <span class="close-review-modal-btn" id="close-review-modal">&times;</span>
+            <span class="close-review-modal-btn" id="close-review-modal" onclick="closeReviewModal()">&times;</span>
             <div class="review-modal-header">
                 <span class="sub-title" style="margin-bottom: 0.3rem;">Client Experience</span>
                 <h2>Share Your Experience</h2>
