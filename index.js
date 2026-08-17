@@ -1421,3 +1421,8 @@ window.handleClientReviewSubmit = handleClientReviewSubmit;
 window.openArticleReader = openArticleReader;
 window.closeArticleReader = closeArticleReader;
 window.renderStoreJournal = renderStoreJournal;
+if (document.readyState === "loading") {
+ document.addEventListener("DOMContentLoaded", initStore);
+} else {
+ initStore();
+}
