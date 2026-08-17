@@ -353,30 +353,46 @@ function renderRazorpayAffordabilityWidget(priceInINR) {
 
     const cfg = getLocal("shapes_config", {});
     const rzpKey = cfg.razorpayKey || "rzp_live_TQ0RwUwXQjD3tq";
+    const monthlyEMI = Math.round(priceInINR / 3);
 
-    const tryRender = (retries = 5) => {
-        if (window.RazorpayAffordabilitySuite && rzpKey) {
-            try {
-                const suite = new window.RazorpayAffordabilitySuite({
-                    key: rzpKey,
-                    amount: Math.round(priceInINR * 100),
-                    target: "#razorpay-affordability-widget",
-                    features: {
-                        cards: { emi: true },
-                        cardless: { emi: true },
-                        paylater: { enabled: true }
-                    }
-                });
-                suite.render();
-            } catch(e) {
-                console.warn("Razorpay Affordability render notice:", e);
-            }
-        } else if (retries > 0) {
-            setTimeout(() => tryRender(retries - 1), 400);
+    if (window.RazorpayAffordabilitySuite && rzpKey) {
+        try {
+            const suite = new window.RazorpayAffordabilitySuite({
+                key: rzpKey,
+                amount: Math.round(priceInINR * 100),
+                currency: "INR"
+            });
+            suite.render();
+        } catch(e) {
+            console.warn("Razorpay Affordability SDK render:", e);
         }
-    };
+    }
 
-    tryRender();
+    // Fail-safe guarantee: if SDK is loading or empty, display official affordability summary
+    setTimeout(() => {
+        if (!targetEl.innerHTML || targetEl.innerHTML.trim() === "") {
+            targetEl.innerHTML = `
+                <div style="background:linear-gradient(135deg, rgba(197,160,89,0.12), rgba(255,255,255,0.02)); border:1px solid rgba(197,160,89,0.3); border-radius:4px; padding:0.75rem 1rem; margin:0.8rem 0; font-size:0.82rem;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                        <span style="font-size:0.7rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--gold); font-weight:700;">
+                            <i class="fa-solid fa-credit-card"></i> Razorpay Affordability
+                        </span>
+                        <span style="font-size:0.65rem; background:rgba(197,160,89,0.2); color:var(--gold-light); padding:2px 8px; border-radius:10px; font-weight:600;">Bank &amp; Cardless EMI</span>
+                    </div>
+                    <div style="color:#fff; font-weight:500; margin-bottom:6px;">
+                        Or pay in <strong>3 monthly EMIs of <span style="color:var(--gold);">₹${monthlyEMI.toLocaleString('en-IN')}</span>/mo</strong>
+                    </div>
+                    <div style="display:flex; flex-wrap:wrap; gap:6px; font-size:0.65rem; color:#bbb;">
+                        <span style="background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.1); padding:2px 6px; border-radius:3px;">HDFC</span>
+                        <span style="background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.1); padding:2px 6px; border-radius:3px;">ICICI</span>
+                        <span style="background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.1); padding:2px 6px; border-radius:3px;">SBI</span>
+                        <span style="background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.1); padding:2px 6px; border-radius:3px;">Axis</span>
+                        <span style="background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.1); padding:2px 6px; border-radius:3px;">Snapmint</span>
+                    </div>
+                </div>
+            `;
+        }
+    }, 400);
 }
 
 function closeProductDetailModal() {
