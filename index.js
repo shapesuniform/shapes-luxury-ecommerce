@@ -40,33 +40,24 @@ const DEFAULT_PRODUCTS = [
         craft: "100% Breathable Modal Cotton, natural indigo dye handblock print, relaxed silhouette with functional pockets. Gentle cold wash."
     }
 ];
-
 const DEFAULT_CATEGORIES = ["Printed Co-Ords", "Linen & Cotton", "Festive Co-Ords", "Fusion Sets"];
-
 const DEFAULT_CONFIG = {
     brandName: "Shapes By Satiinder Kaur",
     heroTitle: "CONTEMPORARY LUXURY PRET",
     storyTitle: "THE ART OF EFFORTLESS SILHOUETTES",
     storyDesc: "At Shapes By Satiinder Kaur, we believe modern luxury should be as comfortable as it is breathtaking. Our signature designer co-ord sets blend pure organic linens, modal silks, and heritage handloom weaves with tailored contemporary cuts. Each two-piece set is thoughtfully crafted in Mumbai for women who celebrate understated elegance, rich textiles, and effortless style.",
-    razorpayKey: "rzp_live_TQ0RwUwXQjD3tq" // Live Production Key
+    razorpayKey: "rzp_live_TQ0RwUwXQjD3tq"
 };
-
-// State Variables
 let products = [];
 let categories = [];
 let config = {};
 let cart = [];
 let selectedSize = "";
 let currentActiveProduct = null;
-
-// Search, Filter and Sort State
 let activeCategory = "All";
 let searchQuery = "";
 let currentSort = "default";
-
-// Initialize Store App
 function initStore() {
-    // Force clean migration for ultra-fast WebP catalog sync with Co-Ord Sets
     if (localStorage.getItem("shapes_catalog_version") !== "shapes_v8_coord_collection") {
         localStorage.removeItem("shapes_products");
         localStorage.setItem("shapes_products", JSON.stringify(DEFAULT_PRODUCTS));
@@ -74,10 +65,6 @@ function initStore() {
         localStorage.setItem("shapes_config", JSON.stringify(DEFAULT_CONFIG));
         localStorage.setItem("shapes_catalog_version", "shapes_v8_coord_collection");
     }
-
-
-
-    // Load from LocalStorage or write defaults
     if (!localStorage.getItem("shapes_products")) {
         localStorage.setItem("shapes_products", JSON.stringify(DEFAULT_PRODUCTS));
     }
@@ -90,22 +77,15 @@ function initStore() {
     if (!localStorage.getItem("shapes_cart")) {
         localStorage.setItem("shapes_cart", JSON.stringify([]));
     }
-
-    // Parse stored products and rigorously sanitize any 'haha' or dummy items
     let rawProducts = JSON.parse(localStorage.getItem("shapes_products")) || [];
     products = rawProducts.filter(p => p && p.title && !p.title.toLowerCase().includes("haha") && !p.id.includes("1786736236272") && !p.title.toLowerCase().includes("test"));
-    
-    // If empty after sanitization, restore default pieces
     if (products.length === 0) {
         products = [...DEFAULT_PRODUCTS];
     }
     localStorage.setItem("shapes_products", JSON.stringify(products));
-
     categories = JSON.parse(localStorage.getItem("shapes_categories")) || DEFAULT_CATEGORIES;
     config = JSON.parse(localStorage.getItem("shapes_config")) || DEFAULT_CONFIG;
     cart = JSON.parse(localStorage.getItem("shapes_cart")) || [];
-
-    // Render elements
     renderStorefront();
     renderClientReviews();
     renderStoreJournal();
@@ -115,12 +95,7 @@ function initStore() {
     setupEventListeners();
     setupScrollAnimations();
 }
-
-
-
-// Render storefront elements
 function renderStorefront() {
-    // 1. Text elements config
     document.querySelectorAll(".footer-col.brand-info h3").forEach(el => el.innerText = config.brandName);
     const heroTitleEl = document.getElementById("hero-title-text");
     if (heroTitleEl) heroTitleEl.innerText = config.heroTitle;
@@ -130,8 +105,6 @@ function renderStorefront() {
     if (storyTitleEl) storyTitleEl.innerText = config.storyTitle;
     const storyDescEl = document.getElementById("story-desc-text");
     if (storyDescEl) storyDescEl.innerText = config.storyDesc;
-
-    // 2. Render Horizontal Category Filter Tabs in Catalog Section
     const tabsContainer = document.getElementById("catalog-tabs-container");
     if (tabsContainer) {
         tabsContainer.innerHTML = `
@@ -142,20 +115,14 @@ function renderStorefront() {
                 <button class="tab-btn" data-filter="${cat}">${cat}</button>
             `;
         });
-
-        // Horizontal category tabs click listeners
         document.querySelectorAll(".tab-btn").forEach(btn => {
             btn.addEventListener("click", () => {
                 selectCategoryTab(btn.dataset.filter);
             });
         });
     }
-
-    // 3. Initial Catalog Grid Render
     updateCatalogGrid();
 }
-
-// Select category tab helper
 function selectCategoryTab(categoryName) {
     document.querySelectorAll(".tab-btn").forEach(btn => {
         if (btn.dataset.filter.toLowerCase() === categoryName.toLowerCase()) {
@@ -167,36 +134,26 @@ function selectCategoryTab(categoryName) {
     activeCategory = categoryName;
     updateCatalogGrid();
 }
-
-// Unified catalog compiler: applies category filters, text search, and sorting
 function updateCatalogGrid() {
     const listContainer = document.getElementById("product-list-container");
     listContainer.innerHTML = "";
-
-    // Update Section Header title based on Category
     const titleText = document.getElementById("catalog-title-text");
     if (activeCategory === "All") {
         titleText.innerText = "NEW ARRIVALS";
     } else {
         titleText.innerText = activeCategory.toUpperCase() + " COLLECTION";
     }
-
-    // Step 1: Category Filter
     let filtered = activeCategory === "All"
         ? products
         : products.filter(p => p.category.toLowerCase() === activeCategory.toLowerCase());
-
-    // Step 2: Search Filter
     if (searchQuery) {
         const query = searchQuery.toLowerCase();
-        filtered = filtered.filter(p => 
-            p.title.toLowerCase().includes(query) || 
+        filtered = filtered.filter(p =>
+            p.title.toLowerCase().includes(query) ||
             p.description.toLowerCase().includes(query) ||
             p.category.toLowerCase().includes(query)
         );
     }
-
-    // Step 3: Sort logic
     if (currentSort === "price-asc") {
         filtered.sort((a, b) => a.price - b.price);
     } else if (currentSort === "price-desc") {
@@ -204,16 +161,12 @@ function updateCatalogGrid() {
     } else if (currentSort === "title-asc") {
         filtered.sort((a, b) => a.title.localeCompare(b.title));
     } else if (currentSort === "default") {
-        // Sort back by ID or order added (simple restoration)
         filtered.sort((a, b) => a.id.localeCompare(b.id));
     }
-
-    // Render Cards
     if (filtered.length === 0) {
         listContainer.innerHTML = `<p class="cart-empty-msg" style="grid-column: 1/-1;">No creations found matching your query.</p>`;
         return;
     }
-
     filtered.forEach(p => {
         const isSoldOut = p.inventory <= 0;
         const isFav = wishlist.includes(p.id);
@@ -245,8 +198,6 @@ function updateCatalogGrid() {
         `;
         listContainer.innerHTML += cardHtml;
     });
-
-    // Add card click listeners
     document.querySelectorAll(".product-card").forEach(card => {
         card.addEventListener("click", (e) => {
             if (e.target.closest(".product-wishlist-btn") || e.target.closest(".card-action-tap-btn")) return;
@@ -254,8 +205,6 @@ function updateCatalogGrid() {
         });
     });
 }
-
-// Multi-Currency Exchange Rates & Conversion
 let currentCurrency = localStorage.getItem("shapes_currency") || "INR";
 const CURRENCY_RATES = {
     INR: { rate: 1, symbol: "₹", locale: "en-IN", code: "INR" },
@@ -264,11 +213,9 @@ const CURRENCY_RATES = {
     AED: { rate: 0.044, symbol: "AED ", locale: "en-AE", code: "AED" },
     EUR: { rate: 0.011, symbol: "€", locale: "de-DE", code: "EUR" }
 };
-
 function formatCurrency(amountInInr) {
     const config = CURRENCY_RATES[currentCurrency] || CURRENCY_RATES.INR;
     const converted = amountInInr * config.rate;
-
     if (currentCurrency === "INR") {
         return new Intl.NumberFormat('en-IN', {
             style: 'currency',
@@ -279,12 +226,10 @@ function formatCurrency(amountInInr) {
         return config.symbol + Math.round(converted).toLocaleString(config.locale);
     }
 }
-
 function setCurrency(newCurrency) {
     if (CURRENCY_RATES[newCurrency]) {
         currentCurrency = newCurrency;
         localStorage.setItem("shapes_currency", newCurrency);
-        // Sync all currency select elements on page
         document.querySelectorAll(".currency-select, #currency-select").forEach(s => s.value = newCurrency);
         updateCatalogGrid();
         renderCartItems();
@@ -296,8 +241,6 @@ function setCurrency(newCurrency) {
         }
     }
 }
-
-// Clean Image Path Helper (Prefers WebP with auto-prefix)
 function cleanImagePath(path) {
     if (!path) return "images/zardozi_corset.webp";
     let clean = path.replace(/['"]/g, '').trim();
@@ -305,22 +248,14 @@ function cleanImagePath(path) {
     if (!clean.startsWith("images/") && !clean.startsWith("http")) {
         clean = "images/" + clean;
     }
-    // Swap .png to .webp for high performance
     clean = clean.replace(/\.png$/i, '.webp');
     return clean;
 }
-
-// ─────────────────────────────────────────────────────────────
-// WISHLIST MANAGEMENT
-// ─────────────────────────────────────────────────────────────
 let wishlist = JSON.parse(localStorage.getItem("shapes_wishlist") || "[]");
-
 function toggleWishlist(productId, event) {
     if (event) event.stopPropagation();
-
     const idx = wishlist.indexOf(productId);
     const p = products.find(prod => prod.id === productId);
-
     if (idx > -1) {
         wishlist.splice(idx, 1);
         showMobileToast(`Removed "${p ? p.title : 'Item'}" from Wishlist`);
@@ -328,33 +263,27 @@ function toggleWishlist(productId, event) {
         wishlist.push(productId);
         showMobileToast(`Saved "${p ? p.title : 'Item'}" to Wishlist`);
     }
-
     localStorage.setItem("shapes_wishlist", JSON.stringify(wishlist));
     updateWishlistCount();
     updateCatalogGrid();
     updateModalWishlistState();
     renderWishlistItems();
 }
-
 function updateWishlistCount() {
     const countEl = document.getElementById("wishlist-count");
     if (countEl) countEl.innerText = wishlist.length;
 }
-
 function openWishlistDrawer() {
     renderWishlistItems();
     document.getElementById("wishlist-drawer").classList.add("active");
 }
-
 function closeWishlistDrawer() {
     document.getElementById("wishlist-drawer").classList.remove("active");
 }
-
 function renderWishlistItems() {
     const container = document.getElementById("wishlist-items-container");
     if (!container) return;
     container.innerHTML = "";
-
     if (wishlist.length === 0) {
         container.innerHTML = `
             <div class="cart-empty-msg">
@@ -364,11 +293,9 @@ function renderWishlistItems() {
         `;
         return;
     }
-
     wishlist.forEach(id => {
         const p = products.find(prod => prod.id === id);
         if (!p) return;
-
         const itemHtml = `
             <div class="cart-item">
                 <div class="cart-item-img-wrapper" style="cursor: pointer;" onclick="openProductDetail('${p.id}'); closeWishlistDrawer();">
@@ -388,7 +315,6 @@ function renderWishlistItems() {
         container.innerHTML += itemHtml;
     });
 }
-
 function updateModalWishlistState() {
     const btn = document.getElementById("modal-wishlist-btn");
     if (!btn || !currentActiveProduct) return;
@@ -401,10 +327,6 @@ function updateModalWishlistState() {
         btn.innerHTML = `<i class="fa-regular fa-heart"></i> <span>Save</span>`;
     }
 }
-
-// ─────────────────────────────────────────────────────────────
-// 1-CLICK PRODUCT SHARING ON WHATSAPP
-// ─────────────────────────────────────────────────────────────
 function shareActiveProduct() {
     if (!currentActiveProduct) return;
     const p = currentActiveProduct;
@@ -418,30 +340,20 @@ function shareActiveProduct() {
     );
     window.open(`https://wa.me/?text=${shareText}`, '_blank');
 }
-
-
-// Open Product Detail Modal
 function openProductDetail(productId) {
     const p = products.find(prod => prod.id === productId);
     if (!p) return;
-
     currentActiveProduct = p;
     selectedSize = "";
-
-    // Set Modal content
     document.getElementById("modal-product-image").src = cleanImagePath(p.image);
     document.getElementById("modal-product-image").alt = p.title;
     document.getElementById("modal-product-category").innerText = p.category;
     document.getElementById("modal-product-title").innerText = p.title;
     document.getElementById("modal-product-price").innerHTML = `${formatCurrency(p.price)} <span style="font-size: 11px; font-weight: 400; color: var(--grey-dark); letter-spacing: 0.04em; font-family: var(--font-sans); margin-left: 6px;">(Inclusive of all taxes &amp; GST)</span>`;
     document.getElementById("modal-product-desc").innerText = p.description;
-
     document.getElementById("modal-craftsmanship-detail").innerText = p.craft || "Handcrafted by regional master weavers. Dry clean only.";
-
-    // Stock status check
     const stockContainer = document.getElementById("modal-product-stock");
     const addToCartBtn = document.getElementById("modal-add-to-cart-btn");
-    
     if (p.inventory <= 0) {
         stockContainer.innerHTML = `<span class="stock-dot stock-out"></span> Retired / Out of Stock`;
         addToCartBtn.disabled = true;
@@ -455,31 +367,20 @@ function openProductDetail(productId) {
         addToCartBtn.disabled = false;
         addToCartBtn.innerText = "ADD TO BAG";
     }
-
-    // Render Razorpay Affordability & EMI Widget
     renderAffordabilityWidget(p.price);
-
-    // Reset size selectors
     document.querySelectorAll(".size-option").forEach(btn => {
         btn.classList.remove("active");
     });
-
     updateModalWishlistState();
-
     document.getElementById("product-detail-modal").classList.add("active");
     document.body.style.overflow = "hidden";
 }
-
-// Razorpay Affordability & EMI Widget Initializer
 function renderAffordabilityWidget(priceInInr) {
     const container = document.getElementById("razorpay-affordability-widget");
     if (!container) return;
     container.innerHTML = "";
-
     const rzpKey = config.razorpayKey || "rzp_live_TQ0RwUwXQjD3tq";
-
     const amountInPaise = (priceInInr || 0) * 100;
-
     if (typeof RazorpayAffordabilitySuite !== "undefined") {
         try {
             const widgetConfig = {
@@ -493,12 +394,7 @@ function renderAffordabilityWidget(priceInInr) {
         }
     }
 }
-
-
-
-// Setup Event Listeners
 function setupEventListeners() {
-    // 1. Header scroll animation (Passive listener for 120fps smooth mobile scrolling)
     window.addEventListener("scroll", () => {
         const header = document.getElementById("header");
         if (window.scrollY > 50) {
@@ -507,114 +403,82 @@ function setupEventListeners() {
             header.classList.remove("scrolled");
         }
     }, { passive: true });
-
-    // 2. Mobile Nav Drawer Toggle
     const mobileToggle = document.getElementById("mobile-toggle");
     const mobileNav = document.getElementById("mobile-nav");
-    
     mobileToggle.addEventListener("click", () => {
         mobileToggle.classList.toggle("active");
         mobileNav.classList.toggle("open");
     });
-
-    // Direct links to Shop categories from Nav Header
     document.querySelectorAll(".shop-nav-trigger").forEach(link => {
         link.addEventListener("click", (e) => {
             const cat = link.dataset.category;
             if (cat) {
                 e.preventDefault();
-                // Select Category tab
                 selectCategoryTab(cat);
-                // Scroll to Shop section
                 document.getElementById("catalog").scrollIntoView({ behavior: 'smooth' });
             }
         });
     });
-
-    // Mobile nav trigger categories
     document.querySelectorAll(".mobile-shop-trigger").forEach(link => {
         link.addEventListener("click", (e) => {
             const cat = link.dataset.category;
             if (cat) {
                 e.preventDefault();
-                // Select Category tab
                 selectCategoryTab(cat);
-                // Close mobile drawer
                 mobileToggle.classList.remove("active");
                 mobileNav.classList.remove("open");
-                // Scroll to Shop
                 setTimeout(() => {
                     document.getElementById("catalog").scrollIntoView({ behavior: 'smooth' });
                 }, 300);
             }
         });
     });
-
-    // Footer categories links
     document.querySelectorAll(".footer-shop-trigger").forEach(link => {
         link.addEventListener("click", (e) => {
             const cat = link.dataset.category;
             if (cat) {
                 e.preventDefault();
-                // Select Category tab
                 selectCategoryTab(cat);
-                // Scroll to Shop
                 document.getElementById("catalog").scrollIntoView({ behavior: 'smooth' });
             }
         });
     });
-
-    // Banner "Explore Shop" CTA
     document.getElementById("hero-discover-btn").addEventListener("click", () => {
         selectCategoryTab("All");
         document.getElementById("catalog").scrollIntoView({ behavior: 'smooth' });
     });
-
-    // "Our Story" nav triggers
     document.querySelectorAll(".story-nav-trigger").forEach(link => {
         link.addEventListener("click", (e) => {
             e.preventDefault();
             document.getElementById("story-section").scrollIntoView({ behavior: 'smooth' });
         });
     });
-
     document.querySelectorAll(".mobile-story-trigger").forEach(link => {
         link.addEventListener("click", (e) => {
             e.preventDefault();
-            // Close mobile menu
             mobileToggle.classList.remove("active");
             mobileNav.classList.remove("open");
-            // Scroll to Story
             setTimeout(() => {
                 document.getElementById("story-section").scrollIntoView({ behavior: 'smooth' });
             }, 300);
         });
     });
-
-    // 4. Search and Sort inputs
     const searchInput = document.getElementById("boutique-search-input");
     const sortSelect = document.getElementById("boutique-sort-select");
-
     searchInput.addEventListener("input", (e) => {
         searchQuery = e.target.value;
         updateCatalogGrid();
     });
-
     sortSelect.addEventListener("change", (e) => {
         currentSort = e.target.value;
         updateCatalogGrid();
     });
-
-    // 5. Product Modal Controls
     document.getElementById("close-product-modal").addEventListener("click", () => {
         document.getElementById("product-detail-modal").classList.remove("active");
         document.body.style.overflow = "";
     });
-
-    // Dynamic Image Zoom Lens
     const zoomContainer = document.getElementById("zoom-container");
     const zoomImg = document.getElementById("modal-product-image");
-
     zoomContainer.addEventListener("mousemove", (e) => {
         const rect = zoomContainer.getBoundingClientRect();
         const x = ((e.clientX - rect.left) / rect.width) * 100;
@@ -622,13 +486,10 @@ function setupEventListeners() {
         zoomImg.style.transformOrigin = `${x}% ${y}%`;
         zoomImg.style.transform = "scale(1.8)";
     });
-
     zoomContainer.addEventListener("mouseleave", () => {
         zoomImg.style.transform = "scale(1)";
         zoomImg.style.transformOrigin = "center center";
     });
-
-    // Size Option clicks
     document.querySelectorAll(".size-option").forEach(btn => {
         btn.addEventListener("click", () => {
             document.querySelectorAll(".size-option").forEach(b => b.classList.remove("active"));
@@ -636,34 +497,26 @@ function setupEventListeners() {
             selectedSize = btn.dataset.size;
         });
     });
-
-    // Add to Bag action button
     document.getElementById("modal-add-to-cart-btn").addEventListener("click", () => {
         if (!currentActiveProduct) return;
         if (!selectedSize) {
             alert("Please select a size to proceed.");
             return;
         }
-
         addToCart(currentActiveProduct.id, selectedSize);
         document.getElementById("close-product-modal").click();
         openCartDrawer();
     });
-
-    // Modal Wishlist & Share buttons
     const modalWishlistBtn = document.getElementById("modal-wishlist-btn");
     if (modalWishlistBtn) {
         modalWishlistBtn.addEventListener("click", () => {
             if (currentActiveProduct) toggleWishlist(currentActiveProduct.id);
         });
     }
-
     const modalShareBtn = document.getElementById("modal-share-wa-btn");
     if (modalShareBtn) {
         modalShareBtn.addEventListener("click", shareActiveProduct);
     }
-
-    // Currency Switcher
     const currencySelect = document.getElementById("currency-select");
     if (currencySelect) {
         currencySelect.value = currentCurrency;
@@ -671,8 +524,6 @@ function setupEventListeners() {
             setCurrency(e.target.value);
         });
     }
-
-    // Wishlist Drawer triggers
     const openWishlistBtn = document.getElementById("open-wishlist-btn");
     if (openWishlistBtn) openWishlistBtn.addEventListener("click", openWishlistDrawer);
     const closeWishlistBtn = document.getElementById("close-wishlist-btn");
@@ -685,10 +536,7 @@ function setupEventListeners() {
             if (e.target.id === "wishlist-drawer") closeWishlistDrawer();
         });
     }
-
-    // Bag drawer triggers
     document.getElementById("open-cart-btn").addEventListener("click", openCartDrawer);
-
     const mobileBarCartBtn = document.getElementById("mobile-bar-cart-btn");
     if (mobileBarCartBtn) mobileBarCartBtn.addEventListener("click", openCartDrawer);
     const toastViewBagBtn = document.getElementById("toast-view-bag-btn");
@@ -696,14 +544,10 @@ function setupEventListeners() {
         document.getElementById("mobile-toast").classList.remove("active");
         openCartDrawer();
     });
-
     document.getElementById("close-cart-btn").addEventListener("click", closeCartDrawer);
     document.getElementById("cart-drawer").addEventListener("click", (e) => {
         if (e.target.id === "cart-drawer") closeCartDrawer();
     });
-
-
-    // Checkout trigger
     document.getElementById("proceed-checkout-btn").addEventListener("click", () => {
         if (cart.length === 0) {
             alert("Your Shopping Bag is empty.");
@@ -712,27 +556,19 @@ function setupEventListeners() {
         closeCartDrawer();
         openCheckoutModal();
     });
-
     document.getElementById("close-checkout-btn").addEventListener("click", closeCheckoutModal);
-
-    // Accordions
     document.querySelectorAll(".accordion-header").forEach(header => {
         header.addEventListener("click", () => {
             header.parentElement.classList.toggle("active");
         });
     });
-
-    // Checkout Billing Form Submit
     document.getElementById("billing-shipping-form").addEventListener("submit", (e) => {
         e.preventDefault();
         processCheckout();
     });
-
     document.getElementById("finish-checkout-btn").addEventListener("click", () => {
         closeCheckoutModal();
     });
-
-    // Currency selector change listener
     document.querySelectorAll(".currency-select, #currency-select").forEach(sel => {
         sel.value = currentCurrency;
         sel.addEventListener("change", (e) => {
@@ -740,21 +576,15 @@ function setupEventListeners() {
         });
     });
 }
-
-// Add Item To Cart
 function addToCart(productId, size) {
     const p = products.find(prod => prod.id === productId);
     if (!p) return;
-
-    // Check inventory levels
     const cartItem = cart.find(item => item.id === productId && item.size === size);
     const existingQty = cartItem ? cartItem.quantity : 0;
-
     if (existingQty + 1 > p.inventory) {
         alert(`Designer note: Only ${p.inventory} pieces of this creation are currently crafted.`);
         return;
     }
-
     if (cartItem) {
         cartItem.quantity += 1;
     } else {
@@ -764,36 +594,27 @@ function addToCart(productId, size) {
             quantity: 1
         });
     }
-
     saveCartState();
     updateCartCount();
     showMobileToast(`Added "${p.title}" to Bag`);
 }
-
-// Mobile Floating Toast Alert
 let toastTimer = null;
 function showMobileToast(msg) {
     const toast = document.getElementById("mobile-toast");
     const msgEl = document.getElementById("toast-message");
     if (!toast || !msgEl) return;
-
     msgEl.textContent = msg;
     toast.classList.add("active");
-
     if (toastTimer) clearTimeout(toastTimer);
     toastTimer = setTimeout(() => {
         toast.classList.remove("active");
     }, 3500);
 }
-
-// Update Cart Quantity
 function updateCartQty(productId, size, increment) {
     const item = cart.find(i => i.id === productId && i.size === size);
     if (!item) return;
-
     const p = products.find(prod => prod.id === productId);
     if (!p) return;
-
     if (increment > 0) {
         if (item.quantity + 1 > p.inventory) {
             alert(`Only ${p.inventory} physical creations are currently in stock.`);
@@ -806,51 +627,36 @@ function updateCartQty(productId, size, increment) {
             cart = cart.filter(i => !(i.id === productId && i.size === size));
         }
     }
-
     saveCartState();
     updateCartCount();
     renderCartItems();
 }
-
-// Remove item entirely
 function removeCartItem(productId, size) {
     cart = cart.filter(i => !(i.id === productId && i.size === size));
     saveCartState();
     updateCartCount();
     renderCartItems();
 }
-
-// Save cart to LocalStorage
 function saveCartState() {
     localStorage.setItem("shapes_cart", JSON.stringify(cart));
 }
-
-// Cart badge counts (Sync desktop + mobile badges)
 function updateCartCount() {
     const count = cart.reduce((total, item) => total + item.quantity, 0);
     const desktopBadge = document.getElementById("cart-count");
     const mobileBadge = document.getElementById("mobile-cart-count");
-
     if (desktopBadge) desktopBadge.innerText = count;
     if (mobileBadge) mobileBadge.innerText = count;
 }
-
-// Open Bag Drawer
 function openCartDrawer() {
     renderCartItems();
     document.getElementById("cart-drawer").classList.add("active");
 }
-
-
 function closeCartDrawer() {
     document.getElementById("cart-drawer").classList.remove("active");
 }
-
-// Render items in bag
 function renderCartItems() {
     const container = document.getElementById("cart-items-container");
     container.innerHTML = "";
-
     if (cart.length === 0) {
         container.innerHTML = `
             <div class="cart-empty-msg">
@@ -861,15 +667,11 @@ function renderCartItems() {
         document.getElementById("cart-subtotal").innerText = formatCurrency(0);
         return;
     }
-
     let subtotal = 0;
-
     cart.forEach(item => {
         const p = products.find(prod => prod.id === item.id);
         if (!p) return;
-
         subtotal += p.price * item.quantity;
-
         const itemHtml = `
             <div class="cart-item">
                 <div class="cart-item-img-wrapper">
@@ -892,22 +694,16 @@ function renderCartItems() {
         `;
         container.innerHTML += itemHtml;
     });
-
     document.getElementById("cart-subtotal").innerText = formatCurrency(subtotal);
 }
-
-// Open Checkout Modal
 function openCheckoutModal() {
     const container = document.getElementById("checkout-items-list");
     container.innerHTML = "";
-
     let subtotal = 0;
     cart.forEach(item => {
         const p = products.find(prod => prod.id === item.id);
         if (!p) return;
-
         subtotal += p.price * item.quantity;
-
         const row = `
             <div class="checkout-item-row">
                 <div class="checkout-item-title-qty">
@@ -919,35 +715,24 @@ function openCheckoutModal() {
         `;
         container.innerHTML += row;
     });
-
-    // Calculate GST (12% Apparel GST included)
     const gstRate = 0.12;
     const taxableBase = Math.round(subtotal / (1 + gstRate));
     const gstAmount = subtotal - taxableBase;
-
     const subtotalEl = document.getElementById("checkout-subtotal");
     const gstEl = document.getElementById("checkout-gst-amount");
     const grandEl = document.getElementById("checkout-grand-total");
-
     if (subtotalEl) subtotalEl.innerText = formatCurrency(subtotal);
     if (gstEl) gstEl.innerText = formatCurrency(gstAmount);
     if (grandEl) grandEl.innerText = formatCurrency(subtotal);
-
-
-    // Reset Success states
     document.getElementById("checkout-main-form").style.display = "block";
     document.getElementById("order-success-screen").style.display = "none";
-
     document.getElementById("checkout-modal").classList.add("active");
     document.body.style.overflow = "hidden";
 }
-
 function closeCheckoutModal() {
     document.getElementById("checkout-modal").classList.remove("active");
     document.body.style.overflow = "";
 }
-
-// Process Secure Checkout
 async function processCheckout() {
     const name = document.getElementById("cust-name").value.trim();
     const email = document.getElementById("cust-email").value.trim();
@@ -955,37 +740,29 @@ async function processCheckout() {
     const address = document.getElementById("cust-address").value.trim();
     const zip = document.getElementById("cust-zip").value.trim();
     const gstin = (document.getElementById("cust-gstin") ? document.getElementById("cust-gstin").value.trim() : "");
-
-
     const subtotal = cart.reduce((total, item) => {
         const p = products.find(prod => prod.id === item.id);
         return total + (p ? p.price * item.quantity : 0);
     }, 0);
-
     const amountInPaise = subtotal * 100;
     if (amountInPaise < 100) {
         alert("Minimum order amount must be at least ₹1.");
         return;
     }
-
     const submitBtn = document.querySelector(".submit-order-btn");
     const originalBtnText = submitBtn.innerText;
     submitBtn.disabled = true;
     submitBtn.innerText = "INITIALIZING SECURE GATEWAY...";
-
     try {
         let backendOrderId = null;
         let finalAmount = amountInPaise;
         let finalCurrency = "INR";
-
-        // Try backend order creation if Netlify functions are active
         try {
             const orderResponse = await fetch("/api/create-order", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ amount: amountInPaise })
             });
-
             if (orderResponse.ok) {
                 const orderData = await orderResponse.json();
                 if (orderData && orderData.order_id) {
@@ -997,11 +774,7 @@ async function processCheckout() {
         } catch (backendErr) {
             console.warn("Backend order endpoint unavailable, falling back to direct client gateway:", backendErr.message);
         }
-
         const rzpKey = config.razorpayKey || "rzp_live_TQ0RwUwXQjD3tq";
-
-
-        // Open Razorpay Standard Checkout
         const options = {
             "key": rzpKey,
             "amount": finalAmount,
@@ -1012,8 +785,6 @@ async function processCheckout() {
             ...(backendOrderId ? { "order_id": backendOrderId } : {}),
             "handler": async function (response) {
                 submitBtn.innerText = "CONFIRMING ORDER...";
-                
-                // If signature verification endpoint is available, verify it; otherwise complete directly
                 if (response.razorpay_signature && backendOrderId) {
                     try {
                         const verifyResponse = await fetch("/api/verify-payment", {
@@ -1035,7 +806,6 @@ async function processCheckout() {
                         console.warn("Verification endpoint skipped:", vErr.message);
                     }
                 }
-
                 completeOrder(response.razorpay_payment_id || ("pay_" + Date.now()));
             },
             "prefill": {
@@ -1057,7 +827,6 @@ async function processCheckout() {
                 }
             }
         };
-
         const rzp = new Razorpay(options);
         rzp.on('payment.failed', function (response) {
             alert("Payment could not be completed: " + (response.error ? response.error.description : "Transaction declined."));
@@ -1065,46 +834,34 @@ async function processCheckout() {
             submitBtn.innerText = originalBtnText;
         });
         rzp.open();
-
     } catch (err) {
         console.error("Payment gateway error:", err);
         alert("Payment Gateway Notice: " + err.message);
         submitBtn.disabled = false;
         submitBtn.innerText = originalBtnText;
     }
-
 }
-
-// Complete order callback on payment authorization
 function completeOrder(paymentId) {
-    // 1. Deduct products stock
     const orderedItems = cart.map(item => {
         const p = products.find(prod => prod.id === item.id);
         return { title: p ? p.title : item.id, size: item.size, quantity: item.quantity, price: p ? p.price : 0 };
     });
-
     cart.forEach(item => {
         const p = products.find(prod => prod.id === item.id);
         if (p) {
             p.inventory = Math.max(0, p.inventory - item.quantity);
         }
     });
-
     localStorage.setItem("shapes_products", JSON.stringify(products));
-
-    // 2. Sequential Order ID — starts from #0001
     const lastOrderNum = parseInt(localStorage.getItem("shapes_last_order_num") || "0");
     const newOrderNum = lastOrderNum + 1;
     localStorage.setItem("shapes_last_order_num", String(newOrderNum));
     const refCode = "SH-" + String(newOrderNum).padStart(4, "0");
-
-    // 3. Save order details to localStorage for tracking page
     const totalAmt = orderedItems.reduce((t, i) => t + (i.price * i.quantity), 0);
     const gstRate = 0.12;
     const taxableBase = Math.round(totalAmt / (1 + gstRate));
     const gstAmount = totalAmt - taxableBase;
     const gstin = (document.getElementById("cust-gstin") ? document.getElementById("cust-gstin").value.trim() : "");
-
     const orderRecord = {
         ref: refCode,
         paymentId: paymentId,
@@ -1120,18 +877,11 @@ function completeOrder(paymentId) {
     const allOrders = JSON.parse(localStorage.getItem("shapes_orders") || "[]");
     allOrders.push(orderRecord);
     localStorage.setItem("shapes_orders", JSON.stringify(allOrders));
-
-
-    // 4. Clear cart state
     cart = [];
     saveCartState();
     updateCartCount();
-
-    // 5. Update Order Reference on screen
     document.getElementById("order-ref-code").innerHTML =
         `${refCode}<br><span style="font-size: 10px; color: var(--gold); letter-spacing: 0.05em; font-family: var(--font-sans);">Payment ID: ${paymentId}</span>`;
-
-    // 6. Build WhatsApp confirmation message
     const custName = document.getElementById("cust-name").value.trim() || "Customer";
     const itemsSummary = orderedItems.map(i => `${i.title} (Size: ${i.size} x${i.quantity})`).join(", ");
     const waMsg = encodeURIComponent(
@@ -1144,22 +894,13 @@ function completeOrder(paymentId) {
         `Name: ${custName}\n\n` +
         `Please confirm my order. Thank you!`
     );
-
     const waLink = `https://wa.me/919833392756?text=${waMsg}`;
     document.getElementById("whatsapp-confirm-btn").href = waLink;
-
-    // 7. Update Track Order link with order ref
     document.getElementById("track-order-btn").href = `track.html?ref=${refCode}`;
-
-    // 8. Show Success Screen
     document.getElementById("checkout-main-form").style.display = "none";
     document.getElementById("order-success-screen").style.display = "flex";
-
-    // 9. Re-render storefront
     renderStorefront();
 }
-
-// Scroll Reveal Animations
 function setupScrollAnimations() {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -1171,30 +912,15 @@ function setupScrollAnimations() {
         threshold: 0.1,
         rootMargin: "0px 0px -50px 0px"
     });
-
     document.querySelectorAll(".animate-on-scroll").forEach(el => {
         observer.observe(el);
     });
 }
-
-// Expose functions globally for dynamic inline DOM click bindings
 window.updateCartQty = updateCartQty;
 window.removeCartItem = removeCartItem;
-
-
-// Run initial loading
 window.addEventListener("DOMContentLoaded", initStore);
-
-
-// ─────────────────────────────────────────────────────────────────────────────
-// FIREBASE AUTH & FIRESTORE INTEGRATION (ESM module — loaded after DOM ready)
-// ─────────────────────────────────────────────────────────────────────────────
-
-// Global firebase handles (set by ESM module below via window._*)
 let _currentUser = null;
-
 function injectAccountNavLink() {
-    // Insert "My Account" link into nav-right if not already present
     if (document.getElementById("nav-account-link")) return;
     const navRight = document.querySelector(".nav-right");
     if (!navRight) return;
@@ -1207,8 +933,6 @@ function injectAccountNavLink() {
     link.style.cssText = "display:flex;align-items:center;gap:5px;";
     navRight.insertBefore(link, navRight.firstChild);
 }
-
-// Called by firebase ESM module when auth state changes
 window._onAuthUser = function(user) {
     _currentUser = user;
     injectAccountNavLink();
@@ -1220,8 +944,6 @@ window._onAuthUser = function(user) {
             : `<i class="fa-regular fa-circle-user" style="font-size:14px;"></i>`;
     }
 };
-
-// Save order to Firestore — called from completeOrder()
 async function saveOrderToFirestore(orderRecord) {
     if (!window._dbStore || !window._addDocStore || !window._collectionStore) return;
     try {
@@ -1238,25 +960,15 @@ async function saveOrderToFirestore(orderRecord) {
         console.warn("Firestore save failed (will fallback to localStorage):", e.message);
     }
 }
-
-// Patch completeOrder to also save to Firestore (non-breaking — localStorage still works even if Firebase not configured)
 const _originalCompleteOrder = completeOrder;
 window.completeOrder = async function(paymentId) {
-    // Run original logic first (sets up orderRecord in localStorage etc.)
     _originalCompleteOrder(paymentId);
-
-    // Retrieve the just-saved order from localStorage and push to Firestore
     try {
         const allOrders = JSON.parse(localStorage.getItem("shapes_orders") || "[]");
         const latest = allOrders[allOrders.length - 1];
         if (latest) await saveOrderToFirestore(latest);
-    } catch (e) { /* silent */ }
+    } catch (e) {  }
 };
-
-// ─────────────────────────────────────────────────────────────────────────────
-// LUXURY CLIENT REVIEWS & TESTIMONIALS CONTROLLER (49 GOOGLE REVIEWS)
-// ─────────────────────────────────────────────────────────────────────────────
-
 const DEFAULT_CLIENT_REVIEWS = [
     {
         id: "rev-google-1",
@@ -1391,10 +1103,8 @@ const DEFAULT_CLIENT_REVIEWS = [
         date: "Verified Google Review"
     }
 ];
-
 function getStoredClientReviews() {
     try {
-        // Migration to clean out old template reviews and load 49 Google reviews
         if (localStorage.getItem("shapes_reviews_version") !== "shapes_real_google_v2_49reviews") {
             localStorage.removeItem("shapes_client_reviews");
             localStorage.setItem("shapes_reviews_version", "shapes_real_google_v2_49reviews");
@@ -1408,24 +1118,19 @@ function getStoredClientReviews() {
     localStorage.setItem("shapes_client_reviews", JSON.stringify(DEFAULT_CLIENT_REVIEWS));
     return DEFAULT_CLIENT_REVIEWS;
 }
-
 let activeReviewCategory = "All";
 let visibleReviewsCount = 6;
-
 function renderClientReviews() {
     const container = document.getElementById("testimonials-grid-container");
     if (!container) return;
-
     const allReviews = getStoredClientReviews();
     const countDisplay = document.getElementById("reviews-count-display");
     if (countDisplay) {
         countDisplay.textContent = "49 Verified Google Reviews";
     }
-
-    const filtered = activeReviewCategory === "All" 
-        ? allReviews 
+    const filtered = activeReviewCategory === "All"
+        ? allReviews
         : allReviews.filter(r => r.category === activeReviewCategory);
-
     if (filtered.length === 0) {
         container.innerHTML = `
             <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--grey-medium);">
@@ -1435,9 +1140,7 @@ function renderClientReviews() {
         `;
         return;
     }
-
     const reviewsToShow = filtered.slice(0, visibleReviewsCount);
-
     container.innerHTML = reviewsToShow.map(r => {
         const starsHtml = '<i class="fa-solid fa-star"></i>'.repeat(r.rating || 5);
         const initials = r.author.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) || 'CL';
@@ -1454,10 +1157,10 @@ function renderClientReviews() {
                 <div class="reviewer-profile-row">
                     <div class="reviewer-avatar">${initials}</div>
                     <div class="reviewer-info-meta">
-                        <h4 class="client-name">
+                        <p class="client-name">
                             ${r.author}
                             ${r.verified ? '<span class="verified-icon-badge"><i class="fa-solid fa-circle-check"></i> Verified</span>' : ''}
-                        </h4>
+                        </p>
                         <div class="source-tag">
                             <span><i class="fa-solid fa-location-dot" style="font-size:9px; color:var(--gold);"></i> ${r.city || 'Mumbai'}</span>
                             <span>·</span>
@@ -1468,8 +1171,6 @@ function renderClientReviews() {
             </div>
         `;
     }).join("");
-
-    // Render Load More Button if there are more reviews
     let loadMoreContainer = document.getElementById("reviews-load-more-container");
     if (!loadMoreContainer) {
         loadMoreContainer = document.createElement("div");
@@ -1479,7 +1180,6 @@ function renderClientReviews() {
         loadMoreContainer.style.gridColumn = "1 / -1";
         container.parentNode.appendChild(loadMoreContainer);
     }
-
     if (filtered.length > visibleReviewsCount) {
         loadMoreContainer.innerHTML = `
             <button type="button" class="hero-cta-btn hero-cta-glass" onclick="loadMoreClientReviews()" style="min-width: 220px; font-size: 11px;">
@@ -1490,12 +1190,10 @@ function renderClientReviews() {
         loadMoreContainer.innerHTML = "";
     }
 }
-
 function loadMoreClientReviews() {
     visibleReviewsCount += 6;
     renderClientReviews();
 }
-
 function filterClientReviews(category, btnElement) {
     activeReviewCategory = category;
     visibleReviewsCount = 6;
@@ -1503,7 +1201,6 @@ function filterClientReviews(category, btnElement) {
     if (btnElement) btnElement.classList.add("active");
     renderClientReviews();
 }
-
 function openWriteReviewModal() {
     const modal = document.getElementById("write-review-modal");
     if (modal) {
@@ -1511,7 +1208,6 @@ function openWriteReviewModal() {
         document.body.style.overflow = "hidden";
     }
 }
-
 function closeWriteReviewModal() {
     const modal = document.getElementById("write-review-modal");
     if (modal) {
@@ -1519,15 +1215,12 @@ function closeWriteReviewModal() {
         document.body.style.overflow = "";
     }
 }
-
 function initStarRatingPicker() {
     const picker = document.getElementById("review-stars-picker");
     if (!picker) return;
-
     const stars = picker.querySelectorAll("i");
     const valInput = document.getElementById("review-rating-value");
     const feedback = document.getElementById("star-rating-feedback");
-
     const feedbackTexts = {
         1: "★☆☆☆☆ Poor (1 / 5 Stars)",
         2: "★★☆☆☆ Fair (2 / 5 Stars)",
@@ -1535,7 +1228,6 @@ function initStarRatingPicker() {
         4: "★★★★☆ Great (4 / 5 Stars)",
         5: "★★★★★ Exceptional (5 / 5 Stars)"
     };
-
     stars.forEach(star => {
         star.addEventListener("mouseenter", () => {
             const rating = parseInt(star.getAttribute("data-rating"));
@@ -1544,13 +1236,11 @@ function initStarRatingPicker() {
             });
             if (feedback) feedback.textContent = feedbackTexts[rating] || "";
         });
-
         star.addEventListener("mouseleave", () => {
             stars.forEach(s => s.classList.remove("hovered"));
             const current = parseInt(valInput.value || "5");
             if (feedback) feedback.textContent = feedbackTexts[current] || "";
         });
-
         star.addEventListener("click", () => {
             const rating = parseInt(star.getAttribute("data-rating"));
             valInput.value = rating;
@@ -1561,7 +1251,6 @@ function initStarRatingPicker() {
         });
     });
 }
-
 function handleClientReviewSubmit(e) {
     e.preventDefault();
     const name = document.getElementById("rev-author-name").value.trim();
@@ -1570,12 +1259,10 @@ function handleClientReviewSubmit(e) {
     const categoryText = document.getElementById("rev-category-select").options[document.getElementById("rev-category-select").selectedIndex].text;
     const rating = parseInt(document.getElementById("review-rating-value").value || "5");
     const story = document.getElementById("rev-story-text").value.trim();
-
     if (!name || !story) {
         alert("Please enter your name and review details.");
         return;
     }
-
     const newReview = {
         id: "rev-" + Date.now(),
         author: name,
@@ -1587,30 +1274,17 @@ function handleClientReviewSubmit(e) {
         verified: true,
         date: "Just now"
     };
-
-    // Save to localStorage
     const currentReviews = getStoredClientReviews();
     currentReviews.unshift(newReview);
     localStorage.setItem("shapes_client_reviews", JSON.stringify(currentReviews));
-
-    // Refresh UI
     renderClientReviews();
     closeWriteReviewModal();
-
-    // Reset Form
     document.getElementById("write-review-form").reset();
     document.getElementById("review-rating-value").value = "5";
     const stars = document.querySelectorAll("#review-stars-picker i");
     stars.forEach(s => s.classList.add("selected"));
-
-    // Toast Alert
     showToast("✨ Thank you! Your review is now featured in our Client Showcase.");
 }
-
-// ─────────────────────────────────────────────────────────────────────────────
-// LUXURY JOURNAL (BLOG) STOREFRONT CONTROLLER (DESIGNER CO-ORD SET STORIES)
-// ─────────────────────────────────────────────────────────────────────────────
-
 const DEFAULT_STORE_JOURNAL = [
     {
         id: "art-1",
@@ -1621,9 +1295,7 @@ const DEFAULT_STORE_JOURNAL = [
         image: "images/coord_black_floral.webp",
         excerpt: "How tailored 2-piece sets in pure modal silks and organic linens transition seamlessly from morning brunches to evening galas.",
         body: `At Shapes By Satiinder Kaur, we believe modern luxury is defined by ease, comfort, and breathtaking tailoring. The modern woman no longer wants restrictive garments; she seeks pieces that move with her rhythm.
-
 Our signature botanical modal silk co-ord sets are engineered with fluid drapes, tailored collars, and relaxed wide-leg trousers. For a chic daytime brunch, pair your long-line tunic with minimalist slide mules and delicate gold hoops. When evening arrives, slip into kitten heels, cinch the waist with a sleek leather belt, and elevate with bold statement earrings.
-
 Every piece is crafted in breathable natural fibers, ensuring you look effortlessly put-together in any setting.`,
         status: "published"
     },
@@ -1636,7 +1308,6 @@ Every piece is crafted in breathable natural fibers, ensuring you look effortles
         image: "images/coord_beige_linen.webp",
         excerpt: "Exploring natural slub linen, mother-of-pearl accents, and artisanal handblock prints designed for contemporary Indian weather.",
         body: `In the humid climate of Mumbai, fabric selection is paramount. We spent months sourcing organic slub linen and long-staple modal cotton that softens with every wash while retaining crisp architectural lines.
-
 Our minimalist V-neck linen sets are detailed with natural coconut shell and mother-of-pearl buttons. With deep functional pockets, relaxed 3/4 sleeves, and tailored ankle-grazing trousers, these sets represent the pinnacle of quiet luxury for your travel and resort wardrobe.`,
         status: "published"
     },
@@ -1649,15 +1320,12 @@ Our minimalist V-neck linen sets are detailed with natural coconut shell and mot
         image: "images/coord_royal_emerald.webp",
         excerpt: "Bridging traditional royal embroidery with modern silhouettes for festive cocktail evenings and family celebrations.",
         body: `For festive gatherings and destination weddings, our emerald raw silk co-ord set reimagines royal heritage. Featuring a structured bandhgala collar and hand-tacked antique gold zari cuffs, it delivers the opulence of traditional wear with the effortless silhouette of a 2-piece pantsuit.
-
 Wear it to a sangeet or intimate dinner for a look that commands admiration without weighing you down.`,
         status: "published"
     }
 ];
-
 function getStoreJournalArticles() {
     try {
-        // Migration to clean out old bridal journal articles
         if (localStorage.getItem("shapes_journal_version") !== "shapes_journal_v2_coord_stories") {
             localStorage.removeItem("shapes_journal_articles");
             localStorage.setItem("shapes_journal_version", "shapes_journal_v2_coord_stories");
@@ -1671,11 +1339,9 @@ function getStoreJournalArticles() {
     localStorage.setItem("shapes_journal_articles", JSON.stringify(DEFAULT_STORE_JOURNAL));
     return DEFAULT_STORE_JOURNAL;
 }
-
 function renderStoreJournal() {
     const grid = document.getElementById("store-journal-grid");
     if (!grid) return;
-
     const articles = getStoreJournalArticles();
     grid.innerHTML = articles.map(art => `
         <article class="journal-card" onclick="openArticleReader('${art.id}')">
@@ -1692,16 +1358,13 @@ function renderStoreJournal() {
         </article>
     `).join("");
 }
-
 function openArticleReader(id) {
     const articles = getStoreJournalArticles();
     const art = articles.find(a => a.id === id) || articles[0];
     if (!art) return;
-
     const container = document.getElementById("journal-reader-content");
     const modal = document.getElementById("journal-reader-modal");
     if (!container || !modal) return;
-
     container.innerHTML = `
         <div style="text-align:center; margin-bottom:2rem;">
             <span style="font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); display:block; margin-bottom:8px;">${art.category}</span>
@@ -1710,15 +1373,12 @@ function openArticleReader(id) {
                 Words by <strong>${art.author}</strong> &nbsp;·&nbsp; ${art.date}
             </div>
         </div>
-
         <div style="width:100%; height:320px; border-radius:6px; overflow:hidden; margin-bottom:2rem; border:1px solid rgba(197,160,89,0.2);">
             <img src="${art.image || 'images/coord_black_floral.webp'}" style="width:100%; height:100%; object-fit:cover;" alt="${art.title}">
         </div>
-
         <div style="font-size:14px; line-height:1.9; color:rgba(255,255,255,0.85); font-family:var(--font-sans); white-space:pre-wrap; margin-bottom:2.5rem;">
 ${art.body}
         </div>
-
         <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(197,160,89,0.25); border-radius:6px; padding:1.5rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
             <div>
                 <h4 style="font-family:var(--font-serif); font-size:1.3rem; color:var(--gold); margin:0 0 4px 0;">Explore Designer Co-Ord Sets</h4>
@@ -1729,11 +1389,9 @@ ${art.body}
             </a>
         </div>
     `;
-
     modal.classList.add("active");
     document.body.style.overflow = "hidden";
 }
-
 function closeArticleReader() {
     const modal = document.getElementById("journal-reader-modal");
     if (modal) {
@@ -1741,8 +1399,6 @@ function closeArticleReader() {
         document.body.style.overflow = "";
     }
 }
-
-// Global Window Exports
 window.toggleWishlist = toggleWishlist;
 window.openWishlistDrawer = openWishlistDrawer;
 window.closeWishlistDrawer = closeWishlistDrawer;
@@ -1755,6 +1411,3 @@ window.handleClientReviewSubmit = handleClientReviewSubmit;
 window.openArticleReader = openArticleReader;
 window.closeArticleReader = closeArticleReader;
 window.renderStoreJournal = renderStoreJournal;
-
-
-

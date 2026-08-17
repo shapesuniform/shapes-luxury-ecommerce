@@ -3,9 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
     <meta name="theme-color" content="#121212">
 
     <meta name="mobile-web-app-capable" content="yes">
@@ -276,13 +273,21 @@
     </script>
 
 
-    <!-- Preload LCP Hero Banner for Lightning-Fast Mobile Rendering -->
-    <link rel="preload" as="image" href="images/welcome_coord_luxury.webp" type="image/webp" fetchpriority="high">
+    <!-- Preload LCP Hero Banner — responsive mobile/desktop -->
+    <link rel="preload" as="image"
+          href="images/welcome_coord_luxury_mobile.webp"
+          imagesrcset="images/welcome_coord_luxury_mobile.webp 600w, images/welcome_coord_luxury.webp 1400w"
+          imagesizes="100vw"
+          type="image/webp" fetchpriority="high">
 
     <!-- Preconnect to Google Fonts and CDNs -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Preconnect Firebase domains to shave 300ms off auth load -->
+    <link rel="preconnect" href="https://shapes-boutique-e269d.firebaseapp.com" crossorigin>
+    <link rel="preconnect" href="https://apis.google.com" crossorigin>
     <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://firestore.googleapis.com">
 
     <!-- Non-Blocking Google Fonts with display=swap -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -290,13 +295,39 @@
         <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
     </noscript>
 
-    <!-- Asynchronous FontAwesome Icons (Zero Render Blocking) -->
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <!-- FontAwesome: loaded after page paint to avoid FCP delay -->
+    <script>
+        window.addEventListener('load', function() {
+            var fa = document.createElement('link');
+            fa.rel = 'stylesheet';
+            fa.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
+            fa.media = 'print';
+            fa.onload = function() { this.media = 'all'; };
+            document.head.appendChild(fa);
+        });
+    </script>
     <noscript>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     </noscript>
 
-    <link rel="stylesheet" href="index.css?v=13.0" media="all">
+    <!-- Critical above-fold styles inlined for fast FCP -->
+    <style>
+      *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+      html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+      body{background:#121212;color:#e8e0d0;font-family:'Montserrat',sans-serif;overflow-x:hidden;min-height:100vh}
+      .hero-section{position:relative;width:100%;height:100svh;min-height:560px;overflow:hidden}
+      .hero-slider,.hero-slide{width:100%;height:100%;position:relative}
+      .hero-slide{background-size:cover;background-position:center top;background-repeat:no-repeat;display:flex;align-items:center;justify-content:center}
+      .hero-content{position:relative;z-index:2;text-align:center;padding:2rem 1.5rem;max-width:760px;margin:0 auto}
+      .hero-brand-title{font-family:'Cormorant Garamond',serif;color:#fff;letter-spacing:.15em;line-height:1.1}
+      .hero-title-main{display:block;font-size:clamp(2.8rem,10vw,6rem);font-weight:600}
+      .hero-title-by{display:block;font-size:clamp(.75rem,2.5vw,1.1rem);font-weight:300;letter-spacing:.35em;color:rgba(255,255,255,.8);margin-top:.4rem}
+      .header-master-wrapper{position:fixed;top:0;left:0;right:0;z-index:9999}
+    </style>
+
+    <!-- Main stylesheet (non-render-blocking after critical CSS) -->
+    <link rel="stylesheet" href="index.css?v=14.0" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="index.css?v=14.0" media="all"></noscript>
     <link rel="manifest" href="manifest.json">
 </head>
 
@@ -1078,83 +1109,81 @@
         </div>
     </div>
 
-    <!-- Main JavaScript Logic -->
-    <script src="index.js?v=12.0"></script>
+    <!-- Main JavaScript Logic (deferred — non-blocking) -->
+    <script src="index.js?v=13.0" defer></script>
 
+    <!-- Firebase: lazy-loaded after page is interactive (not on critical path) -->
+    <script>
+    (function() {
+        var fbLoaded = false;
 
+        function loadFirebase() {
+            if (fbLoaded) return;
+            fbLoaded = true;
 
+            // Dynamically import Firebase — keeps it off the critical path
+            const s = document.createElement('script');
+            s.type = 'module';
+            s.textContent = `
+                import { auth, db, onAuthStateChanged, collection, addDoc, getDocs, query, where, orderBy, doc, updateDoc } from './firebase-config.js';
+                window._dbStore = db;
+                window._collectionStore = collection;
+                window._addDocStore = addDoc;
 
-
-
-
-    <!-- Firebase Auth + Firestore (ESM module, non-blocking) -->
-    <script type="module">
-        import { auth, db, onAuthStateChanged, collection, addDoc, getDocs, query, where, orderBy, doc, updateDoc } from './firebase-config.js';
-        // Expose Firestore write handles to index.js (classic script)
-        window._dbStore = db;
-        window._collectionStore = collection;
-        window._addDocStore = addDoc;
-
-        // Auto-fetch cloud reviews from Firestore and merge with local reviews
-        async function syncCloudReviews() {
-            try {
-                const snap = await getDocs(collection(db, "reviews"));
-                if (!snap.empty) {
-                    const cloudRevs = [];
-                    snap.forEach(d => {
-                        const data = d.data();
-                        cloudRevs.push({ id: d.id, ...data });
-                    });
-
-                    // Merge cloud reviews with existing local reviews without duplicates
-                    const localRevs = JSON.parse(localStorage.getItem("shapes_client_reviews") || "[]");
-                    const merged = [...cloudRevs];
-                    localRevs.forEach(lr => {
-                        if (!merged.some(mr => (mr.id && mr.id === lr.id) || (mr.text && mr.text === lr.text && mr.author === lr.author))) {
-                            merged.push(lr);
+                async function syncCloudReviews() {
+                    try {
+                        const snap = await getDocs(collection(db, "reviews"));
+                        if (!snap.empty) {
+                            const cloudRevs = [];
+                            snap.forEach(d => { const data = d.data(); cloudRevs.push({ id: d.id, ...data }); });
+                            const localRevs = JSON.parse(localStorage.getItem("shapes_client_reviews") || "[]");
+                            const merged = [...cloudRevs];
+                            localRevs.forEach(lr => {
+                                if (!merged.some(mr => (mr.id && mr.id === lr.id) || (mr.text && mr.text === lr.text && mr.author === lr.author))) merged.push(lr);
+                            });
+                            localStorage.setItem("shapes_client_reviews", JSON.stringify(merged));
+                            if (typeof window.renderClientReviews === "function") window.renderClientReviews();
                         }
-                    });
-                    localStorage.setItem("shapes_client_reviews", JSON.stringify(merged));
-                    if (typeof window.renderClientReviews === "function") {
-                        window.renderClientReviews();
-                    }
+                    } catch (err) { console.warn("Firestore reviews sync:", err.message); }
                 }
-            } catch (err) {
-                console.warn("Firestore reviews sync check:", err.message);
-            }
+
+                async function syncCustomer(user) {
+                    try {
+                        const q = query(collection(db, "customers"), where("uid", "==", user.uid));
+                        const snap = await getDocs(q);
+                        const now = new Date().toISOString();
+                        const displayName = user.displayName || (user.email ? user.email.split('@')[0] : "Client");
+                        if (snap.empty) {
+                            await addDoc(collection(db, "customers"), { uid: user.uid, name: displayName, email: user.email || "", phone: user.phoneNumber || "", createdAt: now, lastLoginAt: now, loginCount: 1 });
+                        }
+                    } catch (e) { console.warn("Customer sync:", e.message); }
+                }
+
+                onAuthStateChanged(auth, (user) => {
+                    if (typeof window._onAuthUser === "function") window._onAuthUser(user);
+                    if (user) syncCustomer(user);
+                });
+
+                syncCloudReviews();
+            `;
+            document.head.appendChild(s);
         }
 
-        // Auto-save customer record on login
-        async function syncCustomer(user) {
-            try {
-                const q = query(collection(db, "customers"), where("uid", "==", user.uid));
-                const snap = await getDocs(q);
-                const now = new Date().toISOString();
-                const displayName = user.displayName || (user.email ? user.email.split('@')[0] : "Client");
-                if (snap.empty) {
-                    await addDoc(collection(db, "customers"), {
-                        uid: user.uid,
-                        name: displayName,
-                        email: user.email || "",
-                        phone: user.phoneNumber || "",
-                        createdAt: now,
-                        lastLoginAt: now,
-                        loginCount: 1
-                    });
-                }
-            } catch (e) {
-                console.warn("Customer sync check:", e.message);
-            }
+        // Load Firebase after the main thread is idle — not during LCP
+        if ('requestIdleCallback' in window) {
+            requestIdleCallback(loadFirebase, { timeout: 4000 });
+        } else {
+            // Fallback: load 3s after page load
+            window.addEventListener('load', function() {
+                setTimeout(loadFirebase, 3000);
+            });
         }
 
-        // Observe auth state
-        onAuthStateChanged(auth, (user) => {
-            if (typeof window._onAuthUser === "function") window._onAuthUser(user);
-            if (user) syncCustomer(user);
+        // Also load on first user interaction (scroll, click, tap)
+        ['scroll', 'click', 'touchstart', 'keydown'].forEach(function(evt) {
+            window.addEventListener(evt, loadFirebase, { once: true, passive: true });
         });
-
-        // Initialize Firestore reviews sync
-        syncCloudReviews();
+    })();
     </script>
 </body>
 </html>
