@@ -162,37 +162,28 @@
     </script>
 
 
-    <!-- Fonts: Cormorant Garamond for Headings, Montserrat for Body -->
+    <!-- Preload LCP Hero Banner for Lightning-Fast Mobile Rendering -->
+    <link rel="preload" as="image" href="images/hero_bridal.webp" type="image/webp" fetchpriority="high">
+
+    <!-- Preconnect to Google Fonts and CDNs -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
-    <link rel="dns-prefetch" href="https://checkout.razorpay.com">
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
 
-    <!-- Cache-Buster & Deep Cache Wipe for Instant Multi-Device Sync -->
-    <script>
-        try {
-            if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.getRegistrations().then(function(regs) {
-                    for (var r of regs) r.unregister();
-                }).catch(function() {});
-            }
-            if ('caches' in window) {
-                caches.keys().then(function(names) {
-                    for (var n of names) caches.delete(n);
-                }).catch(function() {});
-            }
-        } catch(e) {}
-    </script>
+    <!-- Non-Blocking Google Fonts with display=swap -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+    </noscript>
 
-    <link rel="stylesheet" href="index.css?v=7.0" media="all">
+    <!-- Asynchronous FontAwesome Icons (Zero Render Blocking) -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    </noscript>
 
-
-
+    <link rel="stylesheet" href="index.css?v=10.0" media="all">
     <link rel="manifest" href="manifest.json">
-    <!-- Razorpay Standard Checkout & Affordability Widget SDK -->
-    <script src="https://checkout.razorpay.com/v1/checkout.js" defer></script>
-    <script src="https://cdn.razorpay.com/widgets/affordability/affordability.js" defer></script>
 </head>
 
 
@@ -207,23 +198,23 @@
         <div class="top-announcement-bar">
             <div class="announcement-marquee">
                 <div class="announcement-track">
-                    <span>✨ COMPLIMENTARY COURIER ACROSS INDIA</span>
+                    <span>✨ SHAPES BY SATIINDER KAUR · BESPOKE LUXURY COUTURE</span>
+                    <span class="bullet">•</span>
+                    <span>FLAGSHIP BOUTIQUE: CHEMBUR, MUMBAI (+91 98333 92756)</span>
+                    <span class="bullet">•</span>
+                    <span>COMPLIMENTARY COURIER ACROSS INDIA</span>
                     <span class="bullet">•</span>
                     <span>HANDCRAFTED TO ORDER (15–22 WORKING DAYS)</span>
-                    <span class="bullet">•</span>
-                    <span>CHEMBUR STORE: +91 98333 92756</span>
-                    <span class="bullet">•</span>
-                    <span>NO RETURNS · NO COD · ONLINE PAYMENT ONLY</span>
                     <span class="bullet">•</span>
                 </div>
                 <div class="announcement-track" aria-hidden="true">
-                    <span>✨ COMPLIMENTARY COURIER ACROSS INDIA</span>
+                    <span>✨ SHAPES BY SATIINDER KAUR · BESPOKE LUXURY COUTURE</span>
+                    <span class="bullet">•</span>
+                    <span>FLAGSHIP BOUTIQUE: CHEMBUR, MUMBAI (+91 98333 92756)</span>
+                    <span class="bullet">•</span>
+                    <span>COMPLIMENTARY COURIER ACROSS INDIA</span>
                     <span class="bullet">•</span>
                     <span>HANDCRAFTED TO ORDER (15–22 WORKING DAYS)</span>
-                    <span class="bullet">•</span>
-                    <span>CHEMBUR STORE: +91 98333 92756</span>
-                    <span class="bullet">•</span>
-                    <span>NO RETURNS · NO COD · ONLINE PAYMENT ONLY</span>
                     <span class="bullet">•</span>
                 </div>
             </div>
@@ -245,7 +236,7 @@
                 <div class="nav-center">
                     <a href="#" class="brand-logo" id="brand-logo-text">
                         <span class="logo-main">SHAPES</span>
-                        <span class="logo-sub">by Satiinder Kaur</span>
+                        <span class="logo-sub">BY SATIINDER KAUR</span>
                     </a>
                 </div>
 
@@ -306,10 +297,18 @@
         <!-- Hero Slider Banner -->
         <section class="hero-section" id="hero">
             <div class="hero-slider">
-                <div class="hero-slide active" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5)), url('images/hero_bridal.png');">
+                <div class="hero-slide active" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.55)), url('images/hero_bridal.webp');">
                     <div class="hero-content">
-                        <span class="hero-subtitle">The Imperial Collection</span>
+                        <div class="hero-brand-emblem" style="margin-bottom: 0.8rem;">
+                            <span class="hero-brand-name" style="font-family: var(--font-sans); font-size: 11px; font-weight: 700; letter-spacing: 0.35em; color: var(--gold-light); text-transform: uppercase; text-shadow: 0 2px 8px rgba(0,0,0,0.9); display: inline-block;">
+                                ✨ SHAPES BY SATIINDER KAUR ✨
+                            </span>
+                        </div>
+                        <span class="hero-subtitle">The Imperial Bridal &amp; Couture Collection</span>
                         <h1 class="hero-title" id="hero-title-text">A HERITAGE OF ELEGANCE</h1>
+                        <p class="hero-tagline" style="font-size: 11px; letter-spacing: 0.15em; color: rgba(255,255,255,0.9); text-transform: uppercase; margin-bottom: 2rem; font-family: var(--font-sans); text-shadow: 0 2px 6px rgba(0,0,0,0.8);">
+                            Handcrafted Zardozi Corsetry &amp; Palace Bridal Lehengas · Chembur Flagship
+                        </p>
                         <button class="cta-gold-btn" id="hero-discover-btn">Explore Shop</button>
                     </div>
                 </div>
@@ -332,7 +331,7 @@
             <div class="lookbook-grid">
                 <div class="lookbook-item lookbook-large animate-on-scroll">
                     <div class="lookbook-img-wrapper">
-                        <img src="images/couture_lehenga.png" alt="Couture Gown Details">
+                        <img src="images/couture_lehenga.webp" alt="Couture Gown Details" width="800" height="1000" loading="lazy" decoding="async">
                     </div>
                     <div class="lookbook-info">
                         <span class="item-tag">Handcraft</span>
@@ -342,7 +341,7 @@
                 </div>
                 <div class="lookbook-item lookbook-small animate-on-scroll">
                     <div class="lookbook-img-wrapper">
-                        <img src="images/gold_jewelry.png" alt="Bespoke Jewels">
+                        <img src="images/gold_jewelry.webp" alt="Bespoke Jewels" width="800" height="1000" loading="lazy" decoding="async">
                     </div>
                     <div class="lookbook-info">
                         <span class="item-tag">Accessories</span>
@@ -435,7 +434,7 @@
         <section class="story-section" id="story-section">
             <div class="story-container">
                 <div class="story-image-side animate-on-scroll">
-                    <img src="images/heritage_craft.png" alt="Embroidery detail hands">
+                    <img src="images/heritage_craft.webp" alt="Embroidery detail hands" width="800" height="900" loading="lazy" decoding="async">
                 </div>
                 <div class="story-text-side animate-on-scroll">
                     <span class="story-tag">Our Legacy</span>
@@ -876,7 +875,7 @@
     </div>
 
     <!-- Main JavaScript Logic -->
-    <script src="index.js?v=8.0"></script>
+    <script src="index.js?v=9.0"></script>
 
 
 

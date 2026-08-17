@@ -1,6 +1,3 @@
-// SHAPES Luxury Showroom - Customer Core Logic & State Management
-
-// Default Initial Data (Falls back to this if LocalStorage is empty)
 const DEFAULT_PRODUCTS = [
     {
         id: "p1",
@@ -8,7 +5,7 @@ const DEFAULT_PRODUCTS = [
         category: "Zardozi",
         price: 185000,
         inventory: 5,
-        image: "zardozi_corset.png",
+        image: "zardozi_corset.webp",
         description: "An opulent structured corset in deep crimson silk-velvet, hand-embroidered with dense gold zardozi motifs. Features internal structural steel-boning and a classical adjustable lace-up back.",
         craft: "Handcrafted velvet, metallic gold zardozi wire, steel boning. Dry clean only."
     },
@@ -18,7 +15,7 @@ const DEFAULT_PRODUCTS = [
         category: "Brocade",
         price: 85000,
         inventory: 8,
-        image: "brocade_corset.png",
+        image: "brocade_corset.webp",
         description: "A striking sweetheart neckline corset crafted from hand-woven ivory and gold Banarasi brocade silk. Offers clean structure and elegant posture contouring.",
         craft: "100% Banarasi silk brocade, satin lining, flex-boning. Dry clean only."
     },
@@ -28,7 +25,7 @@ const DEFAULT_PRODUCTS = [
         category: "Draped Sets",
         price: 245000,
         inventory: 4,
-        image: "draped_corset_set.png",
+        image: "draped_corset_set.webp",
         description: "An elegant emerald corset structured in velvet, paired with a flowing, pre-draped georgette skirt. Accented with badla borders along the cowl drape.",
         craft: "Velvet corset and georgette drape set. Dry clean only."
     },
@@ -38,7 +35,7 @@ const DEFAULT_PRODUCTS = [
         category: "Pret",
         price: 45000,
         inventory: 10,
-        image: "pret_corset.png",
+        image: "pret_corset.webp",
         description: "A minimalist structured corset in raw charcoal silk, featuring gold stitching lines hand-tacked along the vertical structural seams. A contemporary wardrobe essential.",
         craft: "100% raw mulberry silk, comfort-flex structuring. Dry clean only."
     }
@@ -48,13 +45,11 @@ const DEFAULT_CATEGORIES = ["Zardozi", "Brocade", "Draped Sets", "Pret"];
 
 const DEFAULT_CONFIG = {
     brandName: "Shapes By Satiinder Kaur",
-
-    heroTitle: "THE STRUCTURE OF HERITAGE",
-    storyTitle: "RE-IMAGINING THE CORSET",
-    storyDesc: "Every creation at Shapes By Satiinder Kaur begins as a dialogue between structural precision and heritage handlooms. We fuse classical Western corsetry with opulent Indian fabrics. Our master craftsmen hand-embroider raw silks, Banarasi brocades, and heavy velvets with antique zardozi wires, molding structural silhouettes that contour the modern form. We celebrate heritage that refuses to remain in the past, transforming ancient handlooms into bold contemporary treasures.",
+    heroTitle: "A HERITAGE OF ELEGANCE",
+    storyTitle: "CRAFTED FOR ROYALS",
+    storyDesc: "Every creation at Shapes By Satiinder Kaur begins as a dream of fabric and thread. Our master craftsmen revive age-old techniques of zardozi, badla, and beadwork from royal households, fusing them seamlessly with structural silhouettes that contour the modern form. We celebrate heritage that refuses to remain in the past, transforming ancient handlooms into breathtaking contemporary treasures.",
     razorpayKey: "rzp_live_TQ0RwUwXQjD3tq" // Live Production Key
 };
-
 
 // State Variables
 let products = [];
@@ -71,13 +66,13 @@ let currentSort = "default";
 
 // Initialize Store App
 function initStore() {
-    // Force clean migration and assign live Razorpay key
-    if (localStorage.getItem("shapes_catalog_version") !== "shapes_v5_live_sync") {
+    // Force clean migration for ultra-fast WebP catalog sync
+    if (localStorage.getItem("shapes_catalog_version") !== "shapes_v7_speed_sync") {
         localStorage.removeItem("shapes_products");
         localStorage.setItem("shapes_products", JSON.stringify(DEFAULT_PRODUCTS));
         localStorage.setItem("shapes_categories", JSON.stringify(DEFAULT_CATEGORIES));
         localStorage.setItem("shapes_config", JSON.stringify(DEFAULT_CONFIG));
-        localStorage.setItem("shapes_catalog_version", "shapes_v5_live_sync");
+        localStorage.setItem("shapes_catalog_version", "shapes_v7_speed_sync");
     }
 
 
@@ -219,12 +214,12 @@ function updateCatalogGrid() {
             <div class="product-card" data-id="${p.id}">
                 <div class="product-card-img-wrapper">
                     ${isSoldOut ? '<span class="sold-out-badge">Retired / Sold Out</span>' : ''}
-                    <button class="product-wishlist-btn ${isFav ? 'active' : ''}" onclick="toggleWishlist('${p.id}', event)" title="Save to Wishlist">
+                    <button class="product-wishlist-btn ${isFav ? 'active' : ''}" onclick="toggleWishlist('${p.id}', event)" title="Save to Wishlist" aria-label="Save to Wishlist">
                         <i class="${isFav ? 'fa-solid' : 'fa-regular'} fa-heart"></i>
                     </button>
-                    <img src="${cleanImagePath(p.image)}" alt="${p.title} — Handcrafted Luxury Indian Couture by Satiinder Kaur" loading="lazy">
+                    <img src="${cleanImagePath(p.image)}" alt="${p.title} — Handcrafted Luxury Indian Couture by Satiinder Kaur" width="600" height="800" loading="lazy" decoding="async">
 
-                    <div class="product-card-quickview">Quick Inspection</div>
+                    <div class="product-card-quickview">Quick View</div>
                 </div>
                 <div class="product-card-info">
                     <span class="product-card-category">${p.category}</span>
@@ -283,11 +278,16 @@ function setCurrency(newCurrency) {
     }
 }
 
-// Clean Image Path Helper
+// Clean Image Path Helper (Prefers WebP with auto-prefix)
 function cleanImagePath(path) {
-    if (!path) return "zardozi_corset.png";
+    if (!path) return "images/zardozi_corset.webp";
     let clean = path.replace(/['"]/g, '').trim();
     clean = clean.split('\\').pop().split('/').pop();
+    if (!clean.startsWith("images/") && !clean.startsWith("http")) {
+        clean = "images/" + clean;
+    }
+    // Swap .png to .webp for high performance
+    clean = clean.replace(/\.png$/i, '.webp');
     return clean;
 }
 
@@ -479,7 +479,7 @@ function renderAffordabilityWidget(priceInInr) {
 
 // Setup Event Listeners
 function setupEventListeners() {
-    // 1. Header scroll animation
+    // 1. Header scroll animation (Passive listener for 120fps smooth mobile scrolling)
     window.addEventListener("scroll", () => {
         const header = document.getElementById("header");
         if (window.scrollY > 50) {
@@ -487,7 +487,7 @@ function setupEventListeners() {
         } else {
             header.classList.remove("scrolled");
         }
-    });
+    }, { passive: true });
 
     // 2. Mobile Nav Drawer Toggle
     const mobileToggle = document.getElementById("mobile-toggle");
@@ -1158,22 +1158,6 @@ window.removeCartItem = removeCartItem;
 // Run initial loading
 window.addEventListener("DOMContentLoaded", initStore);
 
-// Force Purge Stale Caches and Unregister any Service Workers on mobile
-if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.getRegistrations().then(registrations => {
-        for (let registration of registrations) {
-            registration.unregister();
-        }
-    });
-}
-if ("caches" in window) {
-    caches.keys().then(keys => {
-        keys.forEach(k => {
-            if (k.includes("shapes")) caches.delete(k);
-        });
-    });
-}
-
 
 // ─────────────────────────────────────────────────────────────────────────────
 // FIREBASE AUTH & FIRESTORE INTEGRATION (ESM module — loaded after DOM ready)
@@ -1248,75 +1232,47 @@ window.completeOrder = async function(paymentId) {
 
 const DEFAULT_CLIENT_REVIEWS = [
     {
-        id: "rev-1",
+        id: "rev-google-1",
         author: "Rhea Dhameja",
         city: "Mumbai",
         rating: 5,
         category: "Bridal",
-        categoryLabel: "Palace Bridal Lehenga",
-        text: "Perfect stitching, great attention to detail, and excellent service by Gitu. The fit was absolutely royal for my wedding day! Received endless compliments on the handcrafted zardozi.",
+        categoryLabel: "Verified Google Review",
+        text: "Perfect stitching, great attention to detail, and excellent service by Gitu.",
         verified: true,
-        date: "2 weeks ago"
+        date: "Verified Google Review"
     },
     {
-        id: "rev-2",
+        id: "rev-google-2",
+        author: "Wilma Vaz",
+        city: "Mumbai",
+        rating: 5,
+        category: "Pret",
+        categoryLabel: "Verified Google Review",
+        text: "Hands down, this is the best tailor with excellent customer service.",
+        verified: true,
+        date: "Verified Google Review"
+    },
+    {
+        id: "rev-google-3",
         author: "Dr. Nishtha Mishra",
         city: "Mumbai",
         rating: 5,
-        category: "Corset",
-        categoryLabel: "Royal Zardozi Corset",
-        text: "They offer you best options, best designs and best fitting. The structural boning in the corset gives a breathtaking silhouette while remaining completely comfortable.",
+        category: "Couture",
+        categoryLabel: "Verified Google Review",
+        text: "They offer you best options, best designs and best fitting.",
         verified: true,
-        date: "1 month ago"
-    },
-    {
-        id: "rev-3",
-        author: "Wilma Vaz",
-        city: "Goa / Mumbai",
-        rating: 5,
-        category: "Pret",
-        categoryLabel: "Contemporary Pret",
-        text: "Hands down, this is the best designer boutique with excellent customer service. The fabric quality and gold threadwork are sheer luxury.",
-        verified: true,
-        date: "3 weeks ago"
-    },
-    {
-        id: "rev-4",
-        author: "Priya Mehta",
-        city: "Dubai / Mumbai",
-        rating: 5,
-        category: "Bridal",
-        categoryLabel: "Bespoke Bridal Couture",
-        text: "Absolutely stunning craftsmanship. My bridal lehenga was beyond anything I imagined. Every bead was perfectly placed and delivered right on time.",
-        verified: true,
-        date: "1 month ago"
-    },
-    {
-        id: "rev-5",
-        author: "Ananya Deshmukh",
-        city: "Pune",
-        rating: 5,
-        category: "Corset",
-        categoryLabel: "Banarasi Brocade Corset",
-        text: "The combination of traditional Banarasi brocade with modern corsetry is pure genius. The finishing and inner lining are top tier!",
-        verified: true,
-        date: "2 months ago"
-    },
-    {
-        id: "rev-6",
-        author: "Simran Ahuja",
-        city: "Delhi NCR",
-        rating: 5,
-        category: "Pret",
-        categoryLabel: "Silk Velvet Draped Set",
-        text: "Exceptional luxury experience from measurement consultation to unboxing the signature archival hard-box packaging. Truly high couture.",
-        verified: true,
-        date: "2 months ago"
+        date: "Verified Google Review"
     }
 ];
 
 function getStoredClientReviews() {
     try {
+        // Migration to clean out old template reviews
+        if (localStorage.getItem("shapes_reviews_version") !== "shapes_real_google_v1") {
+            localStorage.removeItem("shapes_client_reviews");
+            localStorage.setItem("shapes_reviews_version", "shapes_real_google_v1");
+        }
         const stored = localStorage.getItem("shapes_client_reviews");
         if (stored) {
             const parsed = JSON.parse(stored);

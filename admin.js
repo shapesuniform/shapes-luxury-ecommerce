@@ -829,70 +829,37 @@ function toggleCustDetail(id) {
 
 const DEFAULT_ADMIN_REVIEWS = [
     {
-        id: "rev-1",
+        id: "rev-google-1",
         author: "Rhea Dhameja",
         city: "Mumbai",
         rating: 5,
         category: "Bridal",
-        categoryLabel: "Palace Bridal Lehenga",
-        text: "Perfect stitching, great attention to detail, and excellent service by Gitu. The fit was absolutely royal for my wedding day! Received endless compliments on the handcrafted zardozi.",
+        categoryLabel: "Verified Google Review",
+        text: "Perfect stitching, great attention to detail, and excellent service by Gitu.",
         verified: true,
-        date: "2 weeks ago"
+        date: "Verified Google Review"
     },
     {
-        id: "rev-2",
+        id: "rev-google-2",
+        author: "Wilma Vaz",
+        city: "Mumbai",
+        rating: 5,
+        category: "Pret",
+        categoryLabel: "Verified Google Review",
+        text: "Hands down, this is the best tailor with excellent customer service.",
+        verified: true,
+        date: "Verified Google Review"
+    },
+    {
+        id: "rev-google-3",
         author: "Dr. Nishtha Mishra",
         city: "Mumbai",
         rating: 5,
-        category: "Corset",
-        categoryLabel: "Royal Zardozi Corset",
-        text: "They offer you best options, best designs and best fitting. The structural boning in the corset gives a breathtaking silhouette while remaining completely comfortable.",
+        category: "Couture",
+        categoryLabel: "Verified Google Review",
+        text: "They offer you best options, best designs and best fitting.",
         verified: true,
-        date: "1 month ago"
-    },
-    {
-        id: "rev-3",
-        author: "Wilma Vaz",
-        city: "Goa / Mumbai",
-        rating: 5,
-        category: "Pret",
-        categoryLabel: "Contemporary Pret",
-        text: "Hands down, this is the best designer boutique with excellent customer service. The fabric quality and gold threadwork are sheer luxury.",
-        verified: true,
-        date: "3 weeks ago"
-    },
-    {
-        id: "rev-4",
-        author: "Priya Mehta",
-        city: "Dubai / Mumbai",
-        rating: 5,
-        category: "Bridal",
-        categoryLabel: "Bespoke Bridal Couture",
-        text: "Absolutely stunning craftsmanship. My bridal lehenga was beyond anything I imagined. Every bead was perfectly placed and delivered right on time.",
-        verified: true,
-        date: "1 month ago"
-    },
-    {
-        id: "rev-5",
-        author: "Ananya Deshmukh",
-        city: "Pune",
-        rating: 5,
-        category: "Corset",
-        categoryLabel: "Banarasi Brocade Corset",
-        text: "The combination of traditional Banarasi brocade with modern corsetry is pure genius. The finishing and inner lining are top tier!",
-        verified: true,
-        date: "2 months ago"
-    },
-    {
-        id: "rev-6",
-        author: "Simran Ahuja",
-        city: "Delhi NCR",
-        rating: 5,
-        category: "Pret",
-        categoryLabel: "Silk Velvet Draped Set",
-        text: "Exceptional luxury experience from measurement consultation to unboxing the signature archival hard-box packaging. Truly high couture.",
-        verified: true,
-        date: "2 months ago"
+        date: "Verified Google Review"
     }
 ];
 
