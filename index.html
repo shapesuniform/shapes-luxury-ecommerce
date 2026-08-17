@@ -1,506 +1,506 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="theme-color" content="#111111">
-
-    <!-- Priority LCP Image Preload -->
-    <link rel="preload" as="image" href="images/welcome_coord_luxury_mobile.webp" type="image/webp" fetchpriority="high">
-
-    <title>Shapes Boutique | Shapes By Satiinder Kaur | Luxury Designer Co-Ord Sets Mumbai</title>
-    <meta name="description" content="Shapes Boutique (Shapes By Satiinder Kaur) is Chembur Mumbai's premier designer fashion boutique for luxury printed co-ord sets, pure linen sets, festive silk co-ords &amp; contemporary pret starting from ₹7,000. Shop online or visit our boutique at Basant Garden, Chembur, Mumbai.">
-    <meta name="keywords" content="Shapes, Shapes Boutique, Shapes Boutique Chembur, Shapes By Satiinder Kaur, Shapes Uniform, Shapes Mumbai, designer co ord sets Mumbai, women cotton co ord set, luxury floral printed co ords, pure linen co ord set, festive silk co ord set, designer pret Mumbai, Ghatla Village Road Chembur, Maitri Park Chembur boutique, luxury 2 piece sets India, women designer clothing Mumbai">
-    <meta name="author" content="Satiinder Kaur">
-    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-    <link rel="canonical" href="https://shapesbysatinderkaur.com/">
-
-    <!-- Geo-Location Tags -->
-    <meta name="geo.region" content="IN-MH">
-    <meta name="geo.placename" content="Mumbai, Chembur">
-    <meta name="geo.position" content="19.0522;72.8995">
-    <meta name="ICBM" content="19.0522, 72.8995">
-
-    <!-- Open Graph (OG) -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://shapesbysatinderkaur.com/">
-    <meta property="og:title" content="Shapes Boutique | Shapes By Satiinder Kaur | Luxury Designer Co-Ord Sets">
-    <meta property="og:description" content="Discover handcrafted luxury printed silk, organic linen, and festive designer co-ord sets by Shapes By Satiinder Kaur in Chembur, Mumbai.">
-    <meta property="og:image" content="https://shapesbysatinderkaur.com/images/hero_coord_editorial.webp">
-    <meta property="og:site_name" content="Shapes Boutique · Shapes By Satiinder Kaur">
-    <meta property="og:locale" content="en_IN">
-
-    <!-- Google Fonts & FontAwesome -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- External Stylesheet -->
-    <link rel="stylesheet" href="index.css?v=20.0">
-
-    <!-- Razorpay Payment Gateway & Main Script -->
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-    <script src="index.js?v=20.0" defer></script>
-    <link rel="manifest" href="manifest.json">
-</head>
-<body>
-    <!-- Top Announcement Bar -->
-    <div class="top-announcement-bar">
-        <div class="announcement-marquee">
-            <div class="announcement-track">
-                <span class="announcement-item"><i class="fa-solid fa-gem"></i> SHAPES BY SATIINDER KAUR · LUXURY PRET &amp; CO-ORD SETS</span>
-                <span class="announcement-item"><i class="fa-solid fa-crown"></i> BOUTIQUE LOCATION: BASANT GARDEN, CHEMBUR, MUMBAI</span>
-                <span class="announcement-item"><i class="fa-solid fa-truck-fast"></i> COMPLIMENTARY EXPRESS INSURED SHIPPING ACROSS INDIA</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Header & Navigation -->
-    <div class="header-master-wrapper">
-        <header class="luxury-header" id="main-header">
-            <div class="nav-container">
-                <nav class="nav-left">
-                    <a href="#catalog" class="nav-link">Collections</a>
-                    <a href="#story-section" class="nav-link">Our Heritage</a>
-                    <a href="#journal-section" class="nav-link">Journal</a>
-                    <a href="#faq-section" class="nav-link">Boutique FAQ</a>
-                </nav>
-
-                <a href="#" class="brand-logo">
-                    <span class="logo-main">SHAPES</span>
-                    <span class="logo-sub">BY SATIINDER KAUR</span>
-                </a>
-
-                <div class="nav-right">
-                    <select class="currency-select" id="currency-selector" title="Select Currency">
-                        <option value="INR">INR (₹)</option>
-                        <option value="USD">USD ($)</option>
-                        <option value="AED">AED (AED)</option>
-                        <option value="GBP">GBP (£)</option>
-                        <option value="EUR">EUR (€)</option>
-                    </select>
-
-                    <button class="nav-icon-btn" id="wishlist-nav-trigger" title="Wishlist">
-                        <i class="fa-regular fa-heart"></i>
-                    </button>
-
-                    <div class="cart-btn-container">
-                        <button class="nav-icon-btn" id="cart-nav-trigger" title="Shopping Bag">
-                            <i class="fa-solid fa-bag-shopping"></i>
-                            <span class="cart-badge" id="header-cart-count">0</span>
-                        </button>
-                    </div>
-
-                    <button class="mobile-menu-toggle" id="mobile-menu-btn" aria-label="Toggle Mobile Menu">
-                        <span></span>
-                        <span></span>
-                    </button>
-                </div>
-            </div>
-        </header>
-    </div>
-
-    <!-- Mobile Nav Drawer -->
-    <div class="mobile-nav-drawer" id="mobile-nav-drawer">
-        <div class="mobile-nav-links">
-            <a href="#catalog" class="mobile-link">Collections</a>
-            <a href="#story-section" class="mobile-link">Our Heritage</a>
-            <a href="#journal-section" class="mobile-link">Journal</a>
-            <a href="#faq-section" class="mobile-link">Boutique FAQ</a>
-            <a href="admin.html" class="mobile-link" style="font-size: 1.2rem; color: var(--gold);">Admin Portal</a>
-        </div>
-    </div>
-
-    <main class="main-content-layout" id="main-content">
-        <!-- Hero Section -->
-        <section class="hero-section" id="hero">
-            <div class="hero-slider">
-                <div class="hero-slide active">
-                    <picture class="hero-bg-picture">
-                        <source media="(max-width: 768px)" srcset="images/welcome_coord_luxury_mobile.webp">
-                        <img src="images/hero_coord_editorial.webp" alt="Shapes By Satiinder Kaur Luxury Co-Ord Collection" class="hero-bg-img" fetchpriority="high">
-                    </picture>
-                    <div class="hero-slide-overlay"></div>
-                    <div class="hero-content">
-                        <div class="hero-crest-badge">
-                            <span class="hero-crest-text">CHEMBUR, MUMBAI · DESIGNER PRET</span>
-                        </div>
-                        <div class="hero-brand-title">
-                            <span class="hero-title-main">SHAPES</span>
-                            <span class="hero-title-by">BY SATIINDER KAUR</span>
-                        </div>
-                        <div class="hero-filigree-divider">
-                            <span class="filigree-line"></span>
-                            <i class="fa-solid fa-gem filigree-gem"></i>
-                            <span class="filigree-line"></span>
-                        </div>
-                        <p class="hero-tagline">Designer Co-Ord Sets · Pure Modal Silks &amp; Handblock Linens · XS to XXL</p>
-                        <div class="hero-action-buttons">
-                            <a href="#catalog" class="hero-cta-btn hero-cta-gold">Explore Co-Ords</a>
-                            <a href="#story-section" class="hero-cta-btn hero-cta-glass">Our Heritage</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="scroll-indicator">
-                <span class="scroll-text">SCROLL</span>
-                <div class="scroll-line"></div>
-            </div>
-        </section>
-
-        <!-- Signature Collections Catalog Section -->
-        <section class="catalog-section" id="catalog">
-            <div class="section-header">
-                <span class="sub-title">Signature Collections</span>
-                <h2 class="section-title" id="catalog-title-text">DESIGNER CO-ORD SETS</h2>
-                <div class="divider-gold"></div>
-            </div>
-
-            <div class="catalog-tabs" id="catalog-tabs-container">
-                <!-- Dynamically Populated Tabs -->
-            </div>
-
-            <div class="catalog-controls-container">
-                <div class="boutique-controls-bar">
-                    <div class="boutique-search-wrapper">
-                        <i class="fa-solid fa-magnifying-glass search-icon-gold"></i>
-                        <input type="text" id="boutique-search-input" placeholder="Search creations by fabric, pattern or color...">
-                    </div>
-
-                    <div class="boutique-sort-wrapper">
-                        <label for="boutique-sort-select">Sort By</label>
-                        <select id="boutique-sort-select">
-                            <option value="default">Default Showroom</option>
-                            <option value="price-asc">Price: Low to High</option>
-                            <option value="price-desc">Price: High to Low</option>
-                            <option value="title-asc">Alphabetical: A to Z</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <div class="product-grid" id="product-list-container">
-                <!-- Product Cards dynamically loaded by index.js -->
-            </div>
-        </section>
-
-        <!-- Client Reviews Section -->
-        <section class="testimonials-section" id="reviews-section">
-            <div class="section-header">
-                <span class="sub-title">Client Experiences</span>
-                <h2 class="section-title">PATRON REVIEWS</h2>
-                <div class="divider-gold"></div>
-            </div>
-
-            <div style="text-align: center; margin-bottom: 2rem;">
-                <button id="open-review-modal-btn" class="hero-cta-btn hero-cta-gold" style="min-height: 40px; padding: 0.6rem 1.8rem;">
-                    <i class="fa-solid fa-pen-to-square" style="margin-right: 8px;"></i> Write a Review
-                </button>
-            </div>
-
-            <div class="testimonials-grid">
-                <div class="testimonial-card">
-                    <div class="stars-row">
-                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                    </div>
-                    <p class="review-text">"Perfect stitching, great attention to detail, and excellent service by Satiinder Kaur. The fitting of my printed modal silk co-ord set was immaculate!"</p>
-                    <div class="reviewer-meta">
-                        <span class="client-name">Rhea Dhameja</span>
-                        <span class="client-location">Chembur, Mumbai</span>
-                    </div>
-                </div>
-
-                <div class="testimonial-card">
-                    <div class="stars-row">
-                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                    </div>
-                    <p class="review-text">"Hands down the finest designer boutique in Chembur for luxury co-ord sets. Breathable fabric and perfect contouring."</p>
-                    <div class="reviewer-meta">
-                        <span class="client-name">Wilma Vaz</span>
-                        <span class="client-location">Mumbai</span>
-                    </div>
-                </div>
-
-                <div class="testimonial-card">
-                    <div class="stars-row">
-                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                    </div>
-                    <p class="review-text">"Bought the Ivory &amp; Sand Linen Co-Ord Set. Super breathable, elegant drape, and got so many compliments at brunch!"</p>
-                    <div class="reviewer-meta">
-                        <span class="client-name">Pooja Sawant</span>
-                        <span class="client-location">Bandra, Mumbai</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Heritage Story Section -->
-        <section class="story-section" id="story-section">
-            <div class="story-container">
-                <div class="story-image-side">
-                    <img src="images/craftsmanship_detail_luxury.webp" alt="Shapes Atelier Craftsmanship" loading="lazy">
-                </div>
-                <div class="story-text-side">
-                    <span class="story-tag">CHEMBUR BOUTIQUE</span>
-                    <h2 class="story-title">THE ART OF SILHOUETTE</h2>
-                    <p class="story-paragraph">At Shapes By Satiinder Kaur, every 2-piece co-ord set represents a harmonious blend of comfortable luxury and refined Indian aesthetics. Handcrafted in our Chembur workshop using pure modal silks, natural slub linens, and handblock prints.</p>
-                    <p class="story-signature">Satiinder Kaur</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Journal Section -->
-        <section class="journal-section" id="journal-section">
-            <div class="section-header">
-                <span class="sub-title">Couture Editorial</span>
-                <h2 class="section-title">THE SHAPES JOURNAL</h2>
-                <div class="divider-gold"></div>
-            </div>
-
-            <div class="journal-grid">
-                <article class="journal-card">
-                    <div class="journal-card-img-wrapper">
-                        <img src="images/journal_coord_styling.webp" alt="Co-Ord Styling" loading="lazy">
-                    </div>
-                    <div class="journal-card-body">
-                        <span class="journal-tag">STYLE GUIDE</span>
-                        <h3 class="journal-title">5 Ways to Style Luxury Co-Ord Sets</h3>
-                        <p class="journal-snippet">How tailored 2-piece sets transition seamlessly from morning brunches to evening cocktail galas.</p>
-                        <span class="journal-read-more">Read Journal Story <i class="fa-solid fa-arrow-right"></i></span>
-                    </div>
-                </article>
-
-                <article class="journal-card">
-                    <div class="journal-card-img-wrapper">
-                        <img src="images/journal_linen_handblock.webp" alt="Linen Craft" loading="lazy">
-                    </div>
-                    <div class="journal-card-body">
-                        <span class="journal-tag">FABRIC &amp; CRAFT</span>
-                        <h3 class="journal-title">The Rise of Pure Linen &amp; Handblock Co-Ords</h3>
-                        <p class="journal-snippet">Exploring natural slub linen and artisanal handblock prints tailored for contemporary Indian weather.</p>
-                        <span class="journal-read-more">Read Journal Story <i class="fa-solid fa-arrow-right"></i></span>
-                    </div>
-                </article>
-
-                <article class="journal-card">
-                    <div class="journal-card-img-wrapper">
-                        <img src="images/journal_festive_jewel.webp" alt="Festive Jewels" loading="lazy">
-                    </div>
-                    <div class="journal-card-body">
-                        <span class="journal-tag">FESTIVE PRET</span>
-                        <h3 class="journal-title">Festive Jewel Tones &amp; Silk Detailing</h3>
-                        <p class="journal-snippet">Bridging rich emeralds and deep indigos with comfortable contemporary silhouettes.</p>
-                        <span class="journal-read-more">Read Journal Story <i class="fa-solid fa-arrow-right"></i></span>
-                    </div>
-                </article>
-            </div>
-        </section>
-
-        <!-- FAQ Section -->
-        <section class="boutique-faq-section" id="faq-section">
-            <div class="section-header">
-                <span class="sub-title">Boutique Assistance</span>
-                <h2 class="section-title">FREQUENTLY ASKED QUESTIONS</h2>
-                <div class="divider-gold"></div>
-            </div>
-
-            <div class="faq-accordion-list">
-                <div class="faq-item">
-                    <button class="faq-question-btn">
-                        <span>What sizing options are available for co-ord sets?</span>
-                        <i class="fa-solid fa-chevron-down faq-chevron"></i>
-                    </button>
-                    <div class="faq-answer-content">
-                        <p>We offer standard sizes from XS to XXL, as well as custom fitting consultations at our Chembur boutique.</p>
-                    </div>
-                </div>
-
-                <div class="faq-item">
-                    <button class="faq-question-btn">
-                        <span>What fabrics are used in Shapes Co-Ord Sets?</span>
-                        <i class="fa-solid fa-chevron-down faq-chevron"></i>
-                    </button>
-                    <div class="faq-answer-content">
-                        <p>We craft our sets exclusively with high-grade modal silks, organic slub linen, pure cottons, and handblock printed modal.</p>
-                    </div>
-                </div>
-
-                <div class="faq-item">
-                    <button class="faq-question-btn">
-                        <span>How long does delivery take for handcrafted sets?</span>
-                        <i class="fa-solid fa-chevron-down faq-chevron"></i>
-                    </button>
-                    <div class="faq-answer-content">
-                        <p>In-stock sets ship within 48 hours. Made-to-measure orders take 7 to 14 business days.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- Luxury Footer -->
-    <footer class="luxury-footer">
-        <div class="footer-container">
-            <div class="footer-col">
-                <h3>SHAPES</h3>
-                <p>Shapes Boutique by Satiinder Kaur (Registered Entity: Shapes Uniform). Premier designer pret &amp; co-ord sets in Chembur, Mumbai.</p>
-                <div class="social-links">
-                    <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="https://wa.me/919833392756" target="_blank" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
-                    <a href="https://facebook.com" target="_blank" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-                </div>
-            </div>
-
-            <div class="footer-col">
-                <h4>COLLECTIONS</h4>
-                <ul>
-                    <li><a href="#catalog">Printed Co-Ords</a></li>
-                    <li><a href="#catalog">Linen &amp; Cotton</a></li>
-                    <li><a href="#catalog">Festive Co-Ords</a></li>
-                    <li><a href="#catalog">Fusion Sets</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-col">
-                <h4>BOUTIQUE CARE</h4>
-                <ul>
-                    <li><a href="#faq-section">Boutique FAQ</a></li>
-                    <li><a href="info.html">Shipping &amp; Returns</a></li>
-                    <li><a href="info.html#contact">Contact Boutique</a></li>
-                    <li><a href="track.html">Track Order</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-col">
-                <h4>CHEMBUR BOUTIQUE</h4>
-                <p><i class="fa-solid fa-location-dot" style="color: var(--gold); margin-right: 6px;"></i> Basant Garden, Chembur, Mumbai, Maharashtra 400071</p>
-                <p><i class="fa-solid fa-phone" style="color: var(--gold); margin-right: 6px;"></i> +91 98333 92756</p>
-                <p><i class="fa-solid fa-envelope" style="color: var(--gold); margin-right: 6px;"></i> shapesuniform@gmail.com</p>
-            </div>
-        </div>
-
-        <div class="footer-bottom">
-            <span>&copy; 2026 Shapes Boutique (Shapes By Satiinder Kaur). All Rights Reserved.</span>
-            <span>Handcrafted in Mumbai</span>
-        </div>
-        <div class="footer-sub-bottom">
-            <span>&copy; 2026 SHAPES UNIFORM (Operating as Shapes By Satiinder Kaur). All Rights Reserved.</span>
-            <div class="legal-footer-links">
-                <a href="contact.html">Contact Us</a> &middot;
-                <a href="info.html#terms">Terms</a> &middot;
-                <a href="info.html#privacy">Privacy</a> &middot;
-                <a href="info.html#refund">Refunds &amp; Exchanges</a> &middot;
-                <a href="info.html#cancellation">Cancellations</a>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Product Detail Modal -->
-    <div class="luxury-modal" id="product-detail-modal">
-        <div class="modal-content-wrapper">
-            <span class="close-modal-btn" id="close-detail-modal">&times;</span>
-            <div class="modal-grid">
-                <div class="modal-image-side">
-                    <div class="image-zoom-container">
-                        <img src="" id="modal-product-image" alt="Product Image">
-                    </div>
-                </div>
-                <div class="modal-info-side">
-                    <span class="modal-product-category" id="modal-product-category">Category</span>
-                    <h2 class="modal-product-title" id="modal-product-title">Product Title</h2>
-                    <div class="modal-product-price" id="modal-product-price">₹0</div>
-                    <p class="modal-product-desc" id="modal-product-desc">Description</p>
-
-                    <div class="size-selection-area">
-                        <label>Select Size</label>
-                        <div class="sizes-grid" id="modal-sizes-container">
-                            <span class="size-option" data-size="XS">XS</span>
-                            <span class="size-option" data-size="S">S</span>
-                            <span class="size-option" data-size="M">M</span>
-                            <span class="size-option" data-size="L">L</span>
-                            <span class="size-option" data-size="XL">XL</span>
-                            <span class="size-option" data-size="XXL">XXL</span>
-                        </div>
-                    </div>
-
-                    <button class="add-to-cart-action-btn" id="modal-add-to-cart-btn">Add To Bag</button>
-                    <button class="add-to-cart-action-btn" id="modal-whatsapp-inquire-btn" style="background: transparent; border-color: var(--gold); color: #FFFFFF; margin-top: 10px;">Inquire On WhatsApp</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Cart Drawer -->
-    <div class="cart-drawer-overlay" id="cart-drawer-overlay">
-        <div class="cart-drawer" id="cart-drawer">
-            <div class="cart-drawer-header">
-                <h3>Shopping Bag</h3>
-                <span class="close-drawer-btn" id="close-cart-drawer">&times;</span>
-            </div>
-            <div class="cart-items-list" id="cart-items-container">
-                <!-- Cart items dynamically loaded -->
-            </div>
-            <div class="cart-drawer-footer">
-                <div class="cart-subtotal-row" style="display: flex; justify-content: space-between; margin-bottom: 1.5rem; font-size: 1.1rem; font-weight: 600;">
-                    <span>Subtotal</span>
-                    <span id="cart-subtotal-val">₹0</span>
-                </div>
-                <button class="checkout-btn" id="proceed-checkout-btn">Proceed To Checkout</button>
-            </div>
-        </div>
-    </div>
-    <!-- Client Review Modal -->
-    <div class="luxury-modal" id="review-modal">
-        <div class="review-modal-content">
-            <span class="close-review-modal-btn" id="close-review-modal">&times;</span>
-            <div class="review-modal-header">
-                <span class="sub-title" style="margin-bottom: 0.3rem;">Client Experience</span>
-                <h2>Share Your Experience</h2>
-                <p class="review-modal-subtitle">Your gracious words inspire our master artisans and help other couture seekers.</p>
-            </div>
-            <form id="client-review-form" class="review-form">
-                <div class="form-group">
-                    <label for="review-rating-select">Select Your Rating *</label>
-                    <select id="review-rating-select" required>
-                        <option value="5">★★★★★ Exceptional (5 / 5 Stars)</option>
-                        <option value="4">★★★★☆ Excellent (4 / 5 Stars)</option>
-                        <option value="3">★★★☆☆ Good (3 / 5 Stars)</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="review-author-name">Your Full Name *</label>
-                    <input type="text" id="review-author-name" placeholder="e.g. Rhea Sharma" required>
-                </div>
-                <div class="form-group">
-                    <label for="review-author-location">City / Location *</label>
-                    <input type="text" id="review-author-location" placeholder="e.g. Chembur, Mumbai" required>
-                </div>
-                <div class="form-group">
-                    <label for="review-garment-name">Garment / Collection Purchased *</label>
-                    <select id="review-garment-name" required>
-                        <option value="The Noir Botanical Silk Co-Ord Set">The Noir Botanical Silk Co-Ord Set</option>
-                        <option value="Ivory & Sand Linen Co-Ord Set">Ivory &amp; Sand Linen Co-Ord Set</option>
-                        <option value="The Emerald Festive Silk Co-Ord Set">The Emerald Festive Silk Co-Ord Set</option>
-                        <option value="Indigo Heritage Handblock Modal Set">Indigo Heritage Handblock Modal Set</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="review-body-text">Your Review / Experience *</label>
-                    <textarea id="review-body-text" rows="4" placeholder="Describe the fit, fabric feel, styling consultation, or delivery experience..." required></textarea>
-                </div>
-                <button type="submit" class="submit-review-btn">Publish Client Review</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Cart Notification Toast -->
-    <div class="cart-toast-notification" id="cart-toast-notification">
-        <div class="toast-message-text">
-            <i class="fa-solid fa-circle-check"></i>
-            <span>Added to Shopping Bag</span>
-        </div>
-        <a href="javascript:void(0)" class="toast-view-bag-btn" id="toast-view-bag-btn">VIEW BAG &rarr;</a>
-    </div>
-</body>
-</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#111111">
+
+    <!-- Priority LCP Image Preload -->
+    <link rel="preload" as="image" href="images/welcome_coord_luxury_mobile.webp" type="image/webp" fetchpriority="high">
+
+    <title>Shapes Boutique | Shapes By Satiinder Kaur | Luxury Designer Co-Ord Sets Mumbai</title>
+    <meta name="description" content="Shapes Boutique (Shapes By Satiinder Kaur) is Chembur Mumbai's premier designer fashion boutique for luxury printed co-ord sets, pure linen sets, festive silk co-ords &amp; contemporary pret starting from ₹7,000. Shop online or visit our boutique at Basant Garden, Chembur, Mumbai.">
+    <meta name="keywords" content="Shapes, Shapes Boutique, Shapes Boutique Chembur, Shapes By Satiinder Kaur, Shapes Uniform, Shapes Mumbai, designer co ord sets Mumbai, women cotton co ord set, luxury floral printed co ords, pure linen co ord set, festive silk co ord set, designer pret Mumbai, Ghatla Village Road Chembur, Maitri Park Chembur boutique, luxury 2 piece sets India, women designer clothing Mumbai">
+    <meta name="author" content="Satiinder Kaur">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <link rel="canonical" href="https://shapesbysatinderkaur.com/">
+
+    <!-- Geo-Location Tags -->
+    <meta name="geo.region" content="IN-MH">
+    <meta name="geo.placename" content="Mumbai, Chembur">
+    <meta name="geo.position" content="19.0522;72.8995">
+    <meta name="ICBM" content="19.0522, 72.8995">
+
+    <!-- Open Graph (OG) -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://shapesbysatinderkaur.com/">
+    <meta property="og:title" content="Shapes Boutique | Shapes By Satiinder Kaur | Luxury Designer Co-Ord Sets">
+    <meta property="og:description" content="Discover handcrafted luxury printed silk, organic linen, and festive designer co-ord sets by Shapes By Satiinder Kaur in Chembur, Mumbai.">
+    <meta property="og:image" content="https://shapesbysatinderkaur.com/images/hero_coord_editorial.webp">
+    <meta property="og:site_name" content="Shapes Boutique · Shapes By Satiinder Kaur">
+    <meta property="og:locale" content="en_IN">
+
+    <!-- Google Fonts & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- External Stylesheet -->
+    <link rel="stylesheet" href="index.css?v=20.0">
+
+    <!-- Razorpay Payment Gateway & Main Script -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="index.js?v=20.0" defer></script>
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <!-- Top Announcement Bar -->
+    <div class="top-announcement-bar">
+        <div class="announcement-marquee">
+            <div class="announcement-track">
+                <span class="announcement-item"><i class="fa-solid fa-gem"></i> SHAPES BY SATIINDER KAUR · LUXURY PRET &amp; CO-ORD SETS</span>
+                <span class="announcement-item"><i class="fa-solid fa-crown"></i> BOUTIQUE LOCATION: BASANT GARDEN, CHEMBUR, MUMBAI</span>
+                <span class="announcement-item"><i class="fa-solid fa-truck-fast"></i> COMPLIMENTARY EXPRESS INSURED SHIPPING ACROSS INDIA</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header & Navigation -->
+    <div class="header-master-wrapper">
+        <header class="luxury-header" id="main-header">
+            <div class="nav-container">
+                <nav class="nav-left">
+                    <a href="#catalog" class="nav-link">Collections</a>
+                    <a href="#story-section" class="nav-link">Our Heritage</a>
+                    <a href="#journal-section" class="nav-link">Journal</a>
+                    <a href="#faq-section" class="nav-link">Boutique FAQ</a>
+                </nav>
+
+                <a href="#" class="brand-logo">
+                    <span class="logo-main">SHAPES</span>
+                    <span class="logo-sub">BY SATIINDER KAUR</span>
+                </a>
+
+                <div class="nav-right">
+                    <select class="currency-select" id="currency-selector" title="Select Currency">
+                        <option value="INR">INR (₹)</option>
+                        <option value="USD">USD ($)</option>
+                        <option value="AED">AED (AED)</option>
+                        <option value="GBP">GBP (£)</option>
+                        <option value="EUR">EUR (€)</option>
+                    </select>
+
+                    <button class="nav-icon-btn" id="wishlist-nav-trigger" title="Wishlist">
+                        <i class="fa-regular fa-heart"></i>
+                    </button>
+
+                    <div class="cart-btn-container">
+                        <button class="nav-icon-btn" id="cart-nav-trigger" title="Shopping Bag">
+                            <i class="fa-solid fa-bag-shopping"></i>
+                            <span class="cart-badge" id="header-cart-count">0</span>
+                        </button>
+                    </div>
+
+                    <button class="mobile-menu-toggle" id="mobile-menu-btn" aria-label="Toggle Mobile Menu">
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </div>
+        </header>
+    </div>
+
+    <!-- Mobile Nav Drawer -->
+    <div class="mobile-nav-drawer" id="mobile-nav-drawer">
+        <div class="mobile-nav-links">
+            <a href="#catalog" class="mobile-link">Collections</a>
+            <a href="#story-section" class="mobile-link">Our Heritage</a>
+            <a href="#journal-section" class="mobile-link">Journal</a>
+            <a href="#faq-section" class="mobile-link">Boutique FAQ</a>
+            <a href="admin.html" class="mobile-link" style="font-size: 1.2rem; color: var(--gold);">Admin Portal</a>
+        </div>
+    </div>
+
+    <main class="main-content-layout" id="main-content">
+        <!-- Hero Section -->
+        <section class="hero-section" id="hero">
+            <div class="hero-slider">
+                <div class="hero-slide active">
+                    <picture class="hero-bg-picture">
+                        <source media="(max-width: 768px)" srcset="images/welcome_coord_luxury_mobile.webp">
+                        <img src="images/hero_coord_editorial.webp" alt="Shapes By Satiinder Kaur Luxury Co-Ord Collection" class="hero-bg-img" fetchpriority="high">
+                    </picture>
+                    <div class="hero-slide-overlay"></div>
+                    <div class="hero-content">
+                        <div class="hero-crest-badge">
+                            <span class="hero-crest-text">CHEMBUR, MUMBAI · DESIGNER PRET</span>
+                        </div>
+                        <div class="hero-brand-title">
+                            <span class="hero-title-main">SHAPES</span>
+                            <span class="hero-title-by">BY SATIINDER KAUR</span>
+                        </div>
+                        <div class="hero-filigree-divider">
+                            <span class="filigree-line"></span>
+                            <i class="fa-solid fa-gem filigree-gem"></i>
+                            <span class="filigree-line"></span>
+                        </div>
+                        <p class="hero-tagline">Designer Co-Ord Sets · Pure Modal Silks &amp; Handblock Linens · XS to XXL</p>
+                        <div class="hero-action-buttons">
+                            <a href="#catalog" class="hero-cta-btn hero-cta-gold">Explore Co-Ords</a>
+                            <a href="#story-section" class="hero-cta-btn hero-cta-glass">Our Heritage</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="scroll-indicator">
+                <span class="scroll-text">SCROLL</span>
+                <div class="scroll-line"></div>
+            </div>
+        </section>
+
+        <!-- Signature Collections Catalog Section -->
+        <section class="catalog-section" id="catalog">
+            <div class="section-header">
+                <span class="sub-title">Signature Collections</span>
+                <h2 class="section-title" id="catalog-title-text">DESIGNER CO-ORD SETS</h2>
+                <div class="divider-gold"></div>
+            </div>
+
+            <div class="catalog-tabs" id="catalog-tabs-container">
+                <!-- Dynamically Populated Tabs -->
+            </div>
+
+            <div class="catalog-controls-container">
+                <div class="boutique-controls-bar">
+                    <div class="boutique-search-wrapper">
+                        <i class="fa-solid fa-magnifying-glass search-icon-gold"></i>
+                        <input type="text" id="boutique-search-input" placeholder="Search creations by fabric, pattern or color...">
+                    </div>
+
+                    <div class="boutique-sort-wrapper">
+                        <label for="boutique-sort-select">Sort By</label>
+                        <select id="boutique-sort-select">
+                            <option value="default">Default Showroom</option>
+                            <option value="price-asc">Price: Low to High</option>
+                            <option value="price-desc">Price: High to Low</option>
+                            <option value="title-asc">Alphabetical: A to Z</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-grid" id="product-list-container">
+                <!-- Product Cards dynamically loaded by index.js -->
+            </div>
+        </section>
+
+        <!-- Client Reviews Section -->
+        <section class="testimonials-section" id="reviews-section">
+            <div class="section-header">
+                <span class="sub-title">Client Experiences</span>
+                <h2 class="section-title">PATRON REVIEWS</h2>
+                <div class="divider-gold"></div>
+            </div>
+
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <button id="open-review-modal-btn" class="hero-cta-btn hero-cta-gold" style="min-height: 40px; padding: 0.6rem 1.8rem;">
+                    <i class="fa-solid fa-pen-to-square" style="margin-right: 8px;"></i> Write a Review
+                </button>
+            </div>
+
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="stars-row">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="review-text">"Perfect stitching, great attention to detail, and excellent service by Satiinder Kaur. The fitting of my printed modal silk co-ord set was immaculate!"</p>
+                    <div class="reviewer-meta">
+                        <span class="client-name">Rhea Dhameja</span>
+                        <span class="client-location">Chembur, Mumbai</span>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="stars-row">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="review-text">"Hands down the finest designer boutique in Chembur for luxury co-ord sets. Breathable fabric and perfect contouring."</p>
+                    <div class="reviewer-meta">
+                        <span class="client-name">Wilma Vaz</span>
+                        <span class="client-location">Mumbai</span>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="stars-row">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="review-text">"Bought the Ivory &amp; Sand Linen Co-Ord Set. Super breathable, elegant drape, and got so many compliments at brunch!"</p>
+                    <div class="reviewer-meta">
+                        <span class="client-name">Pooja Sawant</span>
+                        <span class="client-location">Bandra, Mumbai</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Heritage Story Section -->
+        <section class="story-section" id="story-section">
+            <div class="story-container">
+                <div class="story-image-side">
+                    <img src="images/craftsmanship_detail_luxury.webp" alt="Shapes Atelier Craftsmanship" loading="lazy">
+                </div>
+                <div class="story-text-side">
+                    <span class="story-tag">CHEMBUR BOUTIQUE</span>
+                    <h2 class="story-title">THE ART OF SILHOUETTE</h2>
+                    <p class="story-paragraph">At Shapes By Satiinder Kaur, every 2-piece co-ord set represents a harmonious blend of comfortable luxury and refined Indian aesthetics. Handcrafted in our Chembur workshop using pure modal silks, natural slub linens, and handblock prints.</p>
+                    <p class="story-signature">Satiinder Kaur</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Journal Section -->
+        <section class="journal-section" id="journal-section">
+            <div class="section-header">
+                <span class="sub-title">Couture Editorial</span>
+                <h2 class="section-title">THE SHAPES JOURNAL</h2>
+                <div class="divider-gold"></div>
+            </div>
+
+            <div class="journal-grid">
+                <article class="journal-card">
+                    <div class="journal-card-img-wrapper">
+                        <img src="images/journal_coord_styling.webp" alt="Co-Ord Styling" loading="lazy">
+                    </div>
+                    <div class="journal-card-body">
+                        <span class="journal-tag">STYLE GUIDE</span>
+                        <h3 class="journal-title">5 Ways to Style Luxury Co-Ord Sets</h3>
+                        <p class="journal-snippet">How tailored 2-piece sets transition seamlessly from morning brunches to evening cocktail galas.</p>
+                        <span class="journal-read-more">Read Journal Story <i class="fa-solid fa-arrow-right"></i></span>
+                    </div>
+                </article>
+
+                <article class="journal-card">
+                    <div class="journal-card-img-wrapper">
+                        <img src="images/journal_linen_handblock.webp" alt="Linen Craft" loading="lazy">
+                    </div>
+                    <div class="journal-card-body">
+                        <span class="journal-tag">FABRIC &amp; CRAFT</span>
+                        <h3 class="journal-title">The Rise of Pure Linen &amp; Handblock Co-Ords</h3>
+                        <p class="journal-snippet">Exploring natural slub linen and artisanal handblock prints tailored for contemporary Indian weather.</p>
+                        <span class="journal-read-more">Read Journal Story <i class="fa-solid fa-arrow-right"></i></span>
+                    </div>
+                </article>
+
+                <article class="journal-card">
+                    <div class="journal-card-img-wrapper">
+                        <img src="images/journal_festive_jewel.webp" alt="Festive Jewels" loading="lazy">
+                    </div>
+                    <div class="journal-card-body">
+                        <span class="journal-tag">FESTIVE PRET</span>
+                        <h3 class="journal-title">Festive Jewel Tones &amp; Silk Detailing</h3>
+                        <p class="journal-snippet">Bridging rich emeralds and deep indigos with comfortable contemporary silhouettes.</p>
+                        <span class="journal-read-more">Read Journal Story <i class="fa-solid fa-arrow-right"></i></span>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="boutique-faq-section" id="faq-section">
+            <div class="section-header">
+                <span class="sub-title">Boutique Assistance</span>
+                <h2 class="section-title">FREQUENTLY ASKED QUESTIONS</h2>
+                <div class="divider-gold"></div>
+            </div>
+
+            <div class="faq-accordion-list">
+                <div class="faq-item">
+                    <button class="faq-question-btn">
+                        <span>What sizing options are available for co-ord sets?</span>
+                        <i class="fa-solid fa-chevron-down faq-chevron"></i>
+                    </button>
+                    <div class="faq-answer-content">
+                        <p>We offer standard sizes from XS to XXL, as well as custom fitting consultations at our Chembur boutique.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question-btn">
+                        <span>What fabrics are used in Shapes Co-Ord Sets?</span>
+                        <i class="fa-solid fa-chevron-down faq-chevron"></i>
+                    </button>
+                    <div class="faq-answer-content">
+                        <p>We craft our sets exclusively with high-grade modal silks, organic slub linen, pure cottons, and handblock printed modal.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question-btn">
+                        <span>How long does delivery take for handcrafted sets?</span>
+                        <i class="fa-solid fa-chevron-down faq-chevron"></i>
+                    </button>
+                    <div class="faq-answer-content">
+                        <p>In-stock sets ship within 48 hours. Made-to-measure orders take 7 to 14 business days.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Luxury Footer -->
+    <footer class="luxury-footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3>SHAPES</h3>
+                <p>Shapes Boutique by Satiinder Kaur (Registered Entity: Shapes Uniform). Premier designer pret &amp; co-ord sets in Chembur, Mumbai.</p>
+                <div class="social-links">
+                    <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://wa.me/919833392756" target="_blank" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="https://facebook.com" target="_blank" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h4>COLLECTIONS</h4>
+                <ul>
+                    <li><a href="#catalog">Printed Co-Ords</a></li>
+                    <li><a href="#catalog">Linen &amp; Cotton</a></li>
+                    <li><a href="#catalog">Festive Co-Ords</a></li>
+                    <li><a href="#catalog">Fusion Sets</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>BOUTIQUE CARE</h4>
+                <ul>
+                    <li><a href="#faq-section">Boutique FAQ</a></li>
+                    <li><a href="info.html">Shipping &amp; Returns</a></li>
+                    <li><a href="info.html#contact">Contact Boutique</a></li>
+                    <li><a href="track.html">Track Order</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>CHEMBUR BOUTIQUE</h4>
+                <p><i class="fa-solid fa-location-dot" style="color: var(--gold); margin-right: 6px;"></i> Basant Garden, Chembur, Mumbai, Maharashtra 400071</p>
+                <p><i class="fa-solid fa-phone" style="color: var(--gold); margin-right: 6px;"></i> +91 98333 92756</p>
+                <p><i class="fa-solid fa-envelope" style="color: var(--gold); margin-right: 6px;"></i> shapesuniform@gmail.com</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <span>&copy; 2026 Shapes Boutique (Shapes By Satiinder Kaur). All Rights Reserved.</span>
+            <span>Handcrafted in Mumbai</span>
+        </div>
+        <div class="footer-sub-bottom">
+            <span>&copy; 2026 SHAPES UNIFORM (Operating as Shapes By Satiinder Kaur). All Rights Reserved.</span>
+            <div class="legal-footer-links">
+                <a href="contact.html">Contact Us</a> &middot;
+                <a href="info.html#terms">Terms</a> &middot;
+                <a href="info.html#privacy">Privacy</a> &middot;
+                <a href="info.html#refund">Refunds &amp; Exchanges</a> &middot;
+                <a href="info.html#cancellation">Cancellations</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Product Detail Modal -->
+    <div class="luxury-modal" id="product-detail-modal">
+        <div class="modal-content-wrapper">
+            <span class="close-modal-btn" id="close-detail-modal">&times;</span>
+            <div class="modal-grid">
+                <div class="modal-image-side">
+                    <div class="image-zoom-container">
+                        <img src="" id="modal-product-image" alt="Product Image">
+                    </div>
+                </div>
+                <div class="modal-info-side">
+                    <span class="modal-product-category" id="modal-product-category">Category</span>
+                    <h2 class="modal-product-title" id="modal-product-title">Product Title</h2>
+                    <div class="modal-product-price" id="modal-product-price">₹0</div>
+                    <p class="modal-product-desc" id="modal-product-desc">Description</p>
+
+                    <div class="size-selection-area">
+                        <label>Select Size</label>
+                        <div class="sizes-grid" id="modal-sizes-container">
+                            <span class="size-option" data-size="XS">XS</span>
+                            <span class="size-option" data-size="S">S</span>
+                            <span class="size-option" data-size="M">M</span>
+                            <span class="size-option" data-size="L">L</span>
+                            <span class="size-option" data-size="XL">XL</span>
+                            <span class="size-option" data-size="XXL">XXL</span>
+                        </div>
+                    </div>
+
+                    <button class="add-to-cart-action-btn" id="modal-add-to-cart-btn">Add To Bag</button>
+                    <button class="add-to-cart-action-btn" id="modal-whatsapp-inquire-btn" style="background: transparent; border-color: var(--gold); color: #FFFFFF; margin-top: 10px;">Inquire On WhatsApp</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Drawer -->
+    <div class="cart-drawer-overlay" id="cart-drawer-overlay">
+        <div class="cart-drawer" id="cart-drawer">
+            <div class="cart-drawer-header">
+                <h3>Shopping Bag</h3>
+                <span class="close-drawer-btn" id="close-cart-drawer">&times;</span>
+            </div>
+            <div class="cart-items-list" id="cart-items-container">
+                <!-- Cart items dynamically loaded -->
+            </div>
+            <div class="cart-drawer-footer">
+                <div class="cart-subtotal-row" style="display: flex; justify-content: space-between; margin-bottom: 1.5rem; font-size: 1.1rem; font-weight: 600;">
+                    <span>Subtotal</span>
+                    <span id="cart-subtotal-val">₹0</span>
+                </div>
+                <button class="checkout-btn" id="proceed-checkout-btn">Proceed To Checkout</button>
+            </div>
+        </div>
+    </div>
+    <!-- Client Review Modal -->
+    <div class="luxury-modal" id="review-modal">
+        <div class="review-modal-content">
+            <span class="close-review-modal-btn" id="close-review-modal">&times;</span>
+            <div class="review-modal-header">
+                <span class="sub-title" style="margin-bottom: 0.3rem;">Client Experience</span>
+                <h2>Share Your Experience</h2>
+                <p class="review-modal-subtitle">Your gracious words inspire our master artisans and help other couture seekers.</p>
+            </div>
+            <form id="client-review-form" class="review-form">
+                <div class="form-group">
+                    <label for="review-rating-select">Select Your Rating *</label>
+                    <select id="review-rating-select" required>
+                        <option value="5">★★★★★ Exceptional (5 / 5 Stars)</option>
+                        <option value="4">★★★★☆ Excellent (4 / 5 Stars)</option>
+                        <option value="3">★★★☆☆ Good (3 / 5 Stars)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="review-author-name">Your Full Name *</label>
+                    <input type="text" id="review-author-name" placeholder="e.g. Rhea Sharma" required>
+                </div>
+                <div class="form-group">
+                    <label for="review-author-location">City / Location *</label>
+                    <input type="text" id="review-author-location" placeholder="e.g. Chembur, Mumbai" required>
+                </div>
+                <div class="form-group">
+                    <label for="review-garment-name">Garment / Collection Purchased *</label>
+                    <select id="review-garment-name" required>
+                        <option value="The Noir Botanical Silk Co-Ord Set">The Noir Botanical Silk Co-Ord Set</option>
+                        <option value="Ivory & Sand Linen Co-Ord Set">Ivory &amp; Sand Linen Co-Ord Set</option>
+                        <option value="The Emerald Festive Silk Co-Ord Set">The Emerald Festive Silk Co-Ord Set</option>
+                        <option value="Indigo Heritage Handblock Modal Set">Indigo Heritage Handblock Modal Set</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="review-body-text">Your Review / Experience *</label>
+                    <textarea id="review-body-text" rows="4" placeholder="Describe the fit, fabric feel, styling consultation, or delivery experience..." required></textarea>
+                </div>
+                <button type="submit" class="submit-review-btn">Publish Client Review</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Cart Notification Toast -->
+    <div class="cart-toast-notification" id="cart-toast-notification">
+        <div class="toast-message-text">
+            <i class="fa-solid fa-circle-check"></i>
+            <span>Added to Shopping Bag</span>
+        </div>
+        <a href="javascript:void(0)" class="toast-view-bag-btn" id="toast-view-bag-btn">VIEW BAG &rarr;</a>
+    </div>
+</body>
+</html>
