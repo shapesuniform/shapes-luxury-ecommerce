@@ -354,18 +354,29 @@ function renderRazorpayAffordabilityWidget(priceInINR) {
     const cfg = getLocal("shapes_config", {});
     const rzpKey = cfg.razorpayKey || "rzp_live_TQ0RwUwXQjD3tq";
 
-    if (window.RazorpayAffordabilitySuite && rzpKey) {
-        try {
-            const suite = new window.RazorpayAffordabilitySuite({
-                key: rzpKey,
-                amount: Math.round(priceInINR * 100),
-                target: "#razorpay-affordability-widget"
-            });
-            suite.render();
-        } catch(e) {
-            console.warn("Razorpay Affordability:", e);
+    const tryRender = (retries = 5) => {
+        if (window.RazorpayAffordabilitySuite && rzpKey) {
+            try {
+                const suite = new window.RazorpayAffordabilitySuite({
+                    key: rzpKey,
+                    amount: Math.round(priceInINR * 100),
+                    target: "#razorpay-affordability-widget",
+                    features: {
+                        cards: { emi: true },
+                        cardless: { emi: true },
+                        paylater: { enabled: true }
+                    }
+                });
+                suite.render();
+            } catch(e) {
+                console.warn("Razorpay Affordability render notice:", e);
+            }
+        } else if (retries > 0) {
+            setTimeout(() => tryRender(retries - 1), 400);
         }
-    }
+    };
+
+    tryRender();
 }
 
 function closeProductDetailModal() {
