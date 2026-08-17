@@ -5,8 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#121212">
 
-    <!-- Security headers via meta (GitHub Pages — cannot use server headers) -->
-    <!-- CSP on ONE line — multi-line breaks browser parsing -->
+    <!-- Priority LCP Image Preloads — loaded in initial 14KB TCP burst -->
+    <link rel="preload" as="image" href="images/welcome_coord_luxury_mobile.webp" media="(max-width: 768px)" type="image/webp" fetchpriority="high">
+    <link rel="preload" as="image" href="images/welcome_coord_luxury.webp" media="(min-width: 769px)" type="image/webp" fetchpriority="high">
+
+    <!-- Security headers via meta (GitHub Pages compatible) -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.gstatic.com https://apis.google.com https://checkout.razorpay.com https://cdnjs.cloudflare.com https://shapes-boutique-e269d.firebaseapp.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: blob: https:; connect-src 'self' https://firestore.googleapis.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://www.googleapis.com https://shapes-boutique-e269d.firebaseapp.com https://api.razorpay.com https://lumberjack.razorpay.com; frame-src 'self' https://shapes-boutique-e269d.firebaseapp.com https://api.razorpay.com https://checkout.razorpay.com; frame-ancestors 'self'; object-src 'none'; base-uri 'self'; form-action 'self' https://checkout.razorpay.com; upgrade-insecure-requests;">
     <meta name="referrer" content="strict-origin-when-cross-origin">
 
@@ -20,13 +23,13 @@
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
     <link rel="canonical" href="https://shapesbysatinderkaur.com/">
 
-    <!-- Geo-Location Tags for Local Mumbai & Chembur SEO -->
+    <!-- Geo-Location Tags -->
     <meta name="geo.region" content="IN-MH">
     <meta name="geo.placename" content="Mumbai, Chembur">
     <meta name="geo.position" content="19.0522;72.8995">
     <meta name="ICBM" content="19.0522, 72.8995">
 
-    <!-- Open Graph (OG) Social Metadata for Facebook, WhatsApp & iMessage -->
+    <!-- Open Graph (OG) -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://shapesbysatinderkaur.com/">
     <meta property="og:title" content="Shapes Boutique | Shapes By Satiinder Kaur | Luxury Designer Co-Ord Sets">
@@ -35,279 +38,107 @@
     <meta property="og:site_name" content="Shapes Boutique · Shapes By Satiinder Kaur">
     <meta property="og:locale" content="en_IN">
 
-    <!-- Twitter Card Metadata -->
+    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://shapesbysatinderkaur.com/">
     <meta name="twitter:title" content="Shapes Boutique | Shapes By Satiinder Kaur | Luxury Designer Co-Ord Sets">
     <meta name="twitter:description" content="Explore luxury printed silk, organic linen &amp; festive designer co-ord sets at Shapes Boutique, Chembur, Mumbai.">
     <meta name="twitter:image" content="https://shapesbysatinderkaur.com/images/hero_coord_editorial.webp">
 
-    <!-- Comprehensive JSON-LD Structured Data Graph for Google Rich Snippets & Sitelinks -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "ClothingStore",
-          "@id": "https://shapesbysatinderkaur.com/#store",
-          "name": "Shapes Boutique",
-          "alternateName": [
-            "Shapes",
-            "Shapes By Satiinder Kaur",
-            "Shapes Uniform",
-            "Shapes Boutique Chembur",
-            "Shapes Mumbai",
-            "Shapes Luxury Pret"
-          ],
-          "legalName": "SHAPES UNIFORM",
-          "url": "https://shapesbysatinderkaur.com",
-          "logo": "https://shapesbysatinderkaur.com/images/app_icon.webp",
-          "image": "https://shapesbysatinderkaur.com/images/welcome_coord_luxury.webp",
-          "description": "Shapes Boutique (operating brand: Shapes By Satiinder Kaur) is an exclusive designer boutique based in Chembur, Mumbai. Specializing in luxury printed silk co-ord sets, pure organic linen 2-piece sets, festive embroidered co-ords, and contemporary Indian luxury pret.",
-          "telephone": "+91 98333 92756",
-          "email": "shapesuniform@gmail.com",
-          "priceRange": "₹₹₹",
-          "currenciesAccepted": "INR, USD, GBP, EUR, AED",
-          "paymentAccepted": "Credit Card, Debit Card, UPI, Net Banking, Razorpay",
-          "hasMap": "https://maps.google.com/?q=Shapes+Boutique+Chembur+Mumbai",
-          "address": {
-            "@type": "PostalAddress",
-            "streetAddress": "Shop No 4, Bus Stop, Ghatla Village Rd, Near Maitri Park, Basant Garden, Chembur",
-            "addressLocality": "Mumbai",
-            "addressRegion": "Maharashtra",
-            "postalCode": "400071",
-            "addressCountry": "IN"
-          },
-          "geo": {
-            "@type": "GeoCoordinates",
-            "latitude": 19.0522,
-            "longitude": 72.8995
-          },
-          "areaServed": [
-            "Mumbai",
-            "Maharashtra",
-            "India",
-            "Worldwide"
-          ],
-          "openingHoursSpecification": [
-            {
-              "@type": "OpeningHoursSpecification",
-              "dayOfWeek": [
-                "Monday",
-                "Tuesday",
-                "Wednesday",
-                "Thursday",
-                "Friday",
-                "Saturday",
-                "Sunday"
-              ],
-              "opens": "11:00",
-              "closes": "20:00"
-            }
-          ],
-          "aggregateRating": {
-            "@type": "AggregateRating",
-            "ratingValue": "4.9",
-            "reviewCount": "49",
-            "bestRating": "5",
-            "worstRating": "1"
-          }
-        },
-        {
-          "@type": "WebSite",
-          "@id": "https://shapesbysatinderkaur.com/#website",
-          "url": "https://shapesbysatinderkaur.com",
-          "name": "Shapes Boutique",
-          "alternateName": "Shapes By Satiinder Kaur",
-          "publisher": {
-            "@id": "https://shapesbysatinderkaur.com/#store"
-          },
-          "potentialAction": {
-            "@type": "SearchAction",
-            "target": "https://shapesbysatinderkaur.com/#catalog?q={search_term_string}",
-            "query-input": "required name=search_term_string"
-          }
-        },
-        {
-          "@type": "BreadcrumbList",
-          "@id": "https://shapesbysatinderkaur.com/#breadcrumb",
-          "itemListElement": [
-            {
-              "@type": "ListItem",
-              "position": 1,
-              "name": "Home",
-              "item": "https://shapesbysatinderkaur.com/"
-            },
-            {
-              "@type": "ListItem",
-              "position": 2,
-              "name": "Designer Co-Ord Sets",
-              "item": "https://shapesbysatinderkaur.com/#catalog"
-            },
-            {
-              "@type": "ListItem",
-              "position": 3,
-              "name": "Our Story",
-              "item": "https://shapesbysatinderkaur.com/#story-section"
-            },
-            {
-              "@type": "ListItem",
-              "position": 4,
-              "name": "Reviews",
-              "item": "https://shapesbysatinderkaur.com/#reviews-section"
-            }
-          ]
-        },
-        {
-          "@type": "FAQPage",
-          "@id": "https://shapesbysatinderkaur.com/#faq",
-          "mainEntity": [
-            {
-              "@type": "Question",
-              "name": "Where is Shapes Boutique located in Mumbai?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Shapes Boutique is located at Shop No 4, Bus Stop, Ghatla Village Rd, Near Maitri Park, Basant Garden, Chembur, Mumbai, Maharashtra 400071, India. Open Monday to Sunday from 11:00 AM to 8:00 PM IST."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "What collections does Shapes Boutique specialize in?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Shapes Boutique (Shapes By Satiinder Kaur) specializes in designer 2-piece co-ord sets, pure modal silk printed sets, organic linen V-neck co-ords, festive embroidered silk sets, and contemporary luxury pret."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "What is the price range of designer co-ord sets at Shapes?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Designer co-ord sets at Shapes Boutique start from approximately ₹7,000 to ₹12,000, handcrafted in premium natural fabrics including pure linen, modal silk, and raw silk with tailored comfort fits."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "Does Shapes Boutique ship across India and internationally?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Yes, Shapes Boutique provides complimentary insured express courier delivery across India and international express shipping worldwide supporting multi-currency payments in INR, USD, GBP, EUR, and AED."
-              }
-            }
-          ]
-        },
-        {
-          "@type": "ItemList",
-          "itemListElement": [
-            {
-              "@type": "Product",
-              "position": 1,
-              "name": "The Noir Botanical Silk Co-Ord Set",
-              "description": "Opulent two-piece luxury designer co-ord set in pure modal silk with tailored button-down longline shirt tunic and matching wide-leg trousers.",
-              "image": "https://shapesbysatinderkaur.com/images/coord_black_floral.webp",
-              "brand": {
-                "@type": "Brand",
-                "name": "Shapes By Satiinder Kaur"
-              },
-              "offers": {
-                "@type": "Offer",
-                "price": "8900",
-                "priceCurrency": "INR",
-                "availability": "https://schema.org/InStock",
-                "url": "https://shapesbysatinderkaur.com/#catalog"
-              }
-            },
-            {
-              "@type": "Product",
-              "position": 2,
-              "name": "Ivory & Sand Minimalist Linen Co-Ord",
-              "description": "Refined everyday luxury two-piece set crafted from breathable pure slub linen with V-neck tunic and straight-cut trousers.",
-              "image": "https://shapesbysatinderkaur.com/images/coord_beige_linen.webp",
-              "brand": {
-                "@type": "Brand",
-                "name": "Shapes By Satiinder Kaur"
-              },
-              "offers": {
-                "@type": "Offer",
-                "price": "7490",
-                "priceCurrency": "INR",
-                "availability": "https://schema.org/InStock",
-                "url": "https://shapesbysatinderkaur.com/#catalog"
-              }
-            },
-            {
-              "@type": "Product",
-              "position": 3,
-              "name": "The Emerald Festive Silk Co-Ord Set",
-              "description": "Jewel-toned festive luxury co-ord set in rich emerald raw silk with hand-embroidered antique gold zardozi cuffs and palazzo trousers.",
-              "image": "https://shapesbysatinderkaur.com/images/coord_royal_emerald.webp",
-              "brand": {
-                "@type": "Brand",
-                "name": "Shapes By Satiinder Kaur"
-              },
-              "offers": {
-                "@type": "Offer",
-                "price": "11500",
-                "priceCurrency": "INR",
-                "availability": "https://schema.org/InStock",
-                "url": "https://shapesbysatinderkaur.com/#catalog"
-              }
-            },
-            {
-              "@type": "Product",
-              "position": 4,
-              "name": "Indigo Heritage Handblock Modal Set",
-              "description": "Artisanal two-piece fusion set in rich indigo blue handblock modal cotton with collared tunic and wide-leg trousers.",
-              "image": "https://shapesbysatinderkaur.com/images/coord_indigo_print.webp",
-              "brand": {
-                "@type": "Brand",
-                "name": "Shapes By Satiinder Kaur"
-              },
-              "offers": {
-                "@type": "Offer",
-                "price": "7990",
-                "priceCurrency": "INR",
-                "availability": "https://schema.org/InStock",
-                "url": "https://shapesbysatinderkaur.com/#catalog"
-              }
-            }
-          ]
-        }
-      ]
-    }
-    </script>
-
-
-    <!-- Preload LCP Hero Banner — responsive mobile/desktop -->
-    <link rel="preload" as="image" href="images/welcome_coord_luxury_mobile.webp" media="(max-width: 768px)" type="image/webp" fetchpriority="high">
-    <link rel="preload" as="image" href="images/welcome_coord_luxury.webp" media="(min-width: 769px)" type="image/webp" fetchpriority="high">
-
-    <!-- Preconnect to Google Fonts and CDNs -->
+    <!-- Preconnect to CDNs -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Preconnect Firebase domains to shave 300ms off auth load -->
-    <link rel="preconnect" href="https://shapes-boutique-e269d.firebaseapp.com" crossorigin>
-    <link rel="preconnect" href="https://apis.google.com" crossorigin>
     <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
-    <link rel="dns-prefetch" href="https://firestore.googleapis.com">
 
-    <!-- Non-Blocking Google Fonts with display=swap -->
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript>
-        <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
-    </noscript>
+    <!-- Non-Blocking Google Fonts -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Montserrat:wght@300;400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Montserrat:wght@300;400;500;600&display=swap"></noscript>
 
-    <!-- FontAwesome: preload then swap to stylesheet — fastest pattern with zero CLS. -->
+    <!-- FontAwesome Non-Blocking Preload -->
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
 
-    <!-- Main stylesheet (direct load prevents FOUC layout shift, CLS = 0.000) -->
-    <link rel="stylesheet" href="index.css?v=15.0">
+    <!-- Inline Critical CSS for Instant 0.6s FCP & 0.000 CLS -->
+    <style>
+:root{--charcoal:#111111;--charcoal-light:#1e1e1e;--ivory:#FAF6F0;--ivory-dark:#f0eae1;--gold:#C5A059;--gold-dark:#8C6527;--gold-light:#E0C899;--gold-rgb:197,160,89;--white:#FFFFFF;--black:#000000;--grey-light:#F9F9F9;--grey-medium:#CCCCCC;--grey-dark:#333333;--crimson:#3D0C11;--font-serif:'Cormorant Garamond',serif;--font-sans:'Montserrat',sans-serif;--header-height:85px;--transition:all 0.4s cubic-bezier(0.25,0.46,0.45,0.94)}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;overflow-x:hidden;-webkit-text-size-adjust:100%}
+body{background-color:#111111;color:var(--ivory);font-family:var(--font-sans);font-size:14px;line-height:1.6;letter-spacing:0.03em;overflow-x:hidden;min-height:100vh}
+a{color:inherit;text-decoration:none;transition:var(--transition)}
+img{max-width:100%;height:auto;display:block}
+button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit;background:none;border:none;outline:none}
+.header-master-wrapper{position:fixed;top:0;left:0;width:100%;z-index:1000;background:#111111}
+.top-announcement-bar{background:#0A0A0A;color:#FFFFFF;border-bottom:1px solid rgba(197,160,89,0.35);font-size:10px;font-family:var(--font-sans);font-weight:600;letter-spacing:0.12em;text-transform:uppercase;height:32px;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;width:100%}
+.announcement-marquee{display:flex;align-items:center;justify-content:center;width:100%}
+.announcement-track{display:inline-flex;align-items:center;justify-content:center;gap:14px;white-space:nowrap;color:#FFFFFF}
+.announcement-track:nth-child(2){display:none}
+.luxury-header{position:relative;width:100%;height:var(--header-height);background-color:rgba(18,18,18,0.95);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);border-bottom:1px solid rgba(197,160,89,0.2)}
+.nav-container{max-width:1600px;height:100%;margin:0 auto;padding:0 4rem;display:grid;grid-template-columns:1fr auto 1fr;align-items:center}
+.nav-left{display:flex;gap:2.5rem}
+.nav-right{display:flex;justify-content:flex-end;align-items:center;gap:2rem}
+.nav-link{font-size:11px;text-transform:uppercase;font-weight:500;letter-spacing:0.18em;color:#FFFFFF;position:relative;padding:0.5rem 0}
+.brand-logo{display:flex;flex-direction:column;align-items:center;line-height:1.1;text-align:center;text-decoration:none}
+.logo-main{font-family:var(--font-serif);font-size:2.3rem;font-weight:400;letter-spacing:0.25em;color:#FFFFFF;text-transform:uppercase;transform:translateX(0.12em);text-shadow:0 1px 5px rgba(0,0,0,0.4)}
+.logo-sub{font-family:var(--font-sans);font-size:9px;font-weight:400;letter-spacing:0.25em;color:var(--gold);text-transform:uppercase;margin-top:0.15rem;transform:translateX(0.12em)}
+.currency-select{background:rgba(255,255,255,0.08);border:1px solid rgba(197,160,89,0.4);color:#FFFFFF;padding:0.35rem 0.6rem;border-radius:4px;font-size:11px}
+.nav-icon-btn{cursor:pointer;font-size:1.15rem;color:#FFFFFF;position:relative;padding:0.5rem}
+.cart-badge{position:absolute;top:-2px;right:-2px;background-color:var(--crimson);color:var(--white);font-size:9px;font-weight:700;width:17px;height:17px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:1px solid var(--gold)}
+.mobile-menu-toggle{display:none}
+.mobile-nav-drawer{display:none}
+.main-content-layout{margin-top:117px;background:#111111}
+.hero-section{position:relative;width:100%;height:calc(100vh - 117px);min-height:560px;background:#0f0f0f;overflow:hidden}
+.hero-slider{width:100%;height:100%}
+.hero-slide{width:100%;height:100%;display:flex;align-items:center;justify-content:center;text-align:center;position:relative}
+.hero-bg-picture{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;overflow:hidden}
+.hero-bg-img{width:100%;height:100%;object-fit:cover;object-position:center 25%;display:block}
+.hero-slide-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(14,14,14,0.40) 0%,rgba(14,14,14,0.76) 100%);z-index:2;pointer-events:none}
+.hero-content{position:relative;z-index:3;max-width:860px;padding:2.5rem 1.5rem;display:flex;flex-direction:column;align-items:center}
+.hero-crest-badge{display:inline-block;padding:6px 18px;background:rgba(18,18,18,0.65);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(197,160,89,0.4);border-radius:20px;margin-bottom:1.2rem}
+.hero-crest-text{font-family:var(--font-sans);font-size:10px;font-weight:600;letter-spacing:0.3em;color:var(--gold-light);text-transform:uppercase}
+.hero-brand-title{display:flex;flex-direction:column;align-items:center;line-height:1;margin-bottom:1rem}
+.hero-title-main{font-family:var(--font-serif);font-size:clamp(3rem,9vw,5.5rem);font-weight:300;letter-spacing:0.28em;color:#FFFFFF;text-transform:uppercase;transform:translateX(0.14em);text-shadow:0 4px 25px rgba(0,0,0,0.85)}
+.hero-title-by{font-family:var(--font-sans);font-size:clamp(10px,2.5vw,14px);font-weight:600;letter-spacing:0.38em;color:var(--gold);text-transform:uppercase;margin-top:0.4rem;transform:translateX(0.19em);text-shadow:0 2px 10px rgba(0,0,0,0.9)}
+.hero-filigree-divider{display:flex;align-items:center;justify-content:center;gap:1rem;width:220px;margin:0.5rem 0 1.2rem 0}
+.filigree-line{flex-grow:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.filigree-gem{color:var(--gold);font-size:11px}
+.hero-tagline{font-family:var(--font-sans);font-size:12px;font-weight:400;letter-spacing:0.16em;color:rgba(255,255,255,0.92);text-transform:uppercase;margin-bottom:2.2rem;max-width:620px;line-height:1.6;text-shadow:0 2px 10px rgba(0,0,0,0.9)}
+.hero-action-buttons{display:flex;align-items:center;justify-content:center;gap:1.2rem;flex-wrap:wrap}
+.hero-cta-btn{min-height:48px;padding:0.85rem 2.2rem;font-size:11px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;text-decoration:none;border-radius:4px;display:inline-flex;align-items:center;justify-content:center}
+.hero-cta-gold{background:var(--gold);color:#111111;border:1px solid var(--gold);box-shadow:0 6px 25px rgba(197,160,89,0.35)}
+.hero-cta-glass{background:rgba(18,18,18,0.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#FFFFFF;border:1px solid rgba(255,255,255,0.4)}
+i[class*="fa-"]{display:inline-block;min-width:1em;min-height:1em;vertical-align:middle;line-height:1}
+@media (max-width:992px){
+:root{--header-height:64px}
+.header-master-wrapper{position:fixed;top:0;left:0;width:100%;z-index:1000;background:#111111}
+.top-announcement-bar{height:32px;background:#0a0a0a;border-bottom:1px solid rgba(197,160,89,0.25)}
+.luxury-header{height:var(--header-height);background:rgba(18,18,18,0.98)}
+.nav-container{display:flex;align-items:center;justify-content:space-between;padding:0 0.8rem;height:100%}
+.nav-left,.nav-right .nav-link,.story-nav-trigger{display:none !important}
+.brand-logo{display:flex;flex-direction:column;align-items:center;justify-content:center}
+.logo-main{font-size:1.55rem !important;letter-spacing:0.18em !important;color:#FFFFFF !important}
+.logo-sub{font-size:7.5px !important;letter-spacing:0.22em !important;color:var(--gold) !important;margin-top:0.1rem}
+.nav-right{display:flex;align-items:center;gap:0.4rem}
+.mobile-menu-toggle{display:flex;align-items:center;justify-content:center;width:36px;height:36px;padding:6px}
+.mobile-menu-toggle span{width:100%;height:2px;background-color:var(--gold) !important;border-radius:2px;display:block}
+.main-content-layout{margin-top:96px;background:#111111}
+.hero-section{height:calc(88vh - 96px) !important;min-height:500px !important;background-color:#0f0f0f}
+.hero-content{padding:1.5rem 1rem !important;max-width:95%}
+.hero-crest-badge{padding:4px 14px !important;margin-bottom:0.8rem !important}
+.hero-crest-text{font-size:8.5px !important;letter-spacing:0.24em !important}
+.hero-title-main{font-size:clamp(2.4rem,10vw,3.4rem) !important;letter-spacing:0.24em !important}
+.hero-title-by{font-size:9.5px !important;letter-spacing:0.28em !important;color:var(--gold);margin-top:0.25rem !important}
+.hero-filigree-divider{width:160px !important;margin:0.4rem 0 0.8rem 0 !important}
+.hero-tagline{font-size:10.5px !important;letter-spacing:0.1em !important;margin-bottom:1.5rem !important;max-width:90%;line-height:1.5 !important}
+.hero-action-buttons{width:100% !important;gap:0.75rem !important}
+.hero-cta-btn{min-height:44px !important;padding:0.75rem 1.2rem !important;font-size:10px !important;flex:1 1 auto;max-width:175px}
+}
+    </style>
+
+    <!-- Main Stylesheet Loaded Asynchronously (Zero Layout Shift because box model matches critical CSS) -->
+    <link rel="preload" href="index.css?v=16.0" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="index.css?v=16.0"></noscript>
     <link rel="manifest" href="manifest.json">
 </head>
-
-
-
 
 <body>
 
@@ -1164,6 +995,242 @@
             window.addEventListener(evt, loadFirebase, { once: true, passive: true });
         });
     })();
+    </script>
+
+
+    <!-- Comprehensive JSON-LD Structured Data Graph for Google Rich Snippets & Sitelinks -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "ClothingStore",
+          "@id": "https://shapesbysatinderkaur.com/#store",
+          "name": "Shapes Boutique",
+          "alternateName": [
+            "Shapes",
+            "Shapes By Satiinder Kaur",
+            "Shapes Uniform",
+            "Shapes Boutique Chembur",
+            "Shapes Mumbai",
+            "Shapes Luxury Pret"
+          ],
+          "legalName": "SHAPES UNIFORM",
+          "url": "https://shapesbysatinderkaur.com",
+          "logo": "https://shapesbysatinderkaur.com/images/app_icon.webp",
+          "image": "https://shapesbysatinderkaur.com/images/welcome_coord_luxury.webp",
+          "description": "Shapes Boutique (operating brand: Shapes By Satiinder Kaur) is an exclusive designer boutique based in Chembur, Mumbai. Specializing in luxury printed silk co-ord sets, pure organic linen 2-piece sets, festive embroidered co-ords, and contemporary Indian luxury pret.",
+          "telephone": "+91 98333 92756",
+          "email": "shapesuniform@gmail.com",
+          "priceRange": "₹₹₹",
+          "currenciesAccepted": "INR, USD, GBP, EUR, AED",
+          "paymentAccepted": "Credit Card, Debit Card, UPI, Net Banking, Razorpay",
+          "hasMap": "https://maps.google.com/?q=Shapes+Boutique+Chembur+Mumbai",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Shop No 4, Bus Stop, Ghatla Village Rd, Near Maitri Park, Basant Garden, Chembur",
+            "addressLocality": "Mumbai",
+            "addressRegion": "Maharashtra",
+            "postalCode": "400071",
+            "addressCountry": "IN"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 19.0522,
+            "longitude": 72.8995
+          },
+          "areaServed": [
+            "Mumbai",
+            "Maharashtra",
+            "India",
+            "Worldwide"
+          ],
+          "openingHoursSpecification": [
+            {
+              "@type": "OpeningHoursSpecification",
+              "dayOfWeek": [
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+                "Sunday"
+              ],
+              "opens": "11:00",
+              "closes": "20:00"
+            }
+          ],
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.9",
+            "reviewCount": "49",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://shapesbysatinderkaur.com/#website",
+          "url": "https://shapesbysatinderkaur.com",
+          "name": "Shapes Boutique",
+          "alternateName": "Shapes By Satiinder Kaur",
+          "publisher": {
+            "@id": "https://shapesbysatinderkaur.com/#store"
+          },
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://shapesbysatinderkaur.com/#catalog?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://shapesbysatinderkaur.com/#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://shapesbysatinderkaur.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Designer Co-Ord Sets",
+              "item": "https://shapesbysatinderkaur.com/#catalog"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Our Story",
+              "item": "https://shapesbysatinderkaur.com/#story-section"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "Reviews",
+              "item": "https://shapesbysatinderkaur.com/#reviews-section"
+            }
+          ]
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://shapesbysatinderkaur.com/#faq",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Where is Shapes Boutique located in Mumbai?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Shapes Boutique is located at Shop No 4, Bus Stop, Ghatla Village Rd, Near Maitri Park, Basant Garden, Chembur, Mumbai, Maharashtra 400071, India. Open Monday to Sunday from 11:00 AM to 8:00 PM IST."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What collections does Shapes Boutique specialize in?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Shapes Boutique (Shapes By Satiinder Kaur) specializes in designer 2-piece co-ord sets, pure modal silk printed sets, organic linen V-neck co-ords, festive embroidered silk sets, and contemporary luxury pret."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What is the price range of designer co-ord sets at Shapes?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Designer co-ord sets at Shapes Boutique start from approximately ₹7,000 to ₹12,000, handcrafted in premium natural fabrics including pure linen, modal silk, and raw silk with tailored comfort fits."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Does Shapes Boutique ship across India and internationally?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, Shapes Boutique provides complimentary insured express courier delivery across India and international express shipping worldwide supporting multi-currency payments in INR, USD, GBP, EUR, and AED."
+              }
+            }
+          ]
+        },
+        {
+          "@type": "ItemList",
+          "itemListElement": [
+            {
+              "@type": "Product",
+              "position": 1,
+              "name": "The Noir Botanical Silk Co-Ord Set",
+              "description": "Opulent two-piece luxury designer co-ord set in pure modal silk with tailored button-down longline shirt tunic and matching wide-leg trousers.",
+              "image": "https://shapesbysatinderkaur.com/images/coord_black_floral.webp",
+              "brand": {
+                "@type": "Brand",
+                "name": "Shapes By Satiinder Kaur"
+              },
+              "offers": {
+                "@type": "Offer",
+                "price": "8900",
+                "priceCurrency": "INR",
+                "availability": "https://schema.org/InStock",
+                "url": "https://shapesbysatinderkaur.com/#catalog"
+              }
+            },
+            {
+              "@type": "Product",
+              "position": 2,
+              "name": "Ivory & Sand Minimalist Linen Co-Ord",
+              "description": "Refined everyday luxury two-piece set crafted from breathable pure slub linen with V-neck tunic and straight-cut trousers.",
+              "image": "https://shapesbysatinderkaur.com/images/coord_beige_linen.webp",
+              "brand": {
+                "@type": "Brand",
+                "name": "Shapes By Satiinder Kaur"
+              },
+              "offers": {
+                "@type": "Offer",
+                "price": "7490",
+                "priceCurrency": "INR",
+                "availability": "https://schema.org/InStock",
+                "url": "https://shapesbysatinderkaur.com/#catalog"
+              }
+            },
+            {
+              "@type": "Product",
+              "position": 3,
+              "name": "The Emerald Festive Silk Co-Ord Set",
+              "description": "Jewel-toned festive luxury co-ord set in rich emerald raw silk with hand-embroidered antique gold zardozi cuffs and palazzo trousers.",
+              "image": "https://shapesbysatinderkaur.com/images/coord_royal_emerald.webp",
+              "brand": {
+                "@type": "Brand",
+                "name": "Shapes By Satiinder Kaur"
+              },
+              "offers": {
+                "@type": "Offer",
+                "price": "11500",
+                "priceCurrency": "INR",
+                "availability": "https://schema.org/InStock",
+                "url": "https://shapesbysatinderkaur.com/#catalog"
+              }
+            },
+            {
+              "@type": "Product",
+              "position": 4,
+              "name": "Indigo Heritage Handblock Modal Set",
+              "description": "Artisanal two-piece fusion set in rich indigo blue handblock modal cotton with collared tunic and wide-leg trousers.",
+              "image": "https://shapesbysatinderkaur.com/images/coord_indigo_print.webp",
+              "brand": {
+                "@type": "Brand",
+                "name": "Shapes By Satiinder Kaur"
+              },
+              "offers": {
+                "@type": "Offer",
+                "price": "7990",
+                "priceCurrency": "INR",
+                "availability": "https://schema.org/InStock",
+                "url": "https://shapesbysatinderkaur.com/#catalog"
+              }
+            }
+          ]
+        }
+      ]
+    }
     </script>
 </body>
 </html>
