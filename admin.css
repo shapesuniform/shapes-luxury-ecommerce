@@ -1,4 +1,4 @@
-/* SHAPES Atelier - CMS styling sheet */
+/* SHAPES - CMS styling sheet */
 
 :root {
     --charcoal: #121212;
@@ -585,3 +585,250 @@ button, input, select, textarea {
         gap: 0;
     }
 }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   ANALYTICS & REVENUE CHARTS
+   ───────────────────────────────────────────────────────────────────────────── */
+.analytics-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.2rem;
+    margin-bottom: 2rem;
+}
+.kpi-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(197,160,89,0.2);
+    border-radius: 6px;
+    padding: 1.4rem;
+    position: relative;
+    overflow: hidden;
+}
+.kpi-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 3px; height: 100%;
+    background: var(--gold);
+}
+.kpi-title {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--grey-dark);
+    margin-bottom: 0.5rem;
+}
+.kpi-value {
+    font-family: var(--font-serif);
+    font-size: 2.2rem;
+    font-weight: 400;
+    color: var(--gold);
+    line-height: 1.1;
+}
+.kpi-sub {
+    font-size: 10px;
+    color: var(--grey-dark);
+    margin-top: 0.3rem;
+}
+
+.analytics-charts-split {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+@media (max-width: 900px) {
+    .analytics-charts-split { grid-template-columns: 1fr; }
+}
+.chart-box {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(197,160,89,0.15);
+    border-radius: 6px;
+    padding: 1.5rem;
+}
+.chart-box-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.2rem;
+}
+.chart-box-header h4 {
+    font-family: var(--font-serif);
+    font-size: 1.4rem;
+    color: var(--white);
+    letter-spacing: 0.05em;
+}
+.svg-chart-container {
+    width: 100%;
+    height: 220px;
+    position: relative;
+}
+.svg-chart-container svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   WORKSHOP ARTISAN PRODUCTION QUEUE (KANBAN)
+   ───────────────────────────────────────────────────────────────────────────── */
+.workshop-board {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.2rem;
+    align-items: start;
+    margin-top: 1rem;
+}
+.workshop-col {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(197,160,89,0.15);
+    border-radius: 6px;
+    padding: 1rem;
+    min-height: 400px;
+}
+.workshop-col-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid rgba(197,160,89,0.15);
+    margin-bottom: 1rem;
+}
+.workshop-col-header h4 {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--gold);
+}
+.workshop-col-badge {
+    font-size: 9px;
+    background: rgba(197,160,89,0.2);
+    color: var(--gold-light);
+    padding: 2px 6px;
+    border-radius: 10px;
+    font-weight: 600;
+}
+.workshop-card {
+    background: rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 4px;
+    padding: 1rem;
+    margin-bottom: 0.8rem;
+    transition: var(--transition);
+}
+.workshop-card:hover {
+    border-color: var(--gold);
+    transform: translateY(-2px);
+}
+.workshop-card-ref {
+    font-size: 10px;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+.workshop-card-client {
+    font-size: 12px;
+    color: var(--white);
+    font-weight: 500;
+}
+.workshop-card-item {
+    font-size: 11px;
+    color: rgba(255,255,255,0.7);
+    margin: 4px 0;
+}
+.workshop-card-notes {
+    font-size: 10px;
+    color: var(--gold-light);
+    background: rgba(197,160,89,0.08);
+    padding: 6px;
+    border-radius: 3px;
+    margin: 6px 0;
+    font-style: italic;
+}
+.workshop-stage-select {
+    width: 100%;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(197,160,89,0.2);
+    color: #fff;
+    font-size: 10px;
+    padding: 4px;
+    border-radius: 2px;
+    margin-top: 6px;
+    outline: none;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   WHATSAPP BROADCAST ENGINE
+   ───────────────────────────────────────────────────────────────────────────── */
+.broadcast-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+@media (max-width: 900px) {
+    .broadcast-layout { grid-template-columns: 1fr; }
+}
+.segment-pill {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(197,160,89,0.2);
+    color: var(--white);
+    padding: 0.6rem 1rem;
+    border-radius: 4px;
+    font-size: 11px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+.segment-pill.active {
+    background: var(--gold);
+    color: var(--charcoal);
+    font-weight: 600;
+}
+.wa-preview-box {
+    background: #0B141A;
+    border: 1px solid #2A3942;
+    border-radius: 8px;
+    padding: 1.5rem;
+    color: #E9EDEF;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    line-height: 1.6;
+    position: relative;
+}
+.wa-message-bubble {
+    background: #005C4B;
+    border-radius: 8px 8px 0 8px;
+    padding: 1rem 1.2rem;
+    margin-bottom: 0.5rem;
+    white-space: pre-wrap;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   PRINTABLE TAX INVOICE & PACKING SLIP STYLES
+   ───────────────────────────────────────────────────────────────────────────── */
+@media print {
+    body * {
+        visibility: hidden !important;
+    }
+    #invoice-print-container, #invoice-print-container * {
+        visibility: visible !important;
+    }
+    #invoice-print-container {
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 100% !important;
+        background: #fff !important;
+        color: #000 !important;
+        padding: 20mm !important;
+        display: block !important;
+    }
+}
+.printable-invoice-paper {
+    background: #fff;
+    color: #111;
+    padding: 2.5rem;
+    border-radius: 4px;
+    font-family: 'Montserrat', sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}
+

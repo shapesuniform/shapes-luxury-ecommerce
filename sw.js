@@ -1,4 +1,4 @@
-// SHAPES Atelier - Cache-Clear & Auto-Unregister Controller
+// SHAPES - Cache-Clear & Auto-Unregister Controller
 self.addEventListener("install", (event) => {
   self.skipWaiting();
 });

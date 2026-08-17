@@ -112,6 +112,9 @@ function initStore() {
 
     // Render elements
     renderStorefront();
+    renderClientReviews();
+    renderStoreJournal();
+    initStarRatingPicker();
     updateCartCount();
     updateWishlistCount();
     setupEventListeners();
@@ -1166,7 +1169,7 @@ if ("serviceWorker" in navigator) {
 if ("caches" in window) {
     caches.keys().then(keys => {
         keys.forEach(k => {
-            if (k.includes("shapes-atelier-v1")) caches.delete(k);
+            if (k.includes("shapes")) caches.delete(k);
         });
     });
 }
@@ -1239,10 +1242,401 @@ window.completeOrder = async function(paymentId) {
     } catch (e) { /* silent */ }
 };
 
+// ─────────────────────────────────────────────────────────────────────────────
+// LUXURY CLIENT REVIEWS & TESTIMONIALS CONTROLLER
+// ─────────────────────────────────────────────────────────────────────────────
+
+const DEFAULT_CLIENT_REVIEWS = [
+    {
+        id: "rev-1",
+        author: "Rhea Dhameja",
+        city: "Mumbai",
+        rating: 5,
+        category: "Bridal",
+        categoryLabel: "Palace Bridal Lehenga",
+        text: "Perfect stitching, great attention to detail, and excellent service by Gitu. The fit was absolutely royal for my wedding day! Received endless compliments on the handcrafted zardozi.",
+        verified: true,
+        date: "2 weeks ago"
+    },
+    {
+        id: "rev-2",
+        author: "Dr. Nishtha Mishra",
+        city: "Mumbai",
+        rating: 5,
+        category: "Corset",
+        categoryLabel: "Royal Zardozi Corset",
+        text: "They offer you best options, best designs and best fitting. The structural boning in the corset gives a breathtaking silhouette while remaining completely comfortable.",
+        verified: true,
+        date: "1 month ago"
+    },
+    {
+        id: "rev-3",
+        author: "Wilma Vaz",
+        city: "Goa / Mumbai",
+        rating: 5,
+        category: "Pret",
+        categoryLabel: "Contemporary Pret",
+        text: "Hands down, this is the best designer boutique with excellent customer service. The fabric quality and gold threadwork are sheer luxury.",
+        verified: true,
+        date: "3 weeks ago"
+    },
+    {
+        id: "rev-4",
+        author: "Priya Mehta",
+        city: "Dubai / Mumbai",
+        rating: 5,
+        category: "Bridal",
+        categoryLabel: "Bespoke Bridal Couture",
+        text: "Absolutely stunning craftsmanship. My bridal lehenga was beyond anything I imagined. Every bead was perfectly placed and delivered right on time.",
+        verified: true,
+        date: "1 month ago"
+    },
+    {
+        id: "rev-5",
+        author: "Ananya Deshmukh",
+        city: "Pune",
+        rating: 5,
+        category: "Corset",
+        categoryLabel: "Banarasi Brocade Corset",
+        text: "The combination of traditional Banarasi brocade with modern corsetry is pure genius. The finishing and inner lining are top tier!",
+        verified: true,
+        date: "2 months ago"
+    },
+    {
+        id: "rev-6",
+        author: "Simran Ahuja",
+        city: "Delhi NCR",
+        rating: 5,
+        category: "Pret",
+        categoryLabel: "Silk Velvet Draped Set",
+        text: "Exceptional luxury experience from measurement consultation to unboxing the signature archival hard-box packaging. Truly high couture.",
+        verified: true,
+        date: "2 months ago"
+    }
+];
+
+function getStoredClientReviews() {
+    try {
+        const stored = localStorage.getItem("shapes_client_reviews");
+        if (stored) {
+            const parsed = JSON.parse(stored);
+            if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        }
+    } catch (e) {}
+    localStorage.setItem("shapes_client_reviews", JSON.stringify(DEFAULT_CLIENT_REVIEWS));
+    return DEFAULT_CLIENT_REVIEWS;
+}
+
+let activeReviewCategory = "All";
+
+function renderClientReviews() {
+    const container = document.getElementById("testimonials-grid-container");
+    if (!container) return;
+
+    const allReviews = getStoredClientReviews();
+    const countDisplay = document.getElementById("reviews-count-display");
+    if (countDisplay) {
+        countDisplay.textContent = `${47 + (allReviews.length - DEFAULT_CLIENT_REVIEWS.length)}+ Verified Client Reviews`;
+    }
+
+    const filtered = activeReviewCategory === "All" 
+        ? allReviews 
+        : allReviews.filter(r => r.category === activeReviewCategory);
+
+    if (filtered.length === 0) {
+        container.innerHTML = `
+            <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--grey-medium);">
+                <i class="fa-solid fa-gem" style="font-size: 2rem; color: var(--gold); margin-bottom: 1rem; display: block;"></i>
+                <p style="font-size: 14px; font-family: var(--font-serif); font-style: italic;">No reviews in this category yet. Be the first to share your experience!</p>
+            </div>
+        `;
+        return;
+    }
+
+    container.innerHTML = filtered.map(r => {
+        const starsHtml = '<i class="fa-solid fa-star"></i>'.repeat(r.rating || 5);
+        const initials = r.author.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) || 'CL';
+        return `
+            <div class="testimonial-card">
+                <i class="fa-solid fa-quote-right quote-watermark"></i>
+                <div>
+                    <div class="card-top-row">
+                        <div class="stars">${starsHtml}</div>
+                        <span class="review-category-badge">${r.categoryLabel || r.category || 'Couture'}</span>
+                    </div>
+                    <p class="review-text">"${r.text}"</p>
+                </div>
+                <div class="reviewer-profile-row">
+                    <div class="reviewer-avatar">${initials}</div>
+                    <div class="reviewer-info-meta">
+                        <h4 class="client-name">
+                            ${r.author}
+                            ${r.verified ? '<span class="verified-icon-badge"><i class="fa-solid fa-circle-check"></i> Verified</span>' : ''}
+                        </h4>
+                        <div class="source-tag">
+                            <span><i class="fa-solid fa-location-dot" style="font-size:9px; color:var(--gold);"></i> ${r.city || 'India'}</span>
+                            <span>·</span>
+                            <span>${r.date || 'Verified Review'}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join("");
+}
+
+function filterClientReviews(category, btnElement) {
+    activeReviewCategory = category;
+    document.querySelectorAll(".review-filter-pill").forEach(p => p.classList.remove("active"));
+    if (btnElement) btnElement.classList.add("active");
+    renderClientReviews();
+}
+
+function openWriteReviewModal() {
+    const modal = document.getElementById("write-review-modal");
+    if (modal) {
+        modal.classList.add("active");
+        document.body.style.overflow = "hidden";
+    }
+}
+
+function closeWriteReviewModal() {
+    const modal = document.getElementById("write-review-modal");
+    if (modal) {
+        modal.classList.remove("active");
+        document.body.style.overflow = "";
+    }
+}
+
+function initStarRatingPicker() {
+    const picker = document.getElementById("review-stars-picker");
+    if (!picker) return;
+
+    const stars = picker.querySelectorAll("i");
+    const valInput = document.getElementById("review-rating-value");
+    const feedback = document.getElementById("star-rating-feedback");
+
+    const feedbackTexts = {
+        1: "★☆☆☆☆ Poor (1 / 5 Stars)",
+        2: "★★☆☆☆ Fair (2 / 5 Stars)",
+        3: "★★★☆☆ Good (3 / 5 Stars)",
+        4: "★★★★☆ Great (4 / 5 Stars)",
+        5: "★★★★★ Exceptional (5 / 5 Stars)"
+    };
+
+    stars.forEach(star => {
+        star.addEventListener("mouseenter", () => {
+            const rating = parseInt(star.getAttribute("data-rating"));
+            stars.forEach((s, idx) => {
+                s.classList.toggle("hovered", idx < rating);
+            });
+            if (feedback) feedback.textContent = feedbackTexts[rating] || "";
+        });
+
+        star.addEventListener("mouseleave", () => {
+            stars.forEach(s => s.classList.remove("hovered"));
+            const current = parseInt(valInput.value || "5");
+            if (feedback) feedback.textContent = feedbackTexts[current] || "";
+        });
+
+        star.addEventListener("click", () => {
+            const rating = parseInt(star.getAttribute("data-rating"));
+            valInput.value = rating;
+            stars.forEach((s, idx) => {
+                s.classList.toggle("selected", idx < rating);
+            });
+            if (feedback) feedback.textContent = feedbackTexts[rating] || "";
+        });
+    });
+}
+
+function handleClientReviewSubmit(e) {
+    e.preventDefault();
+    const name = document.getElementById("rev-author-name").value.trim();
+    const city = document.getElementById("rev-author-city").value.trim();
+    const categoryVal = document.getElementById("rev-category-select").value;
+    const categoryText = document.getElementById("rev-category-select").options[document.getElementById("rev-category-select").selectedIndex].text;
+    const rating = parseInt(document.getElementById("review-rating-value").value || "5");
+    const story = document.getElementById("rev-story-text").value.trim();
+
+    if (!name || !story) {
+        alert("Please enter your name and review details.");
+        return;
+    }
+
+    const newReview = {
+        id: "rev-" + Date.now(),
+        author: name,
+        city: city || "Mumbai",
+        rating: rating,
+        category: categoryVal,
+        categoryLabel: categoryText,
+        text: story,
+        verified: true,
+        date: "Just now"
+    };
+
+    // Save to localStorage
+    const currentReviews = getStoredClientReviews();
+    currentReviews.unshift(newReview);
+    localStorage.setItem("shapes_client_reviews", JSON.stringify(currentReviews));
+
+    // Also sync to Firestore if connected
+    if (window._dbStore && window._addDocStore && window._collectionStore) {
+        try {
+            window._addDocStore(window._collectionStore(window._dbStore, "reviews"), {
+                ...newReview,
+                createdAt: new Date().toISOString()
+            });
+        } catch (err) {
+            console.warn("Firestore review sync:", err.message);
+        }
+    }
+
+    // Refresh UI
+    renderClientReviews();
+    closeWriteReviewModal();
+
+    // Reset Form
+    document.getElementById("write-review-form").reset();
+    document.getElementById("review-rating-value").value = "5";
+    const stars = document.querySelectorAll("#review-stars-picker i");
+    stars.forEach(s => s.classList.add("selected"));
+
+    // Toast Alert
+    showToast("✨ Thank you! Your review is now featured in our Client Showcase.");
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// LUXURY JOURNAL (BLOG) STOREFRONT CONTROLLER
+// ─────────────────────────────────────────────────────────────────────────────
+
+const DEFAULT_STORE_JOURNAL = [
+    {
+        id: "art-1",
+        title: "The Architecture of Modern Zardozi Corsetry",
+        category: "Couture Craft",
+        author: "Satinder Kaur",
+        date: "Aug 15, 2026",
+        image: "images/heritage_craft.png",
+        excerpt: "Exploring the delicate balance between structural internal boning and antique metal thread embroidery on raw Banarasi silks.",
+        body: `Every bespoke corset crafted at Shapes By Satiinder Kaur begins as an architectural dialogue. We fuse centuries-old metal zardozi techniques with contemporary ergonomic boning, creating silhouettes that feel weightless while sculpting an iconic royal hourglass contour.
+        
+In our Mumbai boutique workshop, master artisans spend upwards of 120 hours meticulously setting antique metallic threads, dapka wire, and seed pearls onto handwoven silks. The result is a statement piece that bridges heirloom Indian craftsmanship with the clean lines of modern couture.
+
+Whether styled over a fluid drape saree, paired with a layered palace lehenga skirt, or worn with tailored silk trousers for an evening gala, the zardozi corset remains the defining signature of the modern Indian woman.`,
+        status: "published"
+    },
+    {
+        id: "art-2",
+        title: "Curating Your Palace Bridal Trousseau",
+        category: "Bridal Trousseau",
+        author: "Satinder Kaur",
+        date: "Aug 10, 2026",
+        image: "images/hero_bridal.png",
+        excerpt: "A comprehensive guide to selecting timeless handlooms, opulent zardozi lehengas, and convertible reception ensembles.",
+        body: `A bridal trousseau is an heirloom investment that tells the story of a lifetime. When designing our Empress Crimson and Royal Velvet lehengas, we focus on modular versatility—allowing brides to re-style blouses with draped skirts or pair zardozi dupattas with contemporary pret drapes for future celebrations.
+
+From selecting rich jewel tones that complement your wedding venue lighting to customizing neckline heights and sleeve embroidery, our private bridal consultations in Chembur ensure your bridal ensemble is uniquely yours.`,
+        status: "published"
+    }
+];
+
+function getStoreJournalArticles() {
+    try {
+        const stored = localStorage.getItem("shapes_journal_articles");
+        if (stored) {
+            const parsed = JSON.parse(stored);
+            if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        }
+    } catch(e) {}
+    localStorage.setItem("shapes_journal_articles", JSON.stringify(DEFAULT_STORE_JOURNAL));
+    return DEFAULT_STORE_JOURNAL;
+}
+
+function renderStoreJournal() {
+    const grid = document.getElementById("store-journal-grid");
+    if (!grid) return;
+
+    const articles = getStoreJournalArticles();
+    grid.innerHTML = articles.map(art => `
+        <article class="journal-card" onclick="openArticleReader('${art.id}')">
+            <div class="journal-card-img-wrapper">
+                <img src="${art.image || 'images/heritage_craft.png'}" alt="${art.title}" loading="lazy">
+                <span class="journal-category-tag">${art.category || 'Couture'}</span>
+            </div>
+            <div class="journal-card-content">
+                <div class="journal-meta">By ${art.author || 'Satinder Kaur'} · ${art.date || 'Recent Story'}</div>
+                <h3 class="journal-title">${art.title}</h3>
+                <p class="journal-excerpt">${art.excerpt}</p>
+                <span class="journal-read-link">Read Journal Story <i class="fa-solid fa-arrow-right-long"></i></span>
+            </div>
+        </article>
+    `).join("");
+}
+
+function openArticleReader(id) {
+    const articles = getStoreJournalArticles();
+    const art = articles.find(a => a.id === id) || articles[0];
+    if (!art) return;
+
+    const container = document.getElementById("journal-reader-content");
+    const modal = document.getElementById("journal-reader-modal");
+    if (!container || !modal) return;
+
+    container.innerHTML = `
+        <div style="text-align:center; margin-bottom:2rem;">
+            <span style="font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); display:block; margin-bottom:8px;">${art.category}</span>
+            <h2 style="font-family:var(--font-serif); font-size:2.4rem; color:var(--gold-light); font-weight:300; line-height:1.2; margin:0 0 1rem 0;">${art.title}</h2>
+            <div style="font-size:11px; color:var(--grey-dark); text-transform:uppercase; letter-spacing:0.1em;">
+                Words by <strong>${art.author}</strong> &nbsp;·&nbsp; ${art.date}
+            </div>
+        </div>
+
+        <div style="width:100%; height:320px; border-radius:6px; overflow:hidden; margin-bottom:2rem; border:1px solid rgba(197,160,89,0.2);">
+            <img src="${art.image || 'images/heritage_craft.png'}" style="width:100%; height:100%; object-fit:cover;" alt="${art.title}">
+        </div>
+
+        <div style="font-size:14px; line-height:1.9; color:rgba(255,255,255,0.85); font-family:var(--font-sans); white-space:pre-wrap; margin-bottom:2.5rem;">
+${art.body}
+        </div>
+
+        <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(197,160,89,0.25); border-radius:6px; padding:1.5rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+            <div>
+                <h4 style="font-family:var(--font-serif); font-size:1.3rem; color:var(--gold); margin:0 0 4px 0;">Experience Bespoke Couture</h4>
+                <p style="font-size:11px; color:var(--grey); margin:0;">Book a private fitting session with designer Satinder Kaur.</p>
+            </div>
+            <a href="contact.html" class="primary-btn" style="padding:0.7rem 1.4rem; font-size:11px;">
+                <i class="fa-solid fa-calendar-check"></i> Book Consultation
+            </a>
+        </div>
+    `;
+
+    modal.classList.add("active");
+    document.body.style.overflow = "hidden";
+}
+
+function closeArticleReader() {
+    const modal = document.getElementById("journal-reader-modal");
+    if (modal) {
+        modal.classList.remove("active");
+        document.body.style.overflow = "";
+    }
+}
+
 // Global Window Exports
 window.toggleWishlist = toggleWishlist;
 window.openWishlistDrawer = openWishlistDrawer;
 window.closeWishlistDrawer = closeWishlistDrawer;
 window.setCurrency = setCurrency;
 window.openProductDetail = openProductDetail;
+window.openWriteReviewModal = openWriteReviewModal;
+window.closeWriteReviewModal = closeWriteReviewModal;
+window.filterClientReviews = filterClientReviews;
+window.handleClientReviewSubmit = handleClientReviewSubmit;
+window.openArticleReader = openArticleReader;
+window.closeArticleReader = closeArticleReader;
+window.renderStoreJournal = renderStoreJournal;
+
+
 
