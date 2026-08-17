@@ -296,7 +296,36 @@
         window._googleProvider = new GoogleAuthProvider();
         window._signInWithPopup = signInWithPopup;
 
-        async function recordCustomerLogin(user, extraData = {}) {
+        
+function syncUserToAdminDirectory(userObj) {
+    try {
+        let clients = JSON.parse(localStorage.getItem("shapes_registered_clients") || "[]");
+        const existingIdx = clients.findIndex(c => c.email === userObj.email || c.uid === userObj.uid);
+        const newClientData = {
+            id: userObj.uid || "client_" + Date.now(),
+            uid: userObj.uid || "client_" + Date.now(),
+            name: userObj.displayName || userObj.name || "Shapes Client",
+            email: userObj.email || "",
+            phone: userObj.phone || userObj.phoneNumber || "+91 Contact Pending",
+            authProvider: userObj.authProvider || (userObj.providerData && userObj.providerData[0] ? userObj.providerData[0].providerId : "Google / Password"),
+            joinedDate: new Date().toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }),
+            totalOrders: userObj.totalOrders || 1,
+            status: "Active VIP Client"
+        };
+
+        if (existingIdx > -1) {
+            clients[existingIdx] = { ...clients[existingIdx], ...newClientData };
+        } else {
+            clients.unshift(newClientData);
+        }
+        localStorage.setItem("shapes_registered_clients", JSON.stringify(clients));
+    } catch(e) {
+        console.error("Error syncing client to admin directory:", e);
+    }
+}
+
+async function recordCustomerLogin(user, extraData = {}) {
+    syncUserToAdminDirectory({ ...user, ...extraData });
             try {
                 const q = query(collection(db, "customers"), where("uid", "==", user.uid));
                 const snap = await getDocs(q);

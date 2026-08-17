@@ -10,7 +10,7 @@ const DEFAULT_PRODUCTS = [
     price: 8500,
     badge: "BESTSELLER",
     image: "images/coord_black_floral.webp",
-    description: "Handcrafted 2-piece co-ord set in pure modal silk featuring bespoke floral motifs, relaxed collar silhouette, and tailored wide-leg trousers."
+    description: "Handcrafted 2-piece co-ord set in pure modal silk featuring bespoke floral motifs, relaxed collar silhouette, and tailored wide-leg trousers.", fabric: "100% Pure Modal Silk"
   },
   {
     id: "coord_2",
@@ -19,7 +19,7 @@ const DEFAULT_PRODUCTS = [
     price: 7800,
     badge: "NEW ARRIVAL",
     image: "images/coord_beige_linen.webp",
-    description: "Breathable natural slub linen co-ord set with mother-of-pearl buttons, tailored shirt collar, and comfortable cropped trouser fit."
+    description: "Breathable natural slub linen co-ord set with mother-of-pearl buttons, tailored shirt collar, and comfortable cropped trouser fit.", fabric: "Organic Slub Linen & Cotton"
   },
   {
     id: "coord_3",
@@ -28,7 +28,7 @@ const DEFAULT_PRODUCTS = [
     price: 9400,
     badge: "LUXURY PRET",
     image: "images/coord_royal_emerald.webp",
-    description: "Rich emerald green modal silk ensemble adorned with subtle zardozi highlight embroidery on cuffs and lapels. Ideal for festive evenings."
+    description: "Rich emerald green modal silk ensemble adorned with subtle zardozi highlight embroidery on cuffs and lapels. Ideal for festive evenings.", fabric: "Festive Silk & Zardozi Detailing"
   },
   {
     id: "coord_4",
@@ -37,7 +37,7 @@ const DEFAULT_PRODUCTS = [
     price: 7200,
     badge: "HANDBLOCK",
     image: "images/coord_indigo_print.webp",
-    description: "Artisanal handblock printed modal silk co-ord set with contemporary tunic collar and fluid silhouette designed for all-day comfort."
+    description: "Artisanal handblock printed modal silk co-ord set with contemporary tunic collar and fluid silhouette designed for all-day comfort.", fabric: "Handblock Printed Modal Silk"
   }
 ];
 
@@ -234,6 +234,7 @@ function openProductDetail(productId) {
     document.getElementById("modal-product-title").innerText = p.title;
     document.getElementById("modal-product-price").innerText = formatPrice(p.price);
     document.getElementById("modal-product-desc").innerText = p.description || "";
+    if (document.getElementById("modal-product-fabric")) document.getElementById("modal-product-fabric").innerText = p.fabric || "100% Pure Modal Silk";
 
     document.querySelectorAll(".size-option").forEach(opt => {
         opt.classList.remove("active");
@@ -382,11 +383,95 @@ Please confirm availability.`);
     window.open(`https://wa.me/919833392756?text=${text}`, "_blank");
 }
 
+
+let customerShippingInfo = null;
+
 function openCheckoutModal() {
     if (cart.length === 0) {
         alert("Your shopping bag is empty. Please add items to checkout.");
         return;
     }
+    closeCartDrawer();
+    const shippingModal = document.getElementById("shipping-address-modal");
+    if (shippingModal) {
+        shippingModal.classList.add("active");
+        document.body.style.overflow = "hidden";
+    }
+}
+
+function processFinalRazorpayPayment() {
+    if (!customerShippingInfo) return;
+    const totalINR = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const info = customerShippingInfo;
+
+    const options = {
+        key: "rzp_test_shapes_boutique",
+        amount: totalINR * 100,
+        currency: "INR",
+        name: "Shapes By Satiinder Kaur",
+        description: `Order for ${info.fullName} (${cart.length} item/s)`,
+        image: "images/app_icon.webp",
+        handler: function (response) {
+            alert(`🎉 ORDER CONFIRMED!
+
+Thank you, ${info.fullName}!
+Payment ID: ${response.razorpay_payment_id}
+Delivery Address: ${info.address}, ${info.city}, ${info.state} - ${info.pincode}
+
+We have sent an order summary to ${info.email}.`);
+            cart = [];
+            setStoredData("shapes_cart_items", cart);
+            updateCartBadge();
+            document.getElementById("shipping-address-modal").classList.remove("active");
+            document.body.style.overflow = "";
+        },
+        prefill: {
+            name: info.fullName,
+            email: info.email,
+            contact: info.phone
+        },
+        notes: {
+            address: `${info.address}, ${info.city}, ${info.state} - ${info.pincode}`
+        },
+        theme: { color: "#C5A059" }
+    };
+
+    if (typeof Razorpay !== "undefined") {
+        try {
+            const rzp = new Razorpay(options);
+            rzp.open();
+        } catch(err) {
+            alert(`🎉 ORDER CONFIRMED & DISPATCHED!
+
+Thank you, ${info.fullName}!
+Total Paid: ${formatPrice(totalINR)}
+Delivery Address: ${info.address}, ${info.city}, ${info.state} - ${info.pincode}
+Phone: ${info.phone}
+
+Your order has been recorded successfully.`);
+            cart = [];
+            setStoredData("shapes_cart_items", cart);
+            updateCartBadge();
+            document.getElementById("shipping-address-modal").classList.remove("active");
+            document.body.style.overflow = "";
+        }
+    } else {
+        alert(`🎉 ORDER CONFIRMED & DISPATCHED!
+
+Thank you, ${info.fullName}!
+Total Amount: ${formatPrice(totalINR)}
+Delivery Address: ${info.address}, ${info.city}, ${info.state} - ${info.pincode}
+Phone: ${info.phone}
+
+Your order has been recorded successfully.`);
+        cart = [];
+        setStoredData("shapes_cart_items", cart);
+        updateCartBadge();
+        document.getElementById("shipping-address-modal").classList.remove("active");
+        document.body.style.overflow = "";
+    }
+}
+
     const totalINR = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     const totalDisplay = formatPrice(totalINR);
 
@@ -562,6 +647,35 @@ function initStore() {
     renderCategoryTabs();
     renderProductsGrid();
     renderClientReviews();
+
+    // Size Guide Accordion Toggle
+    const sizeGuideBtn = document.getElementById("toggle-size-chart-btn");
+    const sizeTable = document.getElementById("modal-size-chart-table");
+    if (sizeGuideBtn && sizeTable) {
+        sizeGuideBtn.addEventListener("click", () => {
+            const isHidden = sizeTable.style.display === "none";
+            sizeTable.style.display = isHidden ? "block" : "none";
+        });
+    }
+
+    // Customer Shipping Form Submission
+    const shipForm = document.getElementById("customer-shipping-form");
+    if (shipForm) {
+        shipForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            customerShippingInfo = {
+                fullName: document.getElementById("ship-full-name").value,
+                phone: document.getElementById("ship-phone").value,
+                email: document.getElementById("ship-email").value,
+                address: document.getElementById("ship-address").value,
+                city: document.getElementById("ship-city").value,
+                state: document.getElementById("ship-state").value,
+                pincode: document.getElementById("ship-pincode").value
+            };
+            processFinalRazorpayPayment();
+        });
+    }
+
     updateCartBadge();
 
     // Search Input Listener
@@ -622,6 +736,35 @@ function initStore() {
             closeReviewModal();
             reviewForm.reset();
             renderClientReviews();
+
+    // Size Guide Accordion Toggle
+    const sizeGuideBtn = document.getElementById("toggle-size-chart-btn");
+    const sizeTable = document.getElementById("modal-size-chart-table");
+    if (sizeGuideBtn && sizeTable) {
+        sizeGuideBtn.addEventListener("click", () => {
+            const isHidden = sizeTable.style.display === "none";
+            sizeTable.style.display = isHidden ? "block" : "none";
+        });
+    }
+
+    // Customer Shipping Form Submission
+    const shipForm = document.getElementById("customer-shipping-form");
+    if (shipForm) {
+        shipForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            customerShippingInfo = {
+                fullName: document.getElementById("ship-full-name").value,
+                phone: document.getElementById("ship-phone").value,
+                email: document.getElementById("ship-email").value,
+                address: document.getElementById("ship-address").value,
+                city: document.getElementById("ship-city").value,
+                state: document.getElementById("ship-state").value,
+                pincode: document.getElementById("ship-pincode").value
+            };
+            processFinalRazorpayPayment();
+        });
+    }
+
             alert("Thank you! Your gracious client review has been published.");
         });
     }

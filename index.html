@@ -80,6 +80,9 @@
                         <option value="EUR">EUR (€)</option>
                     </select>
 
+                    <a href="account.html" class="nav-icon-btn" id="account-nav-trigger" title="Client Account / Login">
+                        <i class="fa-regular fa-user"></i>
+                    </a>
                     <button class="nav-icon-btn" id="wishlist-nav-trigger" onclick="alert('Your Wishlist contains saved items.')" title="Wishlist">
                         <i class="fa-regular fa-heart"></i>
                     </button>
@@ -381,8 +384,43 @@
                     <div class="modal-product-price" id="modal-product-price">₹0</div>
                     <p class="modal-product-desc" id="modal-product-desc">Description</p>
 
+                    <div class="product-specifications-box">
+                        <div class="spec-item"><i class="fa-solid fa-layer-group spec-icon"></i> <span><strong>Fabric:</strong> <span id="modal-product-fabric">100% Pure Modal Silk</span></span></div>
+                        <div class="spec-item"><i class="fa-solid fa-shirt spec-icon"></i> <span><strong>Fit & Silhouette:</strong> Relaxed 2-Piece Co-Ord Fit</span></div>
+                        <div class="spec-item"><i class="fa-solid fa-sparkles spec-icon"></i> <span><strong>Craftsmanship:</strong> Artisanal Digital & Handblock Print</span></div>
+                        <div class="spec-item"><i class="fa-solid fa-hand-holding-droplet spec-icon"></i> <span><strong>Care:</strong> Gentle Hand Wash / Dry Clean Only</span></div>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin: 1.2rem 0 0.8rem 0;">
+                        <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.15em; color: var(--gold-light); font-weight: 600;">Select Size</span>
+                        <button type="button" id="toggle-size-chart-btn" style="font-size: 10.5px; color: var(--gold); background: none; border: none; cursor: pointer; text-decoration: underline;">
+                            <i class="fa-solid fa-ruler-combined" style="margin-right: 4px;"></i> Size Guide (Bust / Waist / Length)
+                        </button>
+                    </div>
+
+                    <!-- Size Chart Accordion Table -->
+                    <div id="modal-size-chart-table" class="size-chart-wrapper" style="display: none; background: #181818; border: 1px solid rgba(197, 160, 89, 0.3); border-radius: 6px; padding: 1rem; margin-bottom: 1.2rem;">
+                        <table style="width: 100%; font-size: 11px; color: rgba(255,255,255,0.85); text-align: center; border-collapse: collapse;">
+                            <thead>
+                                <tr style="border-bottom: 1px solid var(--gold); color: var(--gold-light);">
+                                    <th style="padding: 6px;">Size</th>
+                                    <th style="padding: 6px;">Bust (in)</th>
+                                    <th style="padding: 6px;">Waist (in)</th>
+                                    <th style="padding: 6px;">Hip (in)</th>
+                                    <th style="padding: 6px;">Trouser (in)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);"><td style="padding: 5px;">XS</td><td>32-34</td><td>26-28</td><td>36-38</td><td>38</td></tr>
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);"><td style="padding: 5px;">S</td><td>34-36</td><td>28-30</td><td>38-40</td><td>39</td></tr>
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);"><td style="padding: 5px;">M</td><td>36-38</td><td>30-32</td><td>40-42</td><td>39.5</td></tr>
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);"><td style="padding: 5px;">L</td><td>38-40</td><td>32-34</td><td>42-44</td><td>40</td></tr>
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);"><td style="padding: 5px;">XL</td><td>40-42</td><td>34-36</td><td>44-46</td><td>40.5</td></tr>
+                                <tr><td style="padding: 5px;">XXL</td><td>42-44</td><td>36-38</td><td>46-48</td><td>41</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
                     <div class="size-selection-area">
-                        <label>Select Size</label>
                         <div class="sizes-grid" id="modal-sizes-container">
                             <span class="size-option" data-size="XS">XS</span>
                             <span class="size-option" data-size="S">S</span>
@@ -394,7 +432,6 @@
                     </div>
 
                     <button class="add-to-cart-action-btn" id="modal-add-to-cart-btn" onclick="addCurrentActiveProductToCart()">Add To Bag</button>
-                    <button class="add-to-cart-action-btn" id="modal-whatsapp-inquire-btn" onclick="shareActiveProductOnWhatsApp()" style="background: transparent; border-color: var(--gold); color: #FFFFFF; margin-top: 10px;">Inquire On WhatsApp</button>
                 </div>
             </div>
         </div>
@@ -471,6 +508,52 @@
             <span>Added to Shopping Bag</span>
         </div>
         <a href="javascript:void(0)" class="toast-view-bag-btn" id="toast-view-bag-btn">VIEW BAG &rarr;</a>
+    </div>
+    <!-- Customer Shipping & Contact Information Modal -->
+    <div class="luxury-modal" id="shipping-address-modal">
+        <div class="review-modal-content" style="max-width: 680px;">
+            <span class="close-review-modal-btn" id="close-shipping-modal" onclick="document.getElementById('shipping-address-modal').classList.remove('active')">&times;</span>
+            <div class="review-modal-header">
+                <span class="sub-title" style="margin-bottom: 0.3rem;">Secure Checkout</span>
+                <h2>Shipping &amp; Contact Details</h2>
+                <p class="review-modal-subtitle">Please enter your delivery destination to proceed with insured shipping &amp; order confirmation.</p>
+            </div>
+            <form id="customer-shipping-form" class="review-form">
+                <div class="form-group">
+                    <label for="ship-full-name">Full Customer Name *</label>
+                    <input type="text" id="ship-full-name" placeholder="e.g. Ananya Sharma" required>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label for="ship-phone">Mobile Number (For WhatsApp Updates) *</label>
+                        <input type="tel" id="ship-phone" placeholder="e.g. +91 98765 43210" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="ship-email">Email Address *</label>
+                        <input type="email" id="ship-email" placeholder="e.g. customer@gmail.com" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="ship-address">Shipping Address (Flat/House No, Building, Street, Landmark) *</label>
+                    <textarea id="ship-address" rows="3" placeholder="Enter complete delivery street address..." required></textarea>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label for="ship-city">City *</label>
+                        <input type="text" id="ship-city" placeholder="e.g. Mumbai" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="ship-state">State *</label>
+                        <input type="text" id="ship-state" placeholder="e.g. Maharashtra" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="ship-pincode">Pincode / Postal Code *</label>
+                        <input type="text" id="ship-pincode" placeholder="e.g. 400071" required>
+                    </div>
+                </div>
+                <button type="submit" class="submit-review-btn" style="margin-top: 1rem;">Confirm Shipping Details &amp; Pay</button>
+            </form>
+        </div>
     </div>
 </body>
 </html>
