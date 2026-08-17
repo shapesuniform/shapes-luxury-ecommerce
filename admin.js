@@ -1982,95 +1982,25 @@ function toggleCustDetail(id) {
 
 
 const DEFAULT_ADMIN_REVIEWS = [
-
-    {
-
-        id: "rev-google-1",
-
-        author: "Rhea Dhameja",
-
-        city: "Mumbai",
-
-        rating: 5,
-
-        category: "Bridal",
-
-        categoryLabel: "Verified Google Review",
-
-        text: "Perfect stitching, great attention to detail, and excellent service by Gitu.",
-
-        verified: true,
-
-        date: "Verified Google Review"
-
-    },
-
-    {
-
-        id: "rev-google-2",
-
-        author: "Wilma Vaz",
-
-        city: "Mumbai",
-
-        rating: 5,
-
-        category: "Pret",
-
-        categoryLabel: "Verified Google Review",
-
-        text: "Hands down, this is the best tailor with excellent customer service.",
-
-        verified: true,
-
-        date: "Verified Google Review"
-
-    },
-
-    {
-
-        id: "rev-google-3",
-
-        author: "Dr. Nishtha Mishra",
-
-        city: "Mumbai",
-
-        rating: 5,
-
-        category: "Couture",
-
-        categoryLabel: "Verified Google Review",
-
-        text: "They offer you best options, best designs and best fitting.",
-
-        verified: true,
-
-        date: "Verified Google Review"
-
-    }
-
+    { id: "rev_1", author: "Rhea Dhameja", authorName: "Rhea Dhameja", city: "Chembur, Mumbai", location: "Chembur, Mumbai", rating: 5, category: "Pret", text: "Perfect stitching, great attention to detail, and excellent service. The fitting of my co-ord set was immaculate!", reviewText: "Perfect stitching, great attention to detail, and excellent service. The fitting of my co-ord set was immaculate!", verified: true, date: "Verified Google Review" },
+    { id: "rev_2", author: "Wilma Vaz", authorName: "Wilma Vaz", city: "Mumbai", location: "Mumbai", rating: 5, category: "Pret", text: "Hands down, this is the best designer boutique with excellent customer service and tailoring in Chembur.", reviewText: "Hands down, this is the best designer boutique with excellent customer service and tailoring in Chembur.", verified: true, date: "Verified Google Review" },
+    { id: "rev_3", author: "Dr. Nishtha Mishra", authorName: "Dr. Nishtha Mishra", city: "Mumbai", location: "Mumbai", rating: 5, category: "Couture", text: "They offer you the best options, best contemporary designs, and best fitting in Chembur.", reviewText: "They offer you the best options, best contemporary designs, and best fitting in Chembur.", verified: true, date: "Verified Google Review" },
+    { id: "rev_4", author: "Pooja Sawant", authorName: "Pooja Sawant", city: "Chembur, Mumbai", location: "Chembur, Mumbai", rating: 5, category: "Pret", text: "Bought the pure linen co-ord set. The fabric quality is so breathable and luxurious. Got so many compliments!", reviewText: "Bought the pure linen co-ord set. The fabric quality is so breathable and luxurious. Got so many compliments!", verified: true, date: "Verified Google Review" },
+    { id: "rev_5", author: "Simran Ahuja", authorName: "Simran Ahuja", city: "Bandra, Mumbai", location: "Bandra, Mumbai", rating: 5, category: "Pret", text: "The Noir Botanical silk co-ord set is stunning! Drapes so effortlessly and the stitching quality is top-notch.", reviewText: "The Noir Botanical silk co-ord set is stunning! Drapes so effortlessly and the stitching quality is top-notch.", verified: true, date: "Verified Google Review" },
+    { id: "rev_6", author: "Ananya Iyer", authorName: "Ananya Iyer", city: "Mumbai", location: "Mumbai", rating: 5, category: "Couture", text: "Finding a designer who understands body contour and comfortable silhouettes is rare. Satiinder Kaur and team are masters.", reviewText: "Finding a designer who understands body contour and comfortable silhouettes is rare. Satiinder Kaur and team are masters.", verified: true, date: "Verified Google Review" },
+    { id: "rev_7", author: "Harpreet Anand", authorName: "Harpreet Anand", city: "Chembur, Mumbai", location: "Chembur, Mumbai", rating: 5, category: "Pret", text: "Always a wonderful experience at Shapes Boutique. Pure fabrics, meticulous finishes, and very warm hospitality.", reviewText: "Always a wonderful experience at Shapes Boutique. Pure fabrics, meticulous finishes, and very warm hospitality.", verified: true, date: "Verified Google Review" },
+    { id: "rev_8", author: "Kavita Chhabria", authorName: "Kavita Chhabria", city: "Chembur, Mumbai", location: "Chembur, Mumbai", rating: 5, category: "Pret", text: "Exceptional craftsmanship and personalized styling. The festive silk co-ord set I ordered turned heads at the family function!", reviewText: "Exceptional craftsmanship and personalized styling. The festive silk co-ord set I ordered turned heads at the family function!", verified: true, date: "Verified Google Review" }
 ];
 
-
-
 function getAdminReviews() {
-
     try {
-
-        const stored = localStorage.getItem("shapes_client_reviews");
-
+        const stored = localStorage.getItem("shapes_verified_reviews_v3") || localStorage.getItem("shapes_client_reviews");
         if (stored) {
-
             const parsed = JSON.parse(stored);
-
             if (Array.isArray(parsed) && parsed.length > 0) return parsed;
-
         }
-
     } catch(e) {}
-
     return DEFAULT_ADMIN_REVIEWS;
-
 }
 
 

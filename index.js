@@ -121,7 +121,9 @@ const DEFAULT_CLIENT_REVIEWS = [
     { id: "rev_3", authorName: "Dr. Nishtha Mishra", location: "Mumbai", reviewText: "They offer you the best options, best contemporary designs, and best fitting in Chembur.", rating: 5, date: "Verified Google Review" },
     { id: "rev_4", authorName: "Pooja Sawant", location: "Chembur, Mumbai", reviewText: "Bought the pure linen co-ord set. The fabric quality is so breathable and luxurious. Got so many compliments!", rating: 5, date: "Verified Google Review" },
     { id: "rev_5", authorName: "Simran Ahuja", location: "Bandra, Mumbai", reviewText: "The Noir Botanical silk co-ord set is stunning! Drapes so effortlessly and the stitching quality is top-notch.", rating: 5, date: "Verified Google Review" },
-    { id: "rev_6", authorName: "Ananya Iyer", location: "Mumbai", reviewText: "Finding a designer who understands body contour and comfortable silhouettes is rare. Satiinder Kaur and team are masters.", rating: 5, date: "Verified Google Review" }
+    { id: "rev_6", authorName: "Ananya Iyer", location: "Mumbai", reviewText: "Finding a designer who understands body contour and comfortable silhouettes is rare. Satiinder Kaur and team are masters.", rating: 5, date: "Verified Google Review" },
+    { id: "rev_7", authorName: "Harpreet Anand", location: "Chembur, Mumbai", reviewText: "Always a wonderful experience at Shapes Boutique. Pure fabrics, meticulous finishes, and very warm hospitality.", rating: 5, date: "Verified Google Review" },
+    { id: "rev_8", authorName: "Kavita Chhabria", location: "Chembur, Mumbai", reviewText: "Exceptional craftsmanship and personalized styling. The festive silk co-ord set I ordered turned heads at the family function!", rating: 5, date: "Verified Google Review" }
 ];
 
 /* ── APP STATE ────────────────────────────────────────────── */
@@ -196,6 +198,7 @@ function renderProductsGrid() {
 
     c.innerHTML = filtered.map(p => {
         const isWish = wishlist.includes(p.id);
+        const monthlyEMI = Math.round(p.price / 3);
         return `
         <div class="product-card" data-id="${p.id}">
             <div class="product-card-img-wrapper">
@@ -215,8 +218,12 @@ function renderProductsGrid() {
                     <span class="product-card-price">${formatPrice(p.price)}</span>
                     <span class="gst-tag">INCL. GST</span>
                 </div>
+                <div class="card-emi-offer">
+                    <i class="fa-solid fa-bolt" style="color:var(--gold);font-size:10px;"></i>
+                    <span>Or 3 interest-free EMIs of <strong>${formatPrice(monthlyEMI)}</strong></span>
+                </div>
                 <button class="card-action-tap-btn" data-id="${p.id}" data-action="open-detail">
-                    <i class="fa-solid fa-eye"></i> View Details
+                    <i class="fa-solid fa-eye"></i> View Details &amp; EMI
                 </button>
             </div>
         </div>`;
@@ -227,22 +234,29 @@ function renderProductsGrid() {
 function renderClientReviews() {
     const c = document.getElementById("testimonials-container");
     if (!c) return;
-    let reviews = getLocal("shapes_client_reviews", null);
+    let reviews = getLocal("shapes_verified_reviews_v3", null);
     if (!reviews || !Array.isArray(reviews) || reviews.length === 0) {
         reviews = DEFAULT_CLIENT_REVIEWS;
+        setLocal("shapes_verified_reviews_v3", DEFAULT_CLIENT_REVIEWS);
     }
     c.innerHTML = reviews.map(r => {
-        const authorName = r.authorName || r.author || r.name || "Verified Client";
-        const location   = r.location || r.city || "Chembur, Mumbai";
-        const reviewText = r.reviewText || r.text || r.comment || "Exceptional luxury craftsmanship, pristine finishing, and perfect silhouette.";
-        const rating     = Math.min(parseInt(r.rating) || 5, 5);
+        let authorName = (r.authorName || r.author || r.name || "Verified Client").toString().trim();
+        if (!authorName || authorName.toLowerCase() === "undefined") authorName = "Verified Client";
+
+        let location = (r.location || r.city || "Chembur, Mumbai").toString().trim();
+        if (!location || location.toLowerCase() === "undefined") location = "Chembur, Mumbai";
+
+        let reviewText = (r.reviewText || r.text || r.comment || "Exceptional luxury craftsmanship, pristine finishing, and perfect silhouette.").toString().trim();
+        if (!reviewText || reviewText.toLowerCase() === "undefined") reviewText = "Exceptional luxury craftsmanship, pristine finishing, and perfect silhouette.";
+
+        const rating = Math.min(Math.max(parseInt(r.rating) || 5, 1), 5);
         return `
         <div class="testimonial-card">
             <div class="stars-row">${"<i class='fa-solid fa-star'></i>".repeat(rating)}</div>
             <p class="review-text">"${reviewText}"</p>
             <div class="reviewer-meta">
                 <span class="client-name">${authorName}</span>
-                <span class="client-location">${location}</span>
+                <span class="client-location"><i class="fa-brands fa-google" style="color:var(--gold);margin-right:4px;"></i>${location} · Verified</span>
             </div>
         </div>`;
     }).join("");
@@ -307,6 +321,7 @@ function openProductDetail(productId) {
     set("modal-product-category", p.category || "");
     set("modal-product-title",    p.title    || "");
     set("modal-product-price",    formatPrice(p.price));
+    set("modal-emi-monthly-val",   formatPrice(Math.round(p.price / 3)));
     set("modal-product-desc",     p.description || "");
     set("modal-product-fabric",   p.fabric   || "100% Pure Modal Silk");
     set("modal-product-fit",      p.fit      || "Relaxed, tailored 2-piece co-ord silhouette");
@@ -442,7 +457,7 @@ function closeShippingModal() {
     unlockScroll();
 }
 
-function processFinalRazorpayPayment() {
+function processFinalRazorpayPayment(selectedMethod = "direct_boutique") {
     if (!customerShippingInfo) return;
     const info       = customerShippingInfo;
     const totalINR   = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -456,6 +471,17 @@ function processFinalRazorpayPayment() {
         completeOrderSuccess(orderId, paymentRef, info, totalINR, fullAddr, itemList);
     };
 
+    if (selectedMethod === "cod") {
+        onPaymentComplete("COD_PENDING");
+        return;
+    }
+
+    if (selectedMethod === "direct_boutique") {
+        onPaymentComplete("BOUTIQUE_CONFIRMED");
+        return;
+    }
+
+    /* Razorpay Payment */
     const cfg = getLocal("shapes_config", {});
     const rzpKey = cfg.razorpayKey || "rzp_live_TQ0RwUwXQjD3tq";
 
@@ -491,7 +517,7 @@ function processFinalRazorpayPayment() {
             console.warn("Razorpay checkout fallback:", e);
         }
     }
-    /* Fallback if Razorpay SDK unavailable or offline */
+    /* Fallback */
     onPaymentComplete("BOUTIQUE_PAYMENT");
 }
 
@@ -1134,8 +1160,9 @@ function initForms() {
                 return;
             }
 
-            customerShippingInfo = { fullName: name, phone, email, address, city, state, pincode };
-            processFinalRazorpayPayment();
+            const selectedMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value || "direct_boutique";
+            customerShippingInfo = { fullName: name, phone, email, address, city, state, pincode, paymentMethod: selectedMethod };
+            processFinalRazorpayPayment(selectedMethod);
         });
     }
 

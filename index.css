@@ -1342,5 +1342,78 @@ ul, ol { list-style:none; }
     .form-row-3 { grid-template-columns: 1fr; }
 }
 
+/* ── RAZORPAY EMI & AFFORDABILITY WIDGETS ─────────────────── */
+.card-emi-offer {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.72rem;
+    color: var(--grey-light);
+    background: rgba(197, 160, 89, 0.08);
+    border: 1px solid rgba(197, 160, 89, 0.2);
+    padding: 4px 8px;
+    border-radius: 4px;
+    margin: 4px 0 6px;
+}
+.card-emi-offer strong { color: var(--gold-light); font-weight: 600; }
+
+.razorpay-emi-widget {
+    background: linear-gradient(135deg, rgba(197, 160, 89, 0.12), rgba(255, 255, 255, 0.03));
+    border: 1px solid rgba(197, 160, 89, 0.35);
+    border-radius: var(--radius);
+    padding: 0.9rem 1.1rem;
+    margin: 1.2rem 0;
+}
+.emi-widget-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+.emi-widget-title {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--gold);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.emi-badge-highlight {
+    font-size: 0.65rem;
+    background: rgba(197, 160, 89, 0.25);
+    color: var(--gold-light);
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+}
+.emi-plans-summary {
+    font-size: 0.88rem;
+    color: var(--white);
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+.emi-bank-logos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+.emi-pill {
+    font-size: 0.65rem;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--grey-light);
+    padding: 3px 8px;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
 /* ── UTILITY ─────────────────────────────────────────────── */
 .lock-scroll { overflow: hidden !important; }
+
