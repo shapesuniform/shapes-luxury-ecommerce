@@ -307,22 +307,39 @@ function renderCartUI() {
 ══════════════════════════════════════════════════════════ */
 function openProductDetail(productId) {
     const p = products.find(x => x.id === productId);
-    if (!p) return;
+    if (!p) {
+        console.warn("Product not found:", productId);
+        return;
+    }
     currentActiveProduct = p;
     selectedSize = "M";
 
     /* Populate fields */
     const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
-    set("modal-product-category", p.category || "");
-    set("modal-product-title",    p.title    || "");
+    set("modal-product-category", p.category || "Designer Pret");
+    set("modal-product-title",    p.title    || "Luxury Co-Ord Ensemble");
     set("modal-product-price",    formatPrice(p.price));
-    set("modal-product-desc",     p.description || "");
+    set("modal-product-desc",     p.description || "An opulent two-piece luxury designer co-ord set handcrafted in pure natural silk.");
     set("modal-product-fabric",   p.fabric   || "100% Pure Modal Silk");
     set("modal-product-fit",      p.fit      || "Relaxed, tailored 2-piece co-ord silhouette");
     set("modal-product-craft",    p.craft    || "Artisanal print · Master-tailored at Chembur workshop");
 
+    let cleanImg = p.image || "images/coord_black_floral.webp";
+    if (!cleanImg.startsWith("images/") && !cleanImg.startsWith("http") && !cleanImg.startsWith("data:")) {
+        cleanImg = "images/" + cleanImg;
+    }
+
     const img = document.getElementById("modal-product-image");
-    if (img) { img.src = p.image; img.alt = p.title; }
+    if (img) {
+        img.src = cleanImg;
+        img.alt = p.title;
+        img.onclick = () => openImageZoomModal(cleanImg, p.title);
+    }
+
+    const zoomBtn = document.getElementById("zoom-product-img-btn");
+    if (zoomBtn) {
+        zoomBtn.onclick = () => openImageZoomModal(cleanImg, p.title);
+    }
 
     /* Render Official Razorpay Affordability / EMI Suite */
     renderRazorpayAffordabilityWidget(p.price);
@@ -341,9 +358,15 @@ function openProductDetail(productId) {
     const sizeChart = document.getElementById("modal-size-chart-table");
     if (sizeChart) sizeChart.style.display = "none";
 
-    /* Open modal */
+    /* Infallible Modal Open with full visibility assurance */
     const modal = document.getElementById("product-detail-modal");
-    if (modal) { modal.classList.add("active"); lockScroll(); }
+    if (modal) {
+        modal.classList.add("active");
+        modal.style.display = "flex";
+        modal.style.opacity = "1";
+        modal.style.visibility = "visible";
+        lockScroll();
+    }
 }
 
 function renderRazorpayAffordabilityWidget(priceInINR) {
@@ -480,7 +503,25 @@ function processFinalRazorpayPayment() {
     if (!customerShippingInfo) return;
     const info       = customerShippingInfo;
     const totalINR   = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-    const orderId    = "SBK" + Date.now();
+    // Sequential Order ID Generator (SBK-001, SBK-002, SBK-003...)
+    function generateSequentialOrderId() {
+        const orders = getLocal("shapes_orders", []);
+        let maxNum = 0;
+        orders.forEach(o => {
+            const idStr = String(o.ref || o.id || "");
+            const match = idStr.match(/(\d+)$/);
+            if (match) {
+                const n = parseInt(match[1], 10);
+                if (!isNaN(n) && n < 100000 && n > maxNum) maxNum = n;
+            }
+        });
+        let counter = parseInt(localStorage.getItem("shapes_order_seq_counter") || "0", 10);
+        if (isNaN(counter)) counter = 0;
+        const nextNum = Math.max(maxNum, counter) + 1;
+        localStorage.setItem("shapes_order_seq_counter", nextNum.toString());
+        return `SBK-${String(nextNum).padStart(3, '0')}`;
+    }
+    const orderId = generateSequentialOrderId();
     const fullAddr   = `${info.address}, ${info.city}, ${info.state} - ${info.pincode}`;
     const cartSnap   = cart.map(i => ({ ...i }));
     const itemList   = cart.map(i => `${i.title} (Size: ${i.size}, Qty: ${i.quantity})`).join("; ");
@@ -561,7 +602,7 @@ function syncOrderToAdmin(orderId, paymentRef, info, totalINR, fullAddr, cartSna
     }));
 
     const subtotal = orderItems.reduce((s, i) => s + i.price * i.quantity, 0);
-    const gst      = Math.round(subtotal * 0.05); // 5% GST
+    const gst      = Math.round(subtotal * 0.18); // Strict 18% GST (CGST 9% + SGST 9%)
     const total    = subtotal + gst;
 
     const newOrder = {
@@ -694,7 +735,7 @@ function generatePDFInvoice(orderData) {
     /* ── Invoice meta ── */
     const items     = orderData.items || [];
     const subtotal  = items.reduce((s, i) => s + i.price * i.quantity, 0);
-    const gst       = Math.round(subtotal * 0.05);
+    const gst       = Math.round(subtotal * 0.18); // Strict 18% GST
     const total     = subtotal + gst;
     const dateStr   = new Date().toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" });
 
@@ -793,7 +834,10 @@ function generatePDFInvoice(orderData) {
     };
 
     drawTotalRow("Subtotal:", `Rs. ${subtotal.toLocaleString("en-IN")}`, false);
-    drawTotalRow("GST (5%):", `Rs. ${gst.toLocaleString("en-IN")}`, false);
+    const cgst = Math.round(gst / 2);
+    const sgst = gst - cgst;
+    drawTotalRow("CGST (9%):", `Rs. ${cgst.toLocaleString("en-IN")}`, false);
+    drawTotalRow("SGST (9%):", `Rs. ${sgst.toLocaleString("en-IN")}`, false);
     drawTotalRow("TOTAL AMOUNT:", `Rs. ${total.toLocaleString("en-IN")}`, true);
 
     y += 5;
@@ -852,7 +896,7 @@ async function sendOrderEmails(orderData) {
 
     const items = (orderData.items || []);
     const subtotal = items.reduce((s, i) => s + i.price * i.quantity, 0);
-    const gst      = Math.round(subtotal * 0.05);
+    const gst       = Math.round(subtotal * 0.18); // Strict 18% GST
     const total    = subtotal + gst;
     const itemsText = items.map(i => `• ${i.title}  (Size: ${i.size}, Qty: ${i.quantity})  — ₹${(i.price*i.quantity).toLocaleString("en-IN")}`).join("\n");
 
@@ -962,7 +1006,7 @@ async function completeOrderSuccess(orderId, paymentRef, info, totalINR, fullAdd
     if (refEl) refEl.textContent = `Order Reference: ${orderId}`;
     if (msgEl) {
         const subtotal = (thisOrder ? thisOrder.subtotal : totalINR) || totalINR;
-        const gst      = Math.round(subtotal * 0.05);
+        const gst       = Math.round(subtotal * 0.18); // Strict 18% GST
         const total    = subtotal + gst;
         msgEl.innerHTML = `
             Hello <strong>${info.fullName}</strong>, your order has been confirmed!<br><br>
@@ -1303,7 +1347,79 @@ function initStore() {
             header.style.boxShadow = window.scrollY > 20 ? "0 4px 30px rgba(0,0,0,0.7)" : "none";
         }, { passive: true });
     }
+
+    /* Initialize Firebase Cloud Real-Time Sync */
+    if (window._storeFirebaseReady) {
+        initFirebaseSync();
+    }
 }
+
+/* ══════════════════════════════════════════════════════════
+   REAL-TIME FIREBASE CLOUD SYNC
+══════════════════════════════════════════════════════════ */
+function applyLiveStoreSettings(cfg) {
+    if (!cfg) return;
+    if (cfg.boutiquePhone) {
+        document.querySelectorAll('a[href^="tel:"]').forEach(el => el.href = `tel:${cfg.boutiquePhone}`);
+    }
+    if (cfg.boutiqueWhatsApp) {
+        const cleanWa = cfg.boutiqueWhatsApp.replace(/[^0-9]/g, '');
+        document.querySelectorAll('a[href*="wa.me"]').forEach(el => {
+            el.href = `https://wa.me/${cleanWa}`;
+        });
+    }
+    if (cfg.announcementText) {
+        const bar = document.querySelector(".top-announcement-bar");
+        if (bar) bar.textContent = cfg.announcementText;
+    }
+}
+
+function initFirebaseSync() {
+    if (!window._storeDb || !window._storeCollection || !window._storeOnSnapshot) return;
+    const db = window._storeDb;
+    const collection = window._storeCollection;
+    const onSnapshot = window._storeOnSnapshot;
+
+    // 1. Real-time Live Products Sync
+    try {
+        onSnapshot(collection(db, "products"), (snapshot) => {
+            if (!snapshot.empty) {
+                const cloudProds = [];
+                snapshot.forEach(docSnap => {
+                    const data = docSnap.data();
+                    cloudProds.push({ id: docSnap.id, ...data });
+                });
+                if (cloudProds.length > 0) {
+                    products = cloudProds;
+                    setLocal("shapes_products", products);
+                    renderProductsGrid();
+                    console.log("⚡ [Firebase Cloud Sync] Storefront updated live:", products.length, "creations.");
+                }
+            }
+        }, (err) => {
+            console.warn("Firebase products listener notice:", err);
+        });
+    } catch(e) {
+        console.warn("Firebase products sync setup:", e);
+    }
+
+    // 2. Real-time Store Settings Sync
+    try {
+        onSnapshot(collection(db, "store_settings"), (snapshot) => {
+            snapshot.forEach(docSnap => {
+                if (docSnap.id === "general") {
+                    const data = docSnap.data();
+                    if (data) {
+                        setLocal("shapes_config", data);
+                        applyLiveStoreSettings(data);
+                    }
+                }
+            });
+        }, (err) => {});
+    } catch(e) {}
+}
+
+window.addEventListener("store-firebase-ready", initFirebaseSync);
 
 if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", initStore);
@@ -1326,3 +1442,100 @@ window.removeFromCart                = removeFromCart;
 window.addCurrentActiveProductToCart = addCurrentActiveProductToCart;
 window.toggleSizeChart               = toggleSizeChart;
 window.toggleProductAccordion        = toggleProductAccordion;
+
+/* ══════════════════════════════════════════════════════════
+   FABRIC & EMBROIDERY ZOOM LIGHTBOX CONTROLLER
+══════════════════════════════════════════════════════════ */
+let _currentZoomScale = 1.0;
+let _isPanning = false;
+let _panStartX = 0, _panStartY = 0, _panCurrentX = 0, _panCurrentY = 0;
+
+function openImageZoomModal(imgSrc, title) {
+    const modal = document.getElementById("fabric-zoom-modal");
+    const targetImg = document.getElementById("zoom-target-image");
+    const titleLabel = document.getElementById("zoom-product-title");
+    const badge = document.getElementById("zoom-level-badge");
+
+    if (!modal || !targetImg) return;
+
+    targetImg.src = imgSrc || (currentActiveProduct ? currentActiveProduct.image : "images/coord_black_floral.webp");
+    if (titleLabel) titleLabel.textContent = title || (currentActiveProduct ? currentActiveProduct.title : "Fabric & Embroidery Inspection");
+
+    _currentZoomScale = 1.0;
+    _panCurrentX = 0;
+    _panCurrentY = 0;
+    updateZoomTransform();
+
+    modal.style.display = "flex";
+    modal.classList.add("active");
+
+    // Close button
+    const closeBtn = document.getElementById("close-zoom-modal");
+    if (closeBtn) closeBtn.onclick = closeImageZoomModal;
+
+    // Controls
+    const inBtn = document.getElementById("zoom-in-btn");
+    const outBtn = document.getElementById("zoom-out-btn");
+    const resetBtn = document.getElementById("zoom-reset-btn");
+
+    if (inBtn) inBtn.onclick = () => { _currentZoomScale = Math.min(_currentZoomScale + 0.5, 3.5); updateZoomTransform(); };
+    if (outBtn) outBtn.onclick = () => { _currentZoomScale = Math.max(_currentZoomScale - 0.5, 1.0); updateZoomTransform(); };
+    if (resetBtn) resetBtn.onclick = () => { _currentZoomScale = 1.0; _panCurrentX = 0; _panCurrentY = 0; updateZoomTransform(); };
+
+    // Pan interactions
+    const viewport = document.getElementById("zoom-viewport");
+    if (viewport) {
+        viewport.onmousedown = (e) => {
+            if (_currentZoomScale <= 1.0) return;
+            _isPanning = true;
+            _panStartX = e.clientX - _panCurrentX;
+            _panStartY = e.clientY - _panCurrentY;
+        };
+        window.onmousemove = (e) => {
+            if (!_isPanning) return;
+            _panCurrentX = e.clientX - _panStartX;
+            _panCurrentY = e.clientY - _panStartY;
+            updateZoomTransform();
+        };
+        window.onmouseup = () => { _isPanning = false; };
+
+        // Touch pinch/pan for mobile
+        viewport.ontouchstart = (e) => {
+            if (e.touches.length === 1 && _currentZoomScale > 1.0) {
+                _isPanning = true;
+                _panStartX = e.touches[0].clientX - _panCurrentX;
+                _panStartY = e.touches[0].clientY - _panCurrentY;
+            }
+        };
+        viewport.ontouchmove = (e) => {
+            if (_isPanning && e.touches.length === 1) {
+                _panCurrentX = e.touches[0].clientX - _panStartX;
+                _panCurrentY = e.touches[0].clientY - _panStartY;
+                updateZoomTransform();
+            }
+        };
+        viewport.ontouchend = () => { _isPanning = false; };
+    }
+}
+
+function updateZoomTransform() {
+    const targetImg = document.getElementById("zoom-target-image");
+    const badge = document.getElementById("zoom-level-badge");
+    if (targetImg) {
+        targetImg.style.transform = `translate(${_panCurrentX}px, ${_panCurrentY}px) scale(${_currentZoomScale})`;
+    }
+    if (badge) {
+        badge.textContent = `${Math.round(_currentZoomScale * 100)}%`;
+    }
+}
+
+function closeImageZoomModal() {
+    const modal = document.getElementById("fabric-zoom-modal");
+    if (modal) {
+        modal.style.display = "none";
+        modal.classList.remove("active");
+    }
+}
+
+window.openImageZoomModal  = openImageZoomModal;
+window.closeImageZoomModal = closeImageZoomModal;

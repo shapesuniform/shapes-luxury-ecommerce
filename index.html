@@ -136,7 +136,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-    <link rel="stylesheet" href="index.css?v=40.0">
+    <link rel="stylesheet" href="index.css?v=45.0">
     <link rel="manifest" href="manifest.json">
 
     <!-- PDF Invoice Generation -->
@@ -149,7 +149,7 @@
     <!-- Razorpay Checkout & Affordability Suite -->
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script src="https://cdn.razorpay.com/widgets/affordability/affordability.js"></script>
-    <script src="index.js?v=40.0" defer></script>
+    <script src="index.js?v=45.0" defer></script>
 </head>
 <body>
 
@@ -550,6 +550,27 @@
     </section>
 </main>
 
+
+<!-- ═══════════════════════════════════════════════════════════
+     FABRIC & EMBROIDERY ZOOM LIGHTBOX MODAL
+═══════════════════════════════════════════════════════════ -->
+<div class="luxury-zoom-modal" id="fabric-zoom-modal" style="display:none;" role="dialog" aria-modal="true" aria-label="Fabric Zoom Lightbox">
+    <button class="close-zoom-btn" id="close-zoom-modal" aria-label="Close Zoom">&times;</button>
+    <div class="zoom-toolbar">
+        <span class="zoom-product-label" id="zoom-product-title">Fabric Texture</span>
+        <div class="zoom-btn-group">
+            <button type="button" class="zoom-ctrl-btn" id="zoom-out-btn" title="Zoom Out"><i class="fa-solid fa-minus"></i></button>
+            <span class="zoom-level-badge" id="zoom-level-badge">100%</span>
+            <button type="button" class="zoom-ctrl-btn" id="zoom-in-btn" title="Zoom In"><i class="fa-solid fa-plus"></i></button>
+            <button type="button" class="zoom-ctrl-btn" id="zoom-reset-btn" title="Reset"><i class="fa-solid fa-rotate-right"></i></button>
+        </div>
+    </div>
+    <div class="zoom-viewport-container" id="zoom-viewport">
+        <img src="" id="zoom-target-image" alt="Enlarged Fabric Texture" class="zoom-active-img">
+    </div>
+    <div class="zoom-helper-tip"><i class="fa-solid fa-hand-pointer"></i> Drag or pinch to inspect intricate handcraft &amp; weaves</div>
+</div>
+
 <!-- FOOTER -->
 <footer class="luxury-footer">
     <div class="footer-container">
@@ -608,7 +629,8 @@
         <div class="modal-grid">
             <!-- Image Side -->
             <div class="modal-image-side">
-                <div class="modal-image-frame">
+                <div class="modal-image-frame" id="modal-img-frame" style="position:relative; cursor:zoom-in;">
+                    <button type="button" class="zoom-trigger-pill" id="zoom-product-img-btn" title="Inspect Fabric & Weave"><i class="fa-solid fa-magnifying-glass-plus"></i> Zoom Fabric</button>
                     <img src="" id="modal-product-image" alt="Product">
                 </div>
                 <div class="modal-thumb-trust">
@@ -929,12 +951,16 @@
     </div>
 </div>
 
-<!-- Firebase Module for store-side order writes -->
+<!-- Firebase Module for Real-Time Store Synchronization -->
 <script type="module">
-    import { db, addDoc, collection } from './firebase-config.js';
+    import { db, collection, getDocs, onSnapshot, doc, setDoc, addDoc } from './firebase-config.js';
     window._storeDb         = db;
-    window._storeAddDoc     = addDoc;
     window._storeCollection = collection;
+    window._storeGetDocs    = getDocs;
+    window._storeOnSnapshot = onSnapshot;
+    window._storeDoc        = doc;
+    window._storeSetDoc     = setDoc;
+    window._storeAddDoc     = addDoc;
     window._storeFirebaseReady = true;
     // Notify index.js that Firebase is ready
     window.dispatchEvent(new Event('store-firebase-ready'));

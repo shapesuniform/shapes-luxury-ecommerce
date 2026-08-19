@@ -13,7 +13,7 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
          onAuthStateChanged, signOut, updateProfile,
          GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { getFirestore, collection, addDoc, getDocs, query,
-         where, orderBy, doc, getDoc, updateDoc, setDoc, increment } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+         where, orderBy, doc, getDoc, updateDoc, setDoc, deleteDoc, onSnapshot, increment } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 // ▼▼▼ FIREBASE CONFIG — shapes-boutique-e269d ▼▼▼
 const firebaseConfig = {
@@ -48,6 +48,8 @@ export {
     getDoc,
     updateDoc,
     setDoc,
+    deleteDoc,
+    onSnapshot,
     increment
 };
 

@@ -2,26 +2,34 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Orders: publicly readable (needed for order tracking page + admin panel)
-    // Anyone can CREATE an order (guest checkout supported)
-    // Only Firebase console / admin can UPDATE or DELETE
+    // Products collection: publicly readable, writable for admin updates
+    match /products/{productId} {
+      allow read, write: if true;
+    }
+
+    // Store Settings & Categories
+    match /store_settings/{settingId} {
+      allow read, write: if true;
+    }
+
+    // Orders: readable & creatable for customers and admin
     match /orders/{orderId} {
-      allow read: if true;
-      allow create: if true;
-      allow update, delete: if false;
+      allow read, create, update, delete: if true;
     }
 
-    // Customers: readable by anyone (needed by admin panel which has no Firebase Auth)
-    // Authenticated users can register and update their profile / login stats
+    // Customers: readable and writable
     match /customers/{customerId} {
-      allow read: if true;
-      allow write: if request.auth != null;
+      allow read, write: if true;
     }
 
-    // Client Reviews: publicly readable and writable for seamless submission
+    // Client Reviews: publicly readable and writable
     match /reviews/{reviewId} {
-      allow read, create: if true;
-      allow update, delete: if true;
+      allow read, create, update, delete: if true;
+    }
+
+    // Luxury Journal Articles
+    match /journal/{articleId} {
+      allow read, write: if true;
     }
   }
 }

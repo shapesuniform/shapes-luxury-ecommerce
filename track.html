@@ -43,7 +43,7 @@
             --charcoal: #1A1A1A;
             --white: #FFFFFF;
             --ivory: #FAF8F5;
-            --grey: #888;
+            --grey: #e0e0e0;
             --font-serif: 'Cormorant Garamond', Georgia, serif;
             --font-sans: 'Montserrat', sans-serif;
         }
@@ -609,8 +609,8 @@
                 <body>
                     <div class="inv-header">
                         <div>
-                            <div class="inv-logo">SHAPES UNIFORM</div>
-                            <div class="inv-sub">Shapes By Satiinder Kaur</div>
+                            <div class="inv-logo">SHAPES BY SATIINDER KAUR</div>
+                            <div class="inv-sub">Luxury Pret &amp; Co-Ord Sets</div>
                             <p style="font-size: 12px; color: #666; margin-top: 5px;"><strong>Legal Entity:</strong> SHAPES UNIFORM<br>Shop No 4, Bus Stop, Ghatla Village Rd, Near Maitri Park,<br>Basant Garden, Chembur, Mumbai 400071<br>T: +91 98333 92756 | E: shapesuniform@gmail.com</p>
                         </div>
 
@@ -644,7 +644,7 @@
                                 </tr>
                             `).join('')}
                             ${(() => {
-                                const gstRate = 0.12;
+                                const gstRate = 0.18; // Strict 18% GST (CGST 9% + SGST 9%)
                                 const taxableBase = Math.round(total / (1 + gstRate));
                                 const totalGst = total - taxableBase;
                                 const cgst = Math.round(totalGst / 2);

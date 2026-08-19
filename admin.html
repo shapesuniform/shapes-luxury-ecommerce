@@ -14,7 +14,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
     <!-- FontAwesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="admin.css?v=40.0">
+    <link rel="stylesheet" href="admin.css?v=45.0">
 
     <link rel="manifest" href="admin-manifest.json">
 
@@ -88,6 +88,15 @@
             }
         }
         window.switchCMSTab = switchCMSTab;
+        function toggleMobileSidebar(force) {
+            const sidebar = document.querySelector(".cms-sidebar");
+            const overlay = document.getElementById("cms-sidebar-overlay");
+            if (!sidebar) return;
+            const isOpen = typeof force === "boolean" ? force : !sidebar.classList.contains("mobile-open");
+            sidebar.classList.toggle("mobile-open", isOpen);
+            if (overlay) overlay.classList.toggle("active", isOpen);
+        }
+        window.toggleMobileSidebar = toggleMobileSidebar;
     </script>
 </head>
 
@@ -96,12 +105,20 @@
     <div class="cms-portal-container">
         <!-- Top header -->
         <header class="cms-header">
-            <div class="cms-header-title">
-                <i class="fa-solid fa-gears gold-accent-icon"></i>
-                <h2>SHAPES BY SATIINDER KAUR CMS</h2>
-                <span class="cms-badge">Admin Controls</span>
+            <div style="display: flex; align-items: center; gap: 0.8rem;">
+                <button type="button" id="cms-mobile-menu-btn" class="cms-mobile-toggle" onclick="toggleMobileSidebar()" aria-label="Toggle Navigation Menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <div class="cms-header-title">
+                    <i class="fa-solid fa-gears gold-accent-icon"></i>
+                    <h2>SHAPES BY SATIINDER KAUR</h2>
+                    <span class="cms-badge">Admin Controls</span>
+                </div>
             </div>
-            <a href="index.html" class="showroom-link"><i class="fa-solid fa-store"></i> View Showroom</a>
+            <div style="display: flex; align-items: center; gap: 0.8rem;">
+                <a href="index.html" class="showroom-link"><i class="fa-solid fa-store"></i> Showroom</a>
+                <button id="lock-cms-btn" class="lock-btn" title="Lock session" onclick="lockCMSSession()"><i class="fa-solid fa-lock"></i></button>
+            </div>
         </header>
 
         <!-- Lock Screen -->
@@ -123,6 +140,7 @@
 
 
         <!-- Dashboard Interface -->
+        <div id="cms-sidebar-overlay" class="cms-sidebar-overlay" onclick="toggleMobileSidebar(false)"></div>
         <div class="cms-dashboard-content" id="cms-main-content" style="display: none;">
             <!-- Left Sidebar Navigation -->
             <aside class="cms-sidebar">
@@ -910,7 +928,7 @@
 
     <!-- Firebase Admin Module -->
     <script type="module">
-        import { auth, db, onAuthStateChanged, collection, getDocs, query, orderBy, where, doc, updateDoc, onSnapshot, addDoc } from './firebase-config.js';
+        import { auth, db, onAuthStateChanged, collection, getDocs, query, orderBy, where, doc, updateDoc, setDoc, deleteDoc, onSnapshot, addDoc } from './firebase-config.js';
         window._dbAdmin         = db;
         window._collAdmin       = collection;
         window._getDocsAdmin    = getDocs;
@@ -919,6 +937,8 @@
         window._whereAdmin      = where;
         window._docAdmin        = doc;
         window._updateDocAdmin  = updateDoc;
+        window._setDocAdmin     = setDoc;
+        window._deleteDocAdmin  = deleteDoc;
         window._onSnapshotAdmin = onSnapshot;
         window._addDocAdmin     = addDoc;
         window._firebaseReady   = true;
@@ -927,7 +947,7 @@
     </script>
 
     <!-- CMS JavaScript Controller -->
-    <script src="admin.js?v=40.0"></script>
+    <script src="admin.js?v=45.0"></script>
 </body>
 </html>
 

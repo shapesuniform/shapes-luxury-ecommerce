@@ -1346,3 +1346,178 @@ ul, ol { list-style:none; }
 .lock-scroll { overflow: hidden !important; }
 
 
+
+
+/* ══════════════════════════════════════════════════════════
+   FABRIC ZOOM LIGHTBOX & HIGH-CONTRAST TYPOGRAPHY
+══════════════════════════════════════════════════════════ */
+.zoom-trigger-pill {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    background: rgba(18, 18, 18, 0.85);
+    color: var(--gold);
+    border: 1px solid var(--gold);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    z-index: 5;
+    transition: all 0.3s ease;
+}
+.zoom-trigger-pill:hover {
+    background: var(--gold);
+    color: #111;
+    transform: scale(1.05);
+}
+
+.luxury-zoom-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(12px);
+    z-index: 100000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    user-select: none;
+}
+.close-zoom-btn {
+    position: absolute;
+    top: 1.2rem;
+    right: 1.5rem;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 2.2rem;
+    cursor: pointer;
+    z-index: 100002;
+    transition: color 0.2s ease;
+}
+.close-zoom-btn:hover { color: var(--gold); }
+
+.zoom-toolbar {
+    position: absolute;
+    top: 1.2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(30, 30, 30, 0.85);
+    border: 1px solid rgba(197, 160, 89, 0.4);
+    padding: 0.5rem 1.2rem;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    z-index: 100001;
+    backdrop-filter: blur(8px);
+}
+.zoom-product-label {
+    color: var(--gold);
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+}
+.zoom-btn-group {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+.zoom-ctrl-btn {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.2s ease;
+}
+.zoom-ctrl-btn:hover {
+    background: var(--gold);
+    color: #111;
+    border-color: var(--gold);
+}
+.zoom-level-badge {
+    color: #eee;
+    font-size: 12px;
+    font-weight: 600;
+    min-width: 45px;
+    text-align: center;
+}
+
+.zoom-viewport-container {
+    width: 90vw;
+    height: 75vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    cursor: grab;
+}
+.zoom-viewport-container:active {
+    cursor: grabbing;
+}
+.zoom-active-img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    transition: transform 0.15s ease-out;
+    transform-origin: center center;
+    will-change: transform;
+}
+.zoom-helper-tip {
+    position: absolute;
+    bottom: 1.5rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    background: rgba(0,0,0,0.6);
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* High Contrast & Readability Fixes */
+.product-card-title {
+    color: #ffffff !important;
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    line-height: 1.4 !important;
+    letter-spacing: 0.02em !important;
+}
+.product-card-price {
+    color: #f5f5f5 !important;
+    font-weight: 700 !important;
+    font-size: 1.1rem !important;
+}
+.gst-tag {
+    color: var(--gold) !important;
+    font-weight: 600 !important;
+    font-size: 10px !important;
+}
+.card-action-tap-btn {
+    background: rgba(197, 160, 89, 0.15) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(197, 160, 89, 0.5) !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.06em !important;
+}
+.card-action-tap-btn:hover {
+    background: var(--gold) !important;
+    color: #111111 !important;
+}

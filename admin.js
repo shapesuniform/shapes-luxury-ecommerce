@@ -626,116 +626,138 @@ function editCMSProduct(id) {
 
 
 // Delete existing product item
-
 function deleteCMSProduct(id) {
-
     if (confirm("Are you sure you want to retire this design creation?")) {
-
         products = products.filter(p => p.id !== id);
-
         localStorage.setItem("shapes_products", JSON.stringify(products));
 
-        renderCMSProducts();
-
-    }
-
-}
-
-
-
-window.deleteCMSProduct = deleteCMSProduct;
-
-window.editCMSProduct = editCMSProduct;
-
-window.deleteCMSCategory = deleteCMSCategory;
-
-
-
-
-
-// Save CMS Add / Edit form submit
-
-function saveCMSProduct() {
-
-    const id = document.getElementById("edit-product-id").value;
-
-    const title = document.getElementById("p-title").value.trim();
-
-    const category = document.getElementById("p-category").value;
-
-    const price = parseInt(document.getElementById("p-price").value);
-
-    const inventory = parseInt(document.getElementById("p-inventory").value);
-
-    const image = document.getElementById("p-image").value.trim();
-
-    const description = document.getElementById("p-desc").value.trim();
-
-    const craft = document.getElementById("p-craft").value.trim();
-
-
-
-    if (id) {
-
-        // Edit Mode
-
-        const pIndex = products.findIndex(prod => prod.id === id);
-
-        if (pIndex !== -1) {
-
-            products[pIndex] = { id, title, category, price, inventory, image, description, craft };
-
+        // Delete from Firestore Cloud
+        if (window._dbAdmin && window._deleteDocAdmin && window._docAdmin) {
+            window._deleteDocAdmin(window._docAdmin(window._dbAdmin, "products", id))
+                .then(() => console.log("⚡ [Firebase Cloud Sync] Product deleted from Cloud Firestore:", id))
+                .catch(err => console.warn("Firebase product delete warning:", err));
         }
 
-    } else {
-
-        // Create Mode
-
-        const newId = "p_" + Date.now();
-
-        products.push({ id: newId, title, category, price, inventory, image, description, craft });
-
+        renderCMSProducts();
     }
+}
 
+// Save CMS Add / Edit form submit with Cloud Firestore Sync
+function saveCMSProduct() {
+    const id = document.getElementById("edit-product-id").value;
+    const title = document.getElementById("p-title").value.trim();
+    const category = document.getElementById("p-category").value;
+    const price = parseInt(document.getElementById("p-price").value) || 0;
+    const inventory = parseInt(document.getElementById("p-inventory").value) || 10;
+    const image = document.getElementById("p-image").value.trim() || "images/coord_black_floral.webp";
+    const description = document.getElementById("p-desc").value.trim();
+    const craft = document.getElementById("p-craft").value.trim();
 
+    let targetProduct = null;
+
+    if (id) {
+        // Edit Mode
+        const pIndex = products.findIndex(prod => prod.id === id);
+        if (pIndex !== -1) {
+            products[pIndex] = { ...products[pIndex], id, title, category, price, inventory, image, description, craft };
+            targetProduct = products[pIndex];
+        }
+    } else {
+        // Create Mode
+        const newId = "p_" + Date.now();
+        targetProduct = { id: newId, title, category, price, inventory, image, description, craft, badge: "NEW ARRIVAL" };
+        products.push(targetProduct);
+    }
 
     localStorage.setItem("shapes_products", JSON.stringify(products));
 
-    alert("Creation published successfully. Refresh showroom website to preview!");
+    // Instant Cloud Firestore Save
+    if (targetProduct && window._dbAdmin && window._setDocAdmin && window._docAdmin) {
+        window._setDocAdmin(window._docAdmin(window._dbAdmin, "products", targetProduct.id), targetProduct)
+            .then(() => {
+                console.log("⚡ [Firebase Cloud Sync] Product saved to Cloud Firestore:", targetProduct.title);
+            })
+            .catch(err => console.warn("Firebase product save warning:", err));
+    }
 
-
+    alert("Creation published and synchronized with Cloud Firestore! All devices worldwide will see this immediately.");
 
     resetCMSProductForm();
-
     renderCMSProducts();
 
-
-
     // Switch tab back to products tab
-
     const catalogTabBtn = Array.from(document.querySelectorAll(".cms-sidebar-btn")).find(b => b.dataset.tab === "cms-products-tab");
-
     if (catalogTabBtn) catalogTabBtn.click();
-
 }
-
-
 
 // Reset form elements
-
 function resetCMSProductForm() {
-
     document.getElementById("product-cms-form").reset();
-
     document.getElementById("edit-product-id").value = "";
-
     document.getElementById("form-action-title").innerText = "Add Exclusive Piece to Catalog";
-
     document.getElementById("cms-form-submit-btn").innerText = "PUBLISH CREATION";
-
     document.getElementById("cms-form-cancel-btn").style.display = "none";
-
 }
+
+// Save Editorial Settings to Cloud
+function saveCMSSettings() {
+    const brand = document.getElementById("setting-brand-name");
+    const hero = document.getElementById("setting-hero-title");
+    const story = document.getElementById("setting-story-title");
+    const storyDesc = document.getElementById("setting-story-desc");
+    const rzp = document.getElementById("setting-razorpay-key");
+
+    config = {
+        ...config,
+        brandName: brand ? brand.value.trim() : config.brandName,
+        heroTitle: hero ? hero.value.trim() : config.heroTitle,
+        storyTitle: story ? story.value.trim() : config.storyTitle,
+        storyDesc: storyDesc ? storyDesc.value.trim() : config.storyDesc,
+        razorpayKey: rzp ? rzp.value.trim() : config.razorpayKey
+    };
+
+    localStorage.setItem("shapes_config", JSON.stringify(config));
+
+    // Save to Firestore Cloud
+    if (window._dbAdmin && window._setDocAdmin && window._docAdmin) {
+        window._setDocAdmin(window._docAdmin(window._dbAdmin, "store_settings", "general"), config)
+            .then(() => console.log("⚡ [Firebase Cloud Sync] Store settings saved to Cloud Firestore"))
+            .catch(err => console.warn("Firebase settings save warning:", err));
+    }
+
+    alert("Store settings saved and synchronized with Cloud Firestore!");
+}
+
+// Automatic Cloud Firestore Catalog Sync on Admin Load
+function syncAdminProductsFromCloud() {
+    if (window._dbAdmin && window._getDocsAdmin && window._collAdmin) {
+        window._getDocsAdmin(window._collAdmin(window._dbAdmin, "products"))
+            .then(snapshot => {
+                if (!snapshot.empty) {
+                    const cloudProds = [];
+                    snapshot.forEach(docSnap => cloudProds.push({ id: docSnap.id, ...docSnap.data() }));
+                    if (cloudProds.length > 0) {
+                        products = cloudProds;
+                        localStorage.setItem("shapes_products", JSON.stringify(products));
+                        renderCMSProducts();
+                        console.log("⚡ [Firebase Cloud Sync] Loaded", products.length, "creations from Cloud Firestore into Admin.");
+                    }
+                } else {
+                    // First-time auto seed
+                    if (window._setDocAdmin && window._docAdmin) {
+                        DEFAULT_PRODUCTS.forEach(p => {
+                            window._setDocAdmin(window._docAdmin(window._dbAdmin, "products", p.id), p);
+                        });
+                        console.log("⚡ [Firebase Cloud Sync] Auto-seeded default creations to Cloud Firestore.");
+                    }
+                }
+            })
+            .catch(err => console.warn("Firebase admin products sync note:", err));
+    }
+}
+window.addEventListener("admin-firebase-ready", syncAdminProductsFromCloud);
+
+window.saveCMSSettings = saveCMSSettings;
 
 
 
@@ -913,7 +935,7 @@ const SAMPLE_ADMIN_ORDERS = [
 
     {
 
-        id: "SHP-2026-8942",
+        id: "SBK-001",
 
         date: new Date(Date.now() - 3600000 * 4).toISOString(),
 
@@ -939,7 +961,7 @@ const SAMPLE_ADMIN_ORDERS = [
 
     {
 
-        id: "SHP-2026-8939",
+        id: "SBK-002",
 
         date: new Date(Date.now() - 3600000 * 28).toISOString(),
 
@@ -965,7 +987,7 @@ const SAMPLE_ADMIN_ORDERS = [
 
     {
 
-        id: "SHP-2026-8931",
+        id: "SBK-003",
 
         date: new Date(Date.now() - 3600000 * 72).toISOString(),
 
@@ -991,7 +1013,7 @@ const SAMPLE_ADMIN_ORDERS = [
 
     {
 
-        id: "SHP-2026-8924",
+        id: "SBK-004",
 
         date: new Date(Date.now() - 3600000 * 120).toISOString(),
 
@@ -1016,120 +1038,6 @@ const SAMPLE_ADMIN_ORDERS = [
     }
 
 ];
-
-
-
-async 
-
-const SAMPLE_ADMIN_ORDERS = [
-
-    {
-
-        id: "SHP-2026-8942",
-
-        date: new Date(Date.now() - 3600000 * 4).toISOString(),
-
-        customer: { name: "Pooja Singhania", email: "pooja.singhania@gmail.com", phone: "+91 98201 44512", city: "Mumbai" },
-
-        items: [{ title: "The Noir Botanical Silk Co-Ord Set", size: "M", qty: 1, price: 12800 }],
-
-        subtotal: 12800,
-
-        gst: 1536,
-
-        total: 14336,
-
-        currency: "INR",
-
-        status: "in_production",
-
-        paymentStatus: "paid",
-
-        notes: "Custom tunic length: 32 inches. Chembur boutique trial completed."
-
-    },
-
-    {
-
-        id: "SHP-2026-8939",
-
-        date: new Date(Date.now() - 3600000 * 28).toISOString(),
-
-        customer: { name: "Ananya Mehta", email: "ananya.mehta@outlook.com", phone: "+91 98112 30988", city: "New Delhi" },
-
-        items: [{ title: "Ivory & Sand Minimalist Linen Co-Ord", size: "S", qty: 1, price: 9800 }],
-
-        subtotal: 9800,
-
-        gst: 1176,
-
-        total: 10976,
-
-        currency: "INR",
-
-        status: "quality_check",
-
-        paymentStatus: "paid",
-
-        notes: "Express courier to South Extension II, Delhi."
-
-    },
-
-    {
-
-        id: "SHP-2026-8931",
-
-        date: new Date(Date.now() - 3600000 * 72).toISOString(),
-
-        customer: { name: "Rhea Kapoor", email: "rhea.kapoor@gmail.com", phone: "+91 97690 12845", city: "Bengaluru" },
-
-        items: [{ title: "The Emerald Festive Silk Co-Ord Set", size: "L", qty: 1, price: 15500 }],
-
-        subtotal: 15500,
-
-        gst: 1860,
-
-        total: 17360,
-
-        currency: "INR",
-
-        status: "dispatched",
-
-        paymentStatus: "paid",
-
-        notes: "Air Insured Express tracking active."
-
-    },
-
-    {
-
-        id: "SHP-2026-8924",
-
-        date: new Date(Date.now() - 3600000 * 120).toISOString(),
-
-        customer: { name: "Dr. Meera Iyer", email: "meera.iyer@apollo.org", phone: "+91 98400 67123", city: "Chennai" },
-
-        items: [{ title: "Indigo Heritage Handblock Modal Set", size: "M", qty: 2, price: 8500 }],
-
-        subtotal: 17000,
-
-        gst: 2040,
-
-        total: 19040,
-
-        currency: "INR",
-
-        status: "delivered",
-
-        paymentStatus: "paid",
-
-        notes: "Delivered & verified by customer."
-
-    }
-
-];
-
-
 
 let _ordersUnsubscribe = null;
 
@@ -1445,11 +1353,38 @@ async function saveOrderStatus(e) {
 
 
 
+    // 4. Automated Multi-Stage Customer Notification
+    if (cachedOrder && cachedOrder.customerEmail) {
+        console.log(`⚡ [Stage Notification] Triggering automated email to ${cachedOrder.customerEmail} for status: ${newStatus}`);
+        if (typeof emailjs !== "undefined") {
+            const stageLabels = {
+                confirmed: "Order Confirmed & Scheduled for Tailoring",
+                in_production: "In Handcraft Production at Chembur Workshop",
+                quality_check: "Ensemble Passed Master Sartorial Inspection",
+                dispatched: `Dispatched with ${courierName || 'Insured Express Courier'} (AWB: ${trackingNumber || 'Active'})`,
+                delivered: "Handcrafted Ensemble Successfully Delivered"
+            };
+            const stageMsg = stageLabels[newStatus] || `Order status updated to ${newStatus.toUpperCase()}`;
+            try {
+                emailjs.send("shapes_service", "stage_update_template", {
+                    to_name: cachedOrder.customerName || "Valued Client",
+                    to_email: cachedOrder.customerEmail,
+                    order_id: ref,
+                    status_title: newStatus.toUpperCase(),
+                    stage_message: stageMsg,
+                    courier_name: courierName || "BlueDart / Delhivery Insured",
+                    tracking_awb: trackingNumber || "Active",
+                    delivery_note: deliveryNote || "Complimentary insured express delivery across India (15-22 days).",
+                    tracking_link: `https://shapesbysatinderkaur.com/track.html?ref=${ref}`
+                }).then(() => console.log("Stage email sent to", cachedOrder.customerEmail))
+                  .catch(e => console.warn("Stage email notice:", e));
+            } catch(e) {}
+        }
+    }
+
     closeOrderStatusModal();
-
     renderOrdersTable(_allOrders);
-
-    alert(`Order ${ref} updated to "${newStatus.toUpperCase()}" with tracking details.`);
+    alert(`Order ${ref} updated to "${newStatus.toUpperCase()}" with tracking details & customer notified.`);
 
 }
 
@@ -1531,7 +1466,7 @@ let _allCustomers = [];
 
 
 
-async async function loadAdminCustomers() {
+async function loadAdminCustomers() {
 
     const tbody = document.getElementById("customers-tbody");
 
