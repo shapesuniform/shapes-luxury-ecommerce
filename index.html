@@ -3,12 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <script>
+        try {
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.getRegistrations().then(function(regs) {
+                    for (var r of regs) r.unregister();
+                }).catch(function() {});
+            }
+            if ('caches' in window) {
+                caches.keys().then(function(names) {
+                    for (var n of names) caches.delete(n);
+                });
+            }
+        } catch(e) {}
+    </script>
     <meta name="theme-color" content="#111111">
     <link rel="preload" as="image" href="images/welcome_coord_luxury_mobile.webp" type="image/webp" fetchpriority="high">
 
-    <title>Shapes Boutique | Shapes By Satiinder Kaur | Luxury Designer Co-Ord Sets Mumbai</title>
-    <meta name="description" content="Shapes Boutique (Shapes By Satiinder Kaur) is Chembur Mumbai's premier designer fashion boutique for luxury printed co-ord sets, pure linen sets, festive silk co-ords & contemporary pret starting from ₹7,000. Shop online or visit our boutique at Basant Garden, Chembur, Mumbai.">
-    <meta name="keywords" content="Shapes, Shapes Boutique, Shapes Boutique Chembur, Shapes By Satiinder Kaur, designer co ord sets Mumbai, luxury printed co-ords, pure linen co ord set, festive silk co ord set, designer pret Mumbai">
+    <title>Shapes By Satiinder Kaur | Luxury Designer Co-Ord Sets Mumbai</title>
+    <meta name="description" content="Shapes By Satiinder Kaur is Chembur Mumbai's premier designer fashion boutique for luxury printed co-ord sets, pure linen sets, festive silk co-ords &amp; contemporary pret starting from ₹7,000. Shop online or visit our showroom at Basant Garden, Chembur, Mumbai.">
+    <meta name="keywords" content="Shapes By Satiinder Kaur, Shapes By Satinder Kaur, designer co ord sets Mumbai, luxury printed co-ords, pure linen co ord set, festive silk co ord set, designer pret Mumbai, Chembur fashion">
     <meta name="author" content="Satiinder Kaur">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://shapesbysatinderkaur.com/">
@@ -20,10 +37,98 @@
     <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://shapesbysatinderkaur.com/">
-    <meta property="og:title" content="Shapes Boutique | Luxury Designer Co-Ord Sets Mumbai">
+    <meta property="og:title" content="Shapes By Satiinder Kaur | Luxury Designer Co-Ord Sets Mumbai">
     <meta property="og:description" content="Discover handcrafted luxury printed silk, organic linen, and festive designer co-ord sets by Shapes By Satiinder Kaur in Chembur, Mumbai.">
     <meta property="og:image" content="https://shapesbysatinderkaur.com/images/hero_coord_editorial.webp">
-    <meta property="og:site_name" content="Shapes Boutique · Shapes By Satiinder Kaur">
+    <meta property="og:site_name" content="Shapes By Satiinder Kaur">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Shapes By Satiinder Kaur | Luxury Designer Co-Ord Sets Mumbai">
+    <meta name="twitter:description" content="Discover handcrafted luxury printed silk, organic linen, and festive designer co-ord sets by Shapes By Satiinder Kaur in Chembur, Mumbai.">
+    <meta name="twitter:image" content="https://shapesbysatinderkaur.com/images/hero_coord_editorial.webp">
+
+    <!-- Schema.org Rich Structured Data (JSON-LD) for Google Rich Snippets -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "ClothingStore",
+          "@id": "https://shapesbysatinderkaur.com/#store",
+          "name": "Shapes By Satiinder Kaur",
+          "alternateName": ["Shapes By Satiinder Kaur"],
+          "url": "https://shapesbysatinderkaur.com/",
+          "logo": "https://shapesbysatinderkaur.com/images/hero_coord_editorial.webp",
+          "image": "https://shapesbysatinderkaur.com/images/welcome_coord_luxury.webp",
+          "description": "Premier luxury designer fashion brand in Chembur, Mumbai specialising in bespoke printed co-ord sets, pure modal silk ensembles, festive designer pret & custom sartorial tailoring.",
+          "telephone": "+919833392756",
+          "email": "shapesuniform@gmail.com",
+          "priceRange": "₹₹₹ (₹7,000 – ₹25,000)",
+          "paymentAccepted": "Credit Card, Debit Card, UPI, NetBanking, EMI via Razorpay",
+          "currenciesAccepted": "INR",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Shop No. 4, Basant Garden, Ghatla Village Road, Near Maitri Park",
+            "addressLocality": "Chembur, Mumbai",
+            "addressRegion": "Maharashtra",
+            "postalCode": "400071",
+            "addressCountry": "IN"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "19.0522",
+            "longitude": "72.9005"
+          },
+          "openingHoursSpecification": [
+            {
+              "@type": "OpeningHoursSpecification",
+              "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+              "opens": "11:00",
+              "closes": "20:30"
+            }
+          ],
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.9",
+            "reviewCount": "8",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://shapesbysatinderkaur.com/#faq",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What sizes are available in Shapes co-ord sets?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Our ready-to-wear co-ord sets range from XS to XXL with detailed bust, waist, hip, and trouser length measurements. We also provide bespoke custom made-to-measure tailoring upon request."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How long does delivery take?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "All bespoke luxury sets are meticulously handcrafted to order at our Chembur workshop. Delivery takes 15 to 22 days with complimentary insured express courier delivery across India."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What payment methods are accepted?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "We accept 100% secure online payments via Razorpay including Credit Cards, Debit Cards, UPI (GPay, PhonePe, Paytm), NetBanking (50+ banks), and Bank/Cardless EMI."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
 
     <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -31,7 +136,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-    <link rel="stylesheet" href="index.css?v=30.0">
+    <link rel="stylesheet" href="index.css?v=40.0">
     <link rel="manifest" href="manifest.json">
 
     <!-- PDF Invoice Generation -->
@@ -44,7 +149,7 @@
     <!-- Razorpay Checkout & Affordability Suite -->
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script src="https://cdn.razorpay.com/widgets/affordability/affordability.js"></script>
-    <script src="index.js?v=32.0" defer></script>
+    <script src="index.js?v=40.0" defer></script>
 </head>
 <body>
 
@@ -312,7 +417,7 @@
             </div>
             <div class="testimonial-card">
                 <div class="stars-row"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                <p class="review-text">"Always a wonderful experience at Shapes Boutique. Pure fabrics, meticulous finishes, and very warm hospitality."</p>
+                <p class="review-text">"Always a wonderful experience at Shapes By Satiinder Kaur. Pure fabrics, meticulous finishes, and very warm hospitality."</p>
                 <div class="reviewer-meta">
                     <span class="client-name">Harpreet Anand</span>
                     <span class="client-location"><i class="fa-brands fa-google" style="color:var(--gold);margin-right:4px;"></i>Chembur, Mumbai · Verified</span>
@@ -449,8 +554,8 @@
 <footer class="luxury-footer">
     <div class="footer-container">
         <div class="footer-col">
-            <h3>SHAPES</h3>
-            <p>Shapes Boutique by Satiinder Kaur (Registered: Shapes Uniform). Premier designer pret &amp; co-ord sets in Chembur, Mumbai.</p>
+            <h3>SHAPES BY SATIINDER KAUR</h3>
+            <p>Shapes By Satiinder Kaur. Premier designer pret &amp; co-ord sets in Chembur, Mumbai.</p>
             <div class="social-links">
                 <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
                 <a href="https://wa.me/919833392756" target="_blank" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
@@ -477,14 +582,14 @@
             </ul>
         </div>
         <div class="footer-col">
-            <h4>CHEMBUR BOUTIQUE</h4>
+            <h4>CHEMBUR SHOWROOM</h4>
             <p><i class="fa-solid fa-location-dot" style="color:var(--gold);margin-right:6px;"></i>Basant Garden, Chembur, Mumbai 400071</p>
             <p><i class="fa-solid fa-phone" style="color:var(--gold);margin-right:6px;"></i>+91 98333 92756</p>
             <p><i class="fa-solid fa-envelope" style="color:var(--gold);margin-right:6px;"></i>shapesuniform@gmail.com</p>
         </div>
     </div>
     <div class="footer-bottom">
-        <span>&copy; 2026 Shapes Boutique (Shapes By Satiinder Kaur). All Rights Reserved.</span>
+        <span>&copy; 2026 Shapes By Satiinder Kaur. All Rights Reserved.</span>
         <div class="legal-footer-links">
             <a href="info.html#terms">Terms</a> &middot;
             <a href="info.html#privacy">Privacy</a> &middot;

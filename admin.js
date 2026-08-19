@@ -1910,7 +1910,7 @@ const DEFAULT_ADMIN_REVIEWS = [
     { id: "rev_4", author: "Pooja Sawant", authorName: "Pooja Sawant", city: "Chembur, Mumbai", location: "Chembur, Mumbai", rating: 5, category: "Pret", text: "Bought the pure linen co-ord set. The fabric quality is so breathable and luxurious. Got so many compliments!", reviewText: "Bought the pure linen co-ord set. The fabric quality is so breathable and luxurious. Got so many compliments!", verified: true, date: "Verified Google Review" },
     { id: "rev_5", author: "Simran Ahuja", authorName: "Simran Ahuja", city: "Bandra, Mumbai", location: "Bandra, Mumbai", rating: 5, category: "Pret", text: "The Noir Botanical silk co-ord set is stunning! Drapes so effortlessly and the stitching quality is top-notch.", reviewText: "The Noir Botanical silk co-ord set is stunning! Drapes so effortlessly and the stitching quality is top-notch.", verified: true, date: "Verified Google Review" },
     { id: "rev_6", author: "Ananya Iyer", authorName: "Ananya Iyer", city: "Mumbai", location: "Mumbai", rating: 5, category: "Couture", text: "Finding a designer who understands body contour and comfortable silhouettes is rare. Satiinder Kaur and team are masters.", reviewText: "Finding a designer who understands body contour and comfortable silhouettes is rare. Satiinder Kaur and team are masters.", verified: true, date: "Verified Google Review" },
-    { id: "rev_7", author: "Harpreet Anand", authorName: "Harpreet Anand", city: "Chembur, Mumbai", location: "Chembur, Mumbai", rating: 5, category: "Pret", text: "Always a wonderful experience at Shapes Boutique. Pure fabrics, meticulous finishes, and very warm hospitality.", reviewText: "Always a wonderful experience at Shapes Boutique. Pure fabrics, meticulous finishes, and very warm hospitality.", verified: true, date: "Verified Google Review" },
+    { id: "rev_7", author: "Harpreet Anand", authorName: "Harpreet Anand", city: "Chembur, Mumbai", location: "Chembur, Mumbai", rating: 5, category: "Pret", text: "Always a wonderful experience at Shapes By Satiinder Kaur. Pure fabrics, meticulous finishes, and very warm hospitality.", reviewText: "Always a wonderful experience at Shapes By Satiinder Kaur. Pure fabrics, meticulous finishes, and very warm hospitality.", verified: true, date: "Verified Google Review" },
     { id: "rev_8", author: "Kavita Chhabria", authorName: "Kavita Chhabria", city: "Chembur, Mumbai", location: "Chembur, Mumbai", rating: 5, category: "Pret", text: "Exceptional craftsmanship and personalized styling. The festive silk co-ord set I ordered turned heads at the family function!", reviewText: "Exceptional craftsmanship and personalized styling. The festive silk co-ord set I ordered turned heads at the family function!", verified: true, date: "Verified Google Review" }
 ];
 
@@ -2753,7 +2753,7 @@ function generatePackingSlipPDF(ref) {
 
                 <div>
 
-                    <h2 style="font-family:'Cormorant Garamond', serif; font-size:1.8rem; margin:0;">SHAPES BOUTIQUE</h2>
+                    <h2 style="font-family:'Cormorant Garamond', serif; font-size:1.8rem; margin:0;">SHAPES BY SATIINDER KAUR</h2>
 
                     <span style="font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:#C5A059; font-weight:700;">PRIORITY COURIER DISPATCH SLIP</span>
 
@@ -3097,7 +3097,7 @@ function updateBroadcastPreview() {
 
             .replace(/{Name}/g, "Rhea Sharma")
 
-            .replace(/{Boutique}/g, "Shapes Boutique, Chembur, Mumbai")
+            .replace(/{Boutique}/g, "Shapes By Satiinder Kaur, Chembur, Mumbai")
 
             .replace(/{Website}/g, "https://shapesbysatinderkaur.com");
 
@@ -3189,7 +3189,7 @@ function loadAdminBroadcast() {
 
             .replace(/{Name}/g, c.name || 'Patron')
 
-            .replace(/{Boutique}/g, 'Shapes Boutique, Chembur, Mumbai')
+            .replace(/{Boutique}/g, 'Shapes By Satiinder Kaur, Chembur, Mumbai')
 
             .replace(/{Website}/g, 'https://shapesbysatinderkaur.com');
 

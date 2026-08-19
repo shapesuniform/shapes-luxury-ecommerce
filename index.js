@@ -122,7 +122,7 @@ const DEFAULT_CLIENT_REVIEWS = [
     { id: "rev_4", authorName: "Pooja Sawant", location: "Chembur, Mumbai", reviewText: "Bought the pure linen co-ord set. The fabric quality is so breathable and luxurious. Got so many compliments!", rating: 5, date: "Verified Google Review" },
     { id: "rev_5", authorName: "Simran Ahuja", location: "Bandra, Mumbai", reviewText: "The Noir Botanical silk co-ord set is stunning! Drapes so effortlessly and the stitching quality is top-notch.", rating: 5, date: "Verified Google Review" },
     { id: "rev_6", authorName: "Ananya Iyer", location: "Mumbai", reviewText: "Finding a designer who understands body contour and comfortable silhouettes is rare. Satiinder Kaur and team are masters.", rating: 5, date: "Verified Google Review" },
-    { id: "rev_7", authorName: "Harpreet Anand", location: "Chembur, Mumbai", reviewText: "Always a wonderful experience at Shapes Boutique. Pure fabrics, meticulous finishes, and very warm hospitality.", rating: 5, date: "Verified Google Review" },
+    { id: "rev_7", authorName: "Harpreet Anand", location: "Chembur, Mumbai", reviewText: "Always a wonderful experience at Shapes By Satiinder Kaur. Pure fabrics, meticulous finishes, and very warm hospitality.", rating: 5, date: "Verified Google Review" },
     { id: "rev_8", authorName: "Kavita Chhabria", location: "Chembur, Mumbai", reviewText: "Exceptional craftsmanship and personalized styling. The festive silk co-ord set I ordered turned heads at the family function!", rating: 5, date: "Verified Google Review" }
 ];
 
@@ -1272,6 +1272,13 @@ function loadProducts() {
 function initStore() {
     /* Ensure scroll is unlocked on load */
     unlockScroll();
+
+    /* Multi-device version sync */
+    const STORE_VERSION = "40.0";
+    if (getLocal("shapes_store_version", null) !== STORE_VERSION) {
+        setLocal("shapes_store_version", STORE_VERSION);
+        setLocal("shapes_verified_reviews_v3", DEFAULT_CLIENT_REVIEWS);
+    }
 
     /* Load data */
     loadProducts();
