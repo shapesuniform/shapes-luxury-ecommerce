@@ -1195,6 +1195,17 @@ document.addEventListener("click", function(e) {
     const faqBtn = tgt.closest(".faq-question-btn");
     if (faqBtn) { faqBtn.closest(".faq-item").classList.toggle("active"); return; }
 
+    /* ─ Journal Article Click & Reader Modal ─ */
+    const journalCard = tgt.closest(".journal-card");
+    if (journalCard && !tgt.closest(".journal-read-btn")) {
+        openJournalArticleModal(journalCard.getAttribute("data-id"));
+        return;
+    }
+    if (tgt.closest("#close-journal-modal") || (tgt.id === "journal-article-modal" && !tgt.closest(".journal-reader-content"))) {
+        closeJournalArticleModal();
+        return;
+    }
+
 }, { passive: false });
 
 /* Keyboard: close modals with Escape */
@@ -1610,7 +1621,7 @@ function renderJournalArticles() {
     if (!grid) return;
     const articles = getJournalArticles();
     grid.innerHTML = articles.map(art => `
-        <article class="journal-card" onclick="openJournalArticleModal('${art.id}')">
+        <article class="journal-card" data-id="${art.id}" onclick="openJournalArticleModal('${art.id}')">
             <div class="journal-card-img-wrap">
                 <img src="${normalizeProductImage(art.image || 'images/heritage_craft.webp')}" alt="${art.title}" loading="lazy">
             </div>
@@ -1618,7 +1629,9 @@ function renderJournalArticles() {
                 <span class="journal-category-badge">${art.category || 'Editorial'}</span>
                 <h3 class="journal-card-title">${art.title}</h3>
                 <p class="journal-card-excerpt">${art.excerpt || ''}</p>
-                <span class="journal-read-btn">Read Sartorial Story <i class="fa-solid fa-arrow-right"></i></span>
+                <button type="button" class="journal-read-btn" onclick="event.stopPropagation(); openJournalArticleModal('${art.id}')">
+                    Read Journal Story <i class="fa-solid fa-arrow-right"></i>
+                </button>
             </div>
         </article>
     `).join("");
@@ -1626,26 +1639,34 @@ function renderJournalArticles() {
 
 function openJournalArticleModal(articleId) {
     const articles = getJournalArticles();
-    const art = articles.find(a => a.id === articleId) || articles[0];
+    let art = articles.find(a => a.id === articleId);
+    if (!art) art = articles[0];
     if (!art) return;
 
-    const set = (id, txt) => { const el = document.getElementById(id); if (el) el.textContent = txt; };
-    set("modal-journal-category", art.category || "Editorial");
-    set("modal-journal-title", art.title || "Sartorial Story");
-    set("modal-journal-author", art.author || "Satiinder Kaur");
-    set("modal-journal-date", art.date || "August 2026");
-    set("modal-journal-body", art.body || art.excerpt || "");
+    const set = (id, txt) => { 
+        const el = document.getElementById(id); 
+        if (el) el.textContent = txt; 
+    };
+    set("modal-journal-category", art.category || "Editorial Story");
+    set("modal-journal-title",    art.title    || "Sartorial Story");
+    set("modal-journal-author",   art.author   || "Satiinder Kaur");
+    set("modal-journal-date",     art.date     || "August 2026");
+    set("modal-journal-body",     art.body     || art.excerpt || "");
 
     const img = document.getElementById("modal-journal-image");
     if (img) {
         img.src = normalizeProductImage(art.image || "images/heritage_craft.webp");
-        img.alt = art.title || "Journal Cover";
+        img.alt = art.title || "Journal Article";
+        img.style.display = "block";
     }
 
     const modal = document.getElementById("journal-article-modal");
     if (modal) {
-        modal.style.display = "flex";
         modal.classList.add("active");
+        modal.style.display = "flex";
+        modal.style.opacity = "1";
+        modal.style.visibility = "visible";
+        modal.style.zIndex = "999999";
         lockScroll();
     }
 }
