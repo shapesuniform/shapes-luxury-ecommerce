@@ -1,5 +1,5 @@
 // ============================================================
-// FIREBASE CONFIGURATION — SHAPES BY SATIINDER KAUR
+// FIREBASE CONFIGURATION — Shapes By Satiinder Kaur
 // ============================================================
 // NOTE: Firebase API keys for web apps are INTENTIONALLY public.
 // Security is enforced via Firebase Security Rules (firestore.rules),

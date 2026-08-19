@@ -10,11 +10,11 @@
 
     <title>My Account | Shapes By Satiinder Kaur</title>
     <meta name="description" content="View your orders, track deliveries and manage your account with Shapes By Satiinder Kaur.">
-    <link rel="canonical" href="https://shapesbysatinderkaur.com/account.html">
+    <link rel="canonical" href="https://shapesbysatiinderkaur.com/account.html">
     <meta property="og:title" content="My Account | Shapes By Satiinder Kaur">
     <meta property="og:description" content="View your orders and manage your account with Shapes By Satiinder Kaur.">
-    <meta property="og:url" content="https://shapesbysatinderkaur.com/account.html">
-    <meta property="og:image" content="https://shapesbysatinderkaur.com/app_icon.png">
+    <meta property="og:url" content="https://shapesbysatiinderkaur.com/account.html">
+    <meta property="og:image" content="https://shapesbysatiinderkaur.com/app_icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -520,7 +520,7 @@ async function recordCustomerLogin(user, extraData = {}) {
                                     </tr>
                                 `).join('')}
                                 ${(() => {
-                                    const gstRate = 0.12;
+                                    const gstRate = 0.18;
                                     const taxableBase = Math.round(total / (1 + gstRate));
                                     const totalGst = total - taxableBase;
                                     const cgst = Math.round(totalGst / 2);
@@ -531,11 +531,11 @@ async function recordCustomerLogin(user, extraData = {}) {
                                             <td style="text-align: right; color: #333;">₹${taxableBase.toLocaleString("en-IN")}</td>
                                         </tr>
                                         <tr>
-                                            <td colspan="4" style="text-align: right; color: #555;">CGST @ 6%:</td>
+                                            <td colspan="4" style="text-align: right; color: #555;">CGST @ 9%:</td>
                                             <td style="text-align: right; color: #333;">₹${cgst.toLocaleString("en-IN")}</td>
                                         </tr>
                                         <tr>
-                                            <td colspan="4" style="text-align: right; color: #555;">SGST @ 6%:</td>
+                                            <td colspan="4" style="text-align: right; color: #555;">SGST @ 9%:</td>
                                             <td style="text-align: right; color: #333;">₹${sgst.toLocaleString("en-IN")}</td>
                                         </tr>
                                         <tr>

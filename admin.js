@@ -240,8 +240,8 @@ function handleAdminUnlock() {
         "shapes",
         "shapesuniform",
         "shapesuniform@gmail.com",
-        "satinder",
-        "satinderkaur",
+        "satiinder",
+        "satiinderkaur",
         "1234"
     ];
 
@@ -1173,7 +1173,7 @@ function renderOrdersTable(orders) {
 
         if (o.status === "shipped" && o.trackingNumber) {
 
-            waMsg += ` — Your bespoke creation has been dispatched via ${o.courierName || 'Express Courier'}. Tracking Ref: *${o.trackingNumber}*. You can track it here: https://shapesbysatinderkaur.com/track.html?ref=${o.ref} ✨`;
+            waMsg += ` — Your bespoke creation has been dispatched via ${o.courierName || 'Express Courier'}. Tracking Ref: *${o.trackingNumber}*. You can track it here: https://shapesbysatiinderkaur.com/track.html?ref=${o.ref} ✨`;
 
         } else {
 
@@ -1385,7 +1385,7 @@ async function saveOrderStatus(e) {
                     courier_name: courierName || "BlueDart / Delhivery Insured",
                     tracking_awb: trackingNumber || "Active",
                     delivery_note: deliveryNote || "Complimentary insured express delivery across India (15-22 days).",
-                    tracking_link: `https://shapesbysatinderkaur.com/track.html?ref=${ref}`
+                    tracking_link: `https://shapesbysatiinderkaur.com/track.html?ref=${ref}`
                 }).then(() => console.log("Stage email sent to", cachedOrder.customerEmail))
                   .catch(e => console.warn("Stage email notice:", e));
             } catch(e) {}
@@ -2698,7 +2698,7 @@ function generatePackingSlipPDF(ref) {
 
                 <div>
 
-                    <h2 style="font-family:'Cormorant Garamond', serif; font-size:1.8rem; margin:0;">SHAPES BY SATIINDER KAUR</h2>
+                    <h2 style="font-family:'Cormorant Garamond', serif; font-size:1.8rem; margin:0;">Shapes By Satiinder Kaur</h2>
 
                     <span style="font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:#C5A059; font-weight:700;">PRIORITY COURIER DISPATCH SLIP</span>
 
@@ -2820,155 +2820,164 @@ function closeInvoicePrintModal() {
 
 // ─────────────────────────────────────────────────────────────────────────────
 
-// 3. ARTISAN WORKSHOP QUEUE (KANBAN PIPELINE)
 
 // ─────────────────────────────────────────────────────────────────────────────
-
-
+// 3. OPTIMIZED ARTISAN WORKSHOP QUEUE (KANBAN PIPELINE)
+// ─────────────────────────────────────────────────────────────────────────────
 
 const WORKSHOP_STAGES = [
-
-    { id: "drafting", label: "1. Drafting & Patterning", icon: "fa-pencil" },
-
-    { id: "embroidery", label: "2. Zardozi Embroidery", icon: "fa-gem" },
-
-    { id: "tailoring", label: "3. Boning & Tailoring", icon: "fa-scissors" },
-
-    { id: "qc_trial", label: "4. QC & Trial Fitting", icon: "fa-circle-check" },
-
-    { id: "ready", label: "5. Dispatch Ready", icon: "fa-box-open" }
-
+    { id: "drafting",    label: "1. Pattern Drafting", icon: "fa-ruler-combined", step: 1 },
+    { id: "embroidery",  label: "2. Zardozi Embroidery", icon: "fa-gem",          step: 2 },
+    { id: "tailoring",   label: "3. Tailoring & Fit",    icon: "fa-scissors",     step: 3 },
+    { id: "qc_trial",    label: "4. QC & Inspection",    icon: "fa-circle-check", step: 4 },
+    { id: "ready",       label: "5. Dispatch Ready",     icon: "fa-box-open",     step: 5 }
 ];
 
-
-
 function getWorkshopData() {
-
     const orders = _allOrders.length ? _allOrders : JSON.parse(localStorage.getItem("shapes_orders") || "[]");
-
     return orders.map((o, idx) => {
-
         let defaultStage = "drafting";
-
         if (o.status === "shipped" || o.status === "delivered") defaultStage = "ready";
-
+        else if (o.status === "quality_check") defaultStage = "qc_trial";
         else if (o.status === "in_production") defaultStage = "embroidery";
 
+        const currentStageId = o.workshopStage || defaultStage;
+        const currentStageObj = WORKSHOP_STAGES.find(s => s.id === currentStageId) || WORKSHOP_STAGES[0];
+
         return {
-
-            ref: o.ref,
-
-            client: o.customerName || "Client",
-
-            items: (o.items || []).map(i => `${i.title} (${i.size})`).join(", "),
-
-            stage: o.workshopStage || defaultStage,
-
-            notes: o.artisanNotes || "Handloom pure silk base with antique gold zardozi."
-
+            ref: o.ref || o.id || `SBK-00${idx+1}`,
+            client: o.customerName || "Valued Client",
+            phone: o.customerPhone || "",
+            email: o.customerEmail || "",
+            items: (o.items || []).map(i => `${i.title} (${i.size || 'M'})`).join(", ") || "Luxury Co-Ord Ensemble",
+            stage: currentStageId,
+            step: currentStageObj.step,
+            notes: o.artisanNotes || "Handcrafted pure silk modal base with antique gold zardozi work."
         };
-
     });
-
 }
 
-
-
 function loadAdminWorkshop() {
-
     const board = document.getElementById("workshop-pipeline-board");
-
     if (!board) return;
-
-
 
     const cards = getWorkshopData();
 
-
-
-    board.innerHTML = WORKSHOP_STAGES.map(st => {
-
+    board.innerHTML = WORKSHOP_STAGES.map((st, sIdx) => {
         const stageCards = cards.filter(c => c.stage === st.id);
+        const nextStage = WORKSHOP_STAGES[sIdx + 1];
 
         return `
-
             <div class="workshop-col">
-
                 <div class="workshop-col-header">
-
                     <h4><i class="fa-solid ${st.icon}"></i> ${st.label}</h4>
-
                     <span class="workshop-col-badge">${stageCards.length}</span>
-
                 </div>
-
                 <div class="workshop-col-cards-container">
+                    ${stageCards.length === 0 ? `<div style="font-size:11px; color:var(--grey-dim); padding:2rem 1rem; text-align:center;"><i class="fa-regular fa-clock" style="margin-bottom:6px; font-size:1.2rem; display:block;"></i>No garments in this stage</div>` : ''}
+                    ${stageCards.map(c => {
+                        const cleanPhone = (c.phone || '').replace(/[^0-9]/g, '');
+                        const waMsg = encodeURIComponent(`Namaste ${c.client},
 
-                    ${stageCards.length === 0 ? `<div style="font-size:10px; color:var(--grey); padding:1rem; text-align:center;">No pieces in this stage</div>` : ''}
+Your bespoke creation for Order ${c.ref} is currently at Stage: *${st.label}* at Shapes By Satiinder Kaur Chembur atelier.
 
-                    ${stageCards.map(c => `
+Track live status here: https://shapesbysatiinderkaur.com/track.html?ref=${c.ref}
 
+Warm Regards,
+Shapes By Satiinder Kaur`);
+                        const waLink = cleanPhone ? `https://wa.me/${cleanPhone.length === 10 ? '91' + cleanPhone : cleanPhone}?text=${waMsg}` : '';
+
+                        // Render 5 progress dots
+                        let progressDots = '';
+                        for (let i = 1; i <= 5; i++) {
+                            const cls = i < c.step ? 'stage-dot completed' : (i === c.step ? 'stage-dot active' : 'stage-dot');
+                            progressDots += `<div class="${cls}"></div>`;
+                        }
+
+                        return `
                         <div class="workshop-card">
-
-                            <div class="workshop-card-ref">${c.ref}</div>
-
+                            <div class="workshop-card-top">
+                                <span class="workshop-card-ref">${c.ref}</span>
+                                <span style="font-size:10px; color:var(--gold); font-weight:600;">Stage ${c.step}/5</span>
+                            </div>
                             <div class="workshop-card-client">${c.client}</div>
-
                             <div class="workshop-card-item">${c.items}</div>
+                            
+                            <div class="workshop-progress-dots">
+                                ${progressDots}
+                            </div>
 
                             <div class="workshop-card-notes">“${c.notes}”</div>
 
-                            <select class="workshop-stage-select" onchange="updateWorkshopStage('${c.ref}', this.value)">
+                            <div class="workshop-card-actions">
+                                ${nextStage ? `
+                                    <button type="button" class="workshop-advance-btn" onclick="advanceWorkshopOrder('${c.ref}', '${nextStage.id}')">
+                                        Advance to ${nextStage.label} <i class="fa-solid fa-arrow-right"></i>
+                                    </button>
+                                ` : `
+                                    <div style="background:rgba(37,211,102,0.15); border:1px solid #25D366; color:#25D366; font-size:10px; font-weight:700; text-align:center; padding:4px; border-radius:3px;">
+                                        <i class="fa-solid fa-circle-check"></i> Ready for Doorstep Dispatch
+                                    </div>
+                                `}
 
-                                ${WORKSHOP_STAGES.map(s => `<option value="${s.id}" ${s.id === c.stage ? 'selected' : ''}>Move: ${s.label}</option>`).join('')}
-
-                            </select>
-
+                                <div style="display:flex; gap:6px;">
+                                    <select class="workshop-stage-select" onchange="updateWorkshopStage('${c.ref}', this.value)" style="flex:1;">
+                                        ${WORKSHOP_STAGES.map(s => `<option value="${s.id}" ${s.id === c.stage ? 'selected' : ''}>Move: ${s.label}</option>`).join('')}
+                                    </select>
+                                    ${waLink ? `
+                                        <a href="${waLink}" target="_blank" class="workshop-wa-update-btn" title="Send WhatsApp production update">
+                                            <i class="fa-brands fa-whatsapp"></i> Update
+                                        </a>
+                                    ` : ''}
+                                </div>
+                            </div>
                         </div>
-
-                    `).join('')}
-
+                        `;
+                    }).join("")}
                 </div>
-
             </div>
-
         `;
-
     }).join("");
-
 }
 
-
+function advanceWorkshopOrder(ref, nextStageId) {
+    updateWorkshopStage(ref, nextStageId);
+}
 
 function updateWorkshopStage(ref, newStage) {
-
     const orders = JSON.parse(localStorage.getItem("shapes_orders") || "[]");
-
-    const target = orders.find(o => o.ref === ref);
+    const target = orders.find(o => (o.ref === ref || o.id === ref));
 
     if (target) {
-
         target.workshopStage = newStage;
-
         if (newStage === "ready") target.status = "shipped";
-
+        else if (newStage === "qc_trial") target.status = "quality_check";
         else if (newStage === "embroidery" || newStage === "tailoring") target.status = "in_production";
 
         localStorage.setItem("shapes_orders", JSON.stringify(orders));
 
-    }
+        // Update cached array
+        const cached = _allOrders.find(o => (o.ref === ref || o.id === ref));
+        if (cached) {
+            cached.workshopStage = newStage;
+            cached.status = target.status;
+        }
 
-    const cached = _allOrders.find(o => o.ref === ref);
-
-    if (cached) {
-
-        cached.workshopStage = newStage;
-
+        // Sync to Firestore if ready
+        try {
+            if (window._dbAdmin && cached && cached.id) {
+                const orderDocRef = window._docAdmin(window._dbAdmin, "orders", cached.id);
+                window._updateDocAdmin(orderDocRef, { workshopStage: newStage, status: target.status });
+            }
+        } catch(e) {}
     }
 
     loadAdminWorkshop();
-
 }
+
+window.loadAdminWorkshop = loadAdminWorkshop;
+window.updateWorkshopStage = updateWorkshopStage;
+window.advanceWorkshopOrder = advanceWorkshopOrder;
 
 
 
@@ -2986,9 +2995,9 @@ let currentBroadcastSegment = "all";
 
 const BROADCAST_TEMPLATES = {
 
-    festive_drop: `✨ *SHAPES BY SATIINDER KAUR* ✨\n\nDear {Name},\nWe have unveiled our latest Royal Bridal & Festive Collection at our Chembur Boutique.\n\nDiscover structural zardozi corsets, pure raw silk lehengas, and contemporary handlooms crafted exclusively for celebrations.\n\nExplore the lookbook online: {Website}\nOr visit our boutique: Shop No 4, Chembur, Mumbai.\n\nWarm regards,\nSatinder Kaur`,
+    festive_drop: `✨ *Shapes By Satiinder Kaur* ✨\n\nDear {Name},\nWe have unveiled our latest Royal Bridal & Festive Collection at our Chembur Boutique.\n\nDiscover structural zardozi corsets, pure raw silk lehengas, and contemporary handlooms crafted exclusively for celebrations.\n\nExplore the lookbook online: {Website}\nOr visit our boutique: Shop No 4, Chembur, Mumbai.\n\nWarm regards,\nSatiinder Kaur`,
 
-    vip_consult: `👑 *EXCLUSIVE VIP STYLING INVITATION*\n\nDear {Name},\nYou are cordially invited for a private bespoke fitting & bridal trousseau consultation with designer Satinder Kaur.\n\nTo reserve your dedicated in-store or video styling session, reply to this message directly.\n\nBoutique: {Boutique}\nLookbook: {Website}`,
+    vip_consult: `👑 *EXCLUSIVE VIP STYLING INVITATION*\n\nDear {Name},\nYou are cordially invited for a private bespoke fitting & bridal trousseau consultation with designer Satiinder Kaur.\n\nTo reserve your dedicated in-store or video styling session, reply to this message directly.\n\nBoutique: {Boutique}\nLookbook: {Website}`,
 
     corset_highlight: `🧵 *THE ART OF ZARDOZI CORSETRY*\n\nDear {Name},\nExperience the fusion of classical Victorian corsetry with opulent Indian antique zardozi embroidery. Each piece is tailored to your exact measurements for a flawless silhouette.\n\nView the corset line: {Website}#pret\n\nShapes By Satiinder Kaur`,
 
@@ -3044,7 +3053,7 @@ function updateBroadcastPreview() {
 
             .replace(/{Boutique}/g, "Shapes By Satiinder Kaur, Chembur, Mumbai")
 
-            .replace(/{Website}/g, "https://shapesbysatinderkaur.com");
+            .replace(/{Website}/g, "https://shapesbysatiinderkaur.com");
 
         bubble.textContent = sample;
 
@@ -3136,7 +3145,7 @@ function loadAdminBroadcast() {
 
             .replace(/{Boutique}/g, 'Shapes By Satiinder Kaur, Chembur, Mumbai')
 
-            .replace(/{Website}/g, 'https://shapesbysatinderkaur.com');
+            .replace(/{Website}/g, 'https://shapesbysatiinderkaur.com');
 
         const waLink = `https://wa.me/${(c.phone || '').replace(/\D/g, '')}?text=${encodeURIComponent(personalized)}`;
 
@@ -3188,7 +3197,7 @@ const DEFAULT_JOURNAL_ARTICLES = [
 
         category: "Couture Craft",
 
-        author: "Satinder Kaur",
+        author: "Satiinder Kaur",
 
         date: "Aug 15, 2026",
 
@@ -3210,7 +3219,7 @@ const DEFAULT_JOURNAL_ARTICLES = [
 
         category: "Bridal Trousseau",
 
-        author: "Satinder Kaur",
+        author: "Satiinder Kaur",
 
         date: "Aug 10, 2026",
 
@@ -3346,7 +3355,7 @@ function saveJournalArticle(e) {
 
         category: category,
 
-        author: author || "Satinder Kaur",
+        author: author || "Satiinder Kaur",
 
         date: new Date().toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }),
 
@@ -3408,7 +3417,7 @@ function generateGoogleShoppingXML() {
 
     const prods = products.length ? products : DEFAULT_PRODUCTS;
 
-    const baseUrl = "https://shapesbysatinderkaur.com";
+    const baseUrl = "https://shapesbysatiinderkaur.com";
 
 
 
@@ -3514,7 +3523,7 @@ function downloadGoogleShoppingXML() {
 
 function copyCatalogFeedURL() {
 
-    const url = "https://shapesbysatinderkaur.com/feed.xml";
+    const url = "https://shapesbysatiinderkaur.com/feed.xml";
 
     navigator.clipboard.writeText(url).then(() => {
 

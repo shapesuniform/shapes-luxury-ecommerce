@@ -1632,3 +1632,41 @@ ul, ol { list-style:none; }
     border-color: var(--gold);
     gap: 12px;
 }
+
+
+/* ══════════════════════════════════════════════════════════
+   VIEW MORE REVIEWS BUTTON & EXTRA REVIEWS GRID
+══════════════════════════════════════════════════════════ */
+.extra-reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+    animation: fadeIn 0.4s ease-out;
+}
+
+.view-more-reviews-btn {
+    background: rgba(197, 160, 89, 0.12);
+    color: var(--gold-light);
+    border: 1.5px solid var(--gold);
+    padding: 0.85rem 2rem;
+    border-radius: 30px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+}
+.view-more-reviews-btn:hover {
+    background: var(--gold);
+    color: #111111;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(197, 160, 89, 0.35);
+}
+
+

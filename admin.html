@@ -14,7 +14,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
     <!-- FontAwesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="admin.css?v=45.0">
+    <link rel="stylesheet" href="admin.css?v=46.0">
 
     <link rel="manifest" href="admin-manifest.json">
 
@@ -28,7 +28,7 @@
             var raw = passInput ? passInput.value : "";
             var pass = raw.trim().toLowerCase();
 
-            var valid = ["luxury2026", "shapes2026", "admin", "admin123", "shapes", "shapesuniform", "shapesuniform@gmail.com", "satinder", "satinderkaur", "1234"];
+            var valid = ["luxury2026", "shapes2026", "admin", "admin123", "shapes", "shapesuniform", "shapesuniform@gmail.com", "satiinder", "satiinderkaur", "1234"];
 
             if (pass && (valid.indexOf(pass) !== -1 || pass === "luxury2026")) {
                 sessionStorage.setItem("shapes_cms_unlocked", "true");
@@ -111,7 +111,7 @@
                 </button>
                 <div class="cms-header-title">
                     <i class="fa-solid fa-gears gold-accent-icon"></i>
-                    <h2>SHAPES BY SATIINDER KAUR</h2>
+                    <h2>Shapes By Satiinder Kaur</h2>
                     <span class="cms-badge">Admin Controls</span>
                 </div>
             </div>
@@ -144,6 +144,10 @@
         <div class="cms-dashboard-content" id="cms-main-content" style="display: none;">
             <!-- Left Sidebar Navigation -->
             <aside class="cms-sidebar">
+                <div class="sidebar-mobile-header" style="display:flex; justify-content:space-between; align-items:center; padding: 0.8rem 1.2rem; border-bottom:1px solid var(--border-gold);">
+                    <span style="font-size:11px; font-weight:700; color:var(--gold); letter-spacing:0.1em; text-transform:uppercase;">Admin Navigation</span>
+                    <button type="button" class="sidebar-close-mobile-btn" onclick="toggleMobileSidebar(false)" style="background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:#fff; width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:1rem;">&times;</button>
+                </div>
                 <div style="padding: 0.8rem 1.2rem 0.2rem; font-size: 9px; text-transform: uppercase; letter-spacing: 0.15em; color: var(--gold-dark); font-weight: 700;">Catalog &amp; Store</div>
                 <button class="cms-sidebar-btn active" data-tab="cms-products-tab" onclick="switchCMSTab('cms-products-tab')">
                     <i class="fa-solid fa-shirt"></i> Product Inventory
@@ -723,11 +727,11 @@
                             </div>
                             <div style="margin-bottom:1.2rem;">
                                 <label style="display:block; font-size:10px; text-transform:uppercase; letter-spacing:0.12em; color:var(--gold); margin-bottom:0.4rem; font-weight:600;">Message Content *</label>
-                                <textarea id="push-body" required placeholder="The festive bridal lehenga collection by Satinder Kaur is now unveiled. Discover bespoke handlooms..." style="width:100%; background:rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.15); border-radius:4px; padding:0.8rem; color:#fff; font-size:12px; min-height:80px;"></textarea>
+                                <textarea id="push-body" required placeholder="The festive bridal lehenga collection by Satiinder Kaur is now unveiled. Discover bespoke handlooms..." style="width:100%; background:rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.15); border-radius:4px; padding:0.8rem; color:#fff; font-size:12px; min-height:80px;"></textarea>
                             </div>
                             <div style="margin-bottom:1.5rem;">
                                 <label style="display:block; font-size:10px; text-transform:uppercase; letter-spacing:0.12em; color:var(--gold); margin-bottom:0.4rem; font-weight:600;">Destination Link URL</label>
-                                <input type="text" id="push-url" value="https://shapesbysatinderkaur.com/#bridal" style="width:100%; background:rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.15); border-radius:4px; padding:0.8rem; color:#fff; font-size:12px;">
+                                <input type="text" id="push-url" value="https://shapesbysatiinderkaur.com/#bridal" style="width:100%; background:rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.15); border-radius:4px; padding:0.8rem; color:#fff; font-size:12px;">
                             </div>
                             <button type="submit" style="width:100%; background:linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%); color:#121212; border:none; padding:0.9rem; font-size:11px; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; border-radius:4px; cursor:pointer;">
                                 <i class="fa-solid fa-paper-plane"></i> Broadcast VIP Push Notification
@@ -735,6 +739,13 @@
                         </form>
                     </div>
                 </div>
+
+            
+        <!-- Sticky Floating Mobile Menu Trigger (Always Accessible) -->
+        <button type="button" class="cms-floating-menu-btn" onclick="toggleMobileSidebar(true)" aria-label="Open Navigation Menu" title="Open Navigation Menu">
+            <i class="fa-solid fa-bars"></i>
+            <span>MENU</span>
+        </button>
 
             </main>
         </div>
@@ -891,7 +902,7 @@
                     </div>
                     <div>
                         <label style="display:block; font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--gold); margin-bottom:0.4rem;">Author</label>
-                        <input type="text" id="journal-author" value="Satinder Kaur" required style="width:100%; background:rgba(255,255,255,0.06); border:1px solid rgba(197,160,89,0.3); color:#fff; padding:0.75rem; border-radius:3px; font-size:12px;">
+                        <input type="text" id="journal-author" value="Satiinder Kaur" required style="width:100%; background:rgba(255,255,255,0.06); border:1px solid rgba(197,160,89,0.3); color:#fff; padding:0.75rem; border-radius:3px; font-size:12px;">
                     </div>
                 </div>
 
@@ -947,7 +958,7 @@
     </script>
 
     <!-- CMS JavaScript Controller -->
-    <script src="admin.js?v=45.0"></script>
+    <script src="admin.js?v=46.0"></script>
 </body>
 </html>
 

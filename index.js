@@ -8,7 +8,7 @@ function normalizeProductImage(imgPath) {
 }
 
 /* ============================================================
-   SHAPES BY SATIINDER KAUR — MASTER STORE ENGINE v30
+   Shapes By Satiinder Kaur — MASTER STORE ENGINE v30
    ALL BUTTONS WORKING · MOBILE FIRST · ADMIN PORTAL SYNC
    ============================================================ */
 
@@ -724,12 +724,12 @@ function generatePDFInvoice(orderData) {
     doc.setFont("helvetica", "bold");
     doc.setFontSize(18);
     doc.setTextColor(17, 17, 17);
-    doc.text("SHAPES BY SATIINDER KAUR", W / 2, 16, { align: "center" });
+    doc.text("Shapes By Satiinder Kaur", W / 2, 16, { align: "center" });
 
     doc.setFont("helvetica", "normal");
     doc.setFontSize(8);
     doc.text("LUXURY PRET & CO-ORD SETS  ·  BASANT GARDEN, CHEMBUR, MUMBAI 400071", W / 2, 23, { align: "center" });
-    doc.text("Tel: +91 98333 92756  ·  Email: shapesuniform@gmail.com  ·  shapesbysatinderkaur.com", W / 2, 29, { align: "center" });
+    doc.text("Tel: +91 98333 92756  ·  Email: shapesuniform@gmail.com  ·  shapesbysatiinderkaur.com", W / 2, 29, { align: "center" });
 
     /* ── TAX INVOICE label ── */
     doc.setFont("helvetica", "bold");
@@ -866,7 +866,7 @@ function generatePDFInvoice(orderData) {
     doc.setTextColor(140, 140, 140);
     doc.text("This is a computer-generated invoice and does not require a signature.", W / 2, y, { align: "center" });
     y += 5;
-    doc.text("For queries: +91 98333 92756  ·  shapesuniform@gmail.com  ·  shapesbysatinderkaur.com", W / 2, y, { align: "center" });
+    doc.text("For queries: +91 98333 92756  ·  shapesuniform@gmail.com  ·  shapesbysatiinderkaur.com", W / 2, y, { align: "center" });
 
     _lastInvoicePdfDoc = doc;
     return doc;
@@ -1683,3 +1683,41 @@ function closeJournalArticleModal() {
 window.openJournalArticleModal = openJournalArticleModal;
 window.closeJournalArticleModal = closeJournalArticleModal;
 window.renderJournalArticles = renderJournalArticles;
+
+
+/* ══════════════════════════════════════════════════════════
+   VIEW MORE REVIEWS CONTROLLER
+══════════════════════════════════════════════════════════ */
+let _isShowingAllReviews = false;
+
+function toggleMoreReviews() {
+    const extraGrid = document.getElementById("extra-reviews-grid");
+    const btn = document.getElementById("toggle-more-reviews-btn");
+    if (!extraGrid || !btn) return;
+
+    _isShowingAllReviews = !_isShowingAllReviews;
+    if (_isShowingAllReviews) {
+        extraGrid.style.display = "grid";
+        btn.innerHTML = `<i class="fa-solid fa-angle-up"></i> Show Fewer Reviews`;
+    } else {
+        extraGrid.style.display = "none";
+        btn.innerHTML = `<i class="fa-solid fa-angle-down"></i> View More Verified Reviews (5 More)`;
+        const reviewsSec = document.getElementById("reviews-section");
+        if (reviewsSec) reviewsSec.scrollIntoView({ behavior: "smooth" });
+    }
+}
+window.toggleMoreReviews = toggleMoreReviews;
+
+
+// Gift Packaging Checkbox Handler
+document.addEventListener("change", function(e) {
+    if (e.target && e.target.id === "gift-packaging-check") {
+        const noteInput = document.getElementById("gift-note-input");
+        if (noteInput) {
+            noteInput.style.display = e.target.checked ? "block" : "none";
+            if (e.target.checked) noteInput.focus();
+        }
+    }
+});
+
+
