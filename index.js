@@ -1,3 +1,12 @@
+
+function normalizeProductImage(imgPath) {
+    if (!imgPath) return "images/coord_black_floral.webp";
+    let clean = String(imgPath).split('"').join('').split("'").join('').trim();
+    if (clean.startsWith("http") || clean.startsWith("data:")) return clean;
+    const fname = clean.split('\\').pop().split('/').pop();
+    return "images/" + fname;
+}
+
 /* ============================================================
    SHAPES BY SATIINDER KAUR — MASTER STORE ENGINE v30
    ALL BUTTONS WORKING · MOBILE FIRST · ADMIN PORTAL SYNC
@@ -209,7 +218,7 @@ function renderProductsGrid() {
                     title="Wishlist">
                     <i class="${isWish ? "fa-solid" : "fa-regular"} fa-heart"></i>
                 </button>
-                <img src="${p.image}" alt="${p.title}" loading="lazy" decoding="async">
+                <img src="${normalizeProductImage(p.image)}" alt="${p.title}" loading="lazy" decoding="async">
             </div>
             <div class="product-card-info">
                 <h3 class="product-card-title">${p.title}</h3>
@@ -324,7 +333,7 @@ function openProductDetail(productId) {
     set("modal-product-fit",      p.fit      || "Relaxed, tailored 2-piece co-ord silhouette");
     set("modal-product-craft",    p.craft    || "Artisanal print · Master-tailored at Chembur workshop");
 
-    let cleanImg = p.image || "images/coord_black_floral.webp";
+    let cleanImg = normalizeProductImage(p.image);
     if (!cleanImg.startsWith("images/") && !cleanImg.startsWith("http") && !cleanImg.startsWith("data:")) {
         cleanImg = "images/" + cleanImg;
     }
@@ -458,6 +467,7 @@ function toggleWishlist(productId) {
     setLocal("shapes_wishlist_items", wishlist);
     updateWishlistBadge();
     renderProductsGrid();
+    renderJournalArticles();
 }
 
 /* ══════════════════════════════════════════════════════════
@@ -1178,7 +1188,8 @@ document.addEventListener("click", function(e) {
 
     /* ─ Category Tabs ─ */
     const tabBtn = tgt.closest(".tab-btn");
-    if (tabBtn) { currentCategory = tabBtn.getAttribute("data-category"); renderCategoryTabs(); renderProductsGrid(); return; }
+    if (tabBtn) { currentCategory = tabBtn.getAttribute("data-category"); renderCategoryTabs(); renderProductsGrid();
+    renderJournalArticles(); return; }
 
     /* ─ FAQ Accordion ─ */
     const faqBtn = tgt.closest(".faq-question-btn");
@@ -1265,17 +1276,20 @@ function initForms() {
 function initInputListeners() {
     /* Search */
     const searchEl = document.getElementById("boutique-search-input");
-    if (searchEl) searchEl.addEventListener("input", e => { searchQuery = e.target.value; renderProductsGrid(); });
+    if (searchEl) searchEl.addEventListener("input", e => { searchQuery = e.target.value; renderProductsGrid();
+    renderJournalArticles(); });
 
     /* Sort */
     const sortEl = document.getElementById("boutique-sort-select");
-    if (sortEl) sortEl.addEventListener("change", e => { sortOption = e.target.value; renderProductsGrid(); });
+    if (sortEl) sortEl.addEventListener("change", e => { sortOption = e.target.value; renderProductsGrid();
+    renderJournalArticles(); });
 
     /* Currency */
     const currEl = document.getElementById("currency-selector");
     if (currEl) currEl.addEventListener("change", e => {
         selectedCurrency = e.target.value;
         renderProductsGrid();
+    renderJournalArticles();
         if (cart.length) renderCartUI();
         if (currentActiveProduct) {
             const priceEl = document.getElementById("modal-product-price");
@@ -1332,6 +1346,7 @@ function initStore() {
     /* Render */
     renderCategoryTabs();
     renderProductsGrid();
+    renderJournalArticles();
     renderClientReviews();
     updateCartBadge();
     updateWishlistBadge();
@@ -1393,6 +1408,7 @@ function initFirebaseSync() {
                     products = cloudProds;
                     setLocal("shapes_products", products);
                     renderProductsGrid();
+    renderJournalArticles();
                     console.log("⚡ [Firebase Cloud Sync] Storefront updated live:", products.length, "creations.");
                 }
             }
@@ -1539,3 +1555,110 @@ function closeImageZoomModal() {
 
 window.openImageZoomModal  = openImageZoomModal;
 window.closeImageZoomModal = closeImageZoomModal;
+
+
+/* ══════════════════════════════════════════════════════════
+   THE SHAPES JOURNAL (BLOG & EDITORIAL ENGINE)
+══════════════════════════════════════════════════════════ */
+const DEFAULT_JOURNAL_ARTICLES = [
+    {
+        id: "art-1",
+        title: "The Architecture of Modern Zardozi Corsetry",
+        category: "Couture Craft",
+        author: "Satiinder Kaur",
+        date: "Aug 15, 2026",
+        image: "images/heritage_craft.webp",
+        excerpt: "Exploring the delicate balance between structural internal boning and antique metal thread embroidery on raw Banarasi silks.",
+        body: "Every bespoke corset crafted at Shapes begins as a structural blueprint. We combine centuries-old metal zardozi techniques with contemporary ergonomic boning, creating silhouettes that feel weightless while sculpting an iconic royal hourglass contour.\n\nMaster karigars at our Chembur atelier dedicate over 120 hours to hand-embroid every floral sprig using gold zari threads and metallic dabka wire. The result is an heirloom masterpiece that merges royal Indian craftsmanship with modern pret sensibilities."
+    },
+    {
+        id: "art-2",
+        title: "Curating Your Palace Bridal Trousseau",
+        category: "Bridal Trousseau",
+        author: "Satiinder Kaur",
+        date: "Aug 10, 2026",
+        image: "images/hero_bridal.webp",
+        excerpt: "A comprehensive guide to selecting timeless handlooms, opulent zardozi lehengas, and convertible reception ensembles.",
+        body: "A bridal trousseau is an heirloom investment. When designing our Empress Crimson and Royal Velvet lehengas, we focus on modular versatility—allowing brides to re-style blouses with draped skirts or pair zardozi dupattas with contemporary pret drapes for future celebrations.\n\nOur personalized bridal consultations in Chembur allow every bride to customize neckline contours, sleeve lengths, and dupatta embroidery to match her wedding aesthetic."
+    },
+    {
+        id: "art-3",
+        title: "The Allure of Pure Modal Silk Co-Ord Sets",
+        category: "Designer Pret",
+        author: "Satiinder Kaur",
+        date: "Aug 05, 2026",
+        image: "images/welcome_coord_luxury.webp",
+        excerpt: "Why breathable modal silk has become the ultimate luxury fabric for effortless evening glamour and destination resortwear.",
+        body: "Pure modal silk provides the breathability of natural fibers with the fluid, lustrous drape of royal satin. Designed for the modern discerning woman, our co-ord ensembles offer unparalleled comfort for high-tea gatherings, festive soirees, and evening celebrations."
+    }
+];
+
+function getJournalArticles() {
+    try {
+        const stored = localStorage.getItem("shapes_journal_articles");
+        if (stored) {
+            const parsed = JSON.parse(stored);
+            if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        }
+    } catch(e) {}
+    localStorage.setItem("shapes_journal_articles", JSON.stringify(DEFAULT_JOURNAL_ARTICLES));
+    return DEFAULT_JOURNAL_ARTICLES;
+}
+
+function renderJournalArticles() {
+    const grid = document.getElementById("journal-articles-grid");
+    if (!grid) return;
+    const articles = getJournalArticles();
+    grid.innerHTML = articles.map(art => `
+        <article class="journal-card" onclick="openJournalArticleModal('${art.id}')">
+            <div class="journal-card-img-wrap">
+                <img src="${normalizeProductImage(art.image || 'images/heritage_craft.webp')}" alt="${art.title}" loading="lazy">
+            </div>
+            <div class="journal-card-content">
+                <span class="journal-category-badge">${art.category || 'Editorial'}</span>
+                <h3 class="journal-card-title">${art.title}</h3>
+                <p class="journal-card-excerpt">${art.excerpt || ''}</p>
+                <span class="journal-read-btn">Read Sartorial Story <i class="fa-solid fa-arrow-right"></i></span>
+            </div>
+        </article>
+    `).join("");
+}
+
+function openJournalArticleModal(articleId) {
+    const articles = getJournalArticles();
+    const art = articles.find(a => a.id === articleId) || articles[0];
+    if (!art) return;
+
+    const set = (id, txt) => { const el = document.getElementById(id); if (el) el.textContent = txt; };
+    set("modal-journal-category", art.category || "Editorial");
+    set("modal-journal-title", art.title || "Sartorial Story");
+    set("modal-journal-author", art.author || "Satiinder Kaur");
+    set("modal-journal-date", art.date || "August 2026");
+    set("modal-journal-body", art.body || art.excerpt || "");
+
+    const img = document.getElementById("modal-journal-image");
+    if (img) {
+        img.src = normalizeProductImage(art.image || "images/heritage_craft.webp");
+        img.alt = art.title || "Journal Cover";
+    }
+
+    const modal = document.getElementById("journal-article-modal");
+    if (modal) {
+        modal.style.display = "flex";
+        modal.classList.add("active");
+        lockScroll();
+    }
+}
+
+function closeJournalArticleModal() {
+    const modal = document.getElementById("journal-article-modal");
+    if (modal) {
+        modal.style.display = "none";
+        modal.classList.remove("active");
+        unlockScroll();
+    }
+}
+
+window.openJournalArticleModal = openJournalArticleModal;
+window.closeJournalArticleModal = closeJournalArticleModal;
+window.renderJournalArticles = renderJournalArticles;

@@ -11,7 +11,7 @@ const DEFAULT_PRODUCTS = [
         price: 8900,
         badge: "BESTSELLER",
         inventory: 12,
-        image: "coord_black_floral.webp",
+        image: "images/coord_black_floral.webp",
         fabric: "100% Pure Modal Silk",
         fit: "Relaxed longline shirt tunic + wide-leg trousers",
         craft: "Artisanal digital botanical print · Mother-of-pearl buttons · Elasticated back waistband",
@@ -24,7 +24,7 @@ const DEFAULT_PRODUCTS = [
         price: 7490,
         badge: "NEW ARRIVAL",
         inventory: 15,
-        image: "coord_beige_linen.webp",
+        image: "images/coord_beige_linen.webp",
         fabric: "100% Organic Slub Linen",
         fit: "V-neck tunic with relaxed 3/4 sleeves + tailored straight trousers",
         craft: "Natural coconut shell buttons · Deep side pockets · Comfort-fit waistband",
@@ -37,7 +37,7 @@ const DEFAULT_PRODUCTS = [
         price: 11500,
         badge: "LUXURY PRET",
         inventory: 8,
-        image: "coord_royal_emerald.webp",
+        image: "images/coord_royal_emerald.webp",
         fabric: "Pure Mulberry Raw Silk",
         fit: "Structured bandhgala collar tunic + fluid palazzo trousers",
         craft: "Handcrafted antique gold zari & zardozi embroidery · Comfort-flex waistband · Dry clean only",
@@ -50,7 +50,7 @@ const DEFAULT_PRODUCTS = [
         price: 7990,
         badge: "HANDBLOCK",
         inventory: 14,
-        image: "coord_indigo_print.webp",
+        image: "images/coord_indigo_print.webp",
         fabric: "Handblock Printed Modal Silk",
         fit: "Contemporary tunic collar + fluid silhouette trousers",
         craft: "Artisanal Rajasthani handblock print · Natural dyes · Comfort-flex waistband",
@@ -63,7 +63,7 @@ const DEFAULT_PRODUCTS = [
         price: 14800,
         badge: "EXCLUSIVE",
         inventory: 6,
-        image: "brocade_corset.webp",
+        image: "images/brocade_corset.webp",
         fabric: "Pure Banarasi Silk Brocade",
         fit: "Structured boned corset top + pleated palazzo trousers",
         craft: "Woven gold zari brocade motifs · Steel flex boning · Satin lining",
@@ -76,7 +76,7 @@ const DEFAULT_PRODUCTS = [
         price: 12900,
         badge: "HOT SELLER",
         inventory: 10,
-        image: "draped_corset_set.webp",
+        image: "images/draped_corset_set.webp",
         fabric: "Fluid Heavy Satin Silk",
         fit: "Asymmetric cowl drape tunic + cigarette pants",
         craft: "Hand-draped silk cowl detailing · Internal contour boning · Hidden side zip",
@@ -89,7 +89,7 @@ const DEFAULT_PRODUCTS = [
         price: 8500,
         badge: "NEW ARRIVAL",
         inventory: 12,
-        image: "pret_tunic.webp",
+        image: "images/pret_tunic.webp",
         fabric: "100% Breathable Cotton Linen",
         fit: "Mandarin collar tunic + cropped trousers",
         craft: "Handblock botanical print · Shell button placket · Utility side pockets",
@@ -102,7 +102,7 @@ const DEFAULT_PRODUCTS = [
         price: 16500,
         badge: "ROYAL PRET",
         inventory: 5,
-        image: "zardozi_corset.webp",
+        image: "images/zardozi_corset.webp",
         fabric: "Micro Velvet & Pure Raw Silk",
         fit: "Structured bandhgala velvet tunic + wide palazzo",
         craft: "Hand-embroidered zardozi & dabka work · Silk lining · Concealed zipper",
@@ -461,12 +461,22 @@ function setupCMSListeners() {
 
 
 
-// Clean Image Path Helper to extract filename and strip quotes/backslashes
-
+// Clean Image Path Helper to extract filename and ensure images/ prefix
 function cleanImagePath(path) {
-    if (!path) return "zardozi_corset.png";
+    if (!path) return "images/coord_black_floral.webp";
     let clean = String(path).split('"').join('').split("'").join('').trim();
-    clean = clean.split('\\').pop().split('/').pop();
+    if (clean.startsWith("http") || clean.startsWith("data:")) return clean;
+    const fname = clean.split('\\').pop().split('/').pop();
+    return "images/" + fname;
+}
+function cleanImagePathOld(path) {
+    if (!path) return "images/coord_black_floral.webp";
+    let clean = String(path).split('"').join('').split("'").join('').trim();
+    if (clean.startsWith("http") || clean.startsWith("data:")) return clean;
+    if (!clean.startsWith("images/")) {
+        const fname = clean.split('\\').pop().split('/').pop();
+        return "images/" + fname;
+    }
     return clean;
 }
 

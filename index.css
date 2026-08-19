@@ -1318,13 +1318,66 @@ ul, ol { list-style:none; }
     .footer-container { grid-template-columns: 1fr; gap: 2rem; }
     .footer-bottom { flex-direction: column; text-align: center; }
 
-    /* Product Detail Modal */
-    .modal-content-wrapper { margin: 0; border-radius: var(--radius-lg) var(--radius-lg) 0 0; margin-top: 4rem; }
-    .modal-grid { grid-template-columns: 1fr; }
-    .modal-image-side { max-height: 55vw; }
-    .modal-image-frame { aspect-ratio: 4/3; }
-    .modal-thumb-trust { flex-direction: row; flex-wrap: wrap; gap: 0.5rem; }
-    .modal-info-side { padding: 1.5rem 1.2rem; max-height: none; }
+    /* Product Detail Modal — Mobile Optimization */
+    .luxury-modal {
+        display: none;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 1rem 0.5rem 2rem;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    .luxury-modal.active {
+        display: flex !important;
+    }
+    .modal-content-wrapper {
+        margin: 1rem auto;
+        border-radius: 12px;
+        width: 95vw;
+        max-width: 500px;
+        max-height: none;
+        overflow: visible;
+        background: #181818;
+        border: 1px solid var(--gold);
+        box-shadow: 0 10px 40px rgba(0,0,0,0.9);
+    }
+    .modal-grid {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+    .modal-image-side {
+        width: 100%;
+        min-height: 360px;
+        max-height: none;
+        background: #111;
+        position: relative;
+    }
+    .modal-image-frame {
+        width: 100%;
+        height: 360px;
+        aspect-ratio: auto;
+        position: relative;
+        overflow: hidden;
+    }
+    .modal-image-frame img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        object-position: top center !important;
+        display: block !important;
+    }
+    .modal-thumb-trust {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        padding: 0.8rem 1rem;
+    }
+    .modal-info-side {
+        padding: 1.5rem 1.2rem;
+        max-height: none;
+        overflow: visible;
+    }
 
     /* Form modals */
     .form-modal-content { padding: 2rem 1.2rem; padding-top: 3rem; margin: 4rem auto 1rem; }
