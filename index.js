@@ -208,12 +208,13 @@ function renderProductsGrid() {
     c.innerHTML = filtered.map(p => {
         const isWish = wishlist.includes(p.id);
         return `
-        <div class="product-card" data-id="${p.id}">
+        <div class="product-card" data-id="${p.id}" onclick="openProductDetail('${p.id}')" role="button" tabindex="0">
             <div class="product-card-img-wrapper">
                 <span class="product-card-badge">${p.badge || "LUXURY PRET"}</span>
-                <button class="product-wishlist-btn ${isWish ? "active" : ""}"
+                <button type="button" class="product-wishlist-btn ${isWish ? "active" : ""}"
                     data-id="${p.id}"
                     data-action="wishlist"
+                    onclick="event.stopPropagation(); toggleWishlist('${p.id}');"
                     aria-label="${isWish ? "Remove from wishlist" : "Add to wishlist"}"
                     title="Wishlist">
                     <i class="${isWish ? "fa-solid" : "fa-regular"} fa-heart"></i>
@@ -226,7 +227,7 @@ function renderProductsGrid() {
                     <span class="product-card-price">${formatPrice(p.price)}</span>
                     <span class="gst-tag">INCL. GST</span>
                 </div>
-                <button class="card-action-tap-btn" data-id="${p.id}" data-action="open-detail">
+                <button type="button" class="card-action-tap-btn" data-id="${p.id}" data-action="open-detail" onclick="event.stopPropagation(); openProductDetail('${p.id}');">
                     <i class="fa-solid fa-eye"></i> View Details
                 </button>
             </div>
@@ -1382,17 +1383,30 @@ function loadProducts() {
             if (!img.startsWith("images/") && !img.startsWith("http") && !img.startsWith("data:")) {
                 img = "images/" + img;
             }
+            // Sanitize images array so other default dresses NEVER appear as extra angles
+            let validImages = [img];
+            if (Array.isArray(p.images) && p.images.length > 1) {
+                // If the images array was an old test mix of other default products, discard it
+                const isOldDefaultMix = p.images.some((src, idx) => idx > 0 && DEFAULT_PRODUCTS.some(dp => dp.id !== p.id && (dp.image === src || ("images/" + dp.image) === src)));
+                if (!isOldDefaultMix) {
+                    validImages = p.images.map(s => {
+                        if (!s.startsWith("images/") && !s.startsWith("http") && !s.startsWith("data:")) return "images/" + s;
+                        return s;
+                    });
+                }
+            }
             return {
                 ...(def || {}),
                 ...p,
-                image: img
+                image: img,
+                images: validImages
             };
         });
     } else {
-        products = [...DEFAULT_PRODUCTS];
+        products = DEFAULT_PRODUCTS.map(d => ({ ...d, images: [d.image] }));
     }
     if (!products || products.length === 0) {
-        products = [...DEFAULT_PRODUCTS];
+        products = DEFAULT_PRODUCTS.map(d => ({ ...d, images: [d.image] }));
     }
 }
 
@@ -1404,7 +1418,7 @@ function initStore() {
     unlockScroll();
 
     /* Multi-device version sync */
-    const STORE_VERSION = "52.0";
+    const STORE_VERSION = "55.0";
     if (getLocal("shapes_store_version", null) !== STORE_VERSION) {
         setLocal("shapes_store_version", STORE_VERSION);
         setLocal("shapes_products", DEFAULT_PRODUCTS);
