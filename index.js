@@ -389,56 +389,37 @@ function renderRazorpayAffordabilityWidget(priceInINR) {
     const rzpKey = cfg.razorpayKey || "rzp_live_TQ0RwUwXQjD3tq";
     const amountInPaise = Math.round((priceInINR || 0) * 100);
 
-    // Calculate approximate 3-month & 6-month EMI
-    const emi3Month = Math.round((priceInINR || 0) / 3);
-    const emi6Month = Math.round((priceInINR || 0) / 6);
+    if (amountInPaise <= 0) return;
 
-    // 1. Render Luxury EMI & Affordability Preview Banner
-    const emiBanner = document.createElement("div");
-    emiBanner.className = "luxury-emi-affordability-card";
-    emiBanner.style.cssText = "display:flex;align-items:center;gap:10px;background:rgba(197,160,89,0.07);border:1px solid rgba(197,160,89,0.25);border-radius:8px;padding:9px 12px;margin:8px 0 10px 0;font-size:0.78rem;color:#D8C4A0;";
-    emiBanner.innerHTML = `
-        <i class="fa-solid fa-credit-card" style="color:var(--gold);font-size:1rem;flex-shrink:0;"></i>
-        <div style="flex:1;line-height:1.4;">
-            <strong style="color:#FAF6EE;letter-spacing:0.02em;">EMI starting from ₹${emi6Month.toLocaleString('en-IN')}/month</strong>
-            <span style="display:block;color:#A89880;font-size:0.72rem;">No Cost EMI &amp; PayLater available via Razorpay (Cards, UPI, NetBanking)</span>
-        </div>
-        <span style="background:var(--gold);color:#111;font-weight:700;font-size:0.65rem;padding:2px 6px;border-radius:4px;letter-spacing:0.05em;">RAZORPAY</span>
-    `;
-    targetEl.appendChild(emiBanner);
-
-    // 2. Official Razorpay Affordability Suite Mount Container
-    const rzpMount = document.createElement("div");
-    rzpMount.id = "rzp-affordability-suite-mount";
-    targetEl.appendChild(rzpMount);
-
-    // 3. Initialize Official Razorpay Affordability Suite SDK
-    if (window.RazorpayAffordabilitySuite && rzpKey && amountInPaise > 0) {
-        try {
-            const suite = new window.RazorpayAffordabilitySuite({
-                key: rzpKey,
-                amount: amountInPaise,
-                currency: "INR"
-            });
-            suite.render();
-            console.log("⚡ [Razorpay Affordability Suite] Initialized for amount ₹" + priceInINR);
-        } catch(e) {
-            console.warn("Razorpay Affordability Suite Notice:", e);
-        }
-    } else if (!window.RazorpayAffordabilitySuite) {
-        // If script is still downloading, retry when loaded
-        setTimeout(() => {
-            if (window.RazorpayAffordabilitySuite && rzpKey && amountInPaise > 0) {
-                try {
-                    const suite = new window.RazorpayAffordabilitySuite({
-                        key: rzpKey,
-                        amount: amountInPaise,
-                        currency: "INR"
-                    });
-                    suite.render();
-                } catch(err) {}
+    function mountLiveRazorpayWidget() {
+        if (window.RazorpayAffordabilitySuite && rzpKey) {
+            try {
+                const suite = new window.RazorpayAffordabilitySuite({
+                    key: rzpKey,
+                    amount: amountInPaise,
+                    currency: "INR"
+                });
+                suite.render();
+                console.log("⚡ [Razorpay Live Affordability Suite] Rendered for ₹" + priceInINR);
+            } catch(e) {
+                console.warn("Razorpay Affordability Suite SDK:", e);
             }
-        }, 1200);
+        }
+    }
+
+    if (window.RazorpayAffordabilitySuite) {
+        mountLiveRazorpayWidget();
+    } else {
+        let attempts = 0;
+        const checkInterval = setInterval(() => {
+            attempts++;
+            if (window.RazorpayAffordabilitySuite) {
+                clearInterval(checkInterval);
+                mountLiveRazorpayWidget();
+            } else if (attempts > 25) {
+                clearInterval(checkInterval);
+            }
+        }, 120);
     }
 }
 
@@ -1232,6 +1213,16 @@ document.addEventListener("click", function(e) {
         document.querySelectorAll(".size-option").forEach(o => o.classList.remove("active"));
         sizeOpt.classList.add("active");
         selectedSize = sizeOpt.getAttribute("data-size") || "M";
+
+        // Highlight matching row in the Size Guide table
+        document.querySelectorAll(".size-chart-table tbody tr").forEach(row => {
+            const pill = row.querySelector(".size-pill");
+            if (pill) {
+                const match = pill.textContent.trim() === selectedSize;
+                row.classList.toggle("size-row-highlight", match);
+                pill.classList.toggle("size-pill-active", match);
+            }
+        });
         return;
     }
 

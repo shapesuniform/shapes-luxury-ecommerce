@@ -2769,7 +2769,7 @@ function generatePackingSlipPDF(ref) {
 
                     <div style="font-size:12px; font-weight:700;">SHAPES UNIFORM</div>
 
-                    <div style="font-size:11px; line-height:1.4;">SHAPES, SHOP NO 4, Waman Apartments, Ghatla Village Rd, near MAITRI PARK, Basant Garden, Chembur, Mumbai, Maharashtra 400071Basant Garden, Chembur, Mumbai, Maharashtra 400071</div>
+                    <div style="font-size:11px; line-height:1.4;">SHAPES, SHOP NO 4, Waman Apartments, Ghatla Village Rd, near MAITRI PARK, Basant Garden, Chembur, Mumbai, Maharashtra 400071</div>
 
                     <div style="margin-top:6px;">Direct Line: +91 98333 92756</div>
 

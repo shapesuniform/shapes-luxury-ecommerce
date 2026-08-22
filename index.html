@@ -723,55 +723,74 @@
                     <button type="button" class="size-guide-toggle" id="toggle-size-chart-btn"><i class="fa-solid fa-ruler-combined"></i> Size Guide</button>
                 </div>
 
-                <!-- Size Chart (hidden by default, toggled by Size Guide button) -->
+                                <!-- Size Chart (hidden by default, toggled by Size Guide button) -->
                 <div id="modal-size-chart-table" class="size-chart-wrapper" style="display:none;">
-                    <div class="size-chart-title">Shapes Size Chart · All measurements in inches</div>
+                    <div class="size-chart-header-row">
+                        <span class="size-chart-title"><i class="fa-solid fa-ruler-combined" style="color:var(--gold);margin-right:6px;"></i> Shapes Size Guide · Standard Body Measurements (Inches)</span>
+                    </div>
                     <div class="size-chart-scroll">
                         <table class="size-chart-table">
                             <thead>
                                 <tr>
                                     <th>Size</th>
-                                    <th>Bust</th>
-                                    <th>Waist</th>
-                                    <th>Hip</th>
-                                    <th>Trouser</th>
+                                    <th>Bust (in)</th>
+                                    <th>Waist (in)</th>
+                                    <th>Hip (in)</th>
+                                    <th>Trouser (in)</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr><td>XS</td><td>32–34</td><td>26–28</td><td>36–38</td><td>38</td></tr>
-                                <tr><td>S</td><td>34–36</td><td>28–30</td><td>38–40</td><td>39</td></tr>
-                                <tr><td>M</td><td>36–38</td><td>30–32</td><td>40–42</td><td>39.5</td></tr>
-                                <tr><td>L</td><td>38–40</td><td>32–34</td><td>42–44</td><td>40</td></tr>
-                                <tr><td>XL</td><td>40–42</td><td>34–36</td><td>44–46</td><td>40.5</td></tr>
-                                <tr><td>XXL</td><td>42–44</td><td>36–38</td><td>46–48</td><td>41</td></tr>
+                                <tr>
+                                    <td><span class="size-pill">XS</span></td>
+                                    <td>32 – 34″</td>
+                                    <td>26 – 28″</td>
+                                    <td>36 – 38″</td>
+                                    <td>38.0″</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="size-pill">S</span></td>
+                                    <td>34 – 36″</td>
+                                    <td>28 – 30″</td>
+                                    <td>38 – 40″</td>
+                                    <td>39.0″</td>
+                                </tr>
+                                <tr class="size-row-highlight">
+                                    <td><span class="size-pill size-pill-active">M</span></td>
+                                    <td><strong>36 – 38″</strong></td>
+                                    <td><strong>30 – 32″</strong></td>
+                                    <td><strong>40 – 42″</strong></td>
+                                    <td><strong>39.5″</strong></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="size-pill">L</span></td>
+                                    <td>38 – 40″</td>
+                                    <td>32 – 34″</td>
+                                    <td>42 – 44″</td>
+                                    <td>40.0″</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="size-pill">XL</span></td>
+                                    <td>40 – 42″</td>
+                                    <td>34 – 36″</td>
+                                    <td>44 – 46″</td>
+                                    <td>40.5″</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="size-pill">XXL</span></td>
+                                    <td>42 – 44″</td>
+                                    <td>36 – 38″</td>
+                                    <td>46 – 48″</td>
+                                    <td>41.0″</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
-                    <p class="size-chart-note">📏 Tip: Measure your chest, waist & hip, then match to the chart above. If between sizes, size up.</p>
-                </div>
-
-                <!-- Size Options -->
-                <div class="sizes-grid" id="modal-sizes-container">
-                    <button type="button" class="size-option" data-size="XS">XS</button>
-                    <button type="button" class="size-option" data-size="S">S</button>
-                    <button type="button" class="size-option active" data-size="M">M</button>
-                    <button type="button" class="size-option" data-size="L">L</button>
-                    <button type="button" class="size-option" data-size="XL">XL</button>
-                    <button type="button" class="size-option" data-size="XXL">XXL</button>
-                </div>
-
-                <!-- Product Accordion Details -->
-                <div class="product-accordions">
-
-                    <div class="prod-acc-item" id="acc-desc">
-                        <button type="button" class="prod-acc-trigger" data-acc="acc-desc">
-                            <span><i class="fa-solid fa-align-left"></i> Description</span>
-                            <i class="fa-solid fa-chevron-down prod-acc-icon"></i>
-                        </button>
-                        <div class="prod-acc-body">
-                            <p class="prod-acc-text" id="modal-product-desc"></p>
-                        </div>
+                    <div class="size-chart-tips">
+                        <div class="tip-item"><i class="fa-solid fa-circle-check" style="color:var(--gold);"></i> <span><strong>Bust:</strong> Measure around the fullest part of your chest.</span></div>
+                        <div class="tip-item"><i class="fa-solid fa-circle-check" style="color:var(--gold);"></i> <span><strong>Waist:</strong> Measure around your natural waistline.</span></div>
+                        <div class="tip-item"><i class="fa-solid fa-circle-check" style="color:var(--gold);"></i> <span><strong>Custom Fit:</strong> Need custom tailoring? Tap <em>Ask on WhatsApp</em> for complimentary bespoke fitting.</span></div>
                     </div>
+                </div>
 
                     <div class="prod-acc-item" id="acc-fabric">
                         <button type="button" class="prod-acc-trigger" data-acc="acc-fabric">
