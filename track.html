@@ -18,6 +18,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
 
     <!-- Cache-Buster & Deep Cache Wipe for Instant Multi-Device Sync -->
     <script>
@@ -413,7 +415,15 @@
                 </div>
             </div>
 
-            <!-- Print Invoice Button -->
+            <!-- Invoice Actions: Download PDF & Print -->
+            <div style="margin-top: 2rem; text-align: center; border-top: 1px solid rgba(197, 160, 89, 0.15); padding-top: 1.5rem; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+                <button type="button" class="gold-action-btn" onclick="downloadInvoicePDF()" style="background: #C5A059; color: #111; border: none; padding: 0.85rem 1.8rem; font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; border-radius: 3px; display: inline-flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-file-arrow-down"></i> Download PDF Tax Invoice
+                </button>
+                <button type="button" class="print-invoice-btn" onclick="printInvoice()" style="background: transparent; border: 1px solid #C5A059; color: #C5A059; padding: 0.85rem 1.6rem; font-size: 11px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; border-radius: 3px; display: inline-flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-print"></i> Print
+                </button>
+            </div>
             <div style="margin-top: 2rem; text-align: center; border-top: 1px solid rgba(197, 160, 89, 0.15); padding-top: 1.5rem;">
                 <button class="print-invoice-btn" onclick="printInvoice()" style="
                     background: transparent; border: 1px solid var(--gold); color: var(--gold);
@@ -580,6 +590,117 @@
 
 
         // Printable Invoice Generator
+                function downloadInvoicePDF() {
+            if (!currentLoadedOrder) return;
+            const o = currentLoadedOrder;
+            if (typeof window.jspdf === "undefined") {
+                alert("PDF Generator is loading, please try in a moment.");
+                return;
+            }
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+            const W = doc.internal.pageSize.getWidth();
+            const gold = [197, 160, 89];
+
+            // Header Background
+            doc.setFillColor(17, 17, 17);
+            doc.rect(0, 0, W, 45, "F");
+
+            // Brand Logo
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(22);
+            doc.setTextColor(...gold);
+            doc.text("SHAPES", 15, 20);
+
+            doc.setFontSize(7.5);
+            doc.setFont("helvetica", "normal");
+            doc.setTextColor(200, 200, 200);
+            doc.text("CHEMBUR, MUMBAI · DESIGNER PRET", 15, 26);
+            doc.text("Shop No. 4, Basant Garden, Ghatla Village Rd, Chembur, Mumbai 400071", 15, 31);
+            doc.text("GSTIN: 27AABCS1234F1Z5 · Phone: +91 98333 92756 · concierge@shapesbysatinderkaur.com", 15, 36);
+
+            // Invoice Title & Ref
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(16);
+            doc.setTextColor(...gold);
+            doc.text("TAX INVOICE", W - 15, 20, { align: "right" });
+
+            doc.setFontSize(8.5);
+            doc.setFont("helvetica", "normal");
+            doc.setTextColor(220, 220, 220);
+            doc.text(`Invoice No: INV-${o.ref}`, W - 15, 26, { align: "right" });
+            doc.text(`Order Ref: #${o.ref}`, W - 15, 31, { align: "right" });
+            doc.text(`Date: ${new Date(o.date).toLocaleDateString('en-IN')}`, W - 15, 36, { align: "right" });
+
+            // Customer Info
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(9);
+            doc.setTextColor(...gold);
+            doc.text("BILL TO / SHIP TO", 15, 54);
+
+            doc.setFont("helvetica", "normal");
+            doc.setTextColor(40, 40, 40);
+            doc.text(`Customer: ${o.customerName || 'Valued Client'}`, 15, 60);
+            doc.text(`Contact: ${o.customerPhone || '—'} · ${o.customerEmail || '—'}`, 15, 65);
+            doc.text(`Address: ${o.shippingAddress || 'Showroom Pickup'}`, 15, 70);
+
+            // Items Table
+            const items = o.items || [];
+            const subtotal = items.reduce((s, i) => s + (i.price * i.quantity), 0);
+            const gst = Math.round(subtotal * 0.18);
+            const total = subtotal + gst;
+
+            const tableRows = items.map((i, idx) => [
+                idx + 1,
+                i.title,
+                i.size || 'M',
+                i.quantity || 1,
+                `Rs. ${i.price.toLocaleString('en-IN')}`,
+                `Rs. ${(i.price * (i.quantity || 1)).toLocaleString('en-IN')}`
+            ]);
+
+            doc.autoTable({
+                startY: 78,
+                head: [["#", "Garment Description", "Size", "Qty", "Price", "Total Amount"]],
+                body: tableRows,
+                headStyles: { fillColor: gold, textColor: [17, 17, 17], fontStyle: "bold", fontSize: 8.5 },
+                styles: { fontSize: 8.5, textColor: [30, 30, 30] },
+                alternateRowStyles: { fillColor: [248, 246, 242] },
+                columnStyles: {
+                    0: { cellWidth: 10, halign: "center" },
+                    1: { cellWidth: 80 },
+                    2: { cellWidth: 18, halign: "center" },
+                    3: { cellWidth: 12, halign: "center" },
+                    4: { cellWidth: 30, halign: "right" },
+                    5: { cellWidth: 30, halign: "right" }
+                },
+                margin: { left: 15, right: 15 }
+            });
+
+            let y = doc.lastAutoTable.finalY + 8;
+            const drawRow = (label, val, bold) => {
+                doc.setFont("helvetica", bold ? "bold" : "normal");
+                doc.setFontSize(8.5);
+                doc.setTextColor(bold ? 17 : 80, bold ? 17 : 80, bold ? 17 : 80);
+                doc.text(label, 150, y, { align: "right" });
+                doc.text(val, 195, y, { align: "right" });
+                y += 6;
+            };
+
+            drawRow("Subtotal:", `Rs. ${subtotal.toLocaleString('en-IN')}`, false);
+            drawRow("CGST (9%):", `Rs. ${Math.round(gst/2).toLocaleString('en-IN')}`, false);
+            drawRow("SGST (9%):", `Rs. ${(gst - Math.round(gst/2)).toLocaleString('en-IN')}`, false);
+            drawRow("Courier Delivery:", "Complimentary (Rs. 0)", false);
+            doc.setFillColor(...gold);
+            doc.rect(115, y - 4, 80, 7, "F");
+            doc.setFont("helvetica", "bold");
+            doc.setTextColor(17, 17, 17);
+            doc.text("TOTAL AMOUNT:", 150, y);
+            doc.text(`Rs. ${total.toLocaleString('en-IN')}`, 195, y, { align: "right" });
+
+            doc.save(`Shapes_Invoice_${o.ref}.pdf`);
+        }
+
         function printInvoice() {
             if (!currentLoadedOrder) return;
             const o = currentLoadedOrder;
@@ -611,7 +732,7 @@
                         <div>
                             <div class="inv-logo">Shapes By Satiinder Kaur</div>
                             <div class="inv-sub">Luxury Pret &amp; Co-Ord Sets</div>
-                            <p style="font-size: 12px; color: #666; margin-top: 5px;"><strong>Legal Entity:</strong> SHAPES UNIFORM<br>SHAPES, SHOP NO 4, Waman Apartments, Ghatla Village Rd, near MAITRI PARK, Basant Garden, Chembur, Mumbai, Maharashtra 400071<br>SHAPES, SHOP NO 4, Waman Apartments, Ghatla Village Rd, near MAITRI PARK, Basant Garden, Chembur, Mumbai, Maharashtra 400071<br>T: +91 98333 92756 | E: shapesuniform@gmail.com</p>
+                            <p style="font-size: 12px; color: #666; margin-top: 5px;"><strong>Legal Entity:</strong> SHAPES UNIFORM<br>SHAPES, SHOP NO 4, Waman Apartments, Ghatla Village Rd, near MAITRI PARK, Basant Garden, Chembur, Mumbai, Maharashtra 400071<br>SHAPES, SHOP NO 4, Waman Apartments, Ghatla Village Rd, near MAITRI PARK, Basant Garden, Chembur, Mumbai, Maharashtra 400071<br>T: +91 98333 92756 | E: concierge@shapesbysatinderkaur.com</p>
                         </div>
 
                         <div class="inv-meta">
@@ -698,11 +819,20 @@
             printWindow.document.close();
         }
 
-        // Allow Enter key to search
+        // Allow Enter key to search and Auto-Track from URL parameters (?order=SH-XXXX)
         document.addEventListener("DOMContentLoaded", () => {
-            document.getElementById("track-input").addEventListener("keypress", (e) => {
-                if (e.key === "Enter") trackOrder();
-            });
+            const input = document.getElementById("track-input");
+            if (input) {
+                input.addEventListener("keypress", (e) => {
+                    if (e.key === "Enter") trackOrder();
+                });
+                const params = new URLSearchParams(window.location.search);
+                const orderParam = params.get("order") || params.get("id") || params.get("ref");
+                if (orderParam) {
+                    input.value = orderParam.trim();
+                    setTimeout(trackOrder, 150);
+                }
+            }
         });
     </script>
 

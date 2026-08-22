@@ -16,6 +16,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="admin.css?v=46.0">
 
+    <!-- PDF Generation Suite -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
     <link rel="manifest" href="admin-manifest.json">
 
     <script>
@@ -28,7 +31,7 @@
             var raw = passInput ? passInput.value : "";
             var pass = raw.trim().toLowerCase();
 
-            var valid = ["luxury2026", "shapes2026", "admin", "admin123", "shapes", "shapesuniform", "shapesuniform@gmail.com", "satiinder", "satiinderkaur", "1234"];
+            var valid = ["luxury2026", "shapes2026", "admin", "admin123", "shapes", "shapesuniform", "concierge@shapesbysatinderkaur.com", "satiinder", "satiinderkaur", "1234"];
 
             if (pass && (valid.indexOf(pass) !== -1 || pass === "luxury2026")) {
                 sessionStorage.setItem("shapes_cms_unlocked", "true");
@@ -98,6 +101,7 @@
         }
         window.toggleMobileSidebar = toggleMobileSidebar;
     </script>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 
 <body>
@@ -126,6 +130,7 @@
             <i class="fa-solid fa-lock security-lock-icon"></i>
             <h3>ENTER ACCESS CODE</h3>
             <p>Please enter your administrator access code to manage catalog, orders, and boutique settings.</p>
+            <div class="cf-turnstile" data-sitekey="0x4AAAAAAEYb4IAdDvFPJ5FX" data-theme="dark" style="margin: 1rem 0; display: flex; justify-content: center;"></div>
             <div class="login-input-group" style="position:relative; display:flex; align-items:center;">
                 <input type="password" id="cms-pass-input" placeholder="Enter Access Code" autocomplete="current-password" onkeydown="if(event.key==='Enter') handleAdminUnlock()">
                 <button type="button" onclick="const inp=document.getElementById('cms-pass-input');inp.type=inp.type==='password'?'text':'password';" style="background:none; border:none; color:var(--grey-dark); padding:0 12px; cursor:pointer;" title="Show/Hide Passcode">

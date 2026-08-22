@@ -1,3 +1,61 @@
+/* ── AUTOMATED WELCOME EMAIL DISPATCHER ─────────────────────── */
+async function sendWelcomeEmail(userName, userEmail) {
+    if (!userEmail) return;
+    const key = "shapes_welcome_sent_" + userEmail.toLowerCase();
+    if (localStorage.getItem(key)) return;
+
+    if (typeof emailjs !== "undefined" && EMAILJS_CONFIG.publicKey !== "YOUR_EMAILJS_PUBLIC_KEY") {
+        try {
+            await emailjs.send(EMAILJS_CONFIG.serviceId, "template_welcome", {
+                to_name: userName || "Valued Connoisseur",
+                to_email: userEmail,
+                brand_name: "SHAPES",
+                boutique_url: "https://shapesbysatinderkaur.com/#catalog",
+                concierge_phone: "+91 98333 92756",
+                boutique_address: "Shop No. 4, Basant Garden, Chembur, Mumbai"
+            });
+            localStorage.setItem(key, "true");
+            console.log("💌 [Welcome Email] Dispatched to " + userEmail);
+        } catch(e) {
+            console.warn("Welcome email:", e);
+        }
+    }
+}
+
+/* ── SMART GEO-LOCATION CURRENCY AUTO-DETECTION ──────────────── */
+function autoDetectVisitorCurrency() {
+    // If user already manually selected a currency, respect it
+    const savedCurr = localStorage.getItem("shapes_selected_currency");
+    if (savedCurr && CURRENCY_RATES[savedCurr]) {
+        selectedCurrency = savedCurr;
+        const selector = document.getElementById("currency-selector");
+        if (selector) selector.value = savedCurr;
+        return;
+    }
+
+    try {
+        const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
+        let detected = "INR";
+
+        if (tz.includes("Dubai") || tz.includes("Muscat") || tz.includes("Abu_Dhabi") || tz.includes("Asia/Dubai")) {
+            detected = "AED";
+        } else if (tz.includes("London") || tz.includes("Europe/Belfast") || tz.includes("GB")) {
+            detected = "GBP";
+        } else if (tz.includes("New_York") || tz.includes("Los_Angeles") || tz.includes("Chicago") || tz.includes("Toronto") || tz.includes("America")) {
+            detected = "USD";
+        } else if (tz.includes("Paris") || tz.includes("Berlin") || tz.includes("Rome") || tz.includes("Madrid") || tz.includes("Amsterdam") || tz.includes("Europe")) {
+            detected = "EUR";
+        }
+
+        selectedCurrency = detected;
+        const selector = document.getElementById("currency-selector");
+        if (selector) selector.value = detected;
+        console.log("🌍 [Geo-Currency Auto-Detect] Initialized to: " + detected);
+    } catch(e) {
+        selectedCurrency = "INR";
+    }
+}
+
 
 function normalizeProductImage(imgPath) {
     if (!imgPath) return "images/coord_black_floral.webp";
@@ -219,7 +277,7 @@ function renderProductsGrid() {
                     title="Wishlist">
                     <i class="${isWish ? "fa-solid" : "fa-regular"} fa-heart"></i>
                 </button>
-                <img src="${normalizeProductImage(p.image)}" alt="${p.title}" loading="lazy" decoding="async">
+                <img src="${normalizeProductImage(p.image)}" alt="${p.title} — Shapes By Satiinder Kaur Designer Co-Ord Set Mumbai" title="${p.title} | Shapes By Satiinder Kaur" loading="lazy" decoding="async">
             </div>
             <div class="product-card-info">
                 <h3 class="product-card-title">${p.title}</h3>
@@ -392,6 +450,34 @@ function renderRazorpayAffordabilityWidget(priceInINR) {
 
     if (amountInPaise <= 0) return;
 
+    // Calculate real monthly EMI
+    const emi6Month = Math.round(priceInINR / 6);
+
+    // Render Luxury Gold EMI Banner
+    const emiBanner = document.createElement("div");
+    emiBanner.className = "luxury-emi-card";
+    emiBanner.style.cssText = "background:rgba(197,160,89,0.08);border:1px solid rgba(197,160,89,0.25);border-radius:8px;padding:10px 14px;margin:8px 0 12px 0;display:flex;align-items:center;gap:12px;";
+    emiBanner.innerHTML = `
+        <div style="background:rgba(197,160,89,0.2);width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#C5A059;flex-shrink:0;">
+            <i class="fa-solid fa-credit-card" style="font-size:0.9rem;"></i>
+        </div>
+        <div style="flex:1;">
+            <div style="color:#FAF6EE;font-size:0.82rem;font-weight:600;letter-spacing:0.02em;">
+                EMI from <span style="color:#C5A059;font-weight:700;">₹${emi6Month.toLocaleString('en-IN')}/mo</span>
+            </div>
+            <div style="color:#B8A890;font-size:0.72rem;margin-top:2px;">
+                No Cost EMI &amp; PayLater available at Razorpay checkout
+            </div>
+        </div>
+        <span style="background:#C5A059;color:#111;font-size:0.65rem;font-weight:700;padding:3px 7px;border-radius:4px;letter-spacing:0.05em;">RAZORPAY</span>
+    `;
+    targetEl.appendChild(emiBanner);
+
+    // Live Razorpay Affordability SDK mount point
+    const rzpMount = document.createElement("div");
+    rzpMount.id = "rzp-affordability-suite-mount";
+    targetEl.appendChild(rzpMount);
+
     function mountLiveRazorpayWidget() {
         if (window.RazorpayAffordabilitySuite && rzpKey) {
             try {
@@ -401,10 +487,7 @@ function renderRazorpayAffordabilityWidget(priceInINR) {
                     currency: "INR"
                 });
                 suite.render();
-                console.log("⚡ [Razorpay Live Affordability Suite] Rendered for ₹" + priceInINR);
-            } catch(e) {
-                console.warn("Razorpay Affordability Suite SDK:", e);
-            }
+            } catch(e) {}
         }
     }
 
@@ -733,7 +816,7 @@ const EMAILJS_CONFIG = {
     serviceId:           "YOUR_EMAILJS_SERVICE_ID",     // EmailJS Dashboard → Email Services → Service ID
     customerTemplateId:  "YOUR_CUSTOMER_TEMPLATE_ID",   // Template for customer order confirmation
     ownerTemplateId:     "YOUR_OWNER_TEMPLATE_ID",      // Template for owner new order alert
-    ownerEmail:          "shapesuniform@gmail.com"      // Boutique owner email
+    ownerEmail:          "concierge@shapesbysatinderkaur.com"      // Boutique owner email
 };
 
 /* ── INIT EMAILJS ─────────────────────────────────────────── */
@@ -777,7 +860,7 @@ function generatePDFInvoice(orderData) {
     doc.setFont("helvetica", "normal");
     doc.setFontSize(8);
     doc.text("LUXURY PRET & CO-ORD SETS  ·  BASANT GARDEN, CHEMBUR, MUMBAI 400071", W / 2, 23, { align: "center" });
-    doc.text("Tel: +91 98333 92756  ·  Email: shapesuniform@gmail.com  ·  shapesbysatinderkaur.com", W / 2, 29, { align: "center" });
+    doc.text("Tel: +91 98333 92756  ·  Email: concierge@shapesbysatinderkaur.com  ·  shapesbysatinderkaur.com", W / 2, 29, { align: "center" });
 
     /* ── TAX INVOICE label ── */
     doc.setFont("helvetica", "bold");
@@ -914,7 +997,7 @@ function generatePDFInvoice(orderData) {
     doc.setTextColor(140, 140, 140);
     doc.text("This is a computer-generated invoice and does not require a signature.", W / 2, y, { align: "center" });
     y += 5;
-    doc.text("For queries: +91 98333 92756  ·  shapesuniform@gmail.com  ·  shapesbysatinderkaur.com", W / 2, y, { align: "center" });
+    doc.text("For queries: +91 98333 92756  ·  concierge@shapesbysatinderkaur.com  ·  shapesbysatinderkaur.com", W / 2, y, { align: "center" });
 
     _lastInvoicePdfDoc = doc;
     return doc;
@@ -953,18 +1036,28 @@ async function sendOrderEmails(orderData) {
     }
 
     const items = (orderData.items || []);
-    const subtotal = items.reduce((s, i) => s + i.price * i.quantity, 0);
+    const subtotal = items.reduce((s, i) => s + (i.price * i.quantity), 0);
     const gst       = Math.round(subtotal * 0.18); // Strict 18% GST
     const total    = subtotal + gst;
-    const itemsText = items.map(i => `• ${i.title}  (Size: ${i.size}, Qty: ${i.quantity})  — ₹${(i.price*i.quantity).toLocaleString("en-IN")}`).join("\n");
+    const itemsText = items.map(i => `• ${i.title}  [Size: ${i.size || 'M'}, Qty: ${i.quantity || 1}]  — ₹${((i.price || 0) * (i.quantity || 1)).toLocaleString("en-IN")}`).join("\n");
 
     const commonParams = {
-        order_id:      orderData.ref || orderData.id,
-        items_list:    itemsText,
-        total:         `₹${total.toLocaleString("en-IN")}`,
-        address:       orderData.shippingAddress || "—",
-        payment_ref:   orderData.paymentId || "—",
-        boutique_phone: "+91 98333 92756"
+        order_id:         orderData.ref || orderData.id,
+        items_list:       itemsText,
+        subtotal:         `₹${subtotal.toLocaleString("en-IN")}`,
+        gst_amount:       `₹${gst.toLocaleString("en-IN")} (18% GST)`,
+        total:            `₹${total.toLocaleString("en-IN")}`,
+        total_amount:     `₹${total.toLocaleString("en-IN")}`,
+        address:          orderData.shippingAddress || "—",
+        shipping_address: orderData.shippingAddress || "—",
+        payment_ref:      orderData.paymentId || "—",
+        payment_id:       orderData.paymentId || "Prepaid",
+        customer_name:    orderData.customerName || "Customer",
+        customer_phone:   orderData.customerPhone || "—",
+        customer_email:   orderData.customerEmail || "—",
+        boutique_phone:   "+91 98333 92756",
+        order_date:       new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }),
+        admin_portal:     "https://shapesbysatinderkaur.com/admin.html"
     };
 
     try {
@@ -976,22 +1069,19 @@ async function sendOrderEmails(orderData) {
         });
         console.info("Customer confirmation email sent to", orderData.customerEmail);
     } catch(e) {
-        console.warn("Customer email failed:", e);
+        console.warn("Customer email notice:", e);
     }
 
     try {
-        /* ── Owner/boutique email ── */
+        /* ── Owner/Boutique alert email ── */
         await emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.ownerTemplateId, {
             ...commonParams,
             to_name:       "Satiinder Kaur",
-            to_email:      EMAILJS_CONFIG.ownerEmail,
-            customer_name:  orderData.customerName,
-            customer_phone: orderData.customerPhone,
-            customer_email: orderData.customerEmail
+            to_email:      EMAILJS_CONFIG.ownerEmail || "shapesuniform@gmail.com"
         });
-        console.info("Owner notification email sent");
+        console.info("Owner notification email sent to shapesuniform@gmail.com");
     } catch(e) {
-        console.warn("Owner email failed:", e);
+        console.warn("Owner email notice:", e);
     }
 }
 
@@ -1067,11 +1157,16 @@ async function completeOrderSuccess(orderId, paymentRef, info, totalINR, fullAdd
         const gst       = Math.round(subtotal * 0.18); // Strict 18% GST
         const total    = subtotal + gst;
         msgEl.innerHTML = `
-            Hello <strong>${info.fullName}</strong>, your order has been confirmed!<br><br>
-            A confirmation email has been sent to <strong>${info.email}</strong>.<br>
-            We will WhatsApp you at <strong>${info.phone}</strong> once your order is dispatched.<br><br>
+            Hello <strong>${info.fullName}</strong>, your bespoke couture order has been confirmed!<br><br>
+            A confirmation email with your official PDF Tax Invoice has been sent to <strong>${info.email}</strong>.<br>
+            We will update you at <strong>${info.phone}</strong> as your garment is tailored.<br><br>
             <strong style="color:var(--gold);">Total Paid: ₹${total.toLocaleString("en-IN")}</strong>
-            <span style="font-size:0.75rem;color:#888;"> (incl. 5% GST)</span>
+            <span style="font-size:0.75rem;color:#888;"> (incl. 18% GST &amp; Insured Express Courier)</span>
+            <div style="margin-top:1.2rem;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+                <a href="track.html?order=${orderId}" class="gold-action-btn" style="display:inline-flex;align-items:center;gap:6px;padding:9px 16px;font-size:0.75rem;border-radius:4px;text-decoration:none;">
+                    <i class="fa-solid fa-location-crosshairs"></i> Track Order Live
+                </a>
+            </div>
         `;
     }
 
@@ -1361,6 +1456,7 @@ function initInputListeners() {
     const currEl = document.getElementById("currency-selector");
     if (currEl) currEl.addEventListener("change", e => {
         selectedCurrency = e.target.value;
+        localStorage.setItem("shapes_selected_currency", selectedCurrency);
         renderProductsGrid();
     renderJournalArticles();
         if (cart.length) renderCartUI();
@@ -1414,6 +1510,7 @@ function loadProducts() {
    INIT
 ══════════════════════════════════════════════════════════ */
 function initStore() {
+    autoDetectVisitorCurrency();
     /* Ensure scroll is unlocked on load */
     unlockScroll();
 

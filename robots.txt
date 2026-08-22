@@ -1,5 +1,23 @@
+# ═════════════════════════════════════════════════════════════
+# ROBOTS.TXT — Shapes By Satiinder Kaur (Luxury Fashion)
+# ═════════════════════════════════════════════════════════════
+
+User-agent: Googlebot
+User-agent: Googlebot-Image
+User-agent: Bingbot
+User-agent: Applebot
+User-agent: Pinterestbot
+Allow: /
+Allow: /images/
+Allow: /*.webp$
+Allow: /*.png$
+Allow: /*.css$
+Allow: /*.js$
+
 User-agent: *
 Allow: /
 Disallow: /admin.html
+Disallow: /admin-manifest.json
+Disallow: /packaging_suite.html
 
 Sitemap: https://shapesbysatinderkaur.com/sitemap.xml

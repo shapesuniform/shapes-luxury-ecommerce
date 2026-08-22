@@ -18,6 +18,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
 
     <!-- Cache-Buster & Deep Cache Wipe for Instant Multi-Device Sync -->
     <script>
@@ -487,7 +490,7 @@ async function recordCustomerLogin(user, extraData = {}) {
                             <div>
                                 <div class="inv-logo">SHAPES UNIFORM</div>
                                 <div class="inv-sub">Shapes By Satiinder Kaur</div>
-                                <p style="font-size: 12px; color: #cccccc; margin-top: 5px;"><strong>Legal Entity:</strong> SHAPES UNIFORM<br>SHAPES, SHOP NO 4, Waman Apartments, Ghatla Village Rd, near MAITRI PARK, Basant Garden, Chembur, Mumbai, Maharashtra 400071<br>SHAPES, SHOP NO 4, Waman Apartments, Ghatla Village Rd, near MAITRI PARK, Basant Garden, Chembur, Mumbai, Maharashtra 400071<br>T: +91 98333 92756 | E: shapesuniform@gmail.com</p>
+                                <p style="font-size: 12px; color: #cccccc; margin-top: 5px;"><strong>Legal Entity:</strong> SHAPES UNIFORM<br>SHAPES, SHOP NO 4, Waman Apartments, Ghatla Village Rd, near MAITRI PARK, Basant Garden, Chembur, Mumbai, Maharashtra 400071<br>SHAPES, SHOP NO 4, Waman Apartments, Ghatla Village Rd, near MAITRI PARK, Basant Garden, Chembur, Mumbai, Maharashtra 400071<br>T: +91 98333 92756 | E: concierge@shapesbysatinderkaur.com</p>
                             </div>
 
                             <div class="inv-meta">
@@ -587,10 +590,35 @@ async function recordCustomerLogin(user, extraData = {}) {
             try {
                 const cred = await signInWithEmailAndPassword(auth, email, pass);
                 await recordCustomerLogin(cred.user);
+                sendWelcomeEmail(cred.user.displayName || email.split('@')[0], email);
             } catch (e) {
                 errEl.textContent = e.code === "auth/invalid-credential" ? "Incorrect email or password." : e.message;
             }
         };
+
+                // Automated Luxury Welcome Email Dispatcher via EmailJS
+        async function sendWelcomeEmail(userName, userEmail) {
+            if (!userEmail) return;
+            const key = "shapes_welcome_sent_" + userEmail.toLowerCase();
+            if (localStorage.getItem(key)) return; // Prevent duplicate emails
+
+            if (typeof emailjs !== "undefined") {
+                try {
+                    await emailjs.send("service_shapes", "template_welcome", {
+                        to_name: userName || "Valued Connoisseur",
+                        to_email: userEmail,
+                        brand_name: "SHAPES",
+                        boutique_url: "https://shapesbysatinderkaur.com/#catalog",
+                        concierge_phone: "+91 98333 92756",
+                        boutique_address: "Shop No. 4, Basant Garden, Chembur, Mumbai"
+                    });
+                    localStorage.setItem(key, "true");
+                    console.log("💌 [Welcome Email] Dispatched to " + userEmail);
+                } catch(e) {
+                    console.warn("Welcome email notice:", e);
+                }
+            }
+        }
 
         window.handleSignup = async () => {
             const name = document.getElementById("signup-name").value.trim();
@@ -604,6 +632,7 @@ async function recordCustomerLogin(user, extraData = {}) {
                 const cred = await createUserWithEmailAndPassword(auth, email, pass);
                 await updateProfile(cred.user, { displayName: name });
                 await recordCustomerLogin(cred.user, { name, phone });
+                sendWelcomeEmail(name, email);
             } catch (e) {
                 errEl.textContent = e.code === "auth/email-already-in-use" ? "An account with this email already exists." : e.message;
             }

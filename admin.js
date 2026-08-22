@@ -239,7 +239,7 @@ function handleAdminUnlock() {
         "admin123",
         "shapes",
         "shapesuniform",
-        "shapesuniform@gmail.com",
+        "concierge@shapesbysatinderkaur.com",
         "satiinder",
         "satiinderkaur",
         "1234"
