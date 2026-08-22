@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Boutique Appointment | Shapes By Satiinder Kaur | Chembur Mumbai</title>
+  <meta name="description" content="Book a personal styling appointment at Shapes By Satiinder Kaur flagship studio in Chembur, Mumbai. Bespoke fitting, bridal consultations & custom measurements.">
+  <link rel="canonical" href="https://shapesbysatinderkaur.com/appointment.html">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <style>
+    :root{--charcoal:#0F0F0F;--charcoal-light:#161616;--gold:#C5A059;--gold-light:#E0C899;--ivory:#FAF6F0;--grey:#999;--font-serif:"Cormorant Garamond",Georgia,serif;--font-sans:"Montserrat",-apple-system,sans-serif;--transition:all 0.3s cubic-bezier(0.25,0.46,0.45,0.94)}
+    *{box-sizing:border-box;margin:0;padding:0}body{background:var(--charcoal);color:var(--ivory);font-family:var(--font-sans);min-height:100vh}
+    .appt-header{display:flex;justify-content:space-between;align-items:center;padding:1.2rem 2rem;border-bottom:1px solid rgba(197,160,89,0.15)}
+    .brand-title{text-decoration:none;display:flex;flex-direction:column}.logo-main{font-family:var(--font-serif);font-size:1.4rem;letter-spacing:0.25em;color:var(--ivory);font-weight:300}.logo-sub{font-size:9px;letter-spacing:0.2em;color:var(--gold);text-transform:uppercase;margin-top:2px}
+    .back-btn{color:rgba(255,255,255,0.6);text-decoration:none;font-size:11px;letter-spacing:0.1em;display:flex;align-items:center;gap:6px;transition:var(--transition)}.back-btn:hover{color:var(--gold)}
+    .appt-hero{text-align:center;padding:4rem 2rem 2.5rem}.appt-hero .tag{font-size:10px;letter-spacing:0.3em;color:var(--gold);text-transform:uppercase;display:block;margin-bottom:1rem}
+    .appt-hero h1{font-family:var(--font-serif);font-size:clamp(1.8rem,5vw,3rem);font-weight:300;margin-bottom:1rem}
+    .gold-divider{width:50px;height:1px;background:var(--gold);margin:0 auto 1.2rem}
+    .appt-hero p{color:rgba(255,255,255,0.6);font-size:13px;line-height:1.8;max-width:520px;margin:0 auto}
+    .booking-grid{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;max-width:960px;margin:2rem auto;padding:0 2rem 4rem}
+    @media(max-width:768px){.booking-grid{grid-template-columns:1fr}}
+    .booking-form-panel{background:var(--charcoal-light);border:1px solid rgba(197,160,89,0.2);border-radius:6px;padding:2rem}
+    .booking-form-panel h3{font-family:var(--font-serif);font-size:1.4rem;font-weight:400;margin-bottom:0.4rem}
+    .booking-form-panel>p{font-size:12px;color:var(--grey);line-height:1.7;margin-bottom:1.5rem}
+    .form-group{margin-bottom:1.2rem}.form-group label{display:block;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+    .form-group input,.form-group select,.form-group textarea{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(197,160,89,0.2);color:var(--ivory);padding:0.75rem 1rem;font-size:13px;font-family:var(--font-sans);border-radius:3px;outline:none;transition:var(--transition)}
+    .form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--gold);background:rgba(197,160,89,0.06)}
+    .form-group select option{background:#1a1a1a}
+    .submit-btn{width:100%;background:var(--gold);color:#111;border:none;padding:1rem;font-size:11px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;border-radius:3px;transition:var(--transition);margin-top:0.5rem}
+    .submit-btn:hover{background:var(--gold-light)}.submit-btn:disabled{opacity:0.5;cursor:not-allowed}
+    .success-msg{display:none;background:rgba(197,160,89,0.1);border:1px solid var(--gold);border-radius:4px;padding:1.5rem;text-align:center;font-size:13px;margin-top:1rem}
+    .info-panel{display:flex;flex-direction:column;gap:1.2rem}
+    .info-card{background:var(--charcoal-light);border:1px solid rgba(197,160,89,0.15);border-radius:6px;padding:1.5rem}
+    .info-card .icon{color:var(--gold);font-size:1.2rem;margin-bottom:0.7rem}
+    .info-card h4{font-family:var(--font-serif);font-size:1.1rem;font-weight:400;margin-bottom:0.5rem}
+    .info-card p{font-size:12px;color:rgba(255,255,255,0.65);line-height:1.8}
+    .slot-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:0.8rem}
+    .slot{background:rgba(197,160,89,0.06);border:1px solid rgba(197,160,89,0.2);border-radius:3px;padding:6px;text-align:center;font-size:11px;color:rgba(255,255,255,0.5)}
+    .slot.available{border-color:rgba(197,160,89,0.5);color:var(--gold)}
+    .wa-book-btn{display:inline-flex;align-items:center;gap:6px;margin-top:0.8rem;background:#25D366;color:#fff;padding:0.6rem 1.2rem;border-radius:3px;font-size:11px;font-weight:700;text-decoration:none;letter-spacing:0.1em}
+  </style>
+</head>
+<body>
+  <header class="appt-header">
+    <a href="index.html" class="brand-title"><span class="logo-main">SHAPES</span><span class="logo-sub">by Satiinder Kaur</span></a>
+    <a href="index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Return to Showroom</a>
+  </header>
+
+  <div class="appt-hero">
+    <span class="tag">Flagship Studio &middot; Chembur, Mumbai</span>
+    <h1>Book a Personal Styling Appointment</h1>
+    <div class="gold-divider"></div>
+    <p>Visit our Chembur atelier for a private bespoke fitting, bridal consultation, or custom measurement session with Satiinder Kaur.</p>
+  </div>
+
+  <div class="booking-grid">
+    <div class="booking-form-panel">
+      <h3>Reserve Your Session</h3>
+      <p>All appointments are confirmed via WhatsApp within 2 hours of booking.</p>
+      <form id="appointment-form" onsubmit="submitAppointment(event)">
+        <div class="form-group"><label>Your Full Name</label><input type="text" id="appt-name" required placeholder="Enter your name"></div>
+        <div class="form-group"><label>WhatsApp Number</label><input type="tel" id="appt-phone" required placeholder="+91 98765 43210"></div>
+        <div class="form-group"><label>Email Address</label><input type="email" id="appt-email" required placeholder="your@email.com"></div>
+        <div class="form-group"><label>Preferred Date</label><input type="date" id="appt-date" required></div>
+        <div class="form-group"><label>Preferred Time Slot</label>
+          <select id="appt-time" required>
+            <option value="">Select a time slot</option>
+            <option>11:00 AM - 12:00 PM</option><option>12:00 PM - 1:00 PM</option>
+            <option>2:00 PM - 3:00 PM</option><option>3:00 PM - 4:00 PM</option>
+            <option>4:00 PM - 5:00 PM</option><option>6:00 PM - 7:00 PM</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Session Type</label>
+          <select id="appt-type" required>
+            <option value="">Select session type</option>
+            <option>Bespoke Fitting and Custom Measurement</option>
+            <option>Bridal Couture Consultation</option>
+            <option>New Collection Preview</option>
+            <option>Co-Ord Set Personal Styling</option>
+            <option>Festive Wardrobe Planning</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Special Requests (Optional)</label>
+          <textarea id="appt-notes" rows="2" placeholder="Event date, design preferences, measurements..."></textarea>
+        </div>
+        <button type="submit" class="submit-btn" id="appt-submit-btn"><i class="fa-regular fa-calendar-check"></i> &nbsp;CONFIRM APPOINTMENT</button>
+      </form>
+      <div class="success-msg" id="appt-success">
+        <i class="fa-solid fa-circle-check" style="color:var(--gold);font-size:1.5rem;display:block;margin-bottom:0.5rem"></i>
+        <strong>Appointment Confirmed! ✨</strong><br>Our concierge will confirm via WhatsApp within 2 hours.
+      </div>
+    </div>
+
+    <div class="info-panel">
+      <div class="info-card">
+        <div class="icon"><i class="fa-solid fa-location-dot"></i></div>
+        <h4>Flagship Studio Address</h4>
+        <p>SHAPES, Shop No. 4, Waman Apartments<br>Ghatla Village Road, near Maitri Park<br>Basant Garden, Chembur, Mumbai 400071<br><br>
+        <strong style="color:var(--gold)">Mon - Sun: 11:00 AM - 8:00 PM IST</strong></p>
+        <a href="https://maps.google.com/?q=Shapes+Boutique+Chembur+Mumbai" target="_blank" style="display:inline-block;margin-top:0.8rem;color:var(--gold);font-size:11px;text-decoration:none;letter-spacing:0.1em"><i class="fa-solid fa-diamond-turn-right"></i> Get Directions</a>
+      </div>
+      <div class="info-card">
+        <div class="icon"><i class="fa-regular fa-clock"></i></div>
+        <h4>Available Time Slots</h4>
+        <p>Sessions are 45-60 minutes. Walk-ins welcome but appointments receive priority service.</p>
+        <div class="slot-grid">
+          <div class="slot available">11 AM</div><div class="slot available">12 PM</div><div class="slot">1 PM</div>
+          <div class="slot available">2 PM</div><div class="slot available">3 PM</div><div class="slot available">4 PM</div>
+          <div class="slot">5 PM</div><div class="slot available">6 PM</div><div class="slot available">7 PM</div>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="icon"><i class="fa-brands fa-whatsapp"></i></div>
+        <h4>Prefer WhatsApp?</h4>
+        <p>Book instantly via WhatsApp. Our concierge responds within minutes during store hours.</p>
+        <a href="https://wa.me/919833392756?text=Hi%20Satiinder%20Ji%2C%20I%20would%20like%20to%20book%20a%20styling%20appointment%20at%20the%20Chembur%20studio." target="_blank" class="wa-book-btn"><i class="fa-brands fa-whatsapp"></i> Book via WhatsApp</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("appt-date").min = new Date().toISOString().split("T")[0];
+    async function submitAppointment(e) {
+      e.preventDefault();
+      const btn = document.getElementById("appt-submit-btn");
+      btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> &nbsp;Confirming...';
+      const name = document.getElementById("appt-name").value.trim();
+      const phone = document.getElementById("appt-phone").value.trim();
+      const email = document.getElementById("appt-email").value.trim();
+      const date = document.getElementById("appt-date").value;
+      const time = document.getElementById("appt-time").value;
+      const type = document.getElementById("appt-type").value;
+      const notes = document.getElementById("appt-notes").value.trim();
+      const formattedDate = new Date(date + "T12:00:00").toLocaleDateString("en-IN", {weekday:"long",day:"numeric",month:"long",year:"numeric"});
+      const waMsg = "Hi Satiinder Ji, I would like to book a styling appointment:
+
+Name: " + name + "
+Phone: " + phone + "
+Date: " + formattedDate + "
+Time: " + time + "
+Session: " + type + (notes ? "
+Notes: " + notes : "");
+      window.open("https://wa.me/919833392756?text=" + encodeURIComponent(waMsg), "_blank");
+      document.getElementById("appointment-form").style.display = "none";
+      document.getElementById("appt-success").style.display = "block";
+    }
+  </script>
+</body>
+</html>

@@ -816,7 +816,7 @@ const EMAILJS_CONFIG = {
     serviceId:           "YOUR_EMAILJS_SERVICE_ID",     // EmailJS Dashboard → Email Services → Service ID
     customerTemplateId:  "YOUR_CUSTOMER_TEMPLATE_ID",   // Template for customer order confirmation
     ownerTemplateId:     "YOUR_OWNER_TEMPLATE_ID",      // Template for owner new order alert
-    ownerEmail:          "concierge@shapesbysatinderkaur.com"      // Boutique owner email
+    ownerEmail:          "concierge@shapes_boutique.com"      // Boutique owner email
 };
 
 /* ── INIT EMAILJS ─────────────────────────────────────────── */
@@ -860,7 +860,7 @@ function generatePDFInvoice(orderData) {
     doc.setFont("helvetica", "normal");
     doc.setFontSize(8);
     doc.text("LUXURY PRET & CO-ORD SETS  ·  BASANT GARDEN, CHEMBUR, MUMBAI 400071", W / 2, 23, { align: "center" });
-    doc.text("Tel: +91 98333 92756  ·  Email: concierge@shapesbysatinderkaur.com  ·  shapesbysatinderkaur.com", W / 2, 29, { align: "center" });
+    doc.text("Tel: +91 98333 92756  ·  Email: concierge@shapes_boutique.com  ·  shapesbysatinderkaur.com", W / 2, 29, { align: "center" });
 
     /* ── TAX INVOICE label ── */
     doc.setFont("helvetica", "bold");
@@ -997,7 +997,7 @@ function generatePDFInvoice(orderData) {
     doc.setTextColor(140, 140, 140);
     doc.text("This is a computer-generated invoice and does not require a signature.", W / 2, y, { align: "center" });
     y += 5;
-    doc.text("For queries: +91 98333 92756  ·  concierge@shapesbysatinderkaur.com  ·  shapesbysatinderkaur.com", W / 2, y, { align: "center" });
+    doc.text("For queries: +91 98333 92756  ·  concierge@shapes_boutique.com  ·  shapesbysatinderkaur.com", W / 2, y, { align: "center" });
 
     _lastInvoicePdfDoc = doc;
     return doc;
@@ -1077,9 +1077,9 @@ async function sendOrderEmails(orderData) {
         await emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.ownerTemplateId, {
             ...commonParams,
             to_name:       "Satiinder Kaur",
-            to_email:      EMAILJS_CONFIG.ownerEmail || "shapesuniform@gmail.com"
+            to_email:      EMAILJS_CONFIG.ownerEmail || "concierge@shapes_boutique.com"
         });
-        console.info("Owner notification email sent to shapesuniform@gmail.com");
+        console.info("Owner notification email sent to concierge@shapes_boutique.com");
     } catch(e) {
         console.warn("Owner email notice:", e);
     }
@@ -2114,3 +2114,150 @@ function updateWhatsAppBtn(product) {
         });
     }
 })();
+
+/* ── ABANDONED CART RECOVERY ───────────────────────────────────────── */
+function initAbandonedCartRecovery() {
+    // Triggered when user adds to cart — we save a timestamp + cart snapshot
+    window._cartRecoveryTimers = window._cartRecoveryTimers || {};
+
+    window.triggerAbandonedCartRecovery = function(customerEmail, customerName, cartItems) {
+        if (!customerEmail) return;
+        const key = "shapes_cart_recovery_" + customerEmail.toLowerCase();
+
+        // Clear any existing timer
+        if (window._cartRecoveryTimers[customerEmail]) {
+            clearTimeout(window._cartRecoveryTimers[customerEmail]);
+        }
+
+        // Save cart snapshot
+        localStorage.setItem(key, JSON.stringify({ email: customerEmail, name: customerName, items: cartItems, ts: Date.now() }));
+
+        // Fire WhatsApp recovery message after 45 minutes if no purchase
+        window._cartRecoveryTimers[customerEmail] = setTimeout(function() {
+            const saved = localStorage.getItem(key);
+            if (!saved) return; // Cart was cleared = order placed
+            const data = JSON.parse(saved);
+            const itemNames = (data.items || []).map(i => i.title).join(", ");
+            const cleanPhone = (data.phone || "").replace(/[^\d]/g, "");
+            const waMsg = "Hi " + (data.name || "there") + "! This is SHAPES By Satiinder Kaur. We noticed you left some gorgeous pieces in your cart: " + itemNames + ". Ready to complete your order? We have complimentary express delivery across India. Shop here: https://shapesbysatinderkaur.com";
+            if (cleanPhone) window.open("https://wa.me/" + cleanPhone + "?text=" + encodeURIComponent(waMsg), "_blank");
+        }, 45 * 60 * 1000); // 45 minutes
+    };
+
+    // Clear recovery when order is placed
+    window.clearAbandonedCartRecovery = function(customerEmail) {
+        if (!customerEmail) return;
+        const key = "shapes_cart_recovery_" + customerEmail.toLowerCase();
+        localStorage.removeItem(key);
+        if (window._cartRecoveryTimers[customerEmail]) {
+            clearTimeout(window._cartRecoveryTimers[customerEmail]);
+        }
+    };
+}
+initAbandonedCartRecovery();
+
+/* ── AI PRODUCT RECOMMENDATION ENGINE ─────────────────────────────── */
+const PRODUCT_TAGS = {
+    "coord_beige_linen":     ["linen","neutral","casual","everyday","festive"],
+    "coord_black_floral":    ["floral","festive","printed","evening","statement"],
+    "coord_indigo_print":    ["printed","casual","indigo","everyday","chic"],
+    "coord_royal_emerald":   ["festive","royal","occasion","silk","zari"],
+    "draped_corset_set":     ["corset","evening","party","draped","modern"],
+    "pret_tunic":            ["tunic","casual","everyday","comfort","linen"],
+    "brocade_corset":        ["corset","brocade","bridal","evening","heavy"],
+    "zardozi_corset":        ["zardozi","bridal","embroidery","occasion","heavy"]
+};
+
+function getProductRecommendations(currentProductKey, count) {
+    count = count || 3;
+    const viewed = JSON.parse(localStorage.getItem("shapes_viewed_products") || "[]");
+    const allTags = new Set();
+
+    // Collect tags from current product + last 2 viewed
+    const checkKeys = [currentProductKey, ...(viewed.slice(-2))];
+    checkKeys.forEach(k => { if (PRODUCT_TAGS[k]) PRODUCT_TAGS[k].forEach(t => allTags.add(t)); });
+
+    // Score all products by tag overlap
+    const scores = {};
+    Object.entries(PRODUCT_TAGS).forEach(([key, tags]) => {
+        if (key === currentProductKey) return;
+        scores[key] = tags.filter(t => allTags.has(t)).length;
+    });
+
+    // Sort by score, then shuffle ties, return top N
+    const recs = Object.entries(scores)
+        .sort((a,b) => b[1] - a[1] || Math.random() - 0.5)
+        .slice(0, count)
+        .map(([k]) => k);
+
+    // Track this view
+    const updatedViewed = [...viewed.filter(k => k !== currentProductKey), currentProductKey].slice(-10);
+    localStorage.setItem("shapes_viewed_products", JSON.stringify(updatedViewed));
+
+    return recs;
+}
+
+function renderRecommendations(currentProductKey, containerId) {
+    const container = document.getElementById(containerId);
+    if (!container || typeof PRODUCTS === "undefined") return;
+
+    const recs = getProductRecommendations(currentProductKey, 4);
+    const recProducts = recs.map(key => PRODUCTS.find(p => p.image && p.image.includes(key))).filter(Boolean);
+
+    if (!recProducts.length) { container.style.display = "none"; return; }
+
+    container.innerHTML = recProducts.map(p => {
+        const price = typeof convertPrice === "function" ? convertPrice(p.price) : "Rs. " + p.price.toLocaleString("en-IN");
+        return '<div class="rec-card" onclick="openProductModal(' + JSON.stringify(p).replace(/"/g,"&quot;") + ')" style="cursor:pointer;flex:1;min-width:160px;background:rgba(255,255,255,0.03);border:1px solid rgba(197,160,89,0.15);border-radius:4px;overflow:hidden;transition:all 0.25s">' +
+            '<img src="' + (p.image || "") + '" alt="' + p.title + '" loading="lazy" style="width:100%;aspect-ratio:3/4;object-fit:cover">' +
+            '<div style="padding:0.8rem">' +
+            '<div style="font-size:11px;color:#FAF6EE;font-weight:500;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + p.title + '</div>' +
+            '<div style="font-size:12px;color:#C5A059;font-weight:600">' + price + '</div>' +
+            '</div></div>';
+    }).join("");
+}
+
+/* ── LUXURY NEWSLETTER SIGNUP ──────────────────────────────────────── */
+function initNewsletterPopup() {
+    const dismissed = localStorage.getItem("shapes_newsletter_dismissed");
+    const subscribed = localStorage.getItem("shapes_newsletter_subscribed");
+    if (dismissed || subscribed) return;
+
+    // Show popup after 30 seconds on site
+    setTimeout(function() {
+        const popup = document.getElementById("newsletter-popup");
+        if (popup) { popup.style.display = "flex"; }
+    }, 30000);
+}
+
+window.dismissNewsletter = function() {
+    const popup = document.getElementById("newsletter-popup");
+    if (popup) popup.style.display = "none";
+    localStorage.setItem("shapes_newsletter_dismissed", "1");
+};
+
+window.submitNewsletter = async function() {
+    const emailEl = document.getElementById("newsletter-email");
+    const nameEl = document.getElementById("newsletter-name");
+    if (!emailEl || !emailEl.value.trim()) return;
+
+    const email = emailEl.value.trim();
+    const name = nameEl ? nameEl.value.trim() : "Inner Circle Member";
+
+    if (typeof emailjs !== "undefined") {
+        try {
+            await emailjs.send("service_shapes", "template_welcome", {
+                to_name: name || "Inner Circle Member",
+                to_email: email,
+                brand_name: "SHAPES",
+                boutique_url: "https://shapesbysatinderkaur.com/#catalog"
+            });
+        } catch(e) {}
+    }
+
+    localStorage.setItem("shapes_newsletter_subscribed", "1");
+    const popup = document.getElementById("newsletter-popup");
+    if (popup) {
+        popup.innerHTML = '<div style="background:#161616;border:1px solid #C5A059;border-radius:8px;padding:2.5rem 2rem;max-width:420px;text-align:center;"><i class="fa-solid fa-envelope-open-text" style="color:#C5A059;font-size:2rem;margin-bottom:1rem;display:block"></i><h3 style="font-family:Georgia,serif;color:#FAF6EE;font-weight:300;margin-bottom:0.5rem">Welcome to the Inner Circle ✨</h3><p style="color:#999;font-size:13px;line-height:1.7">You will receive our luxury lookbooks and exclusive early access drops at <strong style="color:#FAF6EE">' + email + '</strong></p><button onclick="dismissNewsletter()" style="margin-top:1.2rem;background:#C5A059;color:#111;border:none;padding:0.7rem 1.5rem;font-size:11px;font-weight:700;letter-spacing:0.15em;cursor:pointer;border-radius:3px">CLOSE</button></div>';
+    }
+};

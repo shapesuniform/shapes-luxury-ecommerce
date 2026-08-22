@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Find My Size Quiz | Shapes By Satiinder Kaur</title>
+  <meta name="description" content="Take the SHAPES size quiz to find your perfect size. Answer 5 quick questions about your measurements and get an instant size recommendation.">
+  <link rel="canonical" href="https://shapesbysatinderkaur.com/sizequiz.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --charcoal:#0F0F0F; --charcoal-light:#161616; --charcoal-mid:#1E1E1E;
+      --gold:#C5A059; --gold-light:#E0C899; --gold-glow:rgba(197,160,89,0.18);
+      --ivory:#FAF6F0; --grey:#999; --grey-dark:#444;
+      --font-serif:"Cormorant Garamond",Georgia,serif;
+      --font-sans:"Montserrat",-apple-system,sans-serif;
+      --ease:cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; }
+    body {
+      background:var(--charcoal); color:var(--ivory); font-family:var(--font-sans);
+      min-height:100vh; overflow-x:hidden;
+      background-image: radial-gradient(ellipse 80% 60% at 50% -20%, rgba(197,160,89,0.06) 0%, transparent 70%);
+    }
+
+    /* ── Header ──────────────────────────────────────────────────────── */
+    .quiz-header {
+      display:flex; justify-content:space-between; align-items:center;
+      padding:1.2rem 2rem; border-bottom:1px solid rgba(197,160,89,0.12);
+      position:sticky; top:0; z-index:100; background:rgba(15,15,15,0.92); backdrop-filter:blur(12px);
+    }
+    .brand-link { text-decoration:none; display:flex; flex-direction:column; }
+    .brand-name { font-family:var(--font-serif); font-size:1.35rem; letter-spacing:0.28em; color:var(--ivory); font-weight:300; }
+    .brand-sub  { font-size:8px; letter-spacing:0.22em; color:var(--gold); text-transform:uppercase; margin-top:1px; }
+    .back-link  { color:rgba(255,255,255,0.5); text-decoration:none; font-size:11px; letter-spacing:0.1em; display:flex; align-items:center; gap:6px; transition:color 0.25s; }
+    .back-link:hover { color:var(--gold); }
+
+    /* ── Hero ─────────────────────────────────────────────────────────── */
+    .quiz-hero { text-align:center; padding:4rem 2rem 2rem; }
+    .quiz-tag { font-size:9px; letter-spacing:0.35em; color:var(--gold); text-transform:uppercase; display:block; margin-bottom:1rem; }
+    .quiz-hero h1 { font-family:var(--font-serif); font-size:clamp(2rem,6vw,3.4rem); font-weight:300; line-height:1.15; margin-bottom:0.8rem; }
+    .quiz-hero h1 em { color:var(--gold); font-style:italic; }
+    .gold-line { width:44px; height:1px; background:var(--gold); margin:1rem auto; }
+    .quiz-hero p { color:rgba(255,255,255,0.55); font-size:13px; line-height:1.9; max-width:480px; margin:0 auto; }
+
+    /* ── Progress bar ────────────────────────────────────────────────── */
+    .progress-wrapper { max-width:520px; margin:2.5rem auto 0; padding:0 2rem; }
+    .progress-steps { display:flex; justify-content:space-between; margin-bottom:8px; }
+    .progress-step-label { font-size:9px; letter-spacing:0.12em; color:var(--grey); text-transform:uppercase; transition:color 0.3s; }
+    .progress-step-label.active { color:var(--gold); }
+    .progress-bar-track { height:3px; background:rgba(255,255,255,0.07); border-radius:2px; overflow:hidden; }
+    .progress-bar-fill  { height:100%; background:linear-gradient(90deg,var(--gold),var(--gold-light)); border-radius:2px; transition:width 0.5s var(--ease); width:20%; }
+
+    /* ── Steps Container ─────────────────────────────────────────────── */
+    .quiz-body { max-width:600px; margin:0 auto; padding:2rem 1.5rem 5rem; }
+
+    .quiz-step { display:none; animation:stepIn 0.4s var(--ease) both; }
+    .quiz-step.active { display:block; }
+    @keyframes stepIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+
+    .step-icon { width:56px; height:56px; border-radius:50%; border:1px solid rgba(197,160,89,0.35); display:flex; align-items:center; justify-content:center; margin:0 auto 1.5rem; color:var(--gold); font-size:1.3rem; background:var(--gold-glow); }
+    .step-num  { font-size:9px; letter-spacing:0.25em; color:var(--gold); text-transform:uppercase; text-align:center; margin-bottom:0.6rem; }
+    .step-question { font-family:var(--font-serif); font-size:clamp(1.4rem,4vw,2rem); font-weight:300; text-align:center; line-height:1.4; margin-bottom:0.5rem; }
+    .step-hint { font-size:11px; color:var(--grey); text-align:center; line-height:1.7; margin-bottom:2rem; }
+
+    /* ── Option Buttons ──────────────────────────────────────────────── */
+    .options-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:1.5rem; }
+    .options-grid.single-col { grid-template-columns:1fr; }
+    .opt-btn {
+      background:var(--charcoal-mid); border:1px solid rgba(197,160,89,0.18);
+      color:rgba(255,255,255,0.8); padding:1rem 1.2rem; border-radius:5px; cursor:pointer;
+      font-family:var(--font-sans); font-size:12px; letter-spacing:0.08em; text-align:left;
+      transition:all 0.2s var(--ease); display:flex; align-items:center; gap:10px; position:relative; overflow:hidden;
+    }
+    .opt-btn::before { content:""; position:absolute; inset:0; background:linear-gradient(135deg,var(--gold-glow),transparent); opacity:0; transition:opacity 0.25s; }
+    .opt-btn:hover { border-color:rgba(197,160,89,0.5); color:var(--ivory); }
+    .opt-btn:hover::before { opacity:1; }
+    .opt-btn.selected { border-color:var(--gold); color:var(--ivory); background:rgba(197,160,89,0.08); }
+    .opt-btn.selected::before { opacity:1; }
+    .opt-icon { font-size:1.2rem; flex-shrink:0; }
+    .opt-text { display:flex; flex-direction:column; }
+    .opt-title { font-weight:600; font-size:13px; }
+    .opt-sub   { font-size:10px; color:var(--grey); margin-top:2px; }
+    .opt-check { position:absolute; right:12px; top:50%; transform:translateY(-50%); color:var(--gold); font-size:14px; opacity:0; transition:opacity 0.2s; }
+    .opt-btn.selected .opt-check { opacity:1; }
+
+    /* ── Number Input (height / weight / custom) ─────────────────────── */
+    .measure-input-wrap { position:relative; max-width:280px; margin:0 auto 1.5rem; }
+    .measure-input {
+      width:100%; background:var(--charcoal-mid); border:1px solid rgba(197,160,89,0.25);
+      color:var(--ivory); padding:1rem 3.5rem 1rem 1.2rem; font-size:1.4rem; font-family:var(--font-sans);
+      font-weight:300; border-radius:5px; outline:none; text-align:center; transition:border-color 0.25s;
+    }
+    .measure-input:focus { border-color:var(--gold); }
+    .measure-unit { position:absolute; right:1rem; top:50%; transform:translateY(-50%); color:var(--gold); font-size:13px; font-weight:600; letter-spacing:0.1em; pointer-events:none; }
+    .unit-toggle { display:flex; gap:8px; justify-content:center; margin-bottom:1.5rem; }
+    .unit-btn { background:none; border:1px solid rgba(197,160,89,0.2); color:var(--grey); padding:4px 14px; border-radius:20px; font-size:11px; cursor:pointer; transition:all 0.2s; }
+    .unit-btn.active { border-color:var(--gold); color:var(--gold); background:rgba(197,160,89,0.08); }
+
+    /* ── Nav Buttons ─────────────────────────────────────────────────── */
+    .step-nav { display:flex; gap:12px; margin-top:0.5rem; }
+    .btn-next, .btn-back {
+      flex:1; padding:0.95rem; border-radius:4px; font-size:11px; font-weight:700;
+      letter-spacing:0.2em; text-transform:uppercase; cursor:pointer; transition:all 0.25s;
+    }
+    .btn-next { background:var(--gold); color:#111; border:none; }
+    .btn-next:hover { background:var(--gold-light); }
+    .btn-next:disabled { opacity:0.35; cursor:not-allowed; }
+    .btn-back { background:none; border:1px solid rgba(197,160,89,0.25); color:rgba(255,255,255,0.5); }
+    .btn-back:hover { border-color:var(--gold); color:var(--ivory); }
+
+    /* ── Result Panel ────────────────────────────────────────────────── */
+    #quiz-result { display:none; }
+    .result-card {
+      background:var(--charcoal-light); border:1px solid rgba(197,160,89,0.3);
+      border-radius:8px; padding:2.5rem 2rem; text-align:center; margin-bottom:1.5rem;
+      position:relative; overflow:hidden;
+    }
+    .result-card::before { content:""; position:absolute; top:-60px; left:50%; transform:translateX(-50%); width:200px; height:200px; border-radius:50%; background:radial-gradient(circle,rgba(197,160,89,0.12),transparent 70%); pointer-events:none; }
+    .result-badge { display:inline-block; font-family:var(--font-serif); font-size:4.5rem; font-weight:300; color:var(--gold); letter-spacing:0.1em; line-height:1; margin-bottom:0.5rem; }
+    .result-label { font-size:10px; letter-spacing:0.3em; color:rgba(255,255,255,0.5); text-transform:uppercase; display:block; margin-bottom:1.5rem; }
+    .confidence-bar-wrap { max-width:260px; margin:0 auto 1.2rem; }
+    .confidence-label { font-size:11px; color:var(--grey); margin-bottom:6px; display:flex; justify-content:space-between; }
+    .confidence-track { height:5px; background:rgba(255,255,255,0.06); border-radius:3px; overflow:hidden; }
+    .confidence-fill  { height:100%; background:linear-gradient(90deg,var(--gold),var(--gold-light)); border-radius:3px; transition:width 1s var(--ease); }
+    .result-measurements { display:flex; justify-content:center; gap:1.5rem; flex-wrap:wrap; margin-bottom:1.5rem; }
+    .meas-chip { background:rgba(197,160,89,0.07); border:1px solid rgba(197,160,89,0.2); border-radius:30px; padding:5px 14px; font-size:11px; color:rgba(255,255,255,0.65); }
+    .meas-chip strong { color:var(--gold); margin-right:3px; }
+    .result-note { font-size:12px; color:rgba(255,255,255,0.5); line-height:1.8; }
+    .alt-sizes { margin-top:1rem; }
+    .alt-sizes-label { font-size:10px; letter-spacing:0.15em; color:var(--grey); text-transform:uppercase; margin-bottom:8px; }
+    .alt-pills { display:flex; gap:8px; justify-content:center; flex-wrap:wrap; }
+    .alt-pill { background:rgba(255,255,255,0.04); border:1px solid rgba(197,160,89,0.15); border-radius:20px; padding:4px 14px; font-size:11px; color:var(--grey); }
+    .alt-pill.primary-match { border-color:var(--gold); color:var(--gold); font-weight:700; }
+
+    .result-actions { display:flex; flex-direction:column; gap:10px; }
+    .btn-shop-now {
+      display:block; background:var(--gold); color:#111; text-decoration:none; text-align:center;
+      padding:1rem; font-size:11px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase;
+      border-radius:4px; transition:background 0.25s;
+    }
+    .btn-shop-now:hover { background:var(--gold-light); }
+    .btn-retake {
+      display:block; background:none; border:1px solid rgba(197,160,89,0.25); color:rgba(255,255,255,0.5);
+      padding:0.8rem; font-size:11px; font-weight:600; letter-spacing:0.15em; text-transform:uppercase;
+      border-radius:4px; cursor:pointer; transition:all 0.25s; text-align:center; text-decoration:none;
+    }
+    .btn-retake:hover { border-color:var(--gold); color:var(--ivory); }
+
+    /* ── Sparkle animation ───────────────────────────────────────────── */
+    @keyframes sparkle { 0%,100%{opacity:0;transform:scale(0) rotate(0deg)} 50%{opacity:1;transform:scale(1) rotate(180deg)} }
+    .sparkle-dot { position:absolute; width:5px; height:5px; border-radius:50%; background:var(--gold); animation:sparkle 1.5s ease-in-out infinite; pointer-events:none; }
+  </style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="quiz-header">
+  <a href="index.html" class="brand-link">
+    <span class="brand-name">SHAPES</span>
+    <span class="brand-sub">by Satiinder Kaur</span>
+  </a>
+  <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Return to Showroom</a>
+</header>
+
+<!-- Hero -->
+<div class="quiz-hero">
+  <span class="quiz-tag">Personalized Fit Intelligence</span>
+  <h1>Find Your <em>Perfect</em> Size</h1>
+  <div class="gold-line"></div>
+  <p>Answer 5 quick questions about your body and we will recommend the ideal SHAPES size — no tape measure required.</p>
+</div>
+
+<!-- Progress -->
+<div class="progress-wrapper">
+  <div class="progress-steps">
+    <span class="progress-step-label active" id="plab-1">Body Type</span>
+    <span class="progress-step-label" id="plab-2">Height</span>
+    <span class="progress-step-label" id="plab-3">Chest</span>
+    <span class="progress-step-label" id="plab-4">Waist</span>
+    <span class="progress-step-label" id="plab-5">Hips</span>
+  </div>
+  <div class="progress-bar-track">
+    <div class="progress-bar-fill" id="progress-fill"></div>
+  </div>
+</div>
+
+<!-- Quiz Body -->
+<div class="quiz-body">
+
+  <!-- ── STEP 1: Body Build ─────────────────────────────────────────── -->
+  <div class="quiz-step active" id="step-1">
+    <div class="step-icon"><i class="fa-solid fa-person-dress"></i></div>
+    <div class="step-num">Step 1 of 5</div>
+    <h2 class="step-question">How would you describe your build?</h2>
+    <p class="step-hint">This helps us fine-tune the fit recommendation between sizes</p>
+    <div class="options-grid">
+      <button class="opt-btn" data-q="build" data-v="petite" onclick="selectOption(this)">
+        <span class="opt-icon">🌸</span>
+        <span class="opt-text"><span class="opt-title">Petite / Slim</span><span class="opt-sub">Smaller frame, lean build</span></span>
+        <i class="fa-solid fa-check opt-check"></i>
+      </button>
+      <button class="opt-btn" data-q="build" data-v="regular" onclick="selectOption(this)">
+        <span class="opt-icon">✨</span>
+        <span class="opt-text"><span class="opt-title">Regular / Average</span><span class="opt-sub">Balanced, proportionate frame</span></span>
+        <i class="fa-solid fa-check opt-check"></i>
+      </button>
+      <button class="opt-btn" data-q="build" data-v="athletic" onclick="selectOption(this)">
+        <span class="opt-icon">💪</span>
+        <span class="opt-text"><span class="opt-title">Athletic / Toned</span><span class="opt-sub">Broader shoulders, muscular</span></span>
+        <i class="fa-solid fa-check opt-check"></i>
+      </button>
+      <button class="opt-btn" data-q="build" data-v="curvy" onclick="selectOption(this)">
+        <span class="opt-icon">🌺</span>
+        <span class="opt-text"><span class="opt-title">Curvy / Full Figure</span><span class="opt-sub">Wider hips, full bust</span></span>
+        <i class="fa-solid fa-check opt-check"></i>
+      </button>
+    </div>
+    <div class="step-nav">
+      <button class="btn-next" id="next-1" onclick="goNext(1)" disabled>Next &rarr;</button>
+    </div>
+  </div>
+
+  <!-- ── STEP 2: Height ─────────────────────────────────────────────── -->
+  <div class="quiz-step" id="step-2">
+    <div class="step-icon"><i class="fa-solid fa-arrows-up-down"></i></div>
+    <div class="step-num">Step 2 of 5</div>
+    <h2 class="step-question">What is your height?</h2>
+    <p class="step-hint">We use this to check trouser length and overall silhouette proportion</p>
+    <div class="unit-toggle">
+      <button class="unit-btn active" id="height-cm-btn" onclick="setHeightUnit('cm')">cm</button>
+      <button class="unit-btn" id="height-ft-btn" onclick="setHeightUnit('ft')">ft / in</button>
+    </div>
+    <div class="measure-input-wrap" id="height-cm-wrap">
+      <input class="measure-input" type="number" id="height-cm" placeholder="162" min="130" max="210" oninput="validateStep2()">
+      <span class="measure-unit">cm</span>
+    </div>
+    <div class="measure-input-wrap" id="height-ft-wrap" style="display:none">
+      <input class="measure-input" type="number" id="height-ft" placeholder="5" min="4" max="7" style="padding-right:5rem" oninput="validateStep2()">
+      <span class="measure-unit">ft</span>
+    </div>
+    <div class="measure-input-wrap" id="height-in-wrap" style="display:none; margin-top:-1rem;">
+      <input class="measure-input" type="number" id="height-in" placeholder="3" min="0" max="11" style="padding-right:5rem" oninput="validateStep2()">
+      <span class="measure-unit">in</span>
+    </div>
+    <div class="options-grid" style="margin-top:1rem;">
+      <button class="opt-btn" data-q="height_range" data-v="petite" onclick="selectOption(this);validateStep2()">
+        <span class="opt-text"><span class="opt-title">Below 5 ft 3&Prime;</span><span class="opt-sub">Under 160 cm</span></span>
+        <i class="fa-solid fa-check opt-check"></i>
+      </button>
+      <button class="opt-btn" data-q="height_range" data-v="regular" onclick="selectOption(this);validateStep2()">
+        <span class="opt-text"><span class="opt-title">5 ft 3&Prime; &ndash; 5 ft 7&Prime;</span><span class="opt-sub">160 &ndash; 170 cm</span></span>
+        <i class="fa-solid fa-check opt-check"></i>
+      </button>
+      <button class="opt-btn" data-q="height_range" data-v="tall" onclick="selectOption(this);validateStep2()">
+        <span class="opt-text"><span class="opt-title">5 ft 7&Prime; &ndash; 5 ft 10&Prime;</span><span class="opt-sub">170 &ndash; 177 cm</span></span>
+        <i class="fa-solid fa-check opt-check"></i>
+      </button>
+      <button class="opt-btn" data-q="height_range" data-v="verytall" onclick="selectOption(this);validateStep2()">
+        <span class="opt-text"><span class="opt-title">Above 5 ft 10&Prime;</span><span class="opt-sub">Over 177 cm</span></span>
+        <i class="fa-solid fa-check opt-check"></i>
+      </button>
+    </div>
+    <div class="step-nav">
+      <button class="btn-back" onclick="goBack(2)">&larr; Back</button>
+      <button class="btn-next" id="next-2" onclick="goNext(2)" disabled>Next &rarr;</button>
+    </div>
+  </div>
+
+  <!-- ── STEP 3: Chest / Bust ───────────────────────────────────────── -->
+  <div class="quiz-step" id="step-3">
+    <div class="step-icon"><i class="fa-solid fa-ruler-horizontal"></i></div>
+    <div class="step-num">Step 3 of 5</div>
+    <h2 class="step-question">What is your chest (bust) measurement?</h2>
+    <p class="step-hint">Measure around the fullest part of your chest, keeping the tape parallel to the ground</p>
+    <div class="measure-input-wrap">
+      <input class="measure-input" type="number" id="chest-val" placeholder="36" min="28" max="56" oninput="validateStep3()">
+      <span class="measure-unit">in</span>
+    </div>
+    <div class="options-grid" style="margin-top:0.5rem;">
+      <button class="opt-btn" data-q="chest" data-v="XS" onclick="selectChestRange(this,'XS')">
+        <span class="opt-text"><span class="opt-title">XS &nbsp;&bull;&nbsp; 32 &ndash; 34&Prime;</span><span class="opt-sub">81 &ndash; 86 cm</span></span>
+        <i class="fa-solid fa-check opt-check"></i>
+      </button>
+      <button class="opt-btn" data-q="chest" data-v="S" onclick="selectChestRange(this,'S')">
+        <span class="opt-text"><span class="opt-title">S &nbsp;&bull;&nbsp; 34 &ndash; 36&Prime;</span><span class="opt-sub">86 &ndash; 91 cm</span></span>
+        <i class="fa-solid fa-check opt-check"></i>
+      </button>
+      <button class="opt-btn" data-q="chest" data-v="M" onclick="selectChestRange(this,'M')">
+        <span class="opt-text"><span class="opt-title">M &nbsp;&bull;&nbsp; 36 &ndash; 38&Prime;</span><span class="opt-sub">91 &ndash; 96 cm</span></span>
+        <i class="fa-solid fa-check opt-check"></i>
+      </button>
+      <button class="opt-btn" data-q="chest" data-v="L" onclick="selectChestRange(this,'L')">
+        <span class="opt-text"><span class="opt-title">L &nbsp;&bull;&nbsp; 38 &ndash; 40&Prime;</span><span class="opt-sub">96 &ndash; 101 cm</span></span>
+        <i class="fa-solid fa-check opt-check"></i>
+      </button>
+      <button class="opt-btn" data-q="chest" data-v="XL" onclick="selectChestRange(this,'XL')">
+        <span class="opt-text"><span class="opt-title">XL &nbsp;&bull;&nbsp; 40 &ndash; 42&Prime;</span><span class="opt-sub">101 &ndash; 106 cm</span></span>
+        <i class="fa-solid fa-check opt-check"></i>
+      </button>
+      <button class="opt-btn" data-q="chest" data-v="XXL" onclick="selectChestRange(this,'XXL')">
+        <span class="opt-text"><span class="opt-title">XXL &nbsp;&bull;&nbsp; 42 &ndash; 44&Prime;</span><span class="opt-sub">106 &ndash; 111 cm</span></span>
+        <i class="fa-solid fa-check opt-check"></i>
+      </button>
+    </div>
+    <div class="step-nav">
+      <button class="btn-back" onclick="goBack(3)">&larr; Back</button>
+      <button class="btn-next" id="next-3" onclick="goNext(3)" disabled>Next &rarr;</button>
+    </div>
+  </div>
+
+  <!-- ── STEP 4: Waist ──────────────────────────────────────────────── -->
+  <div class="quiz-step" id="step-4">
+    <div class="step-icon"><i class="fa-solid fa-compress"></i></div>
+    <div class="step-num">Step 4 of 5</div>
+    <h2 class="step-question">What is your natural waist measurement?</h2>
+    <p class="step-hint">Measure around the narrowest part of your torso, just above the belly button</p>
+    <div class="measure-input-wrap">
+      <input class="measure-input" type="number" id="waist-val" placeholder="30" min="22" max="50" oninput="validateStep4()">
+      <span class="measure-unit">in</span>
+    </div>
+    <div class="options-grid" style="margin-top:0.5rem;">
+      <button class="opt-btn" data-q="waist" data-v="XS" onclick="selectWaistRange(this,'XS')">
+        <span class="opt-text"><span class="opt-title">XS &nbsp;&bull;&nbsp; 26 &ndash; 28&Prime;</span><span class="opt-sub">66 &ndash; 71 cm</span></span>
+        <i class="fa-solid fa-check opt-check"></i>
+      </button>
+      <button class="opt-btn" data-q="waist" data-v="S" onclick="selectWaistRange(this,'S')">
+        <span class="opt-text"><span class="opt-title">S &nbsp;&bull;&nbsp; 28 &ndash; 30&Prime;</span><span class="opt-sub">71 &ndash; 76 cm</span></span>
+        <i class="fa-solid fa-check opt-check"></i>
+      </button>
+      <button class="opt-btn" data-q="waist" data-v="M" onclick="selectWaistRange(this,'M')">
+        <span class="opt-text"><span class="opt-title">M &nbsp;&bull;&nbsp; 30 &ndash; 32&Prime;</span><span class="opt-sub">76 &ndash; 81 cm</span></span>
+        <i class="fa-solid fa-check opt-check"></i>
+      </button>
+      <button class="opt-btn" data-q="waist" data-v="L" onclick="selectWaistRange(this,'L')">
+        <span class="opt-text"><span class="opt-title">L &nbsp;&bull;&nbsp; 32 &ndash; 34&Prime;</span><span class="opt-sub">81 &ndash; 86 cm</span></span>
+        <i class="fa-solid fa-check opt-check"></i>
+      </button>
+      <button class="opt-btn" data-q="waist" data-v="XL" onclick="selectWaistRange(this,'XL')">
+        <span class="opt-text"><span class="opt-title">XL &nbsp;&bull;&nbsp; 34 &ndash; 36&Prime;</span><span class="opt-sub">86 &ndash; 91 cm</span></span>
+        <i class="fa-solid fa-check opt-check"></i>
+      </button>
+      <button class="opt-btn" data-q="waist" data-v="XXL" onclick="selectWaistRange(this,'XXL')">
+        <span class="opt-text"><span class="opt-title">XXL &nbsp;&bull;&nbsp; 36 &ndash; 38&Prime;</span><span class="opt-sub">91 &ndash; 96 cm</span></span>
+        <i class="fa-solid fa-check opt-check"></i>
+      </button>
+    </div>
+    <div class="step-nav">
+      <button class="btn-back" onclick="goBack(4)">&larr; Back</button>
+      <button class="btn-next" id="next-4" onclick="goNext(4)" disabled>Next &rarr;</button>
+    </div>
+  </div>
+
+  <!-- ── STEP 5: Hips ───────────────────────────────────────────────── -->
+  <div class="quiz-step" id="step-5">
+    <div class="step-icon"><i class="fa-solid fa-circle-dot"></i></div>
+    <div class="step-num">Step 5 of 5</div>
+    <h2 class="step-question">What is your hip measurement?</h2>
+    <p class="step-hint">Measure around the fullest part of your hips and seat, about 8 inches below your natural waist</p>
+    <div class="measure-input-wrap">
+      <input class="measure-input" type="number" id="hip-val" placeholder="40" min="30" max="60" oninput="validateStep5()">
+      <span class="measure-unit">in</span>
+    </div>
+    <div class="options-grid" style="margin-top:0.5rem;">
+      <button class="opt-btn" data-q="hip" data-v="XS" onclick="selectHipRange(this,'XS')">
+        <span class="opt-text"><span class="opt-title">XS &nbsp;&bull;&nbsp; 36 &ndash; 38&Prime;</span><span class="opt-sub">91 &ndash; 96 cm</span></span>
+        <i class="fa-solid fa-check opt-check"></i>
+      </button>
+      <button class="opt-btn" data-q="hip" data-v="S" onclick="selectHipRange(this,'S')">
+        <span class="opt-text"><span class="opt-title">S &nbsp;&bull;&nbsp; 38 &ndash; 40&Prime;</span><span class="opt-sub">96 &ndash; 101 cm</span></span>
+        <i class="fa-solid fa-check opt-check"></i>
+      </button>
+      <button class="opt-btn" data-q="hip" data-v="M" onclick="selectHipRange(this,'M')">
+        <span class="opt-text"><span class="opt-title">M &nbsp;&bull;&nbsp; 40 &ndash; 42&Prime;</span><span class="opt-sub">101 &ndash; 106 cm</span></span>
+        <i class="fa-solid fa-check opt-check"></i>
+      </button>
+      <button class="opt-btn" data-q="hip" data-v="L" onclick="selectHipRange(this,'L')">
+        <span class="opt-text"><span class="opt-title">L &nbsp;&bull;&nbsp; 42 &ndash; 44&Prime;</span><span class="opt-sub">106 &ndash; 111 cm</span></span>
+        <i class="fa-solid fa-check opt-check"></i>
+      </button>
+      <button class="opt-btn" data-q="hip" data-v="XL" onclick="selectHipRange(this,'XL')">
+        <span class="opt-text"><span class="opt-title">XL &nbsp;&bull;&nbsp; 44 &ndash; 46&Prime;</span><span class="opt-sub">111 &ndash; 116 cm</span></span>
+        <i class="fa-solid fa-check opt-check"></i>
+      </button>
+      <button class="opt-btn" data-q="hip" data-v="XXL" onclick="selectHipRange(this,'XXL')">
+        <span class="opt-text"><span class="opt-title">XXL &nbsp;&bull;&nbsp; 46 &ndash; 48&Prime;</span><span class="opt-sub">116 &ndash; 121 cm</span></span>
+        <i class="fa-solid fa-check opt-check"></i>
+      </button>
+    </div>
+    <div class="step-nav">
+      <button class="btn-back" onclick="goBack(5)">&larr; Back</button>
+      <button class="btn-next" id="next-5" onclick="computeResult()" disabled>See My Size ✨</button>
+    </div>
+  </div>
+
+  <!-- ── RESULT ─────────────────────────────────────────────────────── -->
+  <div id="quiz-result">
+    <div class="result-card" id="result-card">
+      <div id="sparkle-container"></div>
+      <div class="result-badge" id="result-size-badge">M</div>
+      <span class="result-label">Your recommended SHAPES size</span>
+      <div class="confidence-bar-wrap">
+        <div class="confidence-label">
+          <span>Size Match Confidence</span>
+          <span id="confidence-pct">—</span>
+        </div>
+        <div class="confidence-track">
+          <div class="confidence-fill" id="confidence-fill" style="width:0%"></div>
+        </div>
+      </div>
+      <div class="result-measurements" id="result-measurements"></div>
+      <div class="alt-sizes">
+        <div class="alt-sizes-label">All sizes scored for you</div>
+        <div class="alt-pills" id="alt-pills"></div>
+      </div>
+      <p class="result-note" style="margin-top:1.2rem" id="result-note"></p>
+    </div>
+    <div class="result-actions">
+      <a href="index.html#catalog" class="btn-shop-now" id="result-cta">
+        <i class="fa-solid fa-bag-shopping"></i> &nbsp;SHOP IN MY SIZE
+      </a>
+      <a href="#" class="btn-retake" onclick="retakeQuiz();return false;">
+        <i class="fa-solid fa-rotate-right"></i> Retake Quiz
+      </a>
+      <a href="appointment.html" class="btn-retake" style="border-color:rgba(197,160,89,0.35);color:rgba(255,255,255,0.6)">
+        <i class="fa-regular fa-calendar-check"></i> Book a Free Fitting Appointment
+      </a>
+    </div>
+  </div>
+
+</div><!-- /quiz-body -->
+
+<script>
+// ── State ──────────────────────────────────────────────────────────────────
+const answers = { build:"", height_range:"", chest:"", waist:"", hip:"" };
+const SIZE_ORDER = ["XS","S","M","L","XL","XXL"];
+
+// Size chart — [chest_min, chest_max, waist_min, waist_max, hip_min, hip_max]
+const SIZE_DATA = {
+  XS:  [32, 34, 26, 28, 36, 38],
+  S:   [34, 36, 28, 30, 38, 40],
+  M:   [36, 38, 30, 32, 40, 42],
+  L:   [38, 40, 32, 34, 42, 44],
+  XL:  [40, 42, 34, 36, 44, 46],
+  XXL: [42, 44, 36, 38, 46, 48]
+};
+
+const SIZE_NOTES = {
+  XS:  "You have a beautifully petite frame. XS will give you a sleek, tailored silhouette.",
+  S:   "A slender, elegant frame. S is crafted for effortless drape and feminine flow.",
+  M:   "Our most popular size — perfectly proportioned for the classic Indian silhouette.",
+  L:   "A generous, graceful cut with extra ease across the bust and hip for all-day comfort.",
+  XL:  "Designed for a full, confident figure — the XL cut flatters beautifully.",
+  XXL: "Our plus-size cut is tailored with extra room in all the right places for a luxurious fit."
+};
+
+let heightUnit = "cm";
+
+// ── Progress ───────────────────────────────────────────────────────────────
+function setProgress(step) {
+  document.getElementById("progress-fill").style.width = (step * 20) + "%";
+  for (let i = 1; i <= 5; i++) {
+    const lab = document.getElementById("plab-" + i);
+    lab.classList.toggle("active", i <= step);
+  }
+}
+
+// ── Navigation ─────────────────────────────────────────────────────────────
+function goNext(step) {
+  document.getElementById("step-" + step).classList.remove("active");
+  const nextStep = document.getElementById("step-" + (step + 1));
+  if (nextStep) {
+    nextStep.classList.add("active");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+  setProgress(step + 1);
+}
+function goBack(step) {
+  document.getElementById("step-" + step).classList.remove("active");
+  const prevStep = document.getElementById("step-" + (step - 1));
+  if (prevStep) {
+    prevStep.classList.add("active");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+  setProgress(step - 1);
+}
+
+// ── Option Selection ───────────────────────────────────────────────────────
+function selectOption(btn) {
+  const q = btn.dataset.q;
+  document.querySelectorAll('[data-q="' + q + '"]').forEach(b => b.classList.remove("selected"));
+  btn.classList.add("selected");
+  answers[q] = btn.dataset.v;
+  // Enable relevant next button
+  if (q === "build") { document.getElementById("next-1").disabled = false; }
+  if (q === "height_range") { document.getElementById("next-2").disabled = false; }
+}
+
+// ── Height Unit Toggle ─────────────────────────────────────────────────────
+function setHeightUnit(unit) {
+  heightUnit = unit;
+  document.getElementById("height-cm-btn").classList.toggle("active", unit === "cm");
+  document.getElementById("height-ft-btn").classList.toggle("active",  unit === "ft");
+  document.getElementById("height-cm-wrap").style.display = unit === "cm" ? "block" : "none";
+  document.getElementById("height-ft-wrap").style.display = unit === "ft" ? "block" : "none";
+  document.getElementById("height-in-wrap").style.display = unit === "ft" ? "block" : "none";
+}
+function validateStep2() {
+  const hasRange = answers.height_range !== "";
+  document.getElementById("next-2").disabled = !hasRange;
+}
+function selectChestRange(btn, sizeVal) {
+  selectOption(btn);
+  document.getElementById("chest-val").value = { XS:33, S:35, M:37, L:39, XL:41, XXL:43 }[sizeVal] || "";
+  validateStep3();
+}
+function validateStep3() {
+  const hasOption = answers.chest !== "";
+  const hasInput = document.getElementById("chest-val").value !== "";
+  document.getElementById("next-3").disabled = !(hasOption || hasInput);
+  if (hasInput && !hasOption) {
+    const v = parseInt(document.getElementById("chest-val").value);
+    const size = v<=33?"XS":v<=35?"S":v<=37?"M":v<=39?"L":v<=41?"XL":"XXL";
+    answers.chest = size;
+    document.querySelectorAll('[data-q="chest"]').forEach(b => {
+      b.classList.toggle("selected", b.dataset.v === size);
+    });
+  }
+}
+function selectWaistRange(btn, sizeVal) {
+  selectOption(btn);
+  document.getElementById("waist-val").value = { XS:27, S:29, M:31, L:33, XL:35, XXL:37 }[sizeVal] || "";
+  validateStep4();
+}
+function validateStep4() {
+  const hasOption = answers.waist !== "";
+  const hasInput = document.getElementById("waist-val").value !== "";
+  document.getElementById("next-4").disabled = !(hasOption || hasInput);
+  if (hasInput && !hasOption) {
+    const v = parseInt(document.getElementById("waist-val").value);
+    const size = v<=27?"XS":v<=29?"S":v<=31?"M":v<=33?"L":v<=35?"XL":"XXL";
+    answers.waist = size;
+    document.querySelectorAll('[data-q="waist"]').forEach(b => {
+      b.classList.toggle("selected", b.dataset.v === size);
+    });
+  }
+}
+function selectHipRange(btn, sizeVal) {
+  selectOption(btn);
+  document.getElementById("hip-val").value = { XS:37, S:39, M:41, L:43, XL:45, XXL:47 }[sizeVal] || "";
+  validateStep5();
+}
+function validateStep5() {
+  const hasOption = answers.hip !== "";
+  const hasInput = document.getElementById("hip-val").value !== "";
+  document.getElementById("next-5").disabled = !(hasOption || hasInput);
+  if (hasInput && !hasOption) {
+    const v = parseInt(document.getElementById("hip-val").value);
+    const size = v<=37?"XS":v<=39?"S":v<=41?"M":v<=43?"L":v<=45?"XL":"XXL";
+    answers.hip = size;
+    document.querySelectorAll('[data-q="hip"]').forEach(b => {
+      b.classList.toggle("selected", b.dataset.v === size);
+    });
+  }
+}
+
+// ── Size Scoring Algorithm ─────────────────────────────────────────────────
+function computeResult() {
+  const sizes = SIZE_ORDER;
+  const scores = {};
+  sizes.forEach(s => scores[s] = 0);
+
+  // Score each measurement
+  const measurements = [answers.chest, answers.waist, answers.hip].filter(Boolean);
+  measurements.forEach(m => { if (scores[m] !== undefined) scores[m] += 3; });
+
+  // Build modifier
+  const buildMod = { petite:-0.5, regular:0, athletic:0.3, curvy:0.5 }[answers.build] || 0;
+  const heightMod = { petite:-0.3, regular:0, tall:0.1, verytall:0.2 }[answers.height_range] || 0;
+
+  // Apply modifiers
+  sizes.forEach(s => {
+    const idx = sizes.indexOf(s);
+    const adjIdx = Math.min(Math.max(idx + Math.round(buildMod + heightMod), 0), sizes.length - 1);
+    if (adjIdx !== idx) scores[sizes[adjIdx]] += 1;
+  });
+
+  // Find winner
+  const winner = sizes.reduce((a, b) => scores[a] >= scores[b] ? a : b);
+  const maxScore = scores[winner];
+  const confidence = Math.min(95, Math.round(60 + (maxScore / 9) * 35 + Math.random() * 5));
+
+  // Save to localStorage so product modal can auto-select
+  localStorage.setItem("shapes_recommended_size", winner);
+
+  showResult(winner, confidence, scores);
+}
+
+function showResult(size, confidence, scores) {
+  document.getElementById("step-5").classList.remove("active");
+  const result = document.getElementById("quiz-result");
+  result.style.display = "block";
+  setProgress(5);
+  window.scrollTo({ top: 80, behavior: "smooth" });
+
+  document.getElementById("result-size-badge").textContent = size;
+  document.getElementById("confidence-pct").textContent = confidence + "%";
+  setTimeout(() => {
+    document.getElementById("confidence-fill").style.width = confidence + "%";
+  }, 100);
+
+  // Measurement chips
+  const chestIn = document.getElementById("chest-val").value || SIZE_DATA[size][0] + "–" + SIZE_DATA[size][1];
+  const waistIn = document.getElementById("waist-val").value || SIZE_DATA[size][2] + "–" + SIZE_DATA[size][3];
+  const hipIn   = document.getElementById("hip-val").value   || SIZE_DATA[size][4] + "–" + SIZE_DATA[size][5];
+  document.getElementById("result-measurements").innerHTML =
+    '<div class="meas-chip"><strong>Chest</strong>' + chestIn + '&Prime;</div>' +
+    '<div class="meas-chip"><strong>Waist</strong>' + waistIn + '&Prime;</div>' +
+    '<div class="meas-chip"><strong>Hip</strong>'   + hipIn   + '&Prime;</div>';
+
+  // Alt pills
+  const maxScore = Math.max(...Object.values(scores));
+  document.getElementById("alt-pills").innerHTML = SIZE_ORDER.map(s => {
+    const pct = Math.round((scores[s] / maxScore) * 100);
+    return '<div class="alt-pill ' + (s === size ? "primary-match" : "") + '">' + s + ' · ' + pct + '%</div>';
+  }).join("");
+
+  document.getElementById("result-note").textContent = SIZE_NOTES[size];
+  document.getElementById("result-cta").href = "index.html#catalog";
+
+  // Sparkles
+  spawnSparkles();
+}
+
+function spawnSparkles() {
+  const container = document.getElementById("sparkle-container");
+  for (let i = 0; i < 8; i++) {
+    const dot = document.createElement("div");
+    dot.className = "sparkle-dot";
+    dot.style.cssText = "top:" + (10 + Math.random() * 80) + "%;left:" + (10 + Math.random() * 80) + "%;animation-delay:" + (Math.random() * 1.5) + "s;";
+    container.appendChild(dot);
+    setTimeout(() => dot.remove(), 3000);
+  }
+}
+
+function retakeQuiz() {
+  Object.keys(answers).forEach(k => answers[k] = "");
+  document.querySelectorAll(".opt-btn").forEach(b => b.classList.remove("selected"));
+  ["chest-val","waist-val","hip-val","height-cm"].forEach(id => {
+    const el = document.getElementById(id); if (el) el.value = "";
+  });
+  ["next-1","next-2","next-3","next-4","next-5"].forEach(id => {
+    const el = document.getElementById(id); if (el) el.disabled = true;
+  });
+  document.getElementById("quiz-result").style.display = "none";
+  document.getElementById("step-1").classList.add("active");
+  setProgress(1);
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+</script>
+
+</body>
+</html>
