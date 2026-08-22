@@ -373,7 +373,7 @@
             <nav class="nav-center" id="desktop-nav">
                 <a href="#catalog" class="nav-link">Collections</a>
                 <a href="#story-section" class="nav-link">Our Heritage</a>
-                <a href="#journal-section" class="nav-link">Journal</a>
+                
                 
                 <a href="#faq-section" class="nav-link">FAQ</a>
             </nav>
@@ -409,7 +409,7 @@
         <button class="mobile-close-btn" id="mobile-close-btn" aria-label="Close menu"><i class="fa-solid fa-xmark"></i></button>
         <a href="#catalog" class="mobile-link">Collections</a>
         <a href="#story-section" class="mobile-link">Our Heritage</a>
-        <a href="#journal-section" class="mobile-link">Journal</a>
+        
         <a href="#faq-section" class="mobile-link">FAQ</a>
         <a href="account.html" class="mobile-link mobile-link-accent">My Account</a>
         <a href="admin.html" class="mobile-link mobile-link-gold">Admin Portal</a>
@@ -653,44 +653,6 @@
         </div>
     </section>
 
-    <!-- ═══════════════════════════════════════════════════════════
-         THE SHAPES JOURNAL — HAUTE COUTURE EDITORIAL
-    ═══════════════════════════════════════════════════════════ -->
-    <section class="journal-section" id="journal-section">
-        <div class="journal-editorial-header">
-            <div class="journal-header-badge"><i class="fa-solid fa-feather-pointed" style="color:var(--gold);"></i> <span>AUTUMN / WINTER EDITORIAL</span></div>
-            <h2 class="journal-main-title">THE SHAPES JOURNAL</h2>
-            <div class="divider-gold" style="margin: 0.8rem auto 1.2rem;"></div>
-            <p class="journal-header-desc">Chronicles of bespoke Indian couture, master karigar craftsmanship, fabric histories, and contemporary silhouettes by Satiinder Kaur.</p>
-            
-            <!-- Category Filter Tabs -->
-            <div class="journal-filter-nav" id="journal-filter-tabs">
-                <button type="button" class="journal-filter-btn active" data-category="all" onclick="filterJournalCategory('all')">All Chronicles</button>
-                <button type="button" class="journal-filter-btn" data-category="Couture Craft" onclick="filterJournalCategory('Couture Craft')">Couture Craft</button>
-                <button type="button" class="journal-filter-btn" data-category="Style Guide" onclick="filterJournalCategory('Style Guide')">Style &amp; Silhouette</button>
-                <button type="button" class="journal-filter-btn" data-category="Artisanal Fabrics" onclick="filterJournalCategory('Artisanal Fabrics')">Artisanal Fabrics</button>
-                <button type="button" class="journal-filter-btn" data-category="Bridal Trousseau" onclick="filterJournalCategory('Bridal Trousseau')">Bridal Trousseau</button>
-            </div>
-        </div>
-
-        <!-- Editorial Magazine Layout Container (Rendered dynamically by index.js) -->
-        <div class="journal-magazine-wrapper" id="journal-articles-grid">
-            <!-- Dynamic Content injected by renderJournalArticles() -->
-        </div>
-
-        <!-- Editorial Footer Strip -->
-        <div class="journal-editorial-banner">
-            <div class="editorial-banner-content">
-                <div class="banner-icon"><i class="fa-solid fa-compass-drafting"></i></div>
-                <div class="banner-text">
-                    <h4>Looking for Bespoke Haute Couture?</h4>
-                    <p>Schedule a private fitting and design consultation with Satiinder Kaur at our Chembur flagship atelier.</p>
-                </div>
-            </div>
-            <a href="appointment.html" class="editorial-banner-btn"><i class="fa-regular fa-calendar-check"></i> Book Atelier Appointment</a>
-        </div>
-    </section>
-
     <!-- FAQ -->
     <section class="boutique-faq-section" id="faq-section">
         <div class="section-header">
@@ -769,69 +731,6 @@
     <div class="zoom-helper-tip"><i class="fa-solid fa-hand-pointer"></i> Drag or pinch to inspect intricate handcraft &amp; weaves</div>
 </div>
 
-
-<!-- ═══════════════════════════════════════════════════════════
-     EDITORIAL ARTICLE READER MODAL (HIGH LUXURY VOGUE STYLE)
-═══════════════════════════════════════════════════════════ -->
-<div class="luxury-modal" id="journal-article-modal" style="display:none;" role="dialog" aria-modal="true" aria-label="Editorial Journal Reader">
-    <div class="modal-content-wrapper journal-reader-content">
-        <button class="close-modal-btn" id="close-journal-modal" onclick="closeJournalArticleModal()" aria-label="Close Story">&times;</button>
-        
-        <div class="journal-modal-inner">
-            <!-- Article Header -->
-            <div class="journal-article-header">
-                <div class="journal-modal-pill-row">
-                    <span class="journal-article-category" id="modal-journal-category">Couture Craft</span>
-                    <span class="journal-modal-readtime" id="modal-journal-readtime"><i class="fa-regular fa-clock"></i> 5 Min Read</span>
-                </div>
-                <h2 class="journal-article-title" id="modal-journal-title">The Architecture of Modern Zardozi Corsetry</h2>
-                <div class="journal-article-meta">
-                    <div class="author-stamp">
-                        <span class="author-avatar"><i class="fa-solid fa-crown"></i></span>
-                        <div class="author-info">
-                            <span class="author-name" id="modal-journal-author">Satiinder Kaur</span>
-                            <span class="author-role">Founder &amp; Principal Couturier</span>
-                        </div>
-                    </div>
-                    <div class="article-date-stamp">
-                        <i class="fa-regular fa-calendar"></i> <span id="modal-journal-date">August 2026</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Hero Image with Gold Frame -->
-            <div class="journal-article-image-box">
-                <img src="images/heritage_craft.webp" id="modal-journal-image" alt="Article Cover" loading="lazy">
-                <span class="journal-img-caption" id="modal-journal-caption">Handcrafted at the Chembur flagship atelier</span>
-            </div>
-
-            <!-- Article Body with Dropcap & Pullquote -->
-            <div class="journal-article-body" id="modal-journal-body">
-                <!-- Injected dynamically with rich formatting -->
-            </div>
-
-            <!-- Author Signature Box -->
-            <div class="journal-author-signoff">
-                <div class="signoff-avatar-wrap">
-                    <img src="images/app_icon.png" alt="Satiinder Kaur Signature Logo" class="signoff-logo">
-                </div>
-                <div class="signoff-text">
-                    <span class="signoff-quote">"True luxury is not loud; it is experienced in the weightless drape, the breathability of pure fibers, and the quiet precision of every single stitch."</span>
-                    <span class="signoff-name">Satiinder Kaur &mdash; Chembur Atelier</span>
-                </div>
-            </div>
-
-            <!-- Modal Footer Controls -->
-            <div class="journal-article-footer">
-                <button type="button" class="journal-back-btn" onclick="closeJournalArticleModal()"><i class="fa-solid fa-arrow-left"></i> Back to Journal</button>
-                <div class="journal-share-group">
-                    <button type="button" class="journal-share-btn" onclick="shareJournalStory()"><i class="fa-brands fa-whatsapp"></i> Share Story</button>
-                    <a href="#catalog" class="journal-shop-btn" onclick="closeJournalArticleModal()"><i class="fa-solid fa-bag-shopping"></i> Explore Related Sets</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 <!-- FOOTER -->
 <footer class="luxury-footer">
