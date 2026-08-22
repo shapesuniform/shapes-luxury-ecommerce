@@ -2482,9 +2482,9 @@ function generateTaxInvoicePDF(ref) {
 
                         <strong>Legal Entity: SHAPES UNIFORM</strong><br>
 
-                        Flagship Boutique: Shop No 4, Bus Stop, Ghatla Village Rd,<br>
+                        Flagship Boutique: SHAPES, SHOP NO 4, Waman Apartments, Ghatla Village Rd, near MAITRI PARK, Basant Garden, Chembur, Mumbai, Maharashtra 400071<br>
 
-                        Near Maitri Park, Basant Garden, Chembur, Mumbai, MH 400071<br>
+                        SHAPES, SHOP NO 4, Waman Apartments, Ghatla Village Rd, near MAITRI PARK, Basant Garden, Chembur, Mumbai, Maharashtra 400071<br>
 
                         Contact Concierge: +91 98333 92756 · GSTIN: 27AASFS9821K1ZX
 
@@ -2558,7 +2558,7 @@ function generateTaxInvoicePDF(ref) {
 
                         <th style="padding:8px 10px; text-align:left;">Item Description</th>
 
-                        <th style="padding:8px 10px; text-align:center;">HSN</th>
+                        
 
                         <th style="padding:8px 10px; text-align:center;">Size</th>
 
@@ -2734,7 +2734,7 @@ function generatePackingSlipPDF(ref) {
 
                     <div style="font-size:12px; font-weight:700;">SHAPES UNIFORM</div>
 
-                    <div style="font-size:11px; line-height:1.4;">Shop No 4, Bus Stop, Ghatla Village Rd, Near Maitri Park, Basant Garden, Chembur, Mumbai 400071</div>
+                    <div style="font-size:11px; line-height:1.4;">SHAPES, SHOP NO 4, Waman Apartments, Ghatla Village Rd, near MAITRI PARK, Basant Garden, Chembur, Mumbai, Maharashtra 400071Basant Garden, Chembur, Mumbai, Maharashtra 400071</div>
 
                     <div style="margin-top:6px;">Direct Line: +91 98333 92756</div>
 
@@ -2879,7 +2879,7 @@ function loadAdminWorkshop() {
                         const cleanPhone = (c.phone || '').replace(/[^0-9]/g, '');
                         const waMsg = encodeURIComponent(`Namaste ${c.client},
 
-Your bespoke creation for Order ${c.ref} is currently at Stage: *${st.label}* at Shapes By Satiinder Kaur Chembur atelier.
+Your bespoke creation for Order ${c.ref} is currently at Stage: *${st.label}* at Shapes By Satiinder Kaur Chembur boutique.
 
 Track live status here: https://shapesbysatiinderkaur.com/track.html?ref=${c.ref}
 

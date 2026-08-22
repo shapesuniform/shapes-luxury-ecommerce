@@ -451,7 +451,7 @@
     <section class="story-section" id="story-section">
         <div class="story-container">
             <div class="story-image-side">
-                <img src="images/heritage_craft.webp" alt="Shapes Atelier Craftsmanship" loading="lazy">
+                <img src="images/heritage_craft.webp" alt="Shapes Boutique Craftsmanship" loading="lazy">
             </div>
             <div class="story-text-side">
                 <span class="story-tag">CHEMBUR BOUTIQUE</span>
@@ -613,8 +613,18 @@
     </div>
 </div>
 
-
-
+<!-- FOOTER -->
+<footer class="luxury-footer">
+    <div class="footer-container">
+        <div class="footer-col">
+            <h3>Shapes By Satiinder Kaur</h3>
+            <p>Shapes By Satiinder Kaur. Premier designer pret &amp; co-ord sets in Chembur, Mumbai.</p>
+            <div class="social-links">
+                <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://wa.me/919833392756" target="_blank" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                <a href="https://facebook.com" target="_blank" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+            </div>
+        </div>
         <div class="footer-col">
             <h4>COLLECTIONS</h4>
             <ul>
@@ -636,7 +646,7 @@
         </div>
         <div class="footer-col">
             <h4>CHEMBUR SHOWROOM</h4>
-            <p><i class="fa-solid fa-location-dot" style="color:var(--gold);margin-right:6px;"></i>Basant Garden, Chembur, Mumbai 400071</p>
+            <p><i class="fa-solid fa-location-dot" style="color:var(--gold);margin-right:6px;"></i>SHAPES, SHOP NO 4, Waman Apartments, Ghatla Village Rd, near MAITRI PARK, Basant Garden, Chembur, Mumbai, Maharashtra 400071</p>
             <p><i class="fa-solid fa-phone" style="color:var(--gold);margin-right:6px;"></i>+91 98333 92756</p>
             <p><i class="fa-solid fa-envelope" style="color:var(--gold);margin-right:6px;"></i>shapesuniform@gmail.com</p>
         </div>
@@ -657,14 +667,37 @@
 ═══════════════════════════════════════════════════════════ -->
 <div class="luxury-modal" id="product-detail-modal" role="dialog" aria-modal="true" aria-label="Product Details">
     <div class="modal-content-wrapper">
-        <button class="close-modal-btn" id="close-detail-modal" aria-label="Close product details">&times;</button>
+        <button class="close-modal-btn" id="close-detail-modal" aria-label="Close product details" onclick="closeProductDetailModal(); return false;">&times;</button>
         <div class="modal-grid">
-            <!-- Image Side -->
+                        <!-- Image Side — World-Class Multi-Image Gallery -->
             <div class="modal-image-side">
-                <div class="modal-image-frame" id="modal-img-frame" style="position:relative; cursor:zoom-in;">
-                    <button type="button" class="zoom-trigger-pill" id="zoom-product-img-btn" title="Inspect Fabric & Weave"><i class="fa-solid fa-magnifying-glass-plus"></i> Zoom Fabric</button>
-                    <img src="" id="modal-product-image" alt="Product">
+
+                <!-- Live Viewer Counter -->
+                <div class="modal-live-counter" id="modal-live-counter">
+                    <span class="live-dot"></span>
+                    <span id="live-viewer-count">4</span>&nbsp;people viewing this now
                 </div>
+
+                <!-- Main Image Stage -->
+                <div class="modal-image-stage" id="modal-img-frame">
+                    <button type="button" class="gallery-arrow gallery-prev" id="gallery-prev-btn" aria-label="Previous image">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+                    <button type="button" class="gallery-arrow gallery-next" id="gallery-next-btn" aria-label="Next image">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                    <img src="" id="modal-product-image" class="gallery-main-img" alt="Product">
+                    <video id="modal-product-video" class="gallery-main-video" loop muted playsinline style="display:none;"></video>
+                    <button type="button" class="zoom-trigger-pill" id="zoom-product-img-btn" title="Inspect Fabric &amp; Weave">
+                        <i class="fa-solid fa-magnifying-glass-plus"></i> Zoom
+                    </button>
+                    <div class="gallery-counter" id="gallery-counter">1 / 1</div>
+                </div>
+
+                <!-- Thumbnail Strip -->
+                <div class="modal-thumb-strip" id="modal-thumb-strip"></div>
+
+                <!-- Trust Badges -->
                 <div class="modal-thumb-trust">
                     <span class="trust-badge"><i class="fa-solid fa-shield-halved"></i> Secure Payment</span>
                     <span class="trust-badge"><i class="fa-solid fa-rotate-left"></i> 7-Day Exchange</span>
@@ -687,7 +720,7 @@
                 <!-- Size Selection -->
                 <div class="size-row-header">
                     <span class="size-label">Select Size</span>
-                    <button type="button" class="size-guide-toggle" id="toggle-size-chart-btn">
+                    <button type="button" class="size-guide-toggle" id="toggle-size-chart-btn" onclick="event.stopPropagation(); toggleSizeChart(); return false;">
                         <i class="fa-solid fa-ruler-combined"></i> Size Guide
                     </button>
                 </div>
@@ -807,9 +840,20 @@
 
                 </div>
 
-                <button class="add-to-cart-action-btn" id="modal-add-to-cart-btn" type="button">
-                    <i class="fa-solid fa-bag-shopping"></i> Add To Bag
-                </button>
+                <!-- CTA Buttons Row -->
+                <div class="modal-cta-row">
+                    <button class="add-to-cart-action-btn" id="modal-add-to-cart-btn" type="button">
+                        <i class="fa-solid fa-bag-shopping"></i> Add To Bag
+                    </button>
+                    <button class="buy-now-action-btn" id="modal-buy-now-btn" type="button">
+                        <i class="fa-solid fa-bolt"></i> Buy Now
+                    </button>
+                </div>
+
+                <!-- WhatsApp Enquiry -->
+                <a class="modal-whatsapp-btn" id="modal-whatsapp-btn" href="#" target="_blank" rel="noopener">
+                    <i class="fa-brands fa-whatsapp"></i> Ask on WhatsApp
+                </a>
             </div>
         </div>
     </div>

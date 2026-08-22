@@ -345,10 +345,10 @@ function openProductDetail(productId) {
         img.onclick = () => openImageZoomModal(cleanImg, p.title);
     }
 
-    const zoomBtn = document.getElementById("zoom-product-img-btn");
-    if (zoomBtn) {
-        zoomBtn.onclick = () => openImageZoomModal(cleanImg, p.title);
-    }
+    /* ── WORLD-CLASS GALLERY ── */
+    initGallery(p);
+    startLiveViewerCounter(p);
+    updateWhatsAppBtn(p);
 
     /* Render Official Razorpay Affordability / EMI Suite */
     renderRazorpayAffordabilityWidget(p.price);
@@ -403,6 +403,7 @@ function renderRazorpayAffordabilityWidget(priceInINR) {
 function closeProductDetailModal() {
     const modal = document.getElementById("product-detail-modal");
     if (modal) modal.classList.remove("active");
+    if (window._liveViewerTimer) { clearInterval(window._liveViewerTimer); window._liveViewerTimer = null; }
     unlockScroll();
 }
 
@@ -1580,7 +1581,7 @@ const DEFAULT_JOURNAL_ARTICLES = [
         date: "Aug 15, 2026",
         image: "images/heritage_craft.webp",
         excerpt: "Exploring the delicate balance between structural internal boning and antique metal thread embroidery on raw Banarasi silks.",
-        body: "Every bespoke corset crafted at Shapes begins as a structural blueprint. We combine centuries-old metal zardozi techniques with contemporary ergonomic boning, creating silhouettes that feel weightless while sculpting an iconic royal hourglass contour.\n\nMaster karigars at our Chembur atelier dedicate over 120 hours to hand-embroid every floral sprig using gold zari threads and metallic dabka wire. The result is an heirloom masterpiece that merges royal Indian craftsmanship with modern pret sensibilities."
+        body: "Every bespoke corset crafted at Shapes begins as a structural blueprint. We combine centuries-old metal zardozi techniques with contemporary ergonomic boning, creating silhouettes that feel weightless while sculpting an iconic royal hourglass contour.\n\nMaster karigars at our Chembur boutique dedicate over 120 hours to hand-embroid every floral sprig using gold zari threads and metallic dabka wire. The result is an heirloom masterpiece that merges royal Indian craftsmanship with modern pret sensibilities."
     },
     {
         id: "art-2",
@@ -1721,3 +1722,221 @@ document.addEventListener("change", function(e) {
 });
 
 
+
+
+/* ══════════════════════════════════════════════════════════
+   WORLD-CLASS PRODUCT GALLERY SYSTEM
+══════════════════════════════════════════════════════════ */
+
+let _galleryImages   = [];   // array of { type: 'image'|'video', src: '' }
+let _galleryIndex    = 0;
+let _galleryZoomed   = false;
+let _galleryTouchStartX = 0;
+
+function buildGalleryImages(product) {
+    const imgs = [];
+    // Main image always first
+    let main = product.image || '';
+    if (main && !main.startsWith('http') && !main.startsWith('data:') && !main.startsWith('images/')) {
+        main = 'images/' + main;
+    }
+    if (main) imgs.push({ type: 'image', src: main });
+
+    // Additional images from product.images[] array if provided
+    if (Array.isArray(product.images)) {
+        product.images.forEach(src => {
+            if (src && src !== product.image) {
+                let s = src;
+                if (!s.startsWith('http') && !s.startsWith('data:') && !s.startsWith('images/')) s = 'images/' + s;
+                imgs.push({ type: 'image', src: s });
+            }
+        });
+    }
+
+    // Video if product.video is defined
+    if (product.video) {
+        let vs = product.video;
+        if (!vs.startsWith('http') && !vs.startsWith('images/')) vs = 'images/' + vs;
+        imgs.push({ type: 'video', src: vs, poster: main });
+    }
+
+    return imgs;
+}
+
+function renderGalleryThumbs() {
+    const strip = document.getElementById('modal-thumb-strip');
+    if (!strip) return;
+    strip.innerHTML = '';
+    _galleryImages.forEach((item, idx) => {
+        const thumb = document.createElement('div');
+        thumb.className = 'gallery-thumb' + (idx === _galleryIndex ? ' active' : '');
+        thumb.setAttribute('data-idx', idx);
+        if (item.type === 'video') {
+            thumb.innerHTML = `<div class="thumb-video-wrap"><img src="${item.poster || ''}" style="opacity:0.6;width:100%;height:100%;object-fit:cover;"><i class="fa-solid fa-circle-play play-icon"></i></div>`;
+        } else {
+            thumb.innerHTML = `<img src="${item.src}" alt="View ${idx + 1}" loading="lazy">`;
+        }
+        thumb.addEventListener('click', () => goToGalleryIndex(idx));
+        strip.appendChild(thumb);
+    });
+    // Hide strip if only 1 image
+    strip.style.display = _galleryImages.length > 1 ? 'flex' : 'none';
+}
+
+function goToGalleryIndex(idx) {
+    if (idx < 0) idx = _galleryImages.length - 1;
+    if (idx >= _galleryImages.length) idx = 0;
+    _galleryIndex = idx;
+
+    const item   = _galleryImages[idx];
+    const imgEl  = document.getElementById('modal-product-image');
+    const vidEl  = document.getElementById('modal-product-video');
+    const counter = document.getElementById('gallery-counter');
+    const prevBtn = document.getElementById('gallery-prev-btn');
+    const nextBtn = document.getElementById('gallery-next-btn');
+
+    // Fade transition
+    if (imgEl) imgEl.classList.add('switching');
+    setTimeout(() => {
+        if (item.type === 'video') {
+            if (imgEl) imgEl.style.display = 'none';
+            if (vidEl) {
+                vidEl.src = item.src;
+                vidEl.style.display = 'block';
+                vidEl.play().catch(() => {});
+            }
+        } else {
+            if (vidEl) { vidEl.pause(); vidEl.style.display = 'none'; }
+            if (imgEl) {
+                imgEl.style.display = 'block';
+                imgEl.src = item.src;
+                imgEl.alt = 'Product view ' + (idx + 1);
+            }
+        }
+        if (imgEl) imgEl.classList.remove('switching');
+        if (counter) counter.textContent = `${idx + 1} / ${_galleryImages.length}`;
+
+        // Arrow visibility
+        const single = _galleryImages.length <= 1;
+        if (prevBtn) prevBtn.classList.toggle('hidden', single);
+        if (nextBtn) nextBtn.classList.toggle('hidden', single);
+
+        // Update thumbnails
+        document.querySelectorAll('.gallery-thumb').forEach((t, i) => {
+            t.classList.toggle('active', i === idx);
+        });
+    }, 140);
+}
+
+function initGallery(product) {
+    _galleryImages = buildGalleryImages(product);
+    _galleryZoomed = false;
+    _galleryIndex  = 0;
+
+    // Reset zoom state
+    const imgEl = document.getElementById('modal-product-image');
+    if (imgEl) imgEl.classList.remove('zoomed');
+
+    renderGalleryThumbs();
+    goToGalleryIndex(0);
+
+    // Wire arrows
+    const prev = document.getElementById('gallery-prev-btn');
+    const next = document.getElementById('gallery-next-btn');
+    if (prev) prev.onclick = (e) => { e.stopPropagation(); goToGalleryIndex(_galleryIndex - 1); };
+    if (next) next.onclick = (e) => { e.stopPropagation(); goToGalleryIndex(_galleryIndex + 1); };
+
+    // Wire zoom click ONLY on the image element itself (not the whole stage)
+    // This preserves event bubbling so X button and Size Guide continue to work
+    const imgClickEl = document.getElementById('modal-product-image');
+    if (imgClickEl) {
+        imgClickEl.onclick = (e) => {
+            e.stopPropagation();
+            _galleryZoomed = !_galleryZoomed;
+            imgClickEl.classList.toggle('zoomed', _galleryZoomed);
+            const stage = document.getElementById('modal-img-frame');
+            if (stage) stage.style.cursor = _galleryZoomed ? 'zoom-out' : 'zoom-in';
+        };
+    }
+    // Stage itself: only handle backdrop-area clicks (not inside content)
+    const stage = document.getElementById('modal-img-frame');
+
+    // Wire zoom pill
+    const zoomBtn = document.getElementById('zoom-product-img-btn');
+    if (zoomBtn) {
+        const mainSrc = _galleryImages[0]?.src || '';
+        zoomBtn.onclick = (e) => {
+            e.stopPropagation();
+            const curItem = _galleryImages[_galleryIndex];
+            if (curItem?.type === 'image') openImageZoomModal(curItem.src, product.title);
+        };
+    }
+
+    // Touch swipe support
+    if (stage) {
+        stage.addEventListener('touchstart', (e) => { _galleryTouchStartX = e.touches[0].clientX; }, { passive: true });
+        stage.addEventListener('touchend', (e) => {
+            const dx = e.changedTouches[0].clientX - _galleryTouchStartX;
+            if (Math.abs(dx) > 40) dx < 0 ? goToGalleryIndex(_galleryIndex + 1) : goToGalleryIndex(_galleryIndex - 1);
+        }, { passive: true });
+    }
+
+    // Keyboard navigation when modal is open
+    document._galleryKeyHandler = (e) => {
+        const modal = document.getElementById('product-detail-modal');
+        if (!modal || !modal.classList.contains('active')) return;
+        if (e.key === 'ArrowLeft')  goToGalleryIndex(_galleryIndex - 1);
+        if (e.key === 'ArrowRight') goToGalleryIndex(_galleryIndex + 1);
+        if (e.key === 'Escape') closeProductDetailModal();
+    };
+    document.removeEventListener('keydown', document._galleryKeyHandler);
+    document.addEventListener('keydown', document._galleryKeyHandler);
+}
+
+function startLiveViewerCounter(product) {
+    const el = document.getElementById('live-viewer-count');
+    if (!el) return;
+    // Seed a realistic number based on product price range
+    const base = 2 + Math.floor(Math.random() * 6);
+    el.textContent = base;
+    if (window._liveViewerTimer) clearInterval(window._liveViewerTimer);
+    window._liveViewerTimer = setInterval(() => {
+        const cur = parseInt(el.textContent) || base;
+        const delta = Math.random() > 0.6 ? (Math.random() > 0.5 ? 1 : -1) : 0;
+        const next = Math.max(1, Math.min(12, cur + delta));
+        el.textContent = next;
+    }, 4500);
+}
+
+function updateWhatsAppBtn(product) {
+    const btn = document.getElementById('modal-whatsapp-btn');
+    if (!btn) return;
+    const text = encodeURIComponent(
+        `Hi Satiinder Ji! I'm interested in the "${product.title}" (₹${(product.price || 0).toLocaleString('en-IN')}). Could you please share more details?`
+    );
+    btn.href = `https://wa.me/919833392756?text=${text}`;
+}
+
+
+/* Wire Buy Now button */
+(function() {
+    const buyNowBtn = document.getElementById("modal-buy-now-btn");
+    if (buyNowBtn && !buyNowBtn._buyNowWired) {
+        buyNowBtn._buyNowWired = true;
+        buyNowBtn.addEventListener("click", function() {
+            if (!currentActiveProduct) return;
+            if (!selectedSize) {
+                document.getElementById("modal-sizes-container")?.classList.add("size-error-flash");
+                setTimeout(() => document.getElementById("modal-sizes-container")?.classList.remove("size-error-flash"), 600);
+                return;
+            }
+            // Add to cart then immediately open checkout
+            addToCart(currentActiveProduct.id, selectedSize);
+            closeProductDetailModal();
+            setTimeout(() => {
+                if (typeof openCheckout === 'function') openCheckout();
+                else if (typeof openCartDrawer === 'function') openCartDrawer();
+            }, 120);
+        });
+    }
+})();
