@@ -1208,7 +1208,7 @@ function renderOrdersTable(orders) {
 
         if (o.status === "shipped" && o.trackingNumber) {
 
-            waMsg += ` — Your bespoke creation has been dispatched via ${o.courierName || 'Express Courier'}. Tracking Ref: *${o.trackingNumber}*. You can track it here: https://shapesbysatiinderkaur.com/track.html?ref=${o.ref} ✨`;
+            waMsg += ` — Your bespoke creation has been dispatched via ${o.courierName || 'Express Courier'}. Tracking Ref: *${o.trackingNumber}*. You can track it here: https://shapesbysatinderkaur.com/track.html?ref=${o.ref} ✨`;
 
         } else {
 
@@ -1420,7 +1420,7 @@ async function saveOrderStatus(e) {
                     courier_name: courierName || "BlueDart / Delhivery Insured",
                     tracking_awb: trackingNumber || "Active",
                     delivery_note: deliveryNote || "Complimentary insured express delivery across India (15-22 days).",
-                    tracking_link: `https://shapesbysatiinderkaur.com/track.html?ref=${ref}`
+                    tracking_link: `https://shapesbysatinderkaur.com/track.html?ref=${ref}`
                 }).then(() => console.log("Stage email sent to", cachedOrder.customerEmail))
                   .catch(e => console.warn("Stage email notice:", e));
             } catch(e) {}
@@ -2916,7 +2916,7 @@ function loadAdminWorkshop() {
 
 Your bespoke creation for Order ${c.ref} is currently at Stage: *${st.label}* at Shapes By Satiinder Kaur Chembur boutique.
 
-Track live status here: https://shapesbysatiinderkaur.com/track.html?ref=${c.ref}
+Track live status here: https://shapesbysatinderkaur.com/track.html?ref=${c.ref}
 
 Warm Regards,
 Shapes By Satiinder Kaur`);
@@ -3088,7 +3088,7 @@ function updateBroadcastPreview() {
 
             .replace(/{Boutique}/g, "Shapes By Satiinder Kaur, Chembur, Mumbai")
 
-            .replace(/{Website}/g, "https://shapesbysatiinderkaur.com");
+            .replace(/{Website}/g, "https://shapesbysatinderkaur.com");
 
         bubble.textContent = sample;
 
@@ -3180,7 +3180,7 @@ function loadAdminBroadcast() {
 
             .replace(/{Boutique}/g, 'Shapes By Satiinder Kaur, Chembur, Mumbai')
 
-            .replace(/{Website}/g, 'https://shapesbysatiinderkaur.com');
+            .replace(/{Website}/g, 'https://shapesbysatinderkaur.com');
 
         const waLink = `https://wa.me/${(c.phone || '').replace(/\D/g, '')}?text=${encodeURIComponent(personalized)}`;
 
@@ -3452,7 +3452,7 @@ function generateGoogleShoppingXML() {
 
     const prods = products.length ? products : DEFAULT_PRODUCTS;
 
-    const baseUrl = "https://shapesbysatiinderkaur.com";
+    const baseUrl = "https://shapesbysatinderkaur.com";
 
 
 
@@ -3558,7 +3558,7 @@ function downloadGoogleShoppingXML() {
 
 function copyCatalogFeedURL() {
 
-    const url = "https://shapesbysatiinderkaur.com/feed.xml";
+    const url = "https://shapesbysatinderkaur.com/feed.xml";
 
     navigator.clipboard.writeText(url).then(() => {
 

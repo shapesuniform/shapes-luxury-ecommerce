@@ -777,7 +777,7 @@ function generatePDFInvoice(orderData) {
     doc.setFont("helvetica", "normal");
     doc.setFontSize(8);
     doc.text("LUXURY PRET & CO-ORD SETS  ·  BASANT GARDEN, CHEMBUR, MUMBAI 400071", W / 2, 23, { align: "center" });
-    doc.text("Tel: +91 98333 92756  ·  Email: shapesuniform@gmail.com  ·  shapesbysatiinderkaur.com", W / 2, 29, { align: "center" });
+    doc.text("Tel: +91 98333 92756  ·  Email: shapesuniform@gmail.com  ·  shapesbysatinderkaur.com", W / 2, 29, { align: "center" });
 
     /* ── TAX INVOICE label ── */
     doc.setFont("helvetica", "bold");
@@ -914,7 +914,7 @@ function generatePDFInvoice(orderData) {
     doc.setTextColor(140, 140, 140);
     doc.text("This is a computer-generated invoice and does not require a signature.", W / 2, y, { align: "center" });
     y += 5;
-    doc.text("For queries: +91 98333 92756  ·  shapesuniform@gmail.com  ·  shapesbysatiinderkaur.com", W / 2, y, { align: "center" });
+    doc.text("For queries: +91 98333 92756  ·  shapesuniform@gmail.com  ·  shapesbysatinderkaur.com", W / 2, y, { align: "center" });
 
     _lastInvoicePdfDoc = doc;
     return doc;
