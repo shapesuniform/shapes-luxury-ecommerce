@@ -2071,3 +2071,829 @@ ul, ol { list-style:none; }
     background: var(--gold);
     color: #111;
 }
+
+
+/* ══════════════════════════════════════════════════════════
+   THE SHAPES JOURNAL — HIGH FASHION EDITORIAL MAGAZINE SUITE
+══════════════════════════════════════════════════════════ */
+.journal-section {
+    padding: 6rem 1.5rem 5rem;
+    background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(197, 160, 89, 0.05) 0%, #0d0d0d 100%);
+    position: relative;
+    border-top: 1px solid rgba(197, 160, 89, 0.12);
+    border-bottom: 1px solid rgba(197, 160, 89, 0.12);
+}
+
+.journal-editorial-header {
+    text-align: center;
+    max-width: 780px;
+    margin: 0 auto 3rem;
+}
+
+.journal-header-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: rgba(197, 160, 89, 0.08);
+    border: 1px solid rgba(197, 160, 89, 0.25);
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    color: var(--gold-light);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+}
+
+.journal-main-title {
+    font-family: var(--font-serif);
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 300;
+    letter-spacing: 0.12em;
+    color: var(--ivory);
+    margin-bottom: 0.4rem;
+}
+
+.journal-header-desc {
+    font-size: 0.88rem;
+    color: rgba(255, 255, 255, 0.62);
+    line-height: 1.8;
+    margin-bottom: 2rem;
+    font-weight: 300;
+}
+
+/* ── Category Filter Tabs ────────────────────────────────── */
+.journal-filter-nav {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+}
+
+.journal-filter-btn {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(197, 160, 89, 0.18);
+    color: rgba(255, 255, 255, 0.7);
+    padding: 7px 18px;
+    border-radius: 30px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.journal-filter-btn:hover {
+    border-color: var(--gold);
+    color: var(--ivory);
+    background: rgba(197, 160, 89, 0.08);
+}
+
+.journal-filter-btn.active {
+    background: var(--gold);
+    color: #111111;
+    font-weight: 700;
+    border-color: var(--gold);
+    box-shadow: 0 4px 20px rgba(197, 160, 89, 0.35);
+}
+
+/* ── Magazine Layout Grid ─────────────────────────────────── */
+.journal-magazine-wrapper {
+    max-width: 1240px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2.2rem;
+}
+
+/* ── 1. Grand Feature Cover Story ─────────────────────────── */
+.journal-featured-card {
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
+    background: linear-gradient(135deg, #181818 0%, #121212 100%);
+    border: 1px solid rgba(197, 160, 89, 0.35);
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.journal-featured-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--gold);
+    box-shadow: 0 25px 60px rgba(197, 160, 89, 0.15);
+}
+
+.featured-img-wrap {
+    position: relative;
+    overflow: hidden;
+    min-height: 380px;
+}
+
+.featured-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.journal-featured-card:hover .featured-img-wrap img {
+    transform: scale(1.05);
+}
+
+.featured-cover-tag {
+    position: absolute;
+    top: 1.2rem;
+    left: 1.2rem;
+    background: rgba(15, 15, 15, 0.85);
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 3px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    z-index: 2;
+}
+
+.featured-card-content {
+    padding: 3rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: radial-gradient(ellipse at bottom right, rgba(197, 160, 89, 0.08), transparent 70%);
+}
+
+.featured-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1rem;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.5);
+    letter-spacing: 0.06em;
+}
+
+.featured-category-badge {
+    color: var(--gold);
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-size: 10px;
+}
+
+.featured-title {
+    font-family: var(--font-serif);
+    font-size: clamp(1.6rem, 3.2vw, 2.4rem);
+    font-weight: 400;
+    color: var(--ivory);
+    line-height: 1.25;
+    margin-bottom: 1rem;
+    transition: color 0.3s;
+}
+
+.journal-featured-card:hover .featured-title {
+    color: var(--gold-light);
+}
+
+.featured-excerpt {
+    font-size: 0.88rem;
+    color: rgba(255, 255, 255, 0.65);
+    line-height: 1.8;
+    margin-bottom: 1.8rem;
+}
+
+.featured-author-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 1.2rem;
+    border-top: 1px solid rgba(197, 160, 89, 0.15);
+    margin-top: auto;
+}
+
+.author-chip {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.author-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(197, 160, 89, 0.15);
+    border: 1px solid var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold);
+    font-size: 11px;
+}
+
+.author-name-text {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--ivory);
+}
+
+.author-title-sub {
+    font-size: 9px;
+    color: var(--grey);
+    display: block;
+}
+
+.featured-read-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--gold);
+    color: #111;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 0.75rem 1.4rem;
+    border-radius: 3px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.featured-read-btn:hover {
+    background: var(--gold-light);
+    gap: 12px;
+}
+
+/* ── 2. Editorial Secondary Stories Grid ───────────────────── */
+.journal-stories-subgrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.8rem;
+}
+
+.journal-story-card {
+    background: #151515;
+    border: 1px solid rgba(197, 160, 89, 0.18);
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+}
+
+.journal-story-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(197, 160, 89, 0.5);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7), 0 0 20px rgba(197, 160, 89, 0.1);
+}
+
+.story-card-img-box {
+    position: relative;
+    aspect-ratio: 16/10;
+    overflow: hidden;
+    background: #111;
+}
+
+.story-card-img-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.journal-story-card:hover .story-card-img-box img {
+    transform: scale(1.06);
+}
+
+.story-category-pill {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: rgba(15, 15, 15, 0.85);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(197, 160, 89, 0.4);
+    color: var(--gold-light);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 2px;
+}
+
+.story-readtime-pill {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 9px;
+    padding: 2px 7px;
+    border-radius: 2px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.story-card-body {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.story-meta-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.45);
+    margin-bottom: 0.6rem;
+    letter-spacing: 0.05em;
+}
+
+.story-title {
+    font-family: var(--font-serif);
+    font-size: 1.22rem;
+    font-weight: 400;
+    color: var(--ivory);
+    line-height: 1.35;
+    margin-bottom: 0.6rem;
+    transition: color 0.25s;
+}
+
+.journal-story-card:hover .story-title {
+    color: var(--gold-light);
+}
+
+.story-snippet {
+    font-size: 0.82rem;
+    color: rgba(255, 255, 255, 0.58);
+    line-height: 1.7;
+    margin-bottom: 1.2rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.story-card-footer {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.story-read-link {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: gap 0.25s;
+}
+
+.journal-story-card:hover .story-read-link {
+    gap: 10px;
+    color: var(--gold-light);
+}
+
+/* ── 3. Editorial Footer Strip ────────────────────────────── */
+.journal-editorial-banner {
+    max-width: 1240px;
+    margin: 3.5rem auto 0;
+    background: linear-gradient(90deg, rgba(197, 160, 89, 0.12) 0%, rgba(22, 22, 22, 0.8) 100%);
+    border: 1px solid rgba(197, 160, 89, 0.3);
+    border-radius: 8px;
+    padding: 1.8rem 2.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.editorial-banner-content {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+}
+
+.editorial-banner-content .banner-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(197, 160, 89, 0.2);
+    border: 1px solid var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold);
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.editorial-banner-content h4 {
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    color: var(--ivory);
+    font-weight: 400;
+    margin-bottom: 2px;
+}
+
+.editorial-banner-content p {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.65);
+}
+
+.editorial-banner-btn {
+    background: var(--gold);
+    color: #111;
+    text-decoration: none;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.75rem 1.4rem;
+    border-radius: 3px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s;
+    white-space: nowrap;
+}
+
+.editorial-banner-btn:hover {
+    background: var(--gold-light);
+    transform: translateY(-2px);
+}
+
+/* ══════════════════════════════════════════════════════════
+   UPGRADED JOURNAL ARTICLE READER MODAL (HIGH FASHION LUXURY)
+══════════════════════════════════════════════════════════ */
+.journal-modal-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 1.8rem;
+}
+
+.journal-modal-pill-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 0.8rem;
+}
+
+.journal-article-category {
+    background: rgba(197, 160, 89, 0.15);
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 2px;
+}
+
+.journal-modal-readtime {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.5);
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.journal-article-title {
+    font-family: var(--font-serif);
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 400;
+    color: var(--ivory);
+    line-height: 1.2;
+    margin-bottom: 1.2rem;
+}
+
+.journal-article-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 1.2rem;
+    border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.author-stamp {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.author-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(197, 160, 89, 0.15);
+    border: 1px solid var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold);
+    font-size: 12px;
+}
+
+.author-info .author-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ivory);
+    display: block;
+}
+
+.author-info .author-role {
+    font-size: 10px;
+    color: var(--gold);
+    letter-spacing: 0.05em;
+}
+
+.article-date-stamp {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.5);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.journal-article-image-box {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid rgba(197, 160, 89, 0.25);
+}
+
+.journal-article-image-box img {
+    width: 100%;
+    max-height: 420px;
+    object-fit: cover;
+    display: block;
+}
+
+.journal-img-caption {
+    display: block;
+    padding: 6px 12px;
+    font-size: 10px;
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.5);
+    background: #111;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* ── Typography inside Article Body ──────────────────────── */
+.journal-article-body {
+    font-size: 0.98rem;
+    color: rgba(255, 255, 255, 0.82);
+    line-height: 2;
+    font-weight: 300;
+}
+
+.journal-article-body p {
+    margin-bottom: 1.5rem;
+}
+
+.journal-article-body p:first-of-type::first-letter {
+    font-family: var(--font-serif);
+    font-size: 3.8rem;
+    float: left;
+    line-height: 0.8;
+    padding-right: 12px;
+    padding-top: 6px;
+    color: var(--gold);
+    font-weight: 400;
+}
+
+.journal-pullquote {
+    background: rgba(197, 160, 89, 0.06);
+    border-left: 3px solid var(--gold);
+    padding: 1.4rem 1.8rem;
+    margin: 2rem 0;
+    border-radius: 0 6px 6px 0;
+}
+
+.journal-pullquote p {
+    font-family: var(--font-serif);
+    font-size: 1.35rem;
+    font-style: italic;
+    color: var(--gold-light);
+    line-height: 1.5;
+    margin-bottom: 0 !important;
+}
+
+.journal-callout-box {
+    background: #141414;
+    border: 1px solid rgba(197, 160, 89, 0.25);
+    border-radius: 6px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+}
+
+.journal-callout-box h5 {
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    color: var(--gold);
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.journal-callout-box ul {
+    list-style: none;
+    padding: 0;
+}
+
+.journal-callout-box ul li {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.8;
+    position: relative;
+    padding-left: 18px;
+    margin-bottom: 6px;
+}
+
+.journal-callout-box ul li::before {
+    content: "✦";
+    position: absolute;
+    left: 0;
+    color: var(--gold);
+    font-size: 10px;
+}
+
+/* ── Author Signoff Box ──────────────────────────────────── */
+.journal-author-signoff {
+    background: rgba(197, 160, 89, 0.05);
+    border: 1px solid rgba(197, 160, 89, 0.2);
+    border-radius: 6px;
+    padding: 1.2rem 1.6rem;
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    margin-top: 1rem;
+}
+
+.signoff-logo {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1px solid var(--gold);
+    object-fit: cover;
+}
+
+.signoff-quote {
+    font-family: var(--font-serif);
+    font-size: 13px;
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.75);
+    display: block;
+    line-height: 1.6;
+    margin-bottom: 4px;
+}
+
+.signoff-name {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 700;
+}
+
+/* ── Modal Footer Controls ────────────────────────────────── */
+.journal-article-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(197, 160, 89, 0.2);
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.journal-share-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.journal-share-btn {
+    background: #25D366;
+    color: #fff;
+    border: none;
+    padding: 0.65rem 1.2rem;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: opacity 0.25s;
+}
+
+.journal-share-btn:hover {
+    opacity: 0.9;
+}
+
+.journal-shop-btn {
+    background: var(--gold);
+    color: #111;
+    text-decoration: none;
+    padding: 0.65rem 1.4rem;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.25s;
+}
+
+.journal-shop-btn:hover {
+    background: var(--gold-light);
+}
+
+.journal-back-btn {
+    background: none;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.6);
+    padding: 0.65rem 1.2rem;
+    border-radius: 3px;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.25s;
+}
+
+.journal-back-btn:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+}
+
+/* ── Responsive Rules ─────────────────────────────────────── */
+@media (max-width: 992px) {
+    .journal-featured-card {
+        grid-template-columns: 1fr;
+    }
+    .featured-img-wrap {
+        min-height: 280px;
+    }
+    .featured-card-content {
+        padding: 2rem 1.5rem;
+    }
+    .journal-stories-subgrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .journal-section {
+        padding: 4rem 1rem 3.5rem;
+    }
+    .journal-stories-subgrid {
+        grid-template-columns: 1fr;
+    }
+    .journal-reader-content {
+        padding: 1.8rem 1.2rem;
+    }
+    .journal-article-title {
+        font-size: 1.6rem;
+    }
+    .journal-editorial-banner {
+        flex-direction: column;
+        text-align: center;
+        justify-content: center;
+    }
+    .editorial-banner-content {
+        flex-direction: column;
+    }
+}
