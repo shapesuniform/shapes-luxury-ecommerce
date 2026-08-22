@@ -24,13 +24,6 @@ const DEFAULT_PRODUCTS = [
         badge: "BESTSELLER",
         inventory: 12,
         image: "images/coord_black_floral.webp",
-        images: [
-            "images/coord_black_floral.webp",
-            "images/welcome_coord_luxury.webp",
-            "images/hero_coord_editorial.webp",
-            "images/heritage_craft.webp"
-        ],
-        imageLabels: ["Front Full Length", "Back Profile Drape", "Editorial Side Angle", "Botanical Silk Weave Closeup"],
         fabric: "100% Pure Modal Silk",
         fit: "Relaxed longline shirt tunic + wide-leg trousers",
         craft: "Artisanal digital botanical print · Mother-of-pearl buttons · Elasticated back waistband",
@@ -44,13 +37,6 @@ const DEFAULT_PRODUCTS = [
         badge: "NEW ARRIVAL",
         inventory: 15,
         image: "images/coord_beige_linen.webp",
-        images: [
-            "images/coord_beige_linen.webp",
-            "images/pret_tunic.webp",
-            "images/hero_coord_editorial.webp",
-            "images/heritage_craft.webp"
-        ],
-        imageLabels: ["Front View", "Back Cut & Waistband", "Side Silhouette", "Slub Linen Texture Closeup"],
         fabric: "100% Organic Slub Linen",
         fit: "V-neck tunic with relaxed 3/4 sleeves + tailored straight trousers",
         craft: "Natural coconut shell buttons · Deep side pockets · Comfort-fit waistband",
@@ -64,13 +50,6 @@ const DEFAULT_PRODUCTS = [
         badge: "LUXURY PRET",
         inventory: 8,
         image: "images/coord_royal_emerald.webp",
-        images: [
-            "images/coord_royal_emerald.webp",
-            "images/draped_corset_set.webp",
-            "images/hero_bridal.webp",
-            "images/gold_jewelry.webp"
-        ],
-        imageLabels: ["Front Grandeur View", "Back Tailored Placket", "Side Fluid Drape", "Antique Zari & Zardozi Closeup"],
         fabric: "Pure Mulberry Raw Silk",
         fit: "Structured bandhgala collar tunic + fluid palazzo trousers",
         craft: "Handcrafted antique gold zari & zardozi embroidery · Comfort-flex waistband · Dry clean only",
@@ -84,13 +63,6 @@ const DEFAULT_PRODUCTS = [
         badge: "HANDBLOCK",
         inventory: 14,
         image: "images/coord_indigo_print.webp",
-        images: [
-            "images/coord_indigo_print.webp",
-            "images/coord_black_floral.webp",
-            "images/heritage_craft.webp",
-            "images/hero_coord_editorial.webp"
-        ],
-        imageLabels: ["Front Tunic View", "Back Trousers Drape", "Lifestyle Angle", "Handblock Artisanal Motif Detail"],
         fabric: "Handblock Printed Modal Silk",
         fit: "Contemporary tunic collar + fluid silhouette trousers",
         craft: "Artisanal Rajasthani handblock print · Natural dyes · Comfort-flex waistband",
@@ -104,13 +76,6 @@ const DEFAULT_PRODUCTS = [
         badge: "EXCLUSIVE",
         inventory: 6,
         image: "images/brocade_corset.webp",
-        images: [
-            "images/brocade_corset.webp",
-            "images/zardozi_corset.webp",
-            "images/hero_bridal.webp",
-            "images/gold_jewelry.webp"
-        ],
-        imageLabels: ["Front Corset View", "Back Lacing & Structure", "Side Architectural Curve", "Banarasi Gold Brocade Weave Detail"],
         fabric: "Pure Banarasi Silk Brocade",
         fit: "Structured boned corset top + pleated palazzo trousers",
         craft: "Woven gold zari brocade motifs · Steel flex boning · Satin lining",
@@ -124,13 +89,6 @@ const DEFAULT_PRODUCTS = [
         badge: "HOT SELLER",
         inventory: 10,
         image: "images/draped_corset_set.webp",
-        images: [
-            "images/draped_corset_set.webp",
-            "images/pret_corset.webp",
-            "images/welcome_coord_luxury.webp",
-            "images/heritage_craft.webp"
-        ],
-        imageLabels: ["Front Asymmetric Drape", "Back Cigarette Trouser Fit", "Side Cowl Silhouette", "Fluid Heavy Satin Silk Closeup"],
         fabric: "Fluid Heavy Satin Silk",
         fit: "Asymmetric cowl drape tunic + cigarette pants",
         craft: "Hand-draped silk cowl detailing · Internal contour boning · Hidden side zip",
@@ -144,13 +102,6 @@ const DEFAULT_PRODUCTS = [
         badge: "NEW ARRIVAL",
         inventory: 12,
         image: "images/pret_tunic.webp",
-        images: [
-            "images/pret_tunic.webp",
-            "images/coord_beige_linen.webp",
-            "images/hero_coord_editorial.webp",
-            "images/heritage_craft.webp"
-        ],
-        imageLabels: ["Front Mandarin Placket", "Back Straight Cut", "Side Pocket Detail", "Slub Cotton Linen Botanical Detail"],
         fabric: "100% Breathable Cotton Linen",
         fit: "Mandarin collar tunic + cropped trousers",
         craft: "Handblock botanical print · Shell button placket · Utility side pockets",
@@ -164,13 +115,6 @@ const DEFAULT_PRODUCTS = [
         badge: "ROYAL PRET",
         inventory: 5,
         image: "images/zardozi_corset.webp",
-        images: [
-            "images/zardozi_corset.webp",
-            "images/brocade_corset.webp",
-            "images/couture_lehenga.webp",
-            "images/gold_jewelry.webp"
-        ],
-        imageLabels: ["Front Velvet Royal View", "Back Bandhgala Finish", "Side Regal Silhouette", "Dabka & Zardozi Handwork Closeup"],
         fabric: "Micro Velvet & Pure Raw Silk",
         fit: "Structured bandhgala velvet tunic + wide palazzo",
         craft: "Hand-embroidered zardozi & dabka work · Silk lining · Concealed zipper",
@@ -419,9 +363,11 @@ function openProductDetail(productId) {
     const descItem = document.getElementById("acc-desc");
     if (descItem) descItem.classList.add("open");
 
-    /* Hide size chart */
+    /* Hide size chart and reset toggle button */
     const sizeChart = document.getElementById("modal-size-chart-table");
     if (sizeChart) sizeChart.style.display = "none";
+    const sizeBtn = document.getElementById("toggle-size-chart-btn");
+    if (sizeBtn) sizeBtn.innerHTML = `<i class="fa-solid fa-ruler-combined"></i> Size Guide`;
 
     /* Infallible Modal Open with full visibility assurance */
     const modal = document.getElementById("product-detail-modal");
@@ -1230,15 +1176,13 @@ function toggleSizeChart(e) {
     const btn   = document.getElementById("toggle-size-chart-btn");
     if (!chart) return;
 
-    // Check if chart is currently visible
-    const isHidden = (chart.style.display === "none" || chart.style.display === "" || getComputedStyle(chart).display === "none");
-
-    if (isHidden) {
-        chart.style.display = "block";
-        if (btn) btn.innerHTML = `<i class="fa-solid fa-xmark"></i> Hide Size Guide`;
-    } else {
+    const isOpen = chart.style.display === "block";
+    if (isOpen) {
         chart.style.display = "none";
         if (btn) btn.innerHTML = `<i class="fa-solid fa-ruler-combined"></i> Size Guide`;
+    } else {
+        chart.style.display = "block";
+        if (btn) btn.innerHTML = `<i class="fa-solid fa-xmark"></i> Hide Size Guide`;
     }
 }
 
@@ -1469,7 +1413,7 @@ function initStore() {
     unlockScroll();
 
     /* Multi-device version sync */
-    const STORE_VERSION = "48.0";
+    const STORE_VERSION = "52.0";
     if (getLocal("shapes_store_version", null) !== STORE_VERSION) {
         setLocal("shapes_store_version", STORE_VERSION);
         setLocal("shapes_products", DEFAULT_PRODUCTS);
@@ -1861,27 +1805,26 @@ let _galleryTouchStartX = 0;
 
 function buildGalleryImages(product) {
     const imgs = [];
-    const defaultLabels = ["Front View", "Back Angle", "Side Silhouette", "Fabric & Craft Closeup"];
+    let main = product.image || 'images/coord_black_floral.webp';
+    if (!main.startsWith('http') && !main.startsWith('data:') && !main.startsWith('images/')) main = 'images/' + main;
+    imgs.push({ type: 'image', src: main, label: 'Main View' });
 
-    if (Array.isArray(product.images) && product.images.length > 0) {
+    // Only add additional photos if explicitly provided in product.images and they are genuine additional angles of THIS SAME DRESS
+    if (Array.isArray(product.images) && product.images.length > 1) {
         product.images.forEach((src, i) => {
-            if (src) {
+            if (src && src !== main && src !== product.image) {
                 let s = src;
                 if (!s.startsWith('http') && !s.startsWith('data:') && !s.startsWith('images/')) s = 'images/' + s;
-                const label = (product.imageLabels && product.imageLabels[i]) || defaultLabels[i] || `Angle ${i+1}`;
+                const label = (product.imageLabels && product.imageLabels[i]) || `Angle ${i+1}`;
                 imgs.push({ type: 'image', src: s, label: label });
             }
         });
-    } else {
-        let main = product.image || 'images/coord_black_floral.webp';
-        if (!main.startsWith('http') && !main.startsWith('data:') && !main.startsWith('images/')) main = 'images/' + main;
-        imgs.push({ type: 'image', src: main, label: 'Front View' });
     }
 
     if (product.video) {
         let vs = product.video;
         if (!vs.startsWith('http') && !vs.startsWith('images/')) vs = 'images/' + vs;
-        imgs.push({ type: 'video', src: vs, poster: imgs[0]?.src || '', label: 'Runway Reel' });
+        imgs.push({ type: 'video', src: vs, poster: main, label: 'Runway Reel' });
     }
 
     return imgs;

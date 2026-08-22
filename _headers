@@ -51,3 +51,8 @@
 # HTML Documents (Always Fresh for Dynamic Catalog Sync)
 /*.html
   Cache-Control: public, max-age=0, must-revalidate
+
+/.well-known/*
+  Content-Type: text/plain
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=86400
