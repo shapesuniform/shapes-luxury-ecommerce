@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 600" width="1000" height="600">
+  <defs>
+    <style>
+      .serif { font-family: 'Cormorant Garamond', Georgia, serif; }
+      .sans { font-family: 'Montserrat', Arial, sans-serif; }
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="1000" height="600" fill="#EAE2D5" />
+  
+  <text x="500" y="45" class="sans" font-size="14" font-weight="700" letter-spacing="4" fill="#8C6527" text-anchor="middle">MAIN WOVEN FABRIC NECK LABEL ARTWORK (CLEAN BORDERLESS)</text>
+  <text x="500" y="70" class="sans" font-size="11" fill="#5A4A38" text-anchor="middle">SPEC: 60mm × 30mm (Warm Cream Satin Ground · Solid Gold Weft Thread · Clean Borderless)</text>
+
+  <!-- ── MAIN WOVEN LABEL ── -->
+  <g transform="translate(200, 120)">
+    <!-- Label Body (Pure Background, No Border) -->
+    <rect x="0" y="0" width="600" height="300" rx="8" fill="#FAF6EE" />
+    
+    <!-- End Fold Seam Margins (7mm reference lines only) -->
+    <line x1="50" y1="0" x2="50" y2="300" stroke="#D8CABE" stroke-width="1" stroke-dasharray="6,6" />
+    <line x1="550" y1="0" x2="550" y2="300" stroke="#D8CABE" stroke-width="1" stroke-dasharray="6,6" />
+    <text x="25" y="155" class="sans" font-size="8.5" font-weight="600" fill="#8A755D" text-anchor="middle" transform="rotate(-90 25 155)">SEAM MARGIN</text>
+    <text x="575" y="155" class="sans" font-size="8.5" font-weight="600" fill="#8A755D" text-anchor="middle" transform="rotate(90 575 155)">SEAM MARGIN</text>
+
+    <!-- Woven Brand Typography (SHAPES - Solid Gold) -->
+    <g transform="translate(300, 140)" text-anchor="middle">
+      <text x="0" y="0" class="serif" font-size="54" font-weight="500" letter-spacing="16" fill="#C5A059">SHAPES</text>
+      <text x="0" y="48" class="sans" font-size="13" font-weight="700" letter-spacing="7" fill="#C5A059">BY SATIINDER KAUR</text>
+      
+      <g transform="translate(0, 78)">
+        <line x1="-80" y1="0" x2="-18" y2="0" stroke="#C5A059" stroke-width="1.2" />
+        <polygon points="0,-4 4,0 0,4 -4,0" fill="#C5A059" />
+        <line x1="18" y1="0" x2="80" y2="0" stroke="#C5A059" stroke-width="1.2" />
+      </g>
+    </g>
+  </g>
+
+  <!-- Technical Specs -->
+  <text x="500" y="470" class="sans" font-size="10.5" font-weight="700" letter-spacing="2" fill="#8C6527" text-anchor="middle">FINISHED SIZE: 60mm (W) × 30mm (H) · GROUND: WARM CREAM · WEFT: SOLID GOLD</text>
+</svg>

@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1600" width="1200" height="1600">
+  <defs>
+    <style>
+      .serif { font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif; }
+      .sans { font-family: 'Montserrat', Arial, sans-serif; }
+    </style>
+  </defs>
+
+  <!-- Clean Background Canvas (No Outer Borders) -->
+  <rect x="0" y="0" width="1200" height="1600" fill="#FAF6EE" />
+
+  <!-- Peel & Seal Flap (Subtle Area) -->
+  <rect x="0" y="0" width="1200" height="140" fill="#F5EFE3" />
+  <text x="600" y="78" class="sans" font-size="13" font-weight="700" letter-spacing="4" fill="#8C6527" text-anchor="middle">PEEL &amp; SEAL ADHESIVE CLOSURE FLAP</text>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- CENTER BRANDING (100% BORDERLESS PURE BRAND LOGO)                -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  
+  <text x="600" y="700" class="serif" font-size="96" font-weight="400" letter-spacing="26" fill="#C5A059" text-anchor="middle">SHAPES</text>
+  <text x="600" y="768" class="sans" font-size="20" font-weight="600" letter-spacing="12" fill="#C5A059" text-anchor="middle">BY SATIINDER KAUR</text>
+  <text x="600" y="820" class="sans" font-size="12" font-weight="600" letter-spacing="6" fill="#8C6527" text-anchor="middle">LUXURY PRET &amp; BESPOKE COUTURE</text>
+
+  <!-- Minimal Filigree Line -->
+  <g transform="translate(600, 870)">
+    <line x1="-180" y1="0" x2="-25" y2="0" stroke="#C5A059" stroke-width="1.5" />
+    <polygon points="0,-7 7,0 0,7 -7,0" fill="#C5A059" />
+    <line x1="25" y1="0" x2="180" y2="0" stroke="#C5A059" stroke-width="1.5" />
+  </g>
+
+  <text x="600" y="930" class="serif" font-style="italic" font-size="24" fill="#2B2117" text-anchor="middle">"Crafting modern silhouettes with timeless royal craftsmanship."</text>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- FOOTER & SHOWROOM ADDRESS (CLEAN BORDERLESS)                     -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  
+  <g transform="translate(100, 1420)">
+    <text x="0" y="0" class="sans" font-size="12" font-weight="700" letter-spacing="2" fill="#C5A059">BOUTIQUE &amp; SHOWROOM:</text>
+    <text x="0" y="24" class="sans" font-size="11" font-weight="500" fill="#5A4A38">SHAPES, SHOP NO 4, Waman Apartments, Ghatla Village Rd,</text>
+    <text x="0" y="44" class="sans" font-size="11" font-weight="500" fill="#5A4A38">near MAITRI PARK, Basant Garden, Chembur, Mumbai, Maharashtra 400071</text>
+    <text x="0" y="68" class="sans" font-size="11" font-weight="700" fill="#8C6527">WhatsApp Concierge / Phone: +91 98333 92756</text>
+  </g>
+
+  <g transform="translate(1100, 1420)" text-anchor="end">
+    <text x="0" y="0" class="sans" font-size="11" font-weight="700" letter-spacing="2" fill="#2E7D32">100% RECYCLABLE COURIER SHIELD</text>
+    <text x="0" y="24" class="sans" font-size="11" font-weight="500" fill="#5A4A38">Waterproof · Tear-Resistant · Tamper-Evident</text>
+    <text x="0" y="48" class="sans" font-size="11" fill="#5A4A38">Keep Away From Children (Suffocation Safety)</text>
+    <text x="0" y="68" class="sans" font-size="11" font-weight="700" letter-spacing="2" fill="#C5A059">WWW.SHAPESBYSATIINDERKAUR.COM</text>
+  </g>
+</svg>

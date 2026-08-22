@@ -1,6 +1,0 @@
-node_modules/
-.git/
-.github/
-compress_images.py
-*.zip
-.env
