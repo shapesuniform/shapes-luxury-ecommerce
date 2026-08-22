@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta name="theme-color" content="#1A1A1A">
+
+    <title>My Account | Shapes By Satiinder Kaur</title>
+    <meta name="description" content="View your orders, track deliveries and manage your account with Shapes By Satiinder Kaur.">
+    <link rel="canonical" href="https://shapesbysatinderkaur.com/account.html">
+    <meta property="og:title" content="My Account | Shapes By Satiinder Kaur">
+    <meta property="og:description" content="View your orders and manage your account with Shapes By Satiinder Kaur.">
+    <meta property="og:url" content="https://shapesbysatinderkaur.com/account.html">
+    <meta property="og:image" content="https://shapesbysatinderkaur.com/app_icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+
+    <!-- Cache-Buster & Deep Cache Wipe for Instant Multi-Device Sync -->
+    <script>
+        try {
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.getRegistrations().then(function(regs) {
+                    for (var r of regs) r.unregister();
+                }).catch(function() {});
+            }
+            if ('caches' in window) {
+                caches.keys().then(function(names) {
+                    for (var n of names) caches.delete(n);
+                }).catch(function() {});
+            }
+        } catch(e) {}
+    </script>
+
+
+
+    <style>
+        :root {
+            --gold: #C5A059; --charcoal: #1A1A1A; --white: #FFFFFF;
+            --ivory: #FAF8F5; --ivory-dark: #F2EDE6; --grey: #e5e5e5;
+            --grey-light: #ccc; --crimson: #8B1A1A;
+            --font-serif: 'Cormorant Garamond', Georgia, serif;
+            --font-sans: 'Montserrat', sans-serif;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family: var(--font-sans); background: var(--charcoal); color: var(--white); min-height: 100vh; }
+
+        /* ─── Header ─── */
+        .acc-header {
+            background: #111; border-bottom: 1px solid rgba(197,160,89,0.2);
+            padding: 1.2rem 2rem; display: flex; align-items: center; justify-content: space-between;
+        }
+        .acc-logo { font-family: var(--font-serif); font-size: 1.4rem; font-weight: 300;
+            letter-spacing: 0.2em; color: var(--white); text-decoration: none; }
+        .acc-logo span { color: var(--gold); font-size: 0.65rem; display: block; letter-spacing: 0.3em; }
+        .header-links { display: flex; gap: 1.5rem; align-items: center; }
+        .header-link { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+            color: rgba(255,255,255,0.6); text-decoration: none; transition: color 0.2s; }
+        .header-link:hover, .header-link.active { color: var(--gold); }
+        .logout-btn { background: transparent; border: 1px solid rgba(197,160,89,0.3);
+            color: var(--gold); font-family: var(--font-sans); font-size: 9px; font-weight: 600;
+            letter-spacing: 0.2em; text-transform: uppercase; padding: 0.5rem 1rem;
+            cursor: pointer; border-radius: 2px; transition: all 0.2s; }
+        .logout-btn:hover { background: var(--gold); color: #111; }
+
+        /* ─── Auth Screen ─── */
+        .auth-screen {
+            max-width: 440px; margin: 6rem auto; padding: 0 1.5rem;
+        }
+        .auth-card {
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(197,160,89,0.15);
+            border-radius: 4px; padding: 3rem;
+        }
+        .auth-tag { font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 0.8rem; }
+        .auth-title { font-family: var(--font-serif); font-size: 2rem; font-weight: 300; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.3rem; }
+        .auth-subtitle { font-size: 11px; color: var(--grey); margin-bottom: 2rem; }
+        .gold-line { width: 50px; height: 1px; background: var(--gold); margin-bottom: 2rem; }
+        .auth-tabs { display: flex; border-bottom: 1px solid rgba(197,160,89,0.15); margin-bottom: 1.8rem; }
+        .auth-tab { flex: 1; padding: 0.8rem; background: transparent; border: none; color: rgba(255,255,255,0.4);
+            font-family: var(--font-sans); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+            cursor: pointer; transition: color 0.2s; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+        .auth-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+        .auth-form { display: flex; flex-direction: column; gap: 1rem; }
+        .auth-form input {
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(197,160,89,0.2);
+            color: var(--white); padding: 0.85rem 1rem; border-radius: 3px;
+            font-family: var(--font-sans); font-size: 12px; outline: none; transition: border-color 0.2s;
+        }
+        .auth-form input::placeholder { color: rgba(255,255,255,0.25); }
+        .auth-form input:focus { border-color: var(--gold); }
+        .auth-submit {
+            background: var(--gold); color: #111; border: none; padding: 1rem;
+            font-family: var(--font-sans); font-size: 10px; font-weight: 700;
+            letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer;
+            border-radius: 3px; transition: opacity 0.2s; margin-top: 0.5rem;
+        }
+        .auth-submit:hover { opacity: 0.85; }
+        .auth-divider { display: flex; align-items: center; gap: 1rem; margin: 1rem 0; color: rgba(255,255,255,0.2); font-size: 10px; letter-spacing: 0.1em; }
+        .auth-divider::before, .auth-divider::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.1); }
+        .google-btn {
+            display: flex; align-items: center; justify-content: center; gap: 0.6rem;
+            background: #fff; color: #333; border: none; padding: 0.9rem 1rem;
+            border-radius: 3px; font-family: var(--font-sans); font-size: 11px;
+            font-weight: 600; letter-spacing: 0.05em; cursor: pointer;
+            transition: box-shadow 0.2s; width: 100%;
+        }
+        .google-btn:hover { box-shadow: 0 2px 12px rgba(255,255,255,0.2); }
+        .google-btn img { width: 18px; height: 18px; }
+
+        /* ─── Portal ─── */
+        .portal { display: none; }
+        .portal-hero { background: linear-gradient(135deg, #111 0%, #1a1a1a 100%);
+            padding: 4rem 2rem 3rem; text-align: center; border-bottom: 1px solid rgba(197,160,89,0.1); }
+        .portal-greeting { font-family: var(--font-serif); font-size: clamp(1.5rem, 4vw, 2.5rem);
+            font-weight: 300; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.5rem; }
+        .portal-email { font-size: 11px; color: var(--grey); }
+
+        /* Stats Row */
+        .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); max-width: 700px; margin: 2.5rem auto 0; gap: 1px; background: rgba(197,160,89,0.1); border: 1px solid rgba(197,160,89,0.1); border-radius: 3px; overflow: hidden; }
+        .stat-box { background: rgba(255,255,255,0.02); padding: 1.5rem; text-align: center; }
+        .stat-num { font-family: var(--font-serif); font-size: 2rem; font-weight: 400; color: var(--gold); }
+        .stat-label { font-size: 8px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--grey); margin-top: 0.3rem; }
+
+        /* Orders */
+        .portal-body { max-width: 900px; margin: 0 auto; padding: 3rem 1.5rem; }
+        .section-label { font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem; }
+        .orders-list { display: flex; flex-direction: column; gap: 1rem; }
+        .order-card {
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(197,160,89,0.12);
+            border-radius: 4px; overflow: hidden; transition: border-color 0.2s;
+        }
+        .order-card:hover { border-color: rgba(197,160,89,0.35); }
+        .order-card-top {
+            padding: 1.2rem 1.5rem; display: flex; align-items: center;
+            justify-content: space-between; flex-wrap: wrap; gap: 0.8rem;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+        .order-ref { font-family: var(--font-serif); font-size: 1.2rem; font-weight: 400; }
+        .order-status-badge {
+            background: rgba(37,211,102,0.15); color: #25D366;
+            font-size: 8px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase;
+            padding: 0.3rem 0.8rem; border-radius: 20px; border: 1px solid rgba(37,211,102,0.3);
+        }
+        .order-meta-row { padding: 1rem 1.5rem; display: flex; flex-wrap: wrap; gap: 2rem;
+            border-bottom: 1px solid rgba(255,255,255,0.04); }
+        .order-meta-item label { font-size: 8px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 3px; }
+        .order-meta-item span { font-size: 11px; color: rgba(255,255,255,0.75); }
+        .order-items-preview { padding: 0.8rem 1.5rem; font-size: 11px; color: var(--grey); }
+        .order-actions { padding: 1rem 1.5rem; display: flex; gap: 0.8rem; flex-wrap: wrap; }
+        .btn-wa { display: inline-flex; align-items: center; gap: 0.4rem; background: #25D366;
+            color: white; padding: 0.55rem 1rem; border-radius: 3px; text-decoration: none;
+            font-size: 9px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; transition: opacity 0.2s; }
+        .btn-wa:hover { opacity: 0.85; }
+        .btn-track { display: inline-flex; align-items: center; gap: 0.4rem;
+            background: transparent; color: var(--gold); padding: 0.55rem 1rem;
+            border: 1px solid rgba(197,160,89,0.4); border-radius: 3px; text-decoration: none;
+            font-size: 9px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; transition: all 0.2s; }
+        .btn-track:hover { background: var(--gold); color: #111; }
+
+        .no-orders { text-align: center; padding: 4rem 2rem; }
+        .no-orders i { font-size: 3rem; color: rgba(197,160,89,0.3); margin-bottom: 1.2rem; }
+        .no-orders h3 { font-family: var(--font-serif); font-weight: 300; letter-spacing: 0.1em; margin-bottom: 0.5rem; }
+        .no-orders p { font-size: 11px; color: var(--grey); margin-bottom: 1.5rem; }
+        .btn-shop { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--gold);
+            color: #111; padding: 0.75rem 1.5rem; border-radius: 3px; text-decoration: none;
+            font-size: 10px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; }
+
+        .loading-spinner { text-align: center; padding: 4rem; }
+        .loading-spinner i { font-size: 2rem; color: var(--gold); animation: spin 1s linear infinite; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        @media (max-width: 600px) {
+            .stats-row { grid-template-columns: 1fr; }
+            .order-card-top { flex-direction: column; align-items: flex-start; }
+            .auth-card { padding: 2rem 1.2rem; }
+            .auth-screen { margin: 2rem auto; padding: 0 1rem; }
+            .acc-header { padding: 1rem; flex-wrap: wrap; gap: 0.5rem; }
+            .header-links { gap: 0.8rem; }
+            .header-link { font-size: 9px; }
+            .portal-hero { padding: 2.5rem 1rem 2rem; }
+            .portal-greeting { font-size: 1.6rem; }
+            .order-actions { flex-direction: column; }
+            .btn-wa, .btn-track { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="acc-header">
+        <a href="index.html" class="acc-logo">SHAPES <span>by Satiinder Kaur</span></a>
+        <div class="header-links">
+            <a href="index.html" class="header-link"><i class="fa-solid fa-store"></i> Showroom</a>
+            <a href="track.html" class="header-link"><i class="fa-solid fa-truck-fast"></i> Track Order</a>
+            <button class="logout-btn" id="logout-btn" style="display:none" onclick="handleLogout()">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+            </button>
+        </div>
+    </header>
+
+    <!-- Auth Screen (shown when logged out) -->
+    <div class="auth-screen" id="auth-screen">
+        <div class="auth-card">
+            <span class="auth-tag">Member Portal</span>
+            <h1 class="auth-title">Welcome</h1>
+            <p class="auth-subtitle">Sign in or create an account to view your orders and track deliveries.</p>
+            <div class="gold-line"></div>
+            <div class="auth-tabs">
+                <button class="auth-tab active" id="tab-login" onclick="switchTab('login')">Sign In</button>
+                <button class="auth-tab" id="tab-signup" onclick="switchTab('signup')">Create Account</button>
+            </div>
+            <!-- Login Form -->
+            <div id="login-form">
+                <div class="auth-form">
+                    <button class="google-btn" onclick="handleGoogleSignIn()">
+                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+                        Continue with Google
+                    </button>
+                    <div class="auth-divider">or sign in with email</div>
+                    <input type="email" id="login-email" placeholder="Email Address" />
+                    <input type="password" id="login-password" placeholder="Password" />
+                    <div class="auth-error" id="login-error"></div>
+                    <button class="auth-submit" onclick="handleLogin()">SIGN IN TO MY ACCOUNT</button>
+                </div>
+            </div>
+            <!-- Signup Form -->
+            <div id="signup-form" style="display:none;">
+                <div class="auth-form">
+                    <button class="google-btn" onclick="handleGoogleSignIn()">
+                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+                        Sign Up with Google (Fastest)
+                    </button>
+                    <div class="auth-divider">or create account with email</div>
+                    <input type="text" id="signup-name" placeholder="Full Name" />
+                    <input type="email" id="signup-email" placeholder="Email Address" />
+                    <input type="tel" id="signup-phone" placeholder="Phone Number" />
+                    <input type="password" id="signup-password" placeholder="Create Password (min 6 chars)" />
+                    <div class="auth-error" id="signup-error"></div>
+                    <button class="auth-submit" onclick="handleSignup()">CREATE MY ACCOUNT</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Customer Portal (shown when logged in) -->
+    <div class="portal" id="portal">
+        <div class="portal-hero">
+            <div class="portal-greeting" id="portal-greeting">Welcome Back</div>
+            <div class="portal-email" id="portal-email"></div>
+            <div class="stats-row" id="stats-row">
+                <div class="stat-box">
+                    <div class="stat-num" id="stat-orders">0</div>
+                    <div class="stat-label">Total Orders</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-num" id="stat-items">0</div>
+                    <div class="stat-label">Items Ordered</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-num" id="stat-spent">₹0</div>
+                    <div class="stat-label">Total Spent</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="portal-body">
+            <div class="section-label">Your Orders</div>
+            <div id="orders-loading" class="loading-spinner"><i class="fa-solid fa-circle-notch"></i></div>
+            <div class="orders-list" id="orders-list"></div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK (ESM) -->
+    <script type="module">
+        import { auth, db, onAuthStateChanged, signOut, createUserWithEmailAndPassword,
+                 signInWithEmailAndPassword, updateProfile, collection, addDoc, getDocs,
+                 query, where, orderBy, doc, updateDoc, GoogleAuthProvider, signInWithPopup } from './firebase-config.js';
+
+        window._auth = auth;
+        window._db = db;
+        window._signOut = signOut;
+        window._createUser = createUserWithEmailAndPassword;
+        window._signIn = signInWithEmailAndPassword;
+        window._updateProfile = updateProfile;
+        window._collection = collection;
+        window._addDoc = addDoc;
+        window._getDocs = getDocs;
+        window._query = query;
+        window._where = where;
+        window._orderBy = orderBy;
+        window._doc = doc;
+        window._updateDoc = updateDoc;
+        window._googleProvider = new GoogleAuthProvider();
+        window._signInWithPopup = signInWithPopup;
+
+        
+function syncUserToAdminDirectory(userObj) {
+    try {
+        let clients = JSON.parse(localStorage.getItem("shapes_registered_clients") || "[]");
+        const existingIdx = clients.findIndex(c => c.email === userObj.email || c.uid === userObj.uid);
+        const newClientData = {
+            id: userObj.uid || "client_" + Date.now(),
+            uid: userObj.uid || "client_" + Date.now(),
+            name: userObj.displayName || userObj.name || "Shapes Client",
+            email: userObj.email || "",
+            phone: userObj.phone || userObj.phoneNumber || "+91 Contact Pending",
+            authProvider: userObj.authProvider || (userObj.providerData && userObj.providerData[0] ? userObj.providerData[0].providerId : "Google / Password"),
+            joinedDate: new Date().toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }),
+            totalOrders: userObj.totalOrders || 1,
+            status: "Active VIP Client"
+        };
+
+        if (existingIdx > -1) {
+            clients[existingIdx] = { ...clients[existingIdx], ...newClientData };
+        } else {
+            clients.unshift(newClientData);
+        }
+        localStorage.setItem("shapes_registered_clients", JSON.stringify(clients));
+    } catch(e) {
+        console.error("Error syncing client to admin directory:", e);
+    }
+}
+
+async function recordCustomerLogin(user, extraData = {}) {
+    syncUserToAdminDirectory({ ...user, ...extraData });
+            try {
+                const q = query(collection(db, "customers"), where("uid", "==", user.uid));
+                const snap = await getDocs(q);
+                const now = new Date().toISOString();
+                if (snap.empty) {
+                    await addDoc(collection(db, "customers"), {
+                        uid: user.uid,
+                        name: user.displayName || extraData.name || "Client",
+                        email: user.email || "",
+                        phone: extraData.phone || user.phoneNumber || "",
+                        createdAt: now,
+                        lastLoginAt: now,
+                        loginCount: 1
+                    });
+                } else {
+                    const docId = snap.docs[0].id;
+                    const cur = snap.docs[0].data();
+                    await updateDoc(doc(db, "customers", docId), {
+                        lastLoginAt: now,
+                        loginCount: (cur.loginCount || 1) + 1,
+                        name: user.displayName || cur.name || extraData.name || "Client",
+                        phone: extraData.phone || cur.phone || user.phoneNumber || ""
+                    });
+                }
+            } catch (err) {
+                console.warn("Could not log customer session:", err.message);
+            }
+        }
+
+        // Auth state observer
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                document.getElementById("auth-screen").style.display = "none";
+                document.getElementById("portal").style.display = "block";
+                document.getElementById("logout-btn").style.display = "inline-flex";
+                
+                // Fallback name if displayName is not set
+                const displayName = user.displayName || (user.email ? user.email.split('@')[0] : "Valued Client");
+                document.getElementById("portal-greeting").textContent = "Welcome, " + displayName;
+                document.getElementById("portal-email").textContent = user.email || "";
+
+                // Guaranteed save to Firestore customers database
+                await recordCustomerLogin(user, { name: displayName });
+                await loadOrders(user.uid);
+            } else {
+                document.getElementById("auth-screen").style.display = "block";
+                document.getElementById("portal").style.display = "none";
+                document.getElementById("logout-btn").style.display = "none";
+            }
+        });
+
+
+        async function loadOrders(uid) {
+            const loading = document.getElementById("orders-loading");
+            const list = document.getElementById("orders-list");
+            loading.style.display = "block";
+            list.innerHTML = "";
+
+            try {
+                // Query by uid directly (no composite index required)
+                const q = query(collection(db, "orders"), where("uid", "==", uid));
+                const snap = await getDocs(q);
+
+                loading.style.display = "none";
+
+                if (snap.empty) {
+                    list.innerHTML = `<div class="no-orders">
+                        <i class="fa-solid fa-bag-shopping"></i>
+                        <h3>No Orders Yet</h3>
+                        <p>Your luxury creations will appear here after your first purchase.</p>
+                        <a href="index.html" class="btn-shop"><i class="fa-solid fa-store"></i> Browse Collections</a>
+                    </div>`;
+                    return;
+                }
+
+                // Extract and sort by date descending
+                const orders = [];
+                snap.forEach(docSnap => {
+                    orders.push({ id: docSnap.id, ...docSnap.data() });
+                });
+                orders.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+
+                let totalOrders = 0, totalItems = 0, totalSpent = 0;
+                orders.forEach(o => {
+                    totalOrders++;
+                    const items = o.items || [];
+                    items.forEach(i => { totalItems += i.quantity || 1; totalSpent += (i.price * i.quantity) || 0; });
+
+                    const dateStr = o.date ? new Date(o.date).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" }) : "—";
+                    const itemsSummary = items.map(i => `${i.title} (${i.size} ×${i.quantity})`).join(" · ");
+                    const total = items.reduce((t, i) => t + (i.price * i.quantity), 0);
+                    const waMsg = encodeURIComponent(`Hi! I'm following up on my order *${o.ref}* placed on ${dateStr}. Payment ID: ${o.paymentId}.`);
+
+                    list.innerHTML += `
+                    <div class="order-card">
+                        <div class="order-card-top">
+                            <div class="order-ref">${o.ref}</div>
+                            <span class="order-status-badge">✓ Confirmed</span>
+                        </div>
+                        <div class="order-meta-row">
+                            <div class="order-meta-item"><label>Date</label><span>${dateStr}</span></div>
+                            <div class="order-meta-item"><label>Total</label><span>₹${total.toLocaleString("en-IN")}</span></div>
+                            <div class="order-meta-item"><label>Payment ID</label><span>${o.paymentId || "—"}</span></div>
+                        </div>
+                        <div class="order-items-preview">${itemsSummary}</div>
+                        <div class="order-actions">
+                            <a class="btn-wa" href="https://wa.me/919833392756?text=${waMsg}" target="_blank">
+                                <i class="fa-brands fa-whatsapp"></i> WhatsApp
+                            </a>
+                            <a class="btn-track" href="track.html?ref=${o.ref}" target="_blank">
+                                <i class="fa-solid fa-truck-fast"></i> Track
+                            </a>
+                            <button class="btn-track" onclick="printAccountInvoice('${encodeURIComponent(JSON.stringify(o))}')" style="cursor:pointer; background:none; border: 1px solid var(--gold); color:var(--gold);">
+                                <i class="fa-solid fa-print"></i> Invoice
+                            </button>
+                        </div>
+                    </div>`;
+                });
+
+                document.getElementById("stat-orders").textContent = totalOrders;
+                document.getElementById("stat-items").textContent = totalItems;
+                document.getElementById("stat-spent").textContent = "₹" + totalSpent.toLocaleString("en-IN");
+
+            } catch (err) {
+                loading.style.display = "none";
+                list.innerHTML = `<p style="text-align:center;color:var(--grey);font-size:12px;">Error loading orders: ${err.message}</p>`;
+            }
+        }
+
+        // Printable Tax Invoice for Customer Portal
+        window.printAccountInvoice = function(encodedOrder) {
+            try {
+                const o = JSON.parse(decodeURIComponent(encodedOrder));
+                const items = o.items || [];
+                const total = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                const dateStr = o.date ? new Date(o.date).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" }) : "—";
+
+                const printWindow = window.open('', '_blank');
+                printWindow.document.write(`
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                        <title>Invoice - ${o.ref} | Shapes By Satiinder Kaur</title>
+                        <style>
+                            body { font-family: 'Helvetica Neue', Arial, sans-serif; color: #222; margin: 40px; }
+                            .inv-header { display: flex; justify-content: space-between; border-bottom: 2px solid #C5A059; padding-bottom: 20px; }
+                            .inv-logo { font-size: 26px; font-weight: bold; letter-spacing: 2px; color: #111; }
+                            .inv-sub { font-size: 11px; color: #C5A059; text-transform: uppercase; letter-spacing: 3px; }
+                            .inv-meta { text-align: right; font-size: 13px; color: #555; }
+                            table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 13px; }
+                            th { background: #f7f7f7; text-align: left; padding: 10px; border-bottom: 2px solid #ddd; font-weight: 600; }
+                            td { padding: 12px 10px; border-bottom: 1px solid #eee; }
+                            .total-row td { font-size: 15px; font-weight: bold; border-top: 2px solid #C5A059; color: #111; }
+                            .inv-footer { margin-top: 50px; font-size: 11px; color: #d0d0d0; border-top: 1px solid #ddd; padding-top: 20px; line-height: 1.6; }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="inv-header">
+                            <div>
+                                <div class="inv-logo">SHAPES UNIFORM</div>
+                                <div class="inv-sub">Shapes By Satiinder Kaur</div>
+                                <p style="font-size: 12px; color: #cccccc; margin-top: 5px;"><strong>Legal Entity:</strong> SHAPES UNIFORM<br>SHAPES, SHOP NO 4, Waman Apartments, Ghatla Village Rd, near MAITRI PARK, Basant Garden, Chembur, Mumbai, Maharashtra 400071<br>SHAPES, SHOP NO 4, Waman Apartments, Ghatla Village Rd, near MAITRI PARK, Basant Garden, Chembur, Mumbai, Maharashtra 400071<br>T: +91 98333 92756 | E: concierge@shapesbysatinderkaur.com</p>
+                            </div>
+
+                            <div class="inv-meta">
+                                <h2 style="margin: 0 0 5px 0; color: #C5A059;">TAX INVOICE</h2>
+                                <div><strong>Invoice No:</strong> INV-${o.ref}</div>
+                                <div><strong>Order Ref:</strong> ${o.ref}</div>
+                                <div><strong>Payment ID:</strong> ${o.paymentId || 'Prepaid'}</div>
+                                <div><strong>Date:</strong> ${dateStr}</div>
+                            </div>
+                        </div>
+
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Item Description</th>
+                                    <th>Size</th>
+                                    <th>Unit Price</th>
+                                    <th>Qty</th>
+                                    <th style="text-align: right;">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${items.map(item => `
+                                    <tr>
+                                        <td><strong>${item.title}</strong><br><span style="font-size: 9px; color: #d0d0d0;"></span></td>
+                                        <td>${item.size || 'Custom'}</td>
+                                        <td>₹${item.price.toLocaleString("en-IN")}</td>
+                                        <td>${item.quantity || 1}</td>
+                                        <td style="text-align: right;">₹${((item.price || 0) * (item.quantity || 1)).toLocaleString("en-IN")}</td>
+                                    </tr>
+                                `).join('')}
+                                ${(() => {
+                                    const gstRate = 0.18;
+                                    const taxableBase = Math.round(total / (1 + gstRate));
+                                    const totalGst = total - taxableBase;
+                                    const cgst = Math.round(totalGst / 2);
+                                    const sgst = totalGst - cgst;
+                                    return `
+                                        <tr>
+                                            <td colspan="4" style="text-align: right; color: #555;">Taxable Base Value (Excl. GST):</td>
+                                            <td style="text-align: right; color: #333;">₹${taxableBase.toLocaleString("en-IN")}</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4" style="text-align: right; color: #555;">CGST @ 9%:</td>
+                                            <td style="text-align: right; color: #333;">₹${cgst.toLocaleString("en-IN")}</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4" style="text-align: right; color: #555;">SGST @ 9%:</td>
+                                            <td style="text-align: right; color: #333;">₹${sgst.toLocaleString("en-IN")}</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4" style="text-align: right; font-weight: 600;">Courier Delivery:</td>
+                                            <td style="text-align: right; color: #C5A059; font-weight: bold;">Complimentary (₹0)</td>
+                                        </tr>
+
+                                        <tr class="total-row">
+                                            <td colspan="4" style="text-align: right; font-weight: 700;">Grand Total (Taxes Incl.):</td>
+                                            <td style="text-align: right; font-weight: 700; color: #000;">₹${total.toLocaleString("en-IN")}</td>
+                                        </tr>
+                                        ${order.gstin ? `
+                                        <tr>
+                                            <td colspan="5" style="text-align: left; font-size: 10px; color: #444; background: #f9f9f9; padding: 6px 10px;">
+                                                <strong>Client Business GSTIN:</strong> ${order.gstin}
+                                            </td>
+                                        </tr>` : ''}
+                                    `;
+                                })()}
+                            </tbody>
+                        </table>
+
+                        <div class="inv-footer">
+                            <strong>Store Policy &amp; Tax Terms:</strong><br>
+                            • Handcrafted to order: standard dispatch time is 15 – 22 working days.<br>
+                            • All applicable taxes (CGST 6% + SGST 6%) are included in the final invoice amount.<br>
+                            • Exchanges are accepted strictly for verified manufacturing defects reported within 48 hours.<br>
+                            • For styling consultations and updates, please contact concierge at +91 98333 92756.
+                        </div>
+                        <script>
+                            window.onload = function() { window.print(); };
+                        <\/script>
+                    </body>
+                    </html>
+                `);
+                printWindow.document.close();
+            } catch (e) {
+                alert("Error preparing invoice: " + e.message);
+            }
+        };
+
+
+
+        window.handleLogin = async () => {
+            const email = document.getElementById("login-email").value.trim();
+            const pass = document.getElementById("login-password").value;
+            const errEl = document.getElementById("login-error");
+            errEl.textContent = "";
+            try {
+                const cred = await signInWithEmailAndPassword(auth, email, pass);
+                await recordCustomerLogin(cred.user);
+                sendWelcomeEmail(cred.user.displayName || email.split('@')[0], email);
+            } catch (e) {
+                errEl.textContent = e.code === "auth/invalid-credential" ? "Incorrect email or password." : e.message;
+            }
+        };
+
+                // Automated Luxury Welcome Email Dispatcher via EmailJS
+        async function sendWelcomeEmail(userName, userEmail) {
+            if (!userEmail) return;
+            const key = "shapes_welcome_sent_" + userEmail.toLowerCase();
+            if (localStorage.getItem(key)) return; // Prevent duplicate emails
+
+            if (typeof emailjs !== "undefined") {
+                try {
+                    await emailjs.send("service_shapes", "template_welcome", {
+                        to_name: userName || "Valued Connoisseur",
+                        to_email: userEmail,
+                        brand_name: "SHAPES",
+                        boutique_url: "https://shapesbysatinderkaur.com/#catalog",
+                        concierge_phone: "+91 98333 92756",
+                        boutique_address: "Shop No. 4, Basant Garden, Chembur, Mumbai"
+                    });
+                    localStorage.setItem(key, "true");
+                    console.log("💌 [Welcome Email] Dispatched to " + userEmail);
+                } catch(e) {
+                    console.warn("Welcome email notice:", e);
+                }
+            }
+        }
+
+        window.handleSignup = async () => {
+            const name = document.getElementById("signup-name").value.trim();
+            const email = document.getElementById("signup-email").value.trim();
+            const phone = document.getElementById("signup-phone").value.trim();
+            const pass = document.getElementById("signup-password").value;
+            const errEl = document.getElementById("signup-error");
+            errEl.textContent = "";
+            if (!name) { errEl.textContent = "Please enter your full name."; return; }
+            try {
+                const cred = await createUserWithEmailAndPassword(auth, email, pass);
+                await updateProfile(cred.user, { displayName: name });
+                await recordCustomerLogin(cred.user, { name, phone });
+                sendWelcomeEmail(name, email);
+            } catch (e) {
+                errEl.textContent = e.code === "auth/email-already-in-use" ? "An account with this email already exists." : e.message;
+            }
+        };
+
+        window.handleGoogleSignIn = async () => {
+            try {
+                const result = await signInWithPopup(auth, window._googleProvider);
+                await recordCustomerLogin(result.user);
+            } catch (e) {
+                document.getElementById("login-error").textContent = e.message;
+            }
+        };
+
+        window.handleLogout = async () => {
+            await signOut(auth);
+        };
+    </script>
+
+
+    <script>
+        function switchTab(tab) {
+            document.getElementById("login-form").style.display = tab === "login" ? "block" : "none";
+            document.getElementById("signup-form").style.display = tab === "signup" ? "block" : "none";
+            document.getElementById("tab-login").classList.toggle("active", tab === "login");
+            document.getElementById("tab-signup").classList.toggle("active", tab === "signup");
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <defs>
+    <style>
+      .serif { font-family: 'Cormorant Garamond', Georgia, serif; }
+      .sans { font-family: 'Montserrat', Arial, sans-serif; }
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="1200" height="800" fill="#EAE2D5" />
+
+  <text x="600" y="50" class="sans" font-size="14" font-weight="700" letter-spacing="4" fill="#8C6527" text-anchor="middle">UNIVERSAL WASH CARE &amp; FABRIC LONGEVITY TAG (CLEAN BORDERLESS)</text>
+  <text x="600" y="75" class="sans" font-size="11" fill="#5A4A38" text-anchor="middle">SPEC: 40mm × 90mm · Warm Cream Soft Satin Ribbon · Plain Solid Gold Print · Clean Borderless</text>
+
+  <!-- SIDE A -->
+  <g transform="translate(200, 110)">
+    <rect x="0" y="0" width="340" height="620" rx="10" fill="#FAF6EE" />
+    
+    <!-- Stitch Zone -->
+    <rect x="0" y="0" width="340" height="40" fill="#F5EFE3" />
+    <text x="170" y="24" class="sans" font-size="9" font-weight="700" letter-spacing="2" fill="#8C6527" text-anchor="middle">STITCH INTO INNER SEAM</text>
+
+    <text x="170" y="82" class="serif" font-size="28" font-weight="600" letter-spacing="6" fill="#C5A059" text-anchor="middle">SHAPES</text>
+    <text x="170" y="104" class="sans" font-size="9" font-weight="700" letter-spacing="3" fill="#C5A059" text-anchor="middle">BY SATIINDER KAUR</text>
+    <text x="170" y="132" class="sans" font-size="10.5" font-weight="700" letter-spacing="1" fill="#2B2117" text-anchor="middle">PREMIUM LUXURY APPAREL</text>
+    <line x1="30" y1="145" x2="310" y2="145" stroke="#D8CABE" stroke-width="1" />
+
+    <g transform="translate(50, 165)">
+      <g transform="translate(20, 20)">
+        <path d="M -12 6 C -12 12 12 12 12 6 L 15 -4 L -15 -4 Z" fill="none" stroke="#C5A059" stroke-width="1.8" />
+        <path d="M -8 -8 L -4 -2 L 0 -8 L 4 -2 L 8 -8" stroke="#C5A059" stroke-width="1.8" fill="none" />
+        <text x="0" y="26" class="sans" font-size="7.5" font-weight="600" fill="#5A4A38" text-anchor="middle">Gentle Cold Wash</text>
+      </g>
+
+      <g transform="translate(120, 20)">
+        <polygon points="0,-12 14,10 -14,10" fill="none" stroke="#C5A059" stroke-width="1.8" />
+        <line x1="-10" y1="-8" x2="10" y2="8" stroke="#D32F2F" stroke-width="2" />
+        <line x1="10" y1="-8" x2="-10" y2="8" stroke="#D32F2F" stroke-width="2" />
+        <text x="0" y="26" class="sans" font-size="7.5" font-weight="600" fill="#5A4A38" text-anchor="middle">Do Not Bleach</text>
+      </g>
+
+      <g transform="translate(220, 20)">
+        <rect x="-12" y="-12" width="24" height="24" rx="2" fill="none" stroke="#C5A059" stroke-width="1.8" />
+        <circle cx="0" cy="0" r="8" fill="none" stroke="#C5A059" stroke-width="1.8" />
+        <line x1="-12" y1="-12" x2="12" y2="12" stroke="#D32F2F" stroke-width="2" />
+        <text x="0" y="26" class="sans" font-size="7.5" font-weight="600" fill="#5A4A38" text-anchor="middle">Do Not Tumble Dry</text>
+      </g>
+    </g>
+
+    <g transform="translate(100, 245)">
+      <g transform="translate(20, 20)">
+        <path d="M -14 8 L 14 8 C 14 8 14 2 10 2 L -8 2 C -14 2 -14 8 -14 8 Z" fill="none" stroke="#C5A059" stroke-width="1.8" />
+        <circle cx="0" cy="5" r="1.5" fill="#C5A059" />
+        <text x="0" y="26" class="sans" font-size="7.5" font-weight="600" fill="#5A4A38" text-anchor="middle">Cool Iron Inside-Out</text>
+      </g>
+
+      <g transform="translate(120, 20)">
+        <circle cx="0" cy="5" r="11" fill="none" stroke="#C5A059" stroke-width="1.8" />
+        <text x="0" y="9" class="sans" font-size="10" font-weight="800" fill="#C5A059" text-anchor="middle">P</text>
+        <text x="0" y="26" class="sans" font-size="7.5" font-weight="600" fill="#5A4A38" text-anchor="middle">Dry Clean Pref.</text>
+      </g>
+    </g>
+
+    <g transform="translate(30, 345)" class="sans" font-size="9" fill="#2B2117">
+      <text x="0" y="0" font-weight="700" fill="#C5A059">UNIVERSAL CARE GUIDELINES:</text>
+      <text x="0" y="20">• Wash colors separately in mild liquid detergent.</text>
+      <text x="0" y="38">• Do not wring or twist delicate handcrafted weaves.</text>
+      <text x="0" y="56">• Dry flat in shade away from direct sunlight.</text>
+      <text x="0" y="74">• Iron inside-out on low heat while slightly damp.</text>
+      <text x="0" y="92">• Store in breathable cotton garment bag.</text>
+    </g>
+
+    <g transform="translate(170, 520)" class="sans" text-anchor="middle">
+      <text x="0" y="0" font-size="9.5" font-weight="700" letter-spacing="1" fill="#C5A059">MADE WITH PRIDE IN INDIA</text>
+      <text x="0" y="18" font-size="8.5" font-weight="600" fill="#5A4A38">100% ARTISANAL TAILORING</text>
+    </g>
+  </g>
+
+  <!-- SIDE B -->
+  <g transform="translate(660, 110)">
+    <rect x="0" y="0" width="340" height="620" rx="10" fill="#FAF6EE" />
+    
+    <rect x="0" y="0" width="340" height="40" fill="#F5EFE3" />
+    <text x="170" y="24" class="sans" font-size="9" font-weight="700" letter-spacing="2" fill="#8C6527" text-anchor="middle">STITCH INTO INNER SEAM</text>
+
+    <text x="170" y="110" class="serif" font-size="32" font-weight="600" letter-spacing="8" fill="#C5A059" text-anchor="middle">SHAPES</text>
+    <text x="170" y="135" class="sans" font-size="10" font-weight="700" letter-spacing="4" fill="#C5A059" text-anchor="middle">BY SATIINDER KAUR</text>
+    <text x="170" y="160" class="sans" font-size="8.5" font-weight="700" letter-spacing="2" fill="#8C6527" text-anchor="middle">GUARANTEE OF AUTHENTICITY</text>
+    <line x1="30" y1="175" x2="310" y2="175" stroke="#D8CABE" stroke-width="1" />
+
+    <g transform="translate(30, 215)" class="sans" font-size="9.5" fill="#2B2117">
+      <text x="0" y="0" font-weight="700" fill="#C5A059">CRAFTED WITH PRECISION:</text>
+      <text x="0" y="24" line-height="1.5">Every creation is individually tailored</text>
+      <text x="0" y="44">by master craftspersons using ethically</text>
+      <text x="0" y="64">sourced, high-grade Indian textiles.</text>
+      
+      <text x="0" y="120" font-weight="700" fill="#C5A059">CLIENT CONCIERGE:</text>
+      <text x="0" y="142">WhatsApp: +91 98333 92756</text>
+      <text x="0" y="162">Email: shapesuniform@gmail.com</text>
+      <text x="0" y="182">Web: shapesbysatiinderkaur.com</text>
+    </g>
+
+    <g transform="translate(170, 510)" class="sans" text-anchor="middle">
+      <text x="0" y="0" font-size="7.5" font-weight="600" fill="#5A4A38">SHAPES, SHOP NO 4, Waman Apartments, Ghatla Village Rd,</text>
+      <text x="0" y="14" font-size="7.5" font-weight="600" fill="#5A4A38">near MAITRI PARK, Basant Garden, Chembur, Mumbai, Maharashtra 400071</text>
+      <text x="0" y="30" font-size="8" fill="#8C6527">© 2026 Shapes By Satiinder Kaur</text>
+    </g>
+  </g>
+</svg>

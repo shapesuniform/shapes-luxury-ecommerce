@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <defs>
+    <style>
+      .serif { font-family: 'Cormorant Garamond', Georgia, serif; }
+      .sans { font-family: 'Montserrat', Arial, sans-serif; }
+    </style>
+  </defs>
+
+  <!-- Sheet Background -->
+  <rect x="0" y="0" width="1200" height="800" fill="#EAE2D5" />
+
+  <text x="600" y="50" class="sans" font-size="14" font-weight="700" letter-spacing="4" fill="#8C6527" text-anchor="middle">UNIVERSAL LUXURY DIE-CUT HANG TAG (FRONT &amp; REVERSE · CLEAN BORDERLESS)</text>
+  <text x="600" y="75" class="sans" font-size="11" fill="#5A4A38" text-anchor="middle">SPEC: 55mm × 110mm · 350 GSM Warm Ivory Board · Plain Solid Gold Print · Clean Borderless</text>
+
+  <!-- FRONT (ONLY THE LOGO - ZERO BORDER BOXES) -->
+  <g transform="translate(180, 110)">
+    <rect x="0" y="0" width="360" height="620" rx="16" fill="#FAF6EE" />
+    
+    <!-- Die-Cut Eyelet Hole -->
+    <circle cx="180" cy="45" r="8" fill="#EAE2D5" stroke="#C5A059" stroke-width="2" />
+
+    <!-- Centered Pure Logo (SHAPES - Solid Gold) -->
+    <g transform="translate(180, 310)" text-anchor="middle">
+      <text x="0" y="0" class="serif" font-size="54" font-weight="400" letter-spacing="14" fill="#C5A059">SHAPES</text>
+      <text x="0" y="46" class="sans" font-size="12" font-weight="700" letter-spacing="6" fill="#C5A059">BY SATIINDER KAUR</text>
+      
+      <g transform="translate(0, 78)">
+        <line x1="-70" y1="0" x2="-15" y2="0" stroke="#C5A059" stroke-width="1.2" />
+        <polygon points="0,-4 4,0 0,4 -4,0" fill="#C5A059" />
+        <line x1="15" y1="0" x2="70" y2="0" stroke="#C5A059" stroke-width="1.2" />
+      </g>
+      
+      <text x="0" y="118" class="serif" font-size="14" font-style="italic" fill="#2B2117">Luxury Pret &amp; Bespoke Couture</text>
+    </g>
+
+    <text x="180" y="660" class="sans" font-size="11" font-weight="700" letter-spacing="2" fill="#8C6527" text-anchor="middle">FRONT (PURE BRAND LOGO)</text>
+  </g>
+
+  <!-- REVERSE (ZERO BORDER BOXES) -->
+  <g transform="translate(660, 110)">
+    <rect x="0" y="0" width="360" height="620" rx="16" fill="#FAF6EE" />
+    
+    <!-- Die-Cut Eyelet Hole -->
+    <circle cx="180" cy="45" r="8" fill="#EAE2D5" stroke="#C5A059" stroke-width="2" />
+
+    <!-- Centered Brand Identity -->
+    <g transform="translate(180, 160)" text-anchor="middle">
+      <text x="0" y="0" class="serif" font-size="36" font-weight="400" letter-spacing="10" fill="#C5A059">SHAPES</text>
+      <text x="0" y="32" class="sans" font-size="10" font-weight="700" letter-spacing="4" fill="#C5A059">BY SATIINDER KAUR</text>
+      <line x1="-80" y1="52" x2="80" y2="52" stroke="#D8CABE" stroke-width="1" />
+    </g>
+
+    <!-- Brand Philosophy -->
+    <g transform="translate(180, 275)" text-anchor="middle" class="serif" font-size="15" fill="#2B2117">
+      <text x="0" y="0" font-style="italic">"Each creation is crafted to celebrate</text>
+      <text x="0" y="24" font-style="italic">individual elegance, refined contours,</text>
+      <text x="0" y="48" font-style="italic">and effortless luxury comfort."</text>
+    </g>
+
+    <!-- Quality & Authenticity Pledge -->
+    <g transform="translate(180, 385)" text-anchor="middle" class="sans">
+      <text x="0" y="0" font-size="9.5" font-weight="700" letter-spacing="2" fill="#C5A059">100% ARTISANAL CREATION</text>
+      <text x="0" y="18" font-size="8.5" font-weight="500" fill="#5A4A38">Made with Pride in India</text>
+      <line x1="-60" y1="32" x2="60" y2="32" stroke="#D8CABE" stroke-width="1" />
+    </g>
+
+    <!-- Boutique Registered Showroom Address -->
+    <g transform="translate(180, 470)" text-anchor="middle" class="sans">
+      <text x="0" y="0" font-size="7.5" font-weight="600" fill="#5A4A38">SHAPES, SHOP NO 4, Waman Apartments, Ghatla Village Rd,</text>
+      <text x="0" y="15" font-size="7.5" font-weight="600" fill="#5A4A38">near MAITRI PARK, Basant Garden, Chembur, Mumbai, Maharashtra 400071</text>
+      <text x="0" y="34" font-size="8.5" font-weight="700" fill="#8C6527">WhatsApp / Phone: +91 98333 92756</text>
+      <text x="0" y="50" font-size="8" font-weight="600" fill="#C5A059">www.shapesbysatiinderkaur.com</text>
+    </g>
+
+    <text x="180" y="660" class="sans" font-size="11" font-weight="700" letter-spacing="2" fill="#8C6527" text-anchor="middle">REVERSE (UNIVERSAL BRAND IDENTITY)</text>
+  </g>
+</svg>

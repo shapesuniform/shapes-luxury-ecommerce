@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+    
+    <!-- Homepage / Main Catalog -->
+    <url>
+        <loc>https://shapesbysatinderkaur.com/</loc>
+        <lastmod>2026-08-22</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>1.0</priority>
+        <image:image>
+            <image:loc>https://shapesbysatinderkaur.com/images/hero_coord_editorial.webp</image:loc>
+            <image:title>Shapes By Satiinder Kaur — Designer Luxury Co-Ord Sets Mumbai</image:title>
+            <image:caption>Handcrafted luxury printed silk and linen co-ord sets by couturier Satiinder Kaur</image:caption>
+        </image:image>
+        <image:image>
+            <image:loc>https://shapesbysatinderkaur.com/images/welcome_coord_luxury.webp</image:loc>
+            <image:title>Shapes Chembur Flagship Showroom — Satiinder Kaur</image:title>
+            <image:caption>Contemporary Luxury Pret and Bespoke Sartorial Tailoring in Chembur, Mumbai</image:caption>
+        </image:image>
+        <image:image>
+            <image:loc>https://shapesbysatinderkaur.com/images/coord_black_floral.webp</image:loc>
+            <image:title>The Noir Botanical Silk Set — Shapes By Satiinder Kaur</image:title>
+            <image:caption>Pure modal silk floral printed tunic with wide-leg trousers</image:caption>
+        </image:image>
+        <image:image>
+            <image:loc>https://shapesbysatinderkaur.com/images/coord_beige_linen.webp</image:loc>
+            <image:title>Ivory and Sand Linen Set — Shapes By Satiinder Kaur</image:title>
+            <image:caption>100% Organic slub linen relaxed tunic and tailored trousers</image:caption>
+        </image:image>
+        <image:image>
+            <image:loc>https://shapesbysatinderkaur.com/images/coord_royal_emerald.webp</image:loc>
+            <image:title>The Emerald Festive Silk Set — Shapes By Satiinder Kaur</image:title>
+            <image:caption>Raw silk jewel-toned co-ord set with handcrafted zardozi embroidery</image:caption>
+        </image:image>
+        <image:image>
+            <image:loc>https://shapesbysatinderkaur.com/images/coord_indigo_print.webp</image:loc>
+            <image:title>Indigo Heritage Handblock Set — Shapes By Satiinder Kaur</image:title>
+            <image:caption>Artisanal Rajasthani handblock printed modal silk co-ord</image:caption>
+        </image:image>
+        <image:image>
+            <image:loc>https://shapesbysatinderkaur.com/images/brocade_corset.webp</image:loc>
+            <image:title>Royal Banarasi Brocade Corset Set — Shapes By Satiinder Kaur</image:title>
+            <image:caption>Structured silk brocade boned corset top with pleated palazzo</image:caption>
+        </image:image>
+        <image:image>
+            <image:loc>https://shapesbysatinderkaur.com/images/zardozi_corset.webp</image:loc>
+            <image:title>Zardozi Hand-Embroidered Velvet Set — Shapes By Satiinder Kaur</image:title>
+            <image:caption>Regal velvet and raw silk ensemble with intricate metalwire embroidery</image:caption>
+        </image:image>
+    </url>
+
+    <!-- Dedicated Contact & Showroom Directions -->
+    <url>
+        <loc>https://shapesbysatinderkaur.com/contact.html</loc>
+        <lastmod>2026-08-22</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+
+    <!-- Information & Client Experience Centre -->
+    <url>
+        <loc>https://shapesbysatinderkaur.com/info.html</loc>
+        <lastmod>2026-08-22</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Standalone Bank & Legal Compliance Pages -->
+    <url>
+        <loc>https://shapesbysatinderkaur.com/terms.html</loc>
+        <lastmod>2026-08-22</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://shapesbysatinderkaur.com/privacy.html</loc>
+        <lastmod>2026-08-22</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://shapesbysatinderkaur.com/refund.html</loc>
+        <lastmod>2026-08-22</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://shapesbysatinderkaur.com/cancellation.html</loc>
+        <lastmod>2026-08-22</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://shapesbysatinderkaur.com/shipping.html</loc>
+        <lastmod>2026-08-22</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Customer Portals -->
+    <url>
+        <loc>https://shapesbysatinderkaur.com/track.html</loc>
+        <lastmod>2026-08-22</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://shapesbysatinderkaur.com/account.html</loc>
+        <lastmod>2026-08-22</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+</urlset>

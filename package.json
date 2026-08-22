@@ -1,0 +1,10 @@
+{
+  "name": "shapes-luxury-ecommerce",
+  "version": "1.0.0",
+  "description": "Bespoke Premium Showroom for Shapes By Satiinder Kaur",
+  "private": true,
+  "scripts": {
+    "build": "echo Static build complete",
+    "dev": "npx -y http-server -p 8080"
+  }
+}

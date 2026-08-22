@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Shapes By Satiinder Kaur | CMS Portal</title>
+
+    <!-- Fonts: Cormorant Garamond for Headings, Montserrat for Body -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="admin.css?v=46.0">
+
+    <!-- PDF Generation Suite -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+    <link rel="manifest" href="admin-manifest.json">
+
+    <script>
+        // Infallible Fast-Track Unlock & Tab Controller
+        function handleAdminUnlock() {
+            var passInput = document.getElementById("cms-pass-input");
+            var errorMsg = document.getElementById("cms-login-error");
+            var loginBlock = document.getElementById("cms-login-block");
+            var mainContent = document.getElementById("cms-main-content");
+            var raw = passInput ? passInput.value : "";
+            var pass = raw.trim().toLowerCase();
+
+            var valid = ["luxury2026", "shapes2026", "admin", "admin123", "shapes", "shapesuniform", "concierge@shapesbysatinderkaur.com", "satiinder", "satiinderkaur", "1234"];
+
+            if (pass && (valid.indexOf(pass) !== -1 || pass === "luxury2026")) {
+                sessionStorage.setItem("shapes_cms_unlocked", "true");
+                localStorage.setItem("shapes_cms_unlocked", "true");
+                if (loginBlock) loginBlock.style.display = "none";
+                if (mainContent) mainContent.style.display = "grid";
+                if (errorMsg) errorMsg.style.display = "none";
+                if (typeof switchCMSTab === "function") switchCMSTab("cms-products-tab");
+                if (typeof loadCMSPanels === "function") loadCMSPanels();
+            } else {
+                if (errorMsg) {
+                    errorMsg.style.display = "block";
+                    errorMsg.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> <strong>Incorrect access code.</strong> Please try again.';
+                }
+                if (passInput) {
+                    passInput.style.borderColor = "#d32f2f";
+                    passInput.focus();
+                    passInput.select();
+                }
+            }
+        }
+        window.handleAdminUnlock = handleAdminUnlock;
+
+        function switchCMSTab(tabId) {
+            if (!tabId) return;
+            document.querySelectorAll(".cms-sidebar-btn").forEach(function(btn) {
+                if (btn.getAttribute("data-tab") === tabId) {
+                    btn.classList.add("active");
+                } else {
+                    btn.classList.remove("active");
+                }
+            });
+            document.querySelectorAll(".cms-tab-panel").forEach(function(panel) {
+                if (panel.id === tabId) {
+                    panel.classList.add("active");
+                    panel.style.display = "block";
+                } else {
+                    panel.classList.remove("active");
+                    panel.style.display = "none";
+                }
+            });
+            try {
+                if (tabId === "cms-products-tab" && typeof renderCMSProducts === "function") renderCMSProducts();
+                if (tabId === "cms-categories-tab" && typeof populateCMSCategories === "function") populateCMSCategories();
+                if (tabId === "cms-settings-tab" && typeof populateCMSSettings === "function") populateCMSSettings();
+                if (tabId === "cms-orders-tab" && typeof loadAdminOrders === "function") loadAdminOrders();
+                if (tabId === "cms-customers-tab" && typeof loadAdminCustomers === "function") loadAdminCustomers();
+                if (tabId === "cms-reviews-tab" && typeof loadAdminReviews === "function") loadAdminReviews();
+                if (tabId === "cms-analytics-tab" && typeof loadAdminAnalytics === "function") loadAdminAnalytics();
+                if (tabId === "cms-workshop-tab" && typeof loadAdminWorkshop === "function") loadAdminWorkshop();
+                if (tabId === "cms-broadcast-tab" && typeof loadAdminBroadcast === "function") loadAdminBroadcast();
+                if (tabId === "cms-journal-tab" && typeof loadAdminJournal === "function") loadAdminJournal();
+                if (tabId === "cms-feeds-tab" && typeof loadAdminFeeds === "function") loadAdminFeeds();
+                if (tabId === "cms-push-tab" && typeof loadAdminPush === "function") loadAdminPush();
+            } catch(e) {
+                console.warn("Tab data load warning:", e);
+            }
+        }
+        window.switchCMSTab = switchCMSTab;
+        function toggleMobileSidebar(force) {
+            const sidebar = document.querySelector(".cms-sidebar");
+            const overlay = document.getElementById("cms-sidebar-overlay");
+            if (!sidebar) return;
+            const isOpen = typeof force === "boolean" ? force : !sidebar.classList.contains("mobile-open");
+            sidebar.classList.toggle("mobile-open", isOpen);
+            if (overlay) overlay.classList.toggle("active", isOpen);
+        }
+        window.toggleMobileSidebar = toggleMobileSidebar;
+    </script>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+</head>
+
+<body>
+
+    <div class="cms-portal-container">
+        <!-- Top header -->
+        <header class="cms-header">
+            <div style="display: flex; align-items: center; gap: 0.8rem;">
+                <button type="button" id="cms-mobile-menu-btn" class="cms-mobile-toggle" onclick="toggleMobileSidebar()" aria-label="Toggle Navigation Menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <div class="cms-header-title">
+                    <i class="fa-solid fa-gears gold-accent-icon"></i>
+                    <h2>Shapes By Satiinder Kaur</h2>
+                    <span class="cms-badge">Admin Controls</span>
+                </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.8rem;">
+                <a href="index.html" class="showroom-link"><i class="fa-solid fa-store"></i> Showroom</a>
+                <button id="lock-cms-btn" class="lock-btn" title="Lock session" onclick="lockCMSSession()"><i class="fa-solid fa-lock"></i></button>
+            </div>
+        </header>
+
+        <!-- Lock Screen -->
+        <div class="cms-login-lock" id="cms-login-block">
+            <i class="fa-solid fa-lock security-lock-icon"></i>
+            <h3>ENTER ACCESS CODE</h3>
+            <p>Please enter your administrator access code to manage catalog, orders, and boutique settings.</p>
+            <div class="cf-turnstile" data-sitekey="0x4AAAAAAEYb4IAdDvFPJ5FX" data-theme="dark" style="margin: 1rem 0; display: flex; justify-content: center;"></div>
+            <div class="login-input-group" style="position:relative; display:flex; align-items:center;">
+                <input type="password" id="cms-pass-input" placeholder="Enter Access Code" autocomplete="current-password" onkeydown="if(event.key==='Enter') handleAdminUnlock()">
+                <button type="button" onclick="const inp=document.getElementById('cms-pass-input');inp.type=inp.type==='password'?'text':'password';" style="background:none; border:none; color:var(--grey-dark); padding:0 12px; cursor:pointer;" title="Show/Hide Passcode">
+                    <i class="fa-solid fa-eye"></i>
+                </button>
+                <button type="button" id="cms-login-btn" onclick="handleAdminUnlock()">UNLOCK</button>
+            </div>
+            <div class="login-error-msg" id="cms-login-error" style="display: none; color: #d32f2f; background: rgba(211,47,47,0.08); border: 1px solid #d32f2f; padding: 0.6rem 1.2rem; border-radius: 4px; font-size: 13px; font-weight: 600; margin-top: 1rem; max-width: 420px; text-align: center;">
+                <i class="fa-solid fa-triangle-exclamation"></i> Incorrect access code. Please try again.
+            </div>
+        </div>
+
+
+        <!-- Dashboard Interface -->
+        <div id="cms-sidebar-overlay" class="cms-sidebar-overlay" onclick="toggleMobileSidebar(false)"></div>
+        <div class="cms-dashboard-content" id="cms-main-content" style="display: none;">
+            <!-- Left Sidebar Navigation -->
+            <aside class="cms-sidebar">
+                <div class="sidebar-mobile-header" style="display:flex; justify-content:space-between; align-items:center; padding: 0.8rem 1.2rem; border-bottom:1px solid var(--border-gold);">
+                    <span style="font-size:11px; font-weight:700; color:var(--gold); letter-spacing:0.1em; text-transform:uppercase;">Admin Navigation</span>
+                    <button type="button" class="sidebar-close-mobile-btn" onclick="toggleMobileSidebar(false)" style="background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:#fff; width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:1rem;">&times;</button>
+                </div>
+                <div style="padding: 0.8rem 1.2rem 0.2rem; font-size: 9px; text-transform: uppercase; letter-spacing: 0.15em; color: var(--gold-dark); font-weight: 700;">Catalog &amp; Store</div>
+                <button class="cms-sidebar-btn active" data-tab="cms-products-tab" onclick="switchCMSTab('cms-products-tab')">
+                    <i class="fa-solid fa-shirt"></i> Product Inventory
+                </button>
+                <button class="cms-sidebar-btn" data-tab="cms-add-product-tab" onclick="switchCMSTab('cms-add-product-tab')">
+                    <i class="fa-solid fa-plus"></i> Add New Product
+                </button>
+                <button class="cms-sidebar-btn" data-tab="cms-categories-tab" onclick="switchCMSTab('cms-categories-tab')">
+                    <i class="fa-solid fa-tags"></i> Edit Categories
+                </button>
+                <button class="cms-sidebar-btn" data-tab="cms-settings-tab" onclick="switchCMSTab('cms-settings-tab')">
+                    <i class="fa-solid fa-sliders"></i> Store Copy &amp; Hero
+                </button>
+                
+                <div style="padding: 0.8rem 1.2rem 0.2rem; font-size: 9px; text-transform: uppercase; letter-spacing: 0.15em; color: var(--gold-dark); font-weight: 700;">Sales &amp; Production</div>
+                <button class="cms-sidebar-btn" data-tab="cms-analytics-tab" onclick="switchCMSTab('cms-analytics-tab')">
+                    <i class="fa-solid fa-chart-line"></i> Revenue &amp; Analytics
+                </button>
+                <button class="cms-sidebar-btn" data-tab="cms-orders-tab" onclick="switchCMSTab('cms-orders-tab')">
+                    <i class="fa-solid fa-receipt"></i> Orders &amp; Invoices
+                </button>
+                <button class="cms-sidebar-btn" data-tab="cms-workshop-tab" onclick="switchCMSTab('cms-workshop-tab')">
+                    <i class="fa-solid fa-scissors"></i> Workshop Queue
+                </button>
+
+                <div style="padding: 0.8rem 1.2rem 0.2rem; font-size: 9px; text-transform: uppercase; letter-spacing: 0.15em; color: var(--gold-dark); font-weight: 700;">Client Relations &amp; Growth</div>
+                <button class="cms-sidebar-btn" data-tab="cms-customers-tab" onclick="switchCMSTab('cms-customers-tab')">
+                    <i class="fa-solid fa-users"></i> Customers
+                </button>
+                <button class="cms-sidebar-btn" data-tab="cms-reviews-tab" onclick="switchCMSTab('cms-reviews-tab')">
+                    <i class="fa-solid fa-star"></i> Client Reviews
+                </button>
+                <button class="cms-sidebar-btn" data-tab="cms-broadcast-tab" onclick="switchCMSTab('cms-broadcast-tab')">
+                    <i class="fa-brands fa-whatsapp"></i> WhatsApp Broadcast
+                </button>
+                <button class="cms-sidebar-btn" data-tab="cms-journal-tab" onclick="switchCMSTab('cms-journal-tab')">
+                    <i class="fa-solid fa-book-open"></i> Luxury Journal (Blog)
+                </button>
+                <button class="cms-sidebar-btn" data-tab="cms-feeds-tab" onclick="switchCMSTab('cms-feeds-tab')">
+                    <i class="fa-solid fa-rss"></i> Google &amp; Meta Feeds
+                </button>
+                <button class="cms-sidebar-btn" data-tab="cms-push-tab" onclick="switchCMSTab('cms-push-tab')">
+                    <i class="fa-solid fa-bell"></i> VIP Push Alerts
+                </button>
+                <a href="packaging_suite.html" target="_blank" class="cms-sidebar-btn" style="text-decoration:none; display:flex; align-items:center; gap:8px;">
+                    <i class="fa-solid fa-box-open" style="color:var(--gold);"></i> Packaging &amp; Vector Suite
+                </a>
+                
+                <div class="sidebar-footer">
+                    <button class="lock-cms-btn" id="lock-cms-btn"><i class="fa-solid fa-power-off"></i> Lock Session</button>
+                </div>
+            </aside>
+
+            <!-- Right Dashboard Viewport -->
+            <main class="cms-viewport">
+                <!-- Tab 1: Products Table -->
+                <div class="cms-tab-panel active" id="cms-products-tab">
+                    <div class="panel-header">
+                        <h3>Active Creation Inventory</h3>
+                        <p>Configure details, update stock numbers, or retire pieces from the main catalog.</p>
+                    </div>
+                    <div class="cms-table-wrapper">
+                        <table class="cms-table">
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Product Title</th>
+                                    <th>Category</th>
+                                    <th>Price</th>
+                                    <th>Stock</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="cms-products-tbody">
+                                <!-- Populate via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Tab 2: Add / Edit Product Form -->
+                <div class="cms-tab-panel" id="cms-add-product-tab">
+                    <div class="panel-header">
+                        <h3 id="form-action-title">Add Exclusive Piece to Catalog</h3>
+                        <p>Enter the specifications of the new creation. Saving publishes it directly to the homepage grid.</p>
+                    </div>
+                    <form class="cms-form" id="product-cms-form">
+                        <input type="hidden" id="edit-product-id" value="">
+                        <div class="cms-form-row">
+                            <div class="cms-input-field">
+                                <label for="p-title">Product Title</label>
+                                <input type="text" id="p-title" required placeholder="E.g., Empress Crimson Lehenga">
+                            </div>
+                            <div class="cms-input-field">
+                                <label for="p-category">Category</label>
+                                <select id="p-category" required>
+                                    <!-- Populate categories dynamically -->
+                                </select>
+                            </div>
+                        </div>
+                        <div class="cms-form-row">
+                            <div class="cms-input-field">
+                                <label for="p-price">Retail Price (₹ INR)</label>
+                                <input type="number" id="p-price" required min="1" placeholder="720000">
+                            </div>
+                            <div class="cms-input-field">
+                                <label for="p-inventory">Inventory Count (Pieces)</label>
+                                <input type="number" id="p-inventory" required min="0" placeholder="5">
+                            </div>
+                        </div>
+                        <div class="cms-form-row">
+                            <div class="cms-input-field">
+                                <label for="p-image">Photo 1: Front Full Length (Main Angle) *</label>
+                                <input type="text" id="p-image" required placeholder="images/coord_black_floral.webp">
+                            </div>
+                            <div class="cms-input-field">
+                                <label for="p-image-2">Photo 2: Back Profile &amp; Drape</label>
+                                <input type="text" id="p-image-2" placeholder="images/welcome_coord_luxury.webp">
+                            </div>
+                        </div>
+                        <div class="cms-form-row">
+                            <div class="cms-input-field">
+                                <label for="p-image-3">Photo 3: Side Silhouette / Model Look</label>
+                                <input type="text" id="p-image-3" placeholder="images/hero_coord_editorial.webp">
+                            </div>
+                            <div class="cms-input-field">
+                                <label for="p-image-4">Photo 4: Fabric &amp; Embroidery Closeup</label>
+                                <input type="text" id="p-image-4" placeholder="images/heritage_craft.webp">
+                            </div>
+                        </div>
+                        <div class="cms-input-field">
+                            <label for="p-desc">Story Description (High-end brief)</label>
+                            <textarea id="p-desc" required placeholder="Narrate the inspiration, silhouette weight, drape qualities, and styling suggestions."></textarea>
+                        </div>
+                        <div class="cms-input-field">
+                            <label for="p-craft">Material / Embroidery Specifics</label>
+                            <input type="text" id="p-craft" placeholder="E.g., 100% fine mulberry silk, gold badla threadwork, dry clean only.">
+                        </div>
+                        <div class="form-btn-actions">
+                            <button type="submit" class="cms-submit-btn" id="cms-form-submit-btn">PUBLISH CREATION</button>
+                            <button type="button" class="cms-cancel-btn" id="cms-form-cancel-btn" style="display: none;">CANCEL EDIT</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Tab 3: Edit Categories -->
+                <div class="cms-tab-panel" id="cms-categories-tab">
+                    <div class="panel-header">
+                        <h3>Manage Showroom Categories</h3>
+                        <p>Introduce new clothing lines or remove categories. Note: Removing categories might hide existing products within them.</p>
+                    </div>
+                    <div class="categories-cms-layout">
+                        <div class="add-category-form">
+                            <h4>Create New Category</h4>
+                            <div class="cms-input-field">
+                                <input type="text" id="new-cat-name" placeholder="E.g., Resortwear">
+                                <button class="cms-sub-action-btn" id="add-cat-btn">ADD CATEGORY</button>
+                            </div>
+                        </div>
+                        <div class="category-list-box">
+                            <h4>Active Categories</h4>
+                            <ul class="cms-category-list" id="cms-category-list-ul">
+                                <!-- Populate dynamically -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab 4: Page Settings & Copy Configuration -->
+                <div class="cms-tab-panel" id="cms-settings-tab">
+                    <div class="panel-header">
+                        <h3>Configure Brand Editorial Elements</h3>
+                        <p>Instantly update the hero announcements, main typography, or the brand heritage story without editing files.</p>
+                    </div>
+                    <form class="cms-form" id="store-settings-form">
+                        <div class="cms-input-field">
+                            <label for="setting-brand-name">Brand Name (Logo)</label>
+                            <input type="text" id="setting-brand-name" required placeholder="Shapes By Satiinder Kaur">
+                        </div>
+                        <div class="cms-input-field">
+                            <label for="setting-hero-title">Main Hero Slider Title</label>
+                            <input type="text" id="setting-hero-title" required placeholder="A HERITAGE OF ELEGANCE">
+                        </div>
+                        <div class="cms-input-field">
+                            <label for="setting-story-title">Craftsmanship Story Heading</label>
+                            <input type="text" id="setting-story-title" required placeholder="CRAFTED FOR ROYALS">
+                        </div>
+                        <div class="cms-input-field">
+                            <label for="setting-story-desc">Craftsmanship Narrative Text</label>
+                            <textarea id="setting-story-desc" required placeholder="Brand story text..."></textarea>
+                        </div>
+                        <div class="cms-input-field">
+                            <label for="setting-razorpay-key">Razorpay Key ID (rzp_test_xxxx or rzp_live_xxxx)</label>
+                            <input type="text" id="setting-razorpay-key" placeholder="Enter Razorpay Key ID (e.g. rzp_test_...)">
+                        </div>
+                        <button type="submit" class="cms-submit-btn">APPLY EDITORIAL UPDATES</button>
+                    </form>
+                    
+                    <div class="panel-header" style="margin-top: 2.5rem; border-top: 1px solid rgba(197, 160, 89, 0.15); padding-top: 2rem;">
+                        <h3>Database Backup</h3>
+                        <p>Export your custom product list, categories, and editorial layout parameters. Send this backup data to the developer to deploy permanently for all users globally.</p>
+                    </div>
+                    <div style="display: flex; gap: 1rem; margin-top: 1.2rem; flex-wrap: wrap;">
+                        <button class="cms-submit-btn" type="button" id="export-db-btn" style="background-color: var(--charcoal); border: 1px solid var(--gold); color: var(--gold); flex: 1; min-width: 200px;">
+                            <i class="fa-solid fa-download"></i> Export Products Backup
+                        </button>
+                        <button class="cms-submit-btn" type="button" id="reset-db-btn" style="background-color: var(--crimson); color: var(--white); border: none; flex: 1; min-width: 200px;">
+                            <i class="fa-solid fa-rotate-left"></i> Reset to Defaults
+                        </button>
+                    </div>
+                    <div class="cms-input-field" style="margin-top: 1.5rem; display: none;" id="export-area-container">
+                        <label for="export-data-textarea">Copy this data block and send to the developer:</label>
+                        <textarea id="export-data-textarea" readonly style="height: 140px; font-family: monospace; font-size: 11px; background: rgba(0,0,0,0.45); color: #fff; border: 1px solid var(--gold); padding: 0.8rem; width: 100%; border-radius: 4px; resize: none;"></textarea>
+                    </div>
+                </div>
+
+                <!-- Tab: Orders Database -->
+                <div class="cms-tab-panel" id="cms-orders-tab">
+                    <div class="panel-header">
+                        <h3>Orders Database</h3>
+                        <p>All orders placed on the storefront. Each row links to the customer's WhatsApp for quick follow-up.</p>
+                    </div>
+                    <div style="display:flex; gap:1rem; margin-bottom:1.2rem; flex-wrap:wrap;">
+                        <input type="text" id="orders-search" placeholder="Search by Order # or Customer Name…"
+                            style="flex:1; min-width:200px; background:rgba(255,255,255,0.05); border:1px solid rgba(197,160,89,0.25);
+                            color:#fff; padding:0.65rem 1rem; border-radius:3px; font-family:var(--font-sans); font-size:11px;"
+                            oninput="filterOrders()">
+                        <button onclick="exportOrdersCSV()" style="background:transparent; border:1px solid var(--gold); color:var(--gold);
+                            font-family:var(--font-sans); font-size:9px; font-weight:600; letter-spacing:0.15em; text-transform:uppercase;
+                            padding:0.65rem 1.2rem; border-radius:3px; cursor:pointer;">
+                            <i class="fa-solid fa-download"></i> Export CSV
+                        </button>
+                    </div>
+                    <div class="cms-table-wrapper">
+                        <table class="cms-table" id="orders-table">
+                            <thead>
+                                <tr>
+                                    <th>Order #</th>
+                                    <th>Customer</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Items</th>
+                                    <th>Total</th>
+                                    <th>Payment ID</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="orders-tbody">
+                                <tr><td colspan="10" style="text-align:center;padding:2rem;color:var(--grey);">Loading orders…</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Tab: Customers -->
+                <div class="cms-tab-panel" id="cms-customers-tab">
+                    <div class="panel-header">
+                        <h3>Customer Accounts &amp; Login Database</h3>
+                        <p>Real-time database of all logged-in and registered customers, login count, and order history.</p>
+                    </div>
+
+                    <!-- Customer Stats Cards -->
+                    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:1rem; margin-bottom:1.5rem;">
+                        <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(197,160,89,0.15); border-radius:4px; padding:1.2rem;">
+                            <div style="font-size:9px; letter-spacing:0.15em; text-transform:uppercase; color:var(--grey); margin-bottom:0.4rem;">Total Logged In Clients</div>
+                            <div style="font-family:var(--font-serif); font-size:2rem; color:var(--gold);" id="stat-total-customers">0</div>
+                            <div style="font-size:9px; color:var(--grey); margin-top:2px;">Registered Accounts</div>
+                        </div>
+                        <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(197,160,89,0.15); border-radius:4px; padding:1.2rem;">
+                            <div style="font-size:9px; letter-spacing:0.15em; text-transform:uppercase; color:var(--grey); margin-bottom:0.4rem;">Clients with Orders</div>
+                            <div style="font-family:var(--font-serif); font-size:2rem; color:#25D366;" id="stat-paying-customers">0</div>
+                            <div style="font-size:9px; color:var(--grey); margin-top:2px;">Purchasing Clients</div>
+                        </div>
+                        <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(197,160,89,0.15); border-radius:4px; padding:1.2rem;">
+                            <div style="font-size:9px; letter-spacing:0.15em; text-transform:uppercase; color:var(--grey); margin-bottom:0.4rem;">Total Customer Orders</div>
+                            <div style="font-family:var(--font-serif); font-size:2rem; color:var(--white);" id="stat-total-cust-orders">0</div>
+                            <div style="font-size:9px; color:var(--grey); margin-top:2px;">Across all accounts</div>
+                        </div>
+                        <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(197,160,89,0.15); border-radius:4px; padding:1.2rem;">
+                            <div style="font-size:9px; letter-spacing:0.15em; text-transform:uppercase; color:var(--grey); margin-bottom:0.4rem;">Total Customer Spend</div>
+                            <div style="font-family:var(--font-serif); font-size:2rem; color:var(--gold);" id="stat-total-cust-spend">₹0</div>
+                            <div style="font-size:9px; color:var(--grey); margin-top:2px;">Cumulative Revenue</div>
+                        </div>
+                    </div>
+
+                    <div style="display:flex; gap:1rem; margin-bottom:1.2rem; flex-wrap:wrap;">
+                        <input type="text" id="customers-search" placeholder="Search customers by Name, Email, or Phone…"
+                            style="flex:1; min-width:200px; background:rgba(255,255,255,0.05); border:1px solid rgba(197,160,89,0.25);
+                            color:#fff; padding:0.65rem 1rem; border-radius:3px; font-family:var(--font-sans); font-size:11px;"
+                            oninput="filterCustomers()">
+                        <button onclick="loadAdminCustomers()" style="background:transparent; border:1px solid var(--gold); color:var(--gold);
+                            font-family:var(--font-sans); font-size:9px; font-weight:600; letter-spacing:0.15em; text-transform:uppercase;
+                            padding:0.65rem 1.2rem; border-radius:3px; cursor:pointer;">
+                            <i class="fa-solid fa-rotate"></i> Refresh
+                        </button>
+                    </div>
+
+                    <div class="cms-table-wrapper">
+                        <table class="cms-table" id="customers-table">
+                            <thead>
+                                <tr>
+                                    <th>Client Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Logins &amp; Activity</th>
+                                    <th>Joined</th>
+                                    <th>Total Orders</th>
+                                    <th>Total Spent</th>
+                                    <th>Contact</th>
+                                </tr>
+                            </thead>
+                            <tbody id="customers-tbody">
+                                <tr><td colspan="8" style="text-align:center;padding:2rem;color:var(--grey);">Loading customers…</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Tab: Client Reviews Management -->
+                <div class="cms-tab-panel" id="cms-reviews-tab">
+                    <div class="panel-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+                        <div>
+                            <h3>Client Reviews &amp; Testimonials Showcase</h3>
+                            <p>Manage and moderate reviews displayed on the website. Add verified client feedback or delete unwanted reviews.</p>
+                        </div>
+                        <button onclick="openAddReviewModalAdmin()" style="background:linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%); color:#121212; border:none; padding:0.65rem 1.2rem; font-family:var(--font-sans); font-size:11px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; border-radius:3px; cursor:pointer; display:inline-flex; align-items:center; gap:6px;">
+                            <i class="fa-solid fa-plus"></i> Add Client Review
+                        </button>
+                    </div>
+
+                    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:1rem; margin-bottom:1.5rem;">
+                        <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(197,160,89,0.15); border-radius:4px; padding:1.2rem;">
+                            <div style="font-size:9px; letter-spacing:0.15em; text-transform:uppercase; color:var(--grey); margin-bottom:0.4rem;">Total Active Reviews</div>
+                            <div style="font-family:var(--font-serif); font-size:2rem; color:var(--gold);" id="admin-reviews-total">0</div>
+                        </div>
+                        <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(197,160,89,0.15); border-radius:4px; padding:1.2rem;">
+                            <div style="font-size:9px; letter-spacing:0.15em; text-transform:uppercase; color:var(--grey); margin-bottom:0.4rem;">Average Client Rating</div>
+                            <div style="font-family:var(--font-serif); font-size:2rem; color:#FFD700;">4.9 ★★★★★</div>
+                        </div>
+                    </div>
+
+                    <div class="cms-table-wrapper">
+                        <table class="cms-table">
+                            <thead>
+                                <tr>
+                                    <th>Client Name</th>
+                                    <th>City</th>
+                                    <th>Rating</th>
+                                    <th>Garment / Category</th>
+                                    <th>Review Text</th>
+                                    <th>Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-reviews-tbody">
+                                <!-- Populate via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Tab: Live Revenue & Sales Analytics -->
+                <div class="cms-tab-panel" id="cms-analytics-tab">
+                    <div class="panel-header">
+                        <h3>Live Revenue &amp; Business Intelligence</h3>
+                        <p>Real-time metrics, Average Order Value (AOV), revenue timeline, and product performance.</p>
+                    </div>
+
+                    <div class="analytics-kpi-grid">
+                        <div class="kpi-card">
+                            <div class="kpi-title">Gross Revenue (All Time)</div>
+                            <div class="kpi-value" id="kpi-gross-revenue">₹0</div>
+                            <div class="kpi-sub">Total verified transactions</div>
+                        </div>
+                        <div class="kpi-card">
+                            <div class="kpi-title">This Month's Inflow</div>
+                            <div class="kpi-value" id="kpi-month-revenue">₹0</div>
+                            <div class="kpi-sub">Current billing cycle</div>
+                        </div>
+                        <div class="kpi-card">
+                            <div class="kpi-title">Average Order Value (AOV)</div>
+                            <div class="kpi-value" id="kpi-aov">₹0</div>
+                            <div class="kpi-sub">Per transaction average</div>
+                        </div>
+                        <div class="kpi-card">
+                            <div class="kpi-title">Total Orders Placed</div>
+                            <div class="kpi-value" id="kpi-total-orders">0</div>
+                            <div class="kpi-sub" id="kpi-dispatch-rate">100% Dispatch Reliability</div>
+                        </div>
+                    </div>
+
+                    <div class="analytics-charts-split">
+                        <div class="chart-box">
+                            <div class="chart-box-header">
+                                <h4>30-Day Revenue Trend</h4>
+                                <span style="font-size:10px; color:var(--gold); text-transform:uppercase; letter-spacing:0.1em;">Daily Inflow (₹ INR)</span>
+                            </div>
+                            <div class="svg-chart-container" id="analytics-revenue-chart-container">
+                                <!-- SVG Chart rendered via JS -->
+                            </div>
+                        </div>
+                        <div class="chart-box">
+                            <div class="chart-box-header">
+                                <h4>Category Revenue Share</h4>
+                            </div>
+                            <div id="analytics-category-share-container" style="padding-top:1rem;">
+                                <!-- Progress bars rendered via JS -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chart-box">
+                        <div class="chart-box-header">
+                            <h4>Top Performing Couture Creations</h4>
+                            <span style="font-size:10px; color:var(--grey); text-transform:uppercase;">Ranked by Gross Revenue</span>
+                        </div>
+                        <div class="cms-table-wrapper">
+                            <table class="cms-table">
+                                <thead>
+                                    <tr>
+                                        <th>Piece Title</th>
+                                        <th>Category</th>
+                                        <th>Units Sold</th>
+                                        <th>Price (₹)</th>
+                                        <th>Gross Revenue</th>
+                                        <th>Current Stock</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="analytics-bestsellers-tbody">
+                                    <!-- Populate via JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab: Artisan Workshop Queue (Kanban) -->
+                <div class="cms-tab-panel" id="cms-workshop-tab">
+                    <div class="panel-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+                        <div>
+                            <h3>Artisan Workshop Production Queue</h3>
+                            <p>Track bespoke pieces from pattern drafting through adda hand-embroidery to final dispatch.</p>
+                        </div>
+                        <button onclick="loadAdminWorkshop()" style="background:transparent; border:1px solid var(--gold); color:var(--gold); padding:0.6rem 1rem; font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; border-radius:3px; cursor:pointer;">
+                            <i class="fa-solid fa-rotate"></i> Refresh Pipeline
+                        </button>
+                    </div>
+
+                    <div class="workshop-board" id="workshop-pipeline-board">
+                        <!-- 5 Stages populated dynamically via JS -->
+                    </div>
+                </div>
+
+                <!-- Tab: WhatsApp Client Broadcast -->
+                <div class="cms-tab-panel" id="cms-broadcast-tab">
+                    <div class="panel-header">
+                        <h3>1-Click WhatsApp Client Broadcast</h3>
+                        <p>Segment client lists and launch tailored promotional campaigns directly via WhatsApp.</p>
+                    </div>
+
+                    <div class="broadcast-layout">
+                        <div>
+                            <div style="margin-bottom:1.5rem;">
+                                <label style="display:block; font-size:10px; text-transform:uppercase; letter-spacing:0.12em; color:var(--gold); margin-bottom:0.6rem; font-weight:600;">1. Select Target Client Segment</label>
+                                <div style="display:flex; flex-wrap:wrap; gap:0.6rem;" id="broadcast-segment-pills">
+                                    <button type="button" class="segment-pill active" onclick="selectBroadcastSegment('all', this)">All Clients (<span id="count-seg-all">0</span>)</button>
+                                    <button type="button" class="segment-pill" onclick="selectBroadcastSegment('bridal', this)">Bridal &amp; High-Value (<span id="count-seg-bridal">0</span>)</button>
+                                    <button type="button" class="segment-pill" onclick="selectBroadcastSegment('corset', this)">Corset Enthusiasts (<span id="count-seg-corset">0</span>)</button>
+                                    <button type="button" class="segment-pill" onclick="selectBroadcastSegment('prospects', this)">Prospective Inquirers (<span id="count-seg-prospects">0</span>)</button>
+                                </div>
+                            </div>
+
+                            <div style="margin-bottom:1.5rem;">
+                                <label style="display:block; font-size:10px; text-transform:uppercase; letter-spacing:0.12em; color:var(--gold); margin-bottom:0.6rem; font-weight:600;">2. Choose Campaign Message Template</label>
+                                <select id="broadcast-template-select" onchange="applyBroadcastTemplate()" style="width:100%; background:#222; border:1px solid rgba(197,160,89,0.3); color:#fff; padding:0.8rem; border-radius:4px; font-size:12px;">
+                                    <option value="festive_drop">✨ Royal Festive &amp; Bridal Drop Announcement</option>
+                                    <option value="vip_consult">👑 Private VIP Fitting &amp; Video Consultation Invite</option>
+                                    <option value="corset_highlight">🧵 The Zardozi Corset Masterpiece Feature</option>
+                                    <option value="custom">✍️ Custom Personalized Announcement</option>
+                                </select>
+                            </div>
+
+                            <div style="margin-bottom:1.5rem;">
+                                <label style="display:block; font-size:10px; text-transform:uppercase; letter-spacing:0.12em; color:var(--gold); margin-bottom:0.6rem; font-weight:600;">3. Message Copy (Dynamic tags: {Name}, {Boutique}, {Website})</label>
+                                <textarea id="broadcast-message-text" oninput="updateBroadcastPreview()" style="width:100%; background:rgba(255,255,255,0.05); border:1px solid rgba(197,160,89,0.3); color:#fff; padding:0.8rem; border-radius:4px; font-size:12px; min-height:140px; line-height:1.6;"></textarea>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label style="display:block; font-size:10px; text-transform:uppercase; letter-spacing:0.12em; color:var(--gold); margin-bottom:0.6rem; font-weight:600;">Live WhatsApp Message Preview</label>
+                            <div class="wa-preview-box">
+                                <div style="display:flex; align-items:center; gap:8px; margin-bottom:1rem; padding-bottom:0.6rem; border-bottom:1px solid #222d34;">
+                                    <i class="fa-brands fa-whatsapp" style="color:#25D366; font-size:18px;"></i>
+                                    <span style="font-weight:600; font-size:12px; color:#fff;">Shapes By Satiinder Kaur</span>
+                                </div>
+                                <div class="wa-message-bubble" id="wa-preview-bubble-text">
+                                    <!-- Dynamic preview text -->
+                                </div>
+                                <div style="font-size:10px; color:#8696a0; text-align:right;">12:00 PM ✓✓</div>
+                            </div>
+
+                            <div style="margin-top:1.5rem;">
+                                <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.1em; color:var(--gold); margin-bottom:0.6rem; font-weight:600;">Recipient Client Queue</div>
+                                <div id="broadcast-recipients-list" style="max-height:220px; overflow-y:auto; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.1); border-radius:4px; padding:0.6rem;">
+                                    <!-- Recipients loaded dynamically -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab: Luxury Journal (Blog) CMS -->
+                <div class="cms-tab-panel" id="cms-journal-tab">
+                    <div class="panel-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+                        <div>
+                            <h3>Luxury Journal &amp; Bridal Editorial CMS</h3>
+                            <p>Publish inspiring couture stories and bridal styling guides to attract organic Google search traffic.</p>
+                        </div>
+                        <button onclick="openJournalArticleModal()" style="background:linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%); color:#121212; border:none; padding:0.65rem 1.2rem; font-size:11px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; border-radius:3px; cursor:pointer;">
+                            <i class="fa-solid fa-plus"></i> Write New Article
+                        </button>
+                    </div>
+
+                    <div class="cms-table-wrapper">
+                        <table class="cms-table">
+                            <thead>
+                                <tr>
+                                    <th>Cover</th>
+                                    <th>Article Title</th>
+                                    <th>Category</th>
+                                    <th>Author</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-journal-tbody">
+                                <!-- Populated dynamically via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Tab: Google & Meta Catalog Feeds -->
+                <div class="cms-tab-panel" id="cms-feeds-tab">
+                    <div class="panel-header">
+                        <h3>Google Merchant Center &amp; Meta Product Catalog Feed</h3>
+                        <p>Generate compliant XML/JSON data feeds for Google Shopping, Instagram Shopping, and Facebook Ads.</p>
+                    </div>
+
+                    <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(197,160,89,0.2); border-radius:6px; padding:1.8rem; margin-bottom:1.5rem;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.2rem; flex-wrap:wrap; gap:1rem;">
+                            <div>
+                                <h4 style="font-family:var(--font-serif); font-size:1.6rem; color:var(--gold); margin-bottom:4px;">Google Shopping RSS 2.0 Catalog Feed</h4>
+                                <p style="font-size:11px; color:var(--grey); margin:0;">Live syndicated product XML containing titles, descriptions, prices, image URLs, and availability.</p>
+                            </div>
+                            <div style="display:flex; gap:0.8rem;">
+                                <button onclick="downloadGoogleShoppingXML()" style="background:var(--gold); color:var(--charcoal); border:none; padding:0.7rem 1.2rem; font-size:10px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; border-radius:3px; cursor:pointer;">
+                                    <i class="fa-solid fa-download"></i> Download XML Feed
+                                </button>
+                                <button onclick="copyCatalogFeedURL()" style="background:transparent; border:1px solid var(--gold); color:var(--gold); padding:0.7rem 1.2rem; font-size:10px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; border-radius:3px; cursor:pointer;">
+                                    <i class="fa-solid fa-link"></i> Copy Live Feed URL
+                                </button>
+                            </div>
+                        </div>
+
+                        <div style="background:#0a0a0a; border:1px solid rgba(255,255,255,0.1); border-radius:4px; padding:1.2rem; max-height:260px; overflow-y:auto; font-family:monospace; font-size:11px; color:#A8DADC; white-space:pre-wrap;" id="xml-feed-preview-container">
+                            <!-- Populated dynamically via JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab: PWA VIP Web Push Alerts -->
+                <div class="cms-tab-panel" id="cms-push-tab">
+                    <div class="panel-header">
+                        <h3>PWA VIP Web Push Notifications</h3>
+                        <p>Broadcast immediate push alerts to subscribers on desktop and mobile devices.</p>
+                    </div>
+
+                    <div style="max-width:650px; background:rgba(255,255,255,0.03); border:1px solid rgba(197,160,89,0.2); border-radius:6px; padding:2rem;">
+                        <form onsubmit="broadcastPushAlert(event)">
+                            <div style="margin-bottom:1.2rem;">
+                                <label style="display:block; font-size:10px; text-transform:uppercase; letter-spacing:0.12em; color:var(--gold); margin-bottom:0.4rem; font-weight:600;">Notification Title *</label>
+                                <input type="text" id="push-title" required placeholder="👑 New Royal Drop: Empress Crimson Lehenga" style="width:100%; background:rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.15); border-radius:4px; padding:0.8rem; color:#fff; font-size:12px;">
+                            </div>
+                            <div style="margin-bottom:1.2rem;">
+                                <label style="display:block; font-size:10px; text-transform:uppercase; letter-spacing:0.12em; color:var(--gold); margin-bottom:0.4rem; font-weight:600;">Message Content *</label>
+                                <textarea id="push-body" required placeholder="The festive bridal lehenga collection by Satiinder Kaur is now unveiled. Discover bespoke handlooms..." style="width:100%; background:rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.15); border-radius:4px; padding:0.8rem; color:#fff; font-size:12px; min-height:80px;"></textarea>
+                            </div>
+                            <div style="margin-bottom:1.5rem;">
+                                <label style="display:block; font-size:10px; text-transform:uppercase; letter-spacing:0.12em; color:var(--gold); margin-bottom:0.4rem; font-weight:600;">Destination Link URL</label>
+                                <input type="text" id="push-url" value="https://shapesbysatinderkaur.com/#bridal" style="width:100%; background:rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.15); border-radius:4px; padding:0.8rem; color:#fff; font-size:12px;">
+                            </div>
+                            <button type="submit" style="width:100%; background:linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%); color:#121212; border:none; padding:0.9rem; font-size:11px; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; border-radius:4px; cursor:pointer;">
+                                <i class="fa-solid fa-paper-plane"></i> Broadcast VIP Push Notification
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+            
+        <!-- Sticky Floating Mobile Menu Trigger (Always Accessible) -->
+        <button type="button" class="cms-floating-menu-btn" onclick="toggleMobileSidebar(true)" aria-label="Open Navigation Menu" title="Open Navigation Menu">
+            <i class="fa-solid fa-bars"></i>
+            <span>MENU</span>
+        </button>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Order Status & Courier Management Modal -->
+    <div id="order-status-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.75); backdrop-filter:blur(5px); z-index:9999; justify-content:center; align-items:center; padding:1.5rem;">
+        <div style="background:var(--charcoal); border:1px solid var(--gold); border-radius:6px; width:100%; max-width:550px; padding:2rem; color:var(--white); box-shadow:0 20px 40px rgba(0,0,0,0.8); position:relative;">
+            <button onclick="closeOrderStatusModal()" style="position:absolute; top:1rem; right:1.2rem; background:none; border:none; color:var(--grey); font-size:1.5rem; cursor:pointer;">&times;</button>
+            <h3 style="font-family:var(--font-serif); font-size:1.6rem; color:var(--gold); margin-bottom:0.4rem;">Manage Order &amp; Courier</h3>
+            <p id="modal-order-ref" style="font-size:11px; color:var(--grey); margin-bottom:1.5rem; letter-spacing:0.05em;"></p>
+
+            <form id="order-status-form" onsubmit="saveOrderStatus(event)">
+                <input type="hidden" id="manage-order-ref">
+
+                <div style="margin-bottom:1.2rem;">
+                    <label style="display:block; font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--gold); margin-bottom:0.4rem;">Order Status</label>
+                    <select id="manage-order-status" style="width:100%; background:rgba(255,255,255,0.06); border:1px solid rgba(197,160,89,0.3); color:#fff; padding:0.75rem; border-radius:3px; font-family:var(--font-sans); font-size:12px; outline:none;">
+                        <option value="confirmed">🟡 Order Confirmed &amp; Sizing Verified</option>
+                        <option value="in_production">🧵 In Production (Weaving &amp; Hand-Embroidery)</option>
+                        <option value="shipped">📦 Dispatched / Shipped with Courier</option>
+                        <option value="out_for_delivery">🚚 Out for Delivery</option>
+                        <option value="delivered">🟢 Delivered Successfully</option>
+                    </select>
+                </div>
+
+                <div style="margin-bottom:1.2rem;">
+                    <label style="display:block; font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--gold); margin-bottom:0.4rem;">Courier Service Partner</label>
+                    <input type="text" id="manage-courier-name" placeholder="e.g. Shiprocket / BlueDart / Delhivery / DTDC / DHL" style="width:100%; background:rgba(255,255,255,0.06); border:1px solid rgba(197,160,89,0.3); color:#fff; padding:0.75rem; border-radius:3px; font-family:var(--font-sans); font-size:12px; outline:none;">
+                </div>
+
+                <div style="margin-bottom:1.2rem;">
+                    <label style="display:block; font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--gold); margin-bottom:0.4rem;">Courier AWB / Tracking Number or URL</label>
+                    <input type="text" id="manage-tracking-number" placeholder="e.g. AWB123456789 or https://shiprocket.co/tracking/..." style="width:100%; background:rgba(255,255,255,0.06); border:1px solid rgba(197,160,89,0.3); color:#fff; padding:0.75rem; border-radius:3px; font-family:var(--font-sans); font-size:12px; outline:none;">
+                </div>
+
+                <div style="margin-bottom:1.5rem;">
+                    <label style="display:block; font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--gold); margin-bottom:0.4rem;">Estimated Delivery / Notes for Client</label>
+                    <input type="text" id="manage-delivery-note" placeholder="e.g. Expected by 25th Aug · Signature Hard-Box" style="width:100%; background:rgba(255,255,255,0.06); border:1px solid rgba(197,160,89,0.3); color:#fff; padding:0.75rem; border-radius:3px; font-family:var(--font-sans); font-size:12px; outline:none;">
+
+                </div>
+
+                <div style="display:flex; gap:1rem;">
+                    <button type="submit" style="flex:1; background:var(--gold); color:var(--charcoal); border:none; padding:0.85rem; font-family:var(--font-sans); font-size:11px; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; cursor:pointer; border-radius:3px;">
+                        SAVE &amp; UPDATE TRACKING
+                    </button>
+                    <button type="button" onclick="closeOrderStatusModal()" style="background:transparent; color:var(--grey); border:1px solid var(--grey); padding:0.85rem 1.2rem; font-family:var(--font-sans); font-size:11px; cursor:pointer; border-radius:3px;">
+                        CANCEL
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Add Client Review Modal -->
+    <div id="admin-add-review-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.75); backdrop-filter:blur(5px); z-index:9999; justify-content:center; align-items:center; padding:1.5rem;">
+        <div style="background:var(--charcoal); border:1px solid var(--gold); border-radius:6px; width:100%; max-width:550px; padding:2rem; color:var(--white); box-shadow:0 20px 40px rgba(0,0,0,0.8); position:relative;">
+            <button onclick="closeAddReviewModalAdmin()" style="position:absolute; top:1rem; right:1.2rem; background:none; border:none; color:var(--grey); font-size:1.5rem; cursor:pointer;">&times;</button>
+            <h3 style="font-family:var(--font-serif); font-size:1.6rem; color:var(--gold); margin-bottom:0.4rem;">Add Client Review to Website</h3>
+            <p style="font-size:11px; color:var(--grey); margin-bottom:1.5rem; letter-spacing:0.05em;">Publish verified feedback directly to the homepage reviews section.</p>
+
+            <form onsubmit="saveAdminReview(event)">
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1rem;">
+                    <div>
+                        <label style="display:block; font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--gold); margin-bottom:0.4rem;">Client Full Name *</label>
+                        <input type="text" id="admin-rev-author" required placeholder="e.g. Natasha Kapoor" style="width:100%; background:rgba(255,255,255,0.06); border:1px solid rgba(197,160,89,0.3); color:#fff; padding:0.75rem; border-radius:3px; font-size:12px;">
+                    </div>
+                    <div>
+                        <label style="display:block; font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--gold); margin-bottom:0.4rem;">City / Location *</label>
+                        <input type="text" id="admin-rev-city" required placeholder="e.g. Mumbai / Delhi" style="width:100%; background:rgba(255,255,255,0.06); border:1px solid rgba(197,160,89,0.3); color:#fff; padding:0.75rem; border-radius:3px; font-size:12px;">
+                    </div>
+                </div>
+
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1rem;">
+                    <div>
+                        <label style="display:block; font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--gold); margin-bottom:0.4rem;">Rating</label>
+                        <select id="admin-rev-rating" style="width:100%; background:#222; border:1px solid rgba(197,160,89,0.3); color:#fff; padding:0.75rem; border-radius:3px; font-size:12px;">
+                            <option value="5" selected>★★★★★ (5 Stars)</option>
+                            <option value="4">★★★★☆ (4 Stars)</option>
+                            <option value="3">★★★☆☆ (3 Stars)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="display:block; font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--gold); margin-bottom:0.4rem;">Garment / Category</label>
+                        <select id="admin-rev-cat" style="width:100%; background:#222; border:1px solid rgba(197,160,89,0.3); color:#fff; padding:0.75rem; border-radius:3px; font-size:12px;">
+                            <option value="Bridal">Palace Bridal Lehenga</option>
+                            <option value="Corset">Royal Zardozi Corset</option>
+                            <option value="Pret">Contemporary Pret</option>
+                            <option value="Couture">Custom Bespoke Couture</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div style="margin-bottom:1.5rem;">
+                    <label style="display:block; font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--gold); margin-bottom:0.4rem;">Review Content *</label>
+                    <textarea id="admin-rev-text" required placeholder="Enter client's words and compliments..." style="width:100%; background:rgba(255,255,255,0.06); border:1px solid rgba(197,160,89,0.3); color:#fff; padding:0.75rem; border-radius:3px; font-size:12px; min-height:80px;"></textarea>
+                </div>
+
+                <div style="display:flex; gap:1rem;">
+                    <button type="submit" style="flex:1; background:var(--gold); color:var(--charcoal); border:none; padding:0.85rem; font-size:11px; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; cursor:pointer; border-radius:3px;">
+                        PUBLISH TO WEBSITE
+                    </button>
+                    <button type="button" onclick="closeAddReviewModalAdmin()" style="background:transparent; color:var(--grey); border:1px solid var(--grey); padding:0.85rem 1.2rem; font-size:11px; cursor:pointer; border-radius:3px;">
+                        CANCEL
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- GST Tax Invoice & Courier Packing Slip Preview Modal -->
+    <div id="invoice-print-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); backdrop-filter:blur(8px); z-index:99999; justify-content:center; align-items:center; padding:1.5rem; overflow-y:auto;">
+        <div style="background:#fff; color:#111; width:100%; max-width:850px; border-radius:6px; max-height:92vh; display:flex; flex-direction:column; box-shadow:0 25px 60px rgba(0,0,0,0.9); position:relative;">
+            <div style="padding:1rem 1.5rem; background:#181818; color:#fff; display:flex; justify-content:space-between; align-items:center; border-radius:6px 6px 0 0;">
+                <span style="font-family:var(--font-serif); font-size:1.2rem; color:var(--gold);" id="invoice-modal-title">Official Tax Invoice &amp; Courier Slip</span>
+                <div style="display:flex; gap:0.6rem;">
+                    <button onclick="triggerInvoicePrint()" style="background:var(--gold); color:#121212; border:none; padding:0.4rem 1rem; font-size:11px; font-weight:700; border-radius:3px; cursor:pointer;">
+                        <i class="fa-solid fa-print"></i> Print / Save as PDF
+                    </button>
+                    <button onclick="closeInvoicePrintModal()" style="background:transparent; border:1px solid #555; color:#ccc; padding:0.4rem 0.8rem; font-size:11px; border-radius:3px; cursor:pointer;">
+                        &times; Close
+                    </button>
+                </div>
+            </div>
+            <div style="padding:2.5rem; overflow-y:auto; flex:1;" id="invoice-print-container">
+                <!-- Rendered dynamically via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Luxury Journal Article Editor Modal -->
+    <div id="admin-journal-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.75); backdrop-filter:blur(5px); z-index:9999; justify-content:center; align-items:center; padding:1.5rem;">
+        <div style="background:var(--charcoal); border:1px solid var(--gold); border-radius:6px; width:100%; max-width:650px; max-height:90vh; overflow-y:auto; padding:2rem; color:var(--white); box-shadow:0 20px 40px rgba(0,0,0,0.8); position:relative;">
+            <button onclick="closeJournalArticleModal()" style="position:absolute; top:1rem; right:1.2rem; background:none; border:none; color:var(--grey); font-size:1.5rem; cursor:pointer;">&times;</button>
+            <h3 style="font-family:var(--font-serif); font-size:1.6rem; color:var(--gold); margin-bottom:0.4rem;">Publish Article to Luxury Journal</h3>
+            <p style="font-size:11px; color:var(--grey); margin-bottom:1.5rem; letter-spacing:0.05em;">Craft inspirational styling guides and heritage embroidery stories for your clientele.</p>
+
+            <form onsubmit="saveJournalArticle(event)">
+                <input type="hidden" id="journal-edit-id" value="">
+                <div style="margin-bottom:1rem;">
+                    <label style="display:block; font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--gold); margin-bottom:0.4rem;">Article Headline / Title *</label>
+                    <input type="text" id="journal-title" required placeholder="e.g. The Architecture of Modern Zardozi Corsetry" style="width:100%; background:rgba(255,255,255,0.06); border:1px solid rgba(197,160,89,0.3); color:#fff; padding:0.75rem; border-radius:3px; font-size:12px;">
+                </div>
+
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1rem;">
+                    <div>
+                        <label style="display:block; font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--gold); margin-bottom:0.4rem;">Category</label>
+                        <select id="journal-category" style="width:100%; background:#222; border:1px solid rgba(197,160,89,0.3); color:#fff; padding:0.75rem; border-radius:3px; font-size:12px;">
+                            <option value="Couture Craft">Couture Craft</option>
+                            <option value="Bridal Trousseau">Bridal Trousseau</option>
+                            <option value="Style Guide">Style Guide</option>
+                            <option value="Heritage Handlooms">Heritage Handlooms</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="display:block; font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--gold); margin-bottom:0.4rem;">Author</label>
+                        <input type="text" id="journal-author" value="Satiinder Kaur" required style="width:100%; background:rgba(255,255,255,0.06); border:1px solid rgba(197,160,89,0.3); color:#fff; padding:0.75rem; border-radius:3px; font-size:12px;">
+                    </div>
+                </div>
+
+                <div style="margin-bottom:1rem;">
+                    <label style="display:block; font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--gold); margin-bottom:0.4rem;">Cover Image URL</label>
+                    <input type="text" id="journal-image" value="images/heritage_craft.png" placeholder="images/hero_bridal.png or https://..." style="width:100%; background:rgba(255,255,255,0.06); border:1px solid rgba(197,160,89,0.3); color:#fff; padding:0.75rem; border-radius:3px; font-size:12px;">
+                </div>
+
+                <div style="margin-bottom:1rem;">
+                    <label style="display:block; font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--gold); margin-bottom:0.4rem;">Article Excerpt / Summary *</label>
+                    <textarea id="journal-excerpt" required placeholder="A brief one-paragraph summary of the article..." style="width:100%; background:rgba(255,255,255,0.06); border:1px solid rgba(197,160,89,0.3); color:#fff; padding:0.75rem; border-radius:3px; font-size:12px; min-height:60px;"></textarea>
+                </div>
+
+                <div style="margin-bottom:1.5rem;">
+                    <label style="display:block; font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--gold); margin-bottom:0.4rem;">Full Story Body *</label>
+                    <textarea id="journal-body" required placeholder="Write the complete editorial article story..." style="width:100%; background:rgba(255,255,255,0.06); border:1px solid rgba(197,160,89,0.3); color:#fff; padding:0.75rem; border-radius:3px; font-size:12px; min-height:140px; line-height:1.6;"></textarea>
+                </div>
+
+                <div style="display:flex; gap:1rem;">
+                    <button type="submit" style="flex:1; background:var(--gold); color:var(--charcoal); border:none; padding:0.85rem; font-size:11px; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; cursor:pointer; border-radius:3px;">
+                        PUBLISH ARTICLE
+                    </button>
+                    <button type="button" onclick="closeJournalArticleModal()" style="background:transparent; color:var(--grey); border:1px solid var(--grey); padding:0.85rem 1.2rem; font-size:11px; cursor:pointer; border-radius:3px;">
+                        CANCEL
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- PDF Invoice + EmailJS for admin invoice reprint -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+
+    <!-- Firebase Admin Module -->
+    <script type="module">
+        import { auth, db, onAuthStateChanged, collection, getDocs, query, orderBy, where, doc, updateDoc, setDoc, deleteDoc, onSnapshot, addDoc } from './firebase-config.js';
+        window._dbAdmin         = db;
+        window._collAdmin       = collection;
+        window._getDocsAdmin    = getDocs;
+        window._queryAdmin      = query;
+        window._orderByAdmin    = orderBy;
+        window._whereAdmin      = where;
+        window._docAdmin        = doc;
+        window._updateDocAdmin  = updateDoc;
+        window._setDocAdmin     = setDoc;
+        window._deleteDocAdmin  = deleteDoc;
+        window._onSnapshotAdmin = onSnapshot;
+        window._addDocAdmin     = addDoc;
+        window._firebaseReady   = true;
+        // Notify admin.js that Firebase module is ready
+        window.dispatchEvent(new CustomEvent('admin-firebase-ready'));
+    </script>
+
+    <!-- CMS JavaScript Controller -->
+    <script src="admin.js?v=46.0"></script>
+</body>
+</html>
+
+
+
