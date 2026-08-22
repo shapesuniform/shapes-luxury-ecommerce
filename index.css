@@ -1950,3 +1950,31 @@ ul, ol { list-style:none; }
     .gallery-thumb { width: 56px; height: 68px; }
     .modal-image-stage { aspect-ratio: 1 / 1; }
 }
+
+/* Thumbnail Angle Labels */
+.gallery-thumb {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.thumb-angle-tag {
+    position: absolute;
+    bottom: 2px;
+    left: 2px;
+    right: 2px;
+    background: rgba(17,17,17,0.85);
+    color: var(--gold);
+    font-size: 0.55rem;
+    font-weight: 700;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 1px 2px;
+    border-radius: 3px;
+    pointer-events: none;
+}
+.gallery-thumb.active .thumb-angle-tag {
+    background: var(--gold);
+    color: #111;
+}

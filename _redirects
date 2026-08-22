@@ -1,0 +1,7 @@
+# Clean URL routing for Cloudflare Pages
+/track      /track.html     200
+/account    /account.html   200
+/contact    /contact.html   200
+/info       /info.html      200
+/admin      /admin.html     200
+/packaging  /packaging_suite.html 200

@@ -667,7 +667,7 @@
 ═══════════════════════════════════════════════════════════ -->
 <div class="luxury-modal" id="product-detail-modal" role="dialog" aria-modal="true" aria-label="Product Details">
     <div class="modal-content-wrapper">
-        <button class="close-modal-btn" id="close-detail-modal" aria-label="Close product details" onclick="closeProductDetailModal(); return false;">&times;</button>
+        <button class="close-modal-btn" id="close-detail-modal" aria-label="Close product details" onclick="closeProductDetailModal()">&times;</button>
         <div class="modal-grid">
                         <!-- Image Side — World-Class Multi-Image Gallery -->
             <div class="modal-image-side">
@@ -720,9 +720,7 @@
                 <!-- Size Selection -->
                 <div class="size-row-header">
                     <span class="size-label">Select Size</span>
-                    <button type="button" class="size-guide-toggle" id="toggle-size-chart-btn" onclick="event.stopPropagation(); toggleSizeChart(); return false;">
-                        <i class="fa-solid fa-ruler-combined"></i> Size Guide
-                    </button>
+                    <button type="button" class="size-guide-toggle" id="toggle-size-chart-btn" onclick="toggleSizeChart()"><i class="fa-solid fa-ruler-combined"></i> Size Guide</button>
                 </div>
 
                 <!-- Size Chart (hidden by default, toggled by Size Guide button) -->

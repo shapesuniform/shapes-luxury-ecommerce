@@ -12,6 +12,13 @@ const DEFAULT_PRODUCTS = [
         badge: "BESTSELLER",
         inventory: 12,
         image: "images/coord_black_floral.webp",
+        images: [
+            "images/coord_black_floral.webp",
+            "images/welcome_coord_luxury.webp",
+            "images/hero_coord_editorial.webp",
+            "images/heritage_craft.webp"
+        ],
+        imageLabels: ["Front Full Length", "Back Profile Drape", "Editorial Side Angle", "Botanical Silk Weave Closeup"],
         fabric: "100% Pure Modal Silk",
         fit: "Relaxed longline shirt tunic + wide-leg trousers",
         craft: "Artisanal digital botanical print · Mother-of-pearl buttons · Elasticated back waistband",
@@ -25,6 +32,13 @@ const DEFAULT_PRODUCTS = [
         badge: "NEW ARRIVAL",
         inventory: 15,
         image: "images/coord_beige_linen.webp",
+        images: [
+            "images/coord_beige_linen.webp",
+            "images/pret_tunic.webp",
+            "images/hero_coord_editorial.webp",
+            "images/heritage_craft.webp"
+        ],
+        imageLabels: ["Front View", "Back Cut & Waistband", "Side Silhouette", "Slub Linen Texture Closeup"],
         fabric: "100% Organic Slub Linen",
         fit: "V-neck tunic with relaxed 3/4 sleeves + tailored straight trousers",
         craft: "Natural coconut shell buttons · Deep side pockets · Comfort-fit waistband",
@@ -38,6 +52,13 @@ const DEFAULT_PRODUCTS = [
         badge: "LUXURY PRET",
         inventory: 8,
         image: "images/coord_royal_emerald.webp",
+        images: [
+            "images/coord_royal_emerald.webp",
+            "images/draped_corset_set.webp",
+            "images/hero_bridal.webp",
+            "images/gold_jewelry.webp"
+        ],
+        imageLabels: ["Front Grandeur View", "Back Tailored Placket", "Side Fluid Drape", "Antique Zari & Zardozi Closeup"],
         fabric: "Pure Mulberry Raw Silk",
         fit: "Structured bandhgala collar tunic + fluid palazzo trousers",
         craft: "Handcrafted antique gold zari & zardozi embroidery · Comfort-flex waistband · Dry clean only",
@@ -51,6 +72,13 @@ const DEFAULT_PRODUCTS = [
         badge: "HANDBLOCK",
         inventory: 14,
         image: "images/coord_indigo_print.webp",
+        images: [
+            "images/coord_indigo_print.webp",
+            "images/coord_black_floral.webp",
+            "images/heritage_craft.webp",
+            "images/hero_coord_editorial.webp"
+        ],
+        imageLabels: ["Front Tunic View", "Back Trousers Drape", "Lifestyle Angle", "Handblock Artisanal Motif Detail"],
         fabric: "Handblock Printed Modal Silk",
         fit: "Contemporary tunic collar + fluid silhouette trousers",
         craft: "Artisanal Rajasthani handblock print · Natural dyes · Comfort-flex waistband",
@@ -64,6 +92,13 @@ const DEFAULT_PRODUCTS = [
         badge: "EXCLUSIVE",
         inventory: 6,
         image: "images/brocade_corset.webp",
+        images: [
+            "images/brocade_corset.webp",
+            "images/zardozi_corset.webp",
+            "images/hero_bridal.webp",
+            "images/gold_jewelry.webp"
+        ],
+        imageLabels: ["Front Corset View", "Back Lacing & Structure", "Side Architectural Curve", "Banarasi Gold Brocade Weave Detail"],
         fabric: "Pure Banarasi Silk Brocade",
         fit: "Structured boned corset top + pleated palazzo trousers",
         craft: "Woven gold zari brocade motifs · Steel flex boning · Satin lining",
@@ -77,6 +112,13 @@ const DEFAULT_PRODUCTS = [
         badge: "HOT SELLER",
         inventory: 10,
         image: "images/draped_corset_set.webp",
+        images: [
+            "images/draped_corset_set.webp",
+            "images/pret_corset.webp",
+            "images/welcome_coord_luxury.webp",
+            "images/heritage_craft.webp"
+        ],
+        imageLabels: ["Front Asymmetric Drape", "Back Cigarette Trouser Fit", "Side Cowl Silhouette", "Fluid Heavy Satin Silk Closeup"],
         fabric: "Fluid Heavy Satin Silk",
         fit: "Asymmetric cowl drape tunic + cigarette pants",
         craft: "Hand-draped silk cowl detailing · Internal contour boning · Hidden side zip",
@@ -90,6 +132,13 @@ const DEFAULT_PRODUCTS = [
         badge: "NEW ARRIVAL",
         inventory: 12,
         image: "images/pret_tunic.webp",
+        images: [
+            "images/pret_tunic.webp",
+            "images/coord_beige_linen.webp",
+            "images/hero_coord_editorial.webp",
+            "images/heritage_craft.webp"
+        ],
+        imageLabels: ["Front Mandarin Placket", "Back Straight Cut", "Side Pocket Detail", "Slub Cotton Linen Botanical Detail"],
         fabric: "100% Breathable Cotton Linen",
         fit: "Mandarin collar tunic + cropped trousers",
         craft: "Handblock botanical print · Shell button placket · Utility side pockets",
@@ -103,6 +152,13 @@ const DEFAULT_PRODUCTS = [
         badge: "ROYAL PRET",
         inventory: 5,
         image: "images/zardozi_corset.webp",
+        images: [
+            "images/zardozi_corset.webp",
+            "images/brocade_corset.webp",
+            "images/couture_lehenga.webp",
+            "images/gold_jewelry.webp"
+        ],
+        imageLabels: ["Front Velvet Royal View", "Back Bandhgala Finish", "Side Regal Silhouette", "Dabka & Zardozi Handwork Closeup"],
         fabric: "Micro Velvet & Pure Raw Silk",
         fit: "Structured bandhgala velvet tunic + wide palazzo",
         craft: "Hand-embroidered zardozi & dabka work · Silk lining · Concealed zipper",
@@ -606,14 +662,13 @@ function editCMSProduct(id) {
     document.getElementById("p-price").value = p.price;
 
     document.getElementById("p-inventory").value = p.inventory;
-
-    document.getElementById("p-image").value = p.image;
+    document.getElementById("p-image").value = (p.images && p.images[0]) || p.image || "";
+    if (document.getElementById("p-image-2")) document.getElementById("p-image-2").value = (p.images && p.images[1]) || "";
+    if (document.getElementById("p-image-3")) document.getElementById("p-image-3").value = (p.images && p.images[2]) || "";
+    if (document.getElementById("p-image-4")) document.getElementById("p-image-4").value = (p.images && p.images[3]) || "";
 
     document.getElementById("p-desc").value = p.description;
-
     document.getElementById("p-craft").value = p.craft || "";
-
-
 
     // Toggle form header labels
 
@@ -659,7 +714,18 @@ function saveCMSProduct() {
     const category = document.getElementById("p-category").value;
     const price = parseInt(document.getElementById("p-price").value) || 0;
     const inventory = parseInt(document.getElementById("p-inventory").value) || 10;
-    const image = document.getElementById("p-image").value.trim() || "images/coord_black_floral.webp";
+    
+    // 4 Photo Angles
+    const img1 = document.getElementById("p-image").value.trim() || "images/coord_black_floral.webp";
+    const img2 = document.getElementById("p-image-2") ? document.getElementById("p-image-2").value.trim() : "";
+    const img3 = document.getElementById("p-image-3") ? document.getElementById("p-image-3").value.trim() : "";
+    const img4 = document.getElementById("p-image-4") ? document.getElementById("p-image-4").value.trim() : "";
+
+    const imagesList = [img1];
+    if (img2) imagesList.push(img2);
+    if (img3) imagesList.push(img3);
+    if (img4) imagesList.push(img4);
+
     const description = document.getElementById("p-desc").value.trim();
     const craft = document.getElementById("p-craft").value.trim();
 
@@ -669,13 +735,35 @@ function saveCMSProduct() {
         // Edit Mode
         const pIndex = products.findIndex(prod => prod.id === id);
         if (pIndex !== -1) {
-            products[pIndex] = { ...products[pIndex], id, title, category, price, inventory, image, description, craft };
+            products[pIndex] = { 
+                ...products[pIndex], 
+                id, 
+                title, 
+                category, 
+                price, 
+                inventory, 
+                image: img1, 
+                images: imagesList,
+                description, 
+                craft 
+            };
             targetProduct = products[pIndex];
         }
     } else {
         // Create Mode
         const newId = "p_" + Date.now();
-        targetProduct = { id: newId, title, category, price, inventory, image, description, craft, badge: "NEW ARRIVAL" };
+        targetProduct = { 
+            id: newId, 
+            title, 
+            category, 
+            price, 
+            inventory, 
+            image: img1, 
+            images: imagesList,
+            description, 
+            craft, 
+            badge: "NEW ARRIVAL" 
+        };
         products.push(targetProduct);
     }
 
@@ -704,6 +792,9 @@ function saveCMSProduct() {
 function resetCMSProductForm() {
     document.getElementById("product-cms-form").reset();
     document.getElementById("edit-product-id").value = "";
+    if (document.getElementById("p-image-2")) document.getElementById("p-image-2").value = "";
+    if (document.getElementById("p-image-3")) document.getElementById("p-image-3").value = "";
+    if (document.getElementById("p-image-4")) document.getElementById("p-image-4").value = "";
     document.getElementById("form-action-title").innerText = "Add Exclusive Piece to Catalog";
     document.getElementById("cms-form-submit-btn").innerText = "PUBLISH CREATION";
     document.getElementById("cms-form-cancel-btn").style.display = "none";

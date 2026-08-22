@@ -24,6 +24,13 @@ const DEFAULT_PRODUCTS = [
         badge: "BESTSELLER",
         inventory: 12,
         image: "images/coord_black_floral.webp",
+        images: [
+            "images/coord_black_floral.webp",
+            "images/welcome_coord_luxury.webp",
+            "images/hero_coord_editorial.webp",
+            "images/heritage_craft.webp"
+        ],
+        imageLabels: ["Front Full Length", "Back Profile Drape", "Editorial Side Angle", "Botanical Silk Weave Closeup"],
         fabric: "100% Pure Modal Silk",
         fit: "Relaxed longline shirt tunic + wide-leg trousers",
         craft: "Artisanal digital botanical print · Mother-of-pearl buttons · Elasticated back waistband",
@@ -37,6 +44,13 @@ const DEFAULT_PRODUCTS = [
         badge: "NEW ARRIVAL",
         inventory: 15,
         image: "images/coord_beige_linen.webp",
+        images: [
+            "images/coord_beige_linen.webp",
+            "images/pret_tunic.webp",
+            "images/hero_coord_editorial.webp",
+            "images/heritage_craft.webp"
+        ],
+        imageLabels: ["Front View", "Back Cut & Waistband", "Side Silhouette", "Slub Linen Texture Closeup"],
         fabric: "100% Organic Slub Linen",
         fit: "V-neck tunic with relaxed 3/4 sleeves + tailored straight trousers",
         craft: "Natural coconut shell buttons · Deep side pockets · Comfort-fit waistband",
@@ -50,6 +64,13 @@ const DEFAULT_PRODUCTS = [
         badge: "LUXURY PRET",
         inventory: 8,
         image: "images/coord_royal_emerald.webp",
+        images: [
+            "images/coord_royal_emerald.webp",
+            "images/draped_corset_set.webp",
+            "images/hero_bridal.webp",
+            "images/gold_jewelry.webp"
+        ],
+        imageLabels: ["Front Grandeur View", "Back Tailored Placket", "Side Fluid Drape", "Antique Zari & Zardozi Closeup"],
         fabric: "Pure Mulberry Raw Silk",
         fit: "Structured bandhgala collar tunic + fluid palazzo trousers",
         craft: "Handcrafted antique gold zari & zardozi embroidery · Comfort-flex waistband · Dry clean only",
@@ -63,6 +84,13 @@ const DEFAULT_PRODUCTS = [
         badge: "HANDBLOCK",
         inventory: 14,
         image: "images/coord_indigo_print.webp",
+        images: [
+            "images/coord_indigo_print.webp",
+            "images/coord_black_floral.webp",
+            "images/heritage_craft.webp",
+            "images/hero_coord_editorial.webp"
+        ],
+        imageLabels: ["Front Tunic View", "Back Trousers Drape", "Lifestyle Angle", "Handblock Artisanal Motif Detail"],
         fabric: "Handblock Printed Modal Silk",
         fit: "Contemporary tunic collar + fluid silhouette trousers",
         craft: "Artisanal Rajasthani handblock print · Natural dyes · Comfort-flex waistband",
@@ -76,6 +104,13 @@ const DEFAULT_PRODUCTS = [
         badge: "EXCLUSIVE",
         inventory: 6,
         image: "images/brocade_corset.webp",
+        images: [
+            "images/brocade_corset.webp",
+            "images/zardozi_corset.webp",
+            "images/hero_bridal.webp",
+            "images/gold_jewelry.webp"
+        ],
+        imageLabels: ["Front Corset View", "Back Lacing & Structure", "Side Architectural Curve", "Banarasi Gold Brocade Weave Detail"],
         fabric: "Pure Banarasi Silk Brocade",
         fit: "Structured boned corset top + pleated palazzo trousers",
         craft: "Woven gold zari brocade motifs · Steel flex boning · Satin lining",
@@ -89,6 +124,13 @@ const DEFAULT_PRODUCTS = [
         badge: "HOT SELLER",
         inventory: 10,
         image: "images/draped_corset_set.webp",
+        images: [
+            "images/draped_corset_set.webp",
+            "images/pret_corset.webp",
+            "images/welcome_coord_luxury.webp",
+            "images/heritage_craft.webp"
+        ],
+        imageLabels: ["Front Asymmetric Drape", "Back Cigarette Trouser Fit", "Side Cowl Silhouette", "Fluid Heavy Satin Silk Closeup"],
         fabric: "Fluid Heavy Satin Silk",
         fit: "Asymmetric cowl drape tunic + cigarette pants",
         craft: "Hand-draped silk cowl detailing · Internal contour boning · Hidden side zip",
@@ -102,6 +144,13 @@ const DEFAULT_PRODUCTS = [
         badge: "NEW ARRIVAL",
         inventory: 12,
         image: "images/pret_tunic.webp",
+        images: [
+            "images/pret_tunic.webp",
+            "images/coord_beige_linen.webp",
+            "images/hero_coord_editorial.webp",
+            "images/heritage_craft.webp"
+        ],
+        imageLabels: ["Front Mandarin Placket", "Back Straight Cut", "Side Pocket Detail", "Slub Cotton Linen Botanical Detail"],
         fabric: "100% Breathable Cotton Linen",
         fit: "Mandarin collar tunic + cropped trousers",
         craft: "Handblock botanical print · Shell button placket · Utility side pockets",
@@ -115,6 +164,13 @@ const DEFAULT_PRODUCTS = [
         badge: "ROYAL PRET",
         inventory: 5,
         image: "images/zardozi_corset.webp",
+        images: [
+            "images/zardozi_corset.webp",
+            "images/brocade_corset.webp",
+            "images/couture_lehenga.webp",
+            "images/gold_jewelry.webp"
+        ],
+        imageLabels: ["Front Velvet Royal View", "Back Bandhgala Finish", "Side Regal Silhouette", "Dabka & Zardozi Handwork Closeup"],
         fabric: "Micro Velvet & Pure Raw Silk",
         fit: "Structured bandhgala velvet tunic + wide palazzo",
         craft: "Hand-embroidered zardozi & dabka work · Silk lining · Concealed zipper",
@@ -385,24 +441,69 @@ function renderRazorpayAffordabilityWidget(priceInINR) {
 
     const cfg = getLocal("shapes_config", {});
     const rzpKey = cfg.razorpayKey || "rzp_live_TQ0RwUwXQjD3tq";
+    const amountInPaise = Math.round((priceInINR || 0) * 100);
 
-    if (window.RazorpayAffordabilitySuite && rzpKey) {
+    // Calculate approximate 3-month & 6-month EMI
+    const emi3Month = Math.round((priceInINR || 0) / 3);
+    const emi6Month = Math.round((priceInINR || 0) / 6);
+
+    // 1. Render Luxury EMI & Affordability Preview Banner
+    const emiBanner = document.createElement("div");
+    emiBanner.className = "luxury-emi-affordability-card";
+    emiBanner.style.cssText = "display:flex;align-items:center;gap:10px;background:rgba(197,160,89,0.07);border:1px solid rgba(197,160,89,0.25);border-radius:8px;padding:9px 12px;margin:8px 0 10px 0;font-size:0.78rem;color:#D8C4A0;";
+    emiBanner.innerHTML = `
+        <i class="fa-solid fa-credit-card" style="color:var(--gold);font-size:1rem;flex-shrink:0;"></i>
+        <div style="flex:1;line-height:1.4;">
+            <strong style="color:#FAF6EE;letter-spacing:0.02em;">EMI starting from ₹${emi6Month.toLocaleString('en-IN')}/month</strong>
+            <span style="display:block;color:#A89880;font-size:0.72rem;">No Cost EMI &amp; PayLater available via Razorpay (Cards, UPI, NetBanking)</span>
+        </div>
+        <span style="background:var(--gold);color:#111;font-weight:700;font-size:0.65rem;padding:2px 6px;border-radius:4px;letter-spacing:0.05em;">RAZORPAY</span>
+    `;
+    targetEl.appendChild(emiBanner);
+
+    // 2. Official Razorpay Affordability Suite Mount Container
+    const rzpMount = document.createElement("div");
+    rzpMount.id = "rzp-affordability-suite-mount";
+    targetEl.appendChild(rzpMount);
+
+    // 3. Initialize Official Razorpay Affordability Suite SDK
+    if (window.RazorpayAffordabilitySuite && rzpKey && amountInPaise > 0) {
         try {
             const suite = new window.RazorpayAffordabilitySuite({
                 key: rzpKey,
-                amount: Math.round(priceInINR * 100),
+                amount: amountInPaise,
                 currency: "INR"
             });
             suite.render();
+            console.log("⚡ [Razorpay Affordability Suite] Initialized for amount ₹" + priceInINR);
         } catch(e) {
-            console.warn("Razorpay Affordability SDK render:", e);
+            console.warn("Razorpay Affordability Suite Notice:", e);
         }
+    } else if (!window.RazorpayAffordabilitySuite) {
+        // If script is still downloading, retry when loaded
+        setTimeout(() => {
+            if (window.RazorpayAffordabilitySuite && rzpKey && amountInPaise > 0) {
+                try {
+                    const suite = new window.RazorpayAffordabilitySuite({
+                        key: rzpKey,
+                        amount: amountInPaise,
+                        currency: "INR"
+                    });
+                    suite.render();
+                } catch(err) {}
+            }
+        }, 1200);
     }
 }
 
 function closeProductDetailModal() {
     const modal = document.getElementById("product-detail-modal");
-    if (modal) modal.classList.remove("active");
+    if (modal) {
+        modal.classList.remove("active");
+        modal.style.display = "none";
+        modal.style.opacity = "0";
+        modal.style.visibility = "hidden";
+    }
     if (window._liveViewerTimer) { clearInterval(window._liveViewerTimer); window._liveViewerTimer = null; }
     unlockScroll();
 }
@@ -667,7 +768,25 @@ function syncOrderToAdmin(orderId, paymentRef, info, totalINR, fullAddr, cartSna
     }
     setLocal("shapes_registered_clients", clients);
 
-    /* ── 3. BROADCAST a storage event so admin auto-refreshes in real time ── */
+    /* ── 3. FIREBASE CLOUD FIRESTORE SYNC (Real-Time across all devices) ── */
+    if (window._storeDb && window._storeSetDoc && window._storeDoc) {
+        try {
+            window._storeSetDoc(window._storeDoc(window._storeDb, "orders", orderId), newOrder)
+                .then(() => console.log("⚡ [Firebase Cloud Sync] Order saved to Cloud Firestore:", orderId))
+                .catch(err => console.warn("Firebase order cloud save notice:", err));
+
+            const clientObj = existing || clients[0];
+            if (clientObj) {
+                window._storeSetDoc(window._storeDoc(window._storeDb, "clients", clientObj.id), clientObj)
+                    .then(() => console.log("⚡ [Firebase Cloud Sync] Client profile synced to Cloud Firestore"))
+                    .catch(err => console.warn("Firebase client cloud save notice:", err));
+            }
+        } catch(e) {
+            console.warn("Firebase cloud order sync execution notice:", e);
+        }
+    }
+
+    /* ── 4. BROADCAST a storage event so admin auto-refreshes in real time ── */
     /* The admin page listens for 'shapes_new_order' in sessionStorage changes */
     try {
         sessionStorage.setItem("shapes_new_order", orderId + "_" + Date.now());
@@ -1104,16 +1223,22 @@ function toggleProductAccordion(accId) {
 /* ══════════════════════════════════════════════════════════
    SIZE CHART TOGGLE
 ══════════════════════════════════════════════════════════ */
-function toggleSizeChart() {
+function toggleSizeChart(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    if (e && e.stopPropagation) e.stopPropagation();
     const chart = document.getElementById("modal-size-chart-table");
     const btn   = document.getElementById("toggle-size-chart-btn");
     if (!chart) return;
-    const isHidden = chart.style.display === "none" || chart.style.display === "";
-    chart.style.display = isHidden ? "block" : "none";
-    if (btn) {
-        btn.innerHTML = isHidden
-            ? `<i class="fa-solid fa-xmark"></i> Hide Chart`
-            : `<i class="fa-solid fa-ruler-combined"></i> Size Guide`;
+
+    // Check if chart is currently visible
+    const isHidden = (chart.style.display === "none" || chart.style.display === "" || getComputedStyle(chart).display === "none");
+
+    if (isHidden) {
+        chart.style.display = "block";
+        if (btn) btn.innerHTML = `<i class="fa-solid fa-xmark"></i> Hide Size Guide`;
+    } else {
+        chart.style.display = "none";
+        if (btn) btn.innerHTML = `<i class="fa-solid fa-ruler-combined"></i> Size Guide`;
     }
 }
 
@@ -1344,9 +1469,10 @@ function initStore() {
     unlockScroll();
 
     /* Multi-device version sync */
-    const STORE_VERSION = "40.0";
+    const STORE_VERSION = "48.0";
     if (getLocal("shapes_store_version", null) !== STORE_VERSION) {
         setLocal("shapes_store_version", STORE_VERSION);
+        setLocal("shapes_products", DEFAULT_PRODUCTS);
         setLocal("shapes_verified_reviews_v3", DEFAULT_CLIENT_REVIEWS);
     }
 
@@ -1735,29 +1861,27 @@ let _galleryTouchStartX = 0;
 
 function buildGalleryImages(product) {
     const imgs = [];
-    // Main image always first
-    let main = product.image || '';
-    if (main && !main.startsWith('http') && !main.startsWith('data:') && !main.startsWith('images/')) {
-        main = 'images/' + main;
-    }
-    if (main) imgs.push({ type: 'image', src: main });
+    const defaultLabels = ["Front View", "Back Angle", "Side Silhouette", "Fabric & Craft Closeup"];
 
-    // Additional images from product.images[] array if provided
-    if (Array.isArray(product.images)) {
-        product.images.forEach(src => {
-            if (src && src !== product.image) {
+    if (Array.isArray(product.images) && product.images.length > 0) {
+        product.images.forEach((src, i) => {
+            if (src) {
                 let s = src;
                 if (!s.startsWith('http') && !s.startsWith('data:') && !s.startsWith('images/')) s = 'images/' + s;
-                imgs.push({ type: 'image', src: s });
+                const label = (product.imageLabels && product.imageLabels[i]) || defaultLabels[i] || `Angle ${i+1}`;
+                imgs.push({ type: 'image', src: s, label: label });
             }
         });
+    } else {
+        let main = product.image || 'images/coord_black_floral.webp';
+        if (!main.startsWith('http') && !main.startsWith('data:') && !main.startsWith('images/')) main = 'images/' + main;
+        imgs.push({ type: 'image', src: main, label: 'Front View' });
     }
 
-    // Video if product.video is defined
     if (product.video) {
         let vs = product.video;
         if (!vs.startsWith('http') && !vs.startsWith('images/')) vs = 'images/' + vs;
-        imgs.push({ type: 'video', src: vs, poster: main });
+        imgs.push({ type: 'video', src: vs, poster: imgs[0]?.src || '', label: 'Runway Reel' });
     }
 
     return imgs;
@@ -1771,15 +1895,20 @@ function renderGalleryThumbs() {
         const thumb = document.createElement('div');
         thumb.className = 'gallery-thumb' + (idx === _galleryIndex ? ' active' : '');
         thumb.setAttribute('data-idx', idx);
+        thumb.title = item.label || `Angle ${idx + 1}`;
+
         if (item.type === 'video') {
-            thumb.innerHTML = `<div class="thumb-video-wrap"><img src="${item.poster || ''}" style="opacity:0.6;width:100%;height:100%;object-fit:cover;"><i class="fa-solid fa-circle-play play-icon"></i></div>`;
+            thumb.innerHTML = `<div class="thumb-video-wrap"><img src="${item.poster || ''}" style="opacity:0.6;width:100%;height:100%;object-fit:cover;"><i class="fa-solid fa-circle-play play-icon"></i></div><span class="thumb-angle-tag">REEL</span>`;
         } else {
-            thumb.innerHTML = `<img src="${item.src}" alt="View ${idx + 1}" loading="lazy">`;
+            const shortLabel = item.label ? item.label.split(' ')[0] : `View ${idx+1}`;
+            thumb.innerHTML = `<img src="${item.src}" alt="${item.label || 'Product Angle'}" loading="lazy"><span class="thumb-angle-tag">${shortLabel}</span>`;
         }
-        thumb.addEventListener('click', () => goToGalleryIndex(idx));
+        thumb.addEventListener('click', (e) => {
+            e.stopPropagation();
+            goToGalleryIndex(idx);
+        });
         strip.appendChild(thumb);
     });
-    // Hide strip if only 1 image
     strip.style.display = _galleryImages.length > 1 ? 'flex' : 'none';
 }
 
