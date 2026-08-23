@@ -59,6 +59,25 @@
       "@context": "https://schema.org",
       "@graph": [
         {
+          "@type": "WebSite",
+          "@id": "https://shapesbysatinderkaur.com/#website",
+          "url": "https://shapesbysatinderkaur.com/",
+          "name": "Shapes By Satiinder Kaur",
+          "description": "Mumbai's premier luxury designer fashion boutique for bespoke printed silk co-ord sets, organic linen pret & tailored ensembles.",
+          "publisher": {
+            "@id": "https://shapesbysatinderkaur.com/#store"
+          },
+          "inLanguage": "en-IN",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": "https://shapesbysatinderkaur.com/#catalog?q={search_term_string}"
+            },
+            "query-input": "required name=search_term_string"
+          }
+        },
+        {
           "@type": "Person",
           "@id": "https://shapesbysatinderkaur.com/#designer",
           "name": "Satiinder Kaur",
@@ -260,9 +279,15 @@
     </script>
 
     <!-- Fonts & Icons -->
+        <link rel="preconnect" href="https://api.razorpay.com" crossorigin>
+    <link rel="preconnect" href="https://checkout.razorpay.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="https://api.razorpay.com">
+    <link rel="dns-prefetch" href="https://checkout.razorpay.com">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <link rel="stylesheet" href="index.css?v=55.0">
@@ -839,6 +864,19 @@
                 <div id="razorpay-affordability-widget" style="margin: 0.8rem 0;"></div>
 
                 <!-- Size Selection -->
+                
+                <!-- Smart Indian Pincode Delivery Estimator -->
+                <div class="delivery-pincode-box" style="background:rgba(255,255,255,0.03);border:1px solid rgba(197,160,89,0.2);border-radius:6px;padding:1rem;margin:1rem 0;">
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+                        <span style="font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);"><i class="fa-solid fa-truck-fast" style="margin-right:5px;"></i> Delivery Availability</span>
+                        <span style="font-size:10px;color:rgba(255,255,255,0.5);">Complimentary Express</span>
+                    </div>
+                    <div style="display:flex;gap:8px;">
+                        <input type="text" id="pincode-input" placeholder="Enter 6-digit PIN code (e.g. 400071)" maxlength="6" style="flex:1;background:rgba(0,0,0,0.4);border:1px solid rgba(197,160,89,0.3);color:var(--ivory);padding:0.6rem 0.8rem;border-radius:3px;font-size:12px;outline:none;" onkeypress="if(event.key==='Enter'){checkPincodeDelivery();}">
+                        <button type="button" onclick="checkPincodeDelivery()" style="background:var(--gold);color:#111;border:none;padding:0.6rem 1.1rem;border-radius:3px;font-size:11px;font-weight:700;letter-spacing:0.1em;cursor:pointer;text-transform:uppercase;transition:all 0.2s;">CHECK</button>
+                    </div>
+                    <div id="pincode-result-msg" style="display:none;margin-top:8px;font-size:11px;line-height:1.6;"></div>
+                </div>
                 <div class="size-row-header" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;">
                     <span class="size-label">Select Size</span>
                     <div style="display:flex;gap:8px;align-items:center;">
@@ -1272,5 +1310,15 @@
   });
 })();
 </script>
+
+<!-- VIP Floating WhatsApp Concierge Button -->
+<aside aria-label="VIP WhatsApp Concierge">
+<a href="https://wa.me/919833392756?text=Hi%20Satiinder%20Ji%2C%20I%20am%20browsing%20Shapes%20luxury%20collection%20and%20would%20like%20assistance." target="_blank" rel="noopener" class="vip-wa-float-btn" id="vip-wa-btn" title="Chat with Satiinder Kaur Styling Concierge" aria-label="WhatsApp Concierge">
+    <div class="vip-wa-pulse"></div>
+    <i class="fa-brands fa-whatsapp"></i>
+    <span class="vip-wa-label">Styling Concierge</span>
+</a>
+</aside>
+
 </body>
 </html>

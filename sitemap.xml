@@ -5,7 +5,7 @@
     <!-- Homepage / Main Catalog -->
     <url>
         <loc>https://shapesbysatinderkaur.com/</loc>
-        <lastmod>2026-08-22</lastmod>
+        <lastmod>2026-08-23</lastmod>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
         <image:image>
@@ -39,6 +39,16 @@
             <image:caption>Artisanal Rajasthani handblock printed modal silk co-ord</image:caption>
         </image:image>
         <image:image>
+            <image:loc>https://shapesbysatinderkaur.com/images/draped_corset_set.webp</image:loc>
+            <image:title>Draped Emerald Corset Set — Shapes By Satiinder Kaur</image:title>
+            <image:caption>Sculpted boned corset top paired with liquid draped trousers</image:caption>
+        </image:image>
+        <image:image>
+            <image:loc>https://shapesbysatinderkaur.com/images/pret_tunic.webp</image:loc>
+            <image:title>Minimalist Asymmetric Pret Tunic — Shapes By Satiinder Kaur</image:title>
+            <image:caption>Pure slub linen asymmetric designer tunic with cigarette trousers</image:caption>
+        </image:image>
+        <image:image>
             <image:loc>https://shapesbysatinderkaur.com/images/brocade_corset.webp</image:loc>
             <image:title>Royal Banarasi Brocade Corset Set — Shapes By Satiinder Kaur</image:title>
             <image:caption>Structured silk brocade boned corset top with pleated palazzo</image:caption>
@@ -50,10 +60,26 @@
         </image:image>
     </url>
 
+    <!-- Bespoke Appointment Booking Page -->
+    <url>
+        <loc>https://shapesbysatinderkaur.com/appointment.html</loc>
+        <lastmod>2026-08-23</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+
+    <!-- Interactive Size Quiz (Find My Size) -->
+    <url>
+        <loc>https://shapesbysatinderkaur.com/sizequiz.html</loc>
+        <lastmod>2026-08-23</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.85</priority>
+    </url>
+
     <!-- Dedicated Contact & Showroom Directions -->
     <url>
         <loc>https://shapesbysatinderkaur.com/contact.html</loc>
-        <lastmod>2026-08-22</lastmod>
+        <lastmod>2026-08-23</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
@@ -61,54 +87,56 @@
     <!-- Information & Client Experience Centre -->
     <url>
         <loc>https://shapesbysatinderkaur.com/info.html</loc>
-        <lastmod>2026-08-22</lastmod>
+        <lastmod>2026-08-23</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
 
-    <!-- Standalone Bank & Legal Compliance Pages -->
-    <url>
-        <loc>https://shapesbysatinderkaur.com/terms.html</loc>
-        <lastmod>2026-08-22</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://shapesbysatinderkaur.com/privacy.html</loc>
-        <lastmod>2026-08-22</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://shapesbysatinderkaur.com/refund.html</loc>
-        <lastmod>2026-08-22</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://shapesbysatinderkaur.com/cancellation.html</loc>
-        <lastmod>2026-08-22</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://shapesbysatinderkaur.com/shipping.html</loc>
-        <lastmod>2026-08-22</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-
-    <!-- Customer Portals -->
+    <!-- Customer Order Tracking & Invoices -->
     <url>
         <loc>https://shapesbysatinderkaur.com/track.html</loc>
-        <lastmod>2026-08-22</lastmod>
+        <lastmod>2026-08-23</lastmod>
         <changefreq>daily</changefreq>
+        <priority>0.75</priority>
+    </url>
+
+    <!-- Customer Account & Order History -->
+    <url>
+        <loc>https://shapesbysatinderkaur.com/account.html</loc>
+        <lastmod>2026-08-23</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <!-- Policy & Compliance Pages -->
+    <url>
+        <loc>https://shapesbysatinderkaur.com/shipping.html</loc>
+        <lastmod>2026-08-23</lastmod>
+        <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
-        <loc>https://shapesbysatinderkaur.com/account.html</loc>
-        <lastmod>2026-08-22</lastmod>
-        <changefreq>weekly</changefreq>
+        <loc>https://shapesbysatinderkaur.com/refund.html</loc>
+        <lastmod>2026-08-23</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://shapesbysatinderkaur.com/terms.html</loc>
+        <lastmod>2026-08-23</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://shapesbysatinderkaur.com/privacy.html</loc>
+        <lastmod>2026-08-23</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://shapesbysatinderkaur.com/cancellation.html</loc>
+        <lastmod>2026-08-23</lastmod>
+        <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
 </urlset>

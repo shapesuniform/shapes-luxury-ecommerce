@@ -1,5 +1,5 @@
 # ═════════════════════════════════════════════════════════════
-# ROBOTS.TXT — Shapes By Satiinder Kaur (Luxury Fashion)
+# ROBOTS.TXT — Shapes By Satiinder Kaur (Luxury Fashion House)
 # ═════════════════════════════════════════════════════════════
 
 User-agent: Googlebot
@@ -7,12 +7,25 @@ User-agent: Googlebot-Image
 User-agent: Bingbot
 User-agent: Applebot
 User-agent: Pinterestbot
+User-agent: YandexBot
+User-agent: DuckDuckBot
+User-agent: Baiduspider
+User-agent: Slurp
 Allow: /
 Allow: /images/
 Allow: /*.webp$
 Allow: /*.png$
+Allow: /*.svg$
 Allow: /*.css$
 Allow: /*.js$
+
+# Generative AI & LLM Search Engine Crawlers (GEO / Search Discovery)
+User-agent: Google-Extended
+User-agent: GPTBot
+User-agent: ClaudeBot
+User-agent: PerplexityBot
+User-agent: Amazonbot
+Allow: /
 
 User-agent: *
 Allow: /

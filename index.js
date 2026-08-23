@@ -2158,3 +2158,50 @@ window.submitNewsletter = async function() {
         popup.innerHTML = '<div style="background:#161616;border:1px solid #C5A059;border-radius:8px;padding:2.5rem 2rem;max-width:420px;text-align:center;"><i class="fa-solid fa-envelope-open-text" style="color:#C5A059;font-size:2rem;margin-bottom:1rem;display:block"></i><h3 style="font-family:Georgia,serif;color:#FAF6EE;font-weight:300;margin-bottom:0.5rem">Welcome to the Inner Circle ✨</h3><p style="color:#999;font-size:13px;line-height:1.7">You will receive our luxury lookbooks and exclusive early access drops at <strong style="color:#FAF6EE">' + email + '</strong></p><button onclick="dismissNewsletter()" style="margin-top:1.2rem;background:#C5A059;color:#111;border:none;padding:0.7rem 1.5rem;font-size:11px;font-weight:700;letter-spacing:0.15em;cursor:pointer;border-radius:3px">CLOSE</button></div>';
     }
 };
+
+
+/* ── SMART INDIAN PINCODE DELIVERY ESTIMATOR ───────────────────────── */
+window.checkPincodeDelivery = function() {
+    const input = document.getElementById("pincode-input");
+    const msg = document.getElementById("pincode-result-msg");
+    if (!input || !msg) return;
+
+    const pin = input.value.trim().replace(/\D/g, "");
+    if (pin.length !== 6) {
+        msg.style.display = "block";
+        msg.style.color = "#FF8080";
+        msg.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Please enter a valid 6-digit Indian postal PIN code.';
+        return;
+    }
+
+    // Calculate delivery date based on region
+    const today = new Date();
+    let daysToAdd = 8;
+    let regionText = "India";
+    let isExpressMumbai = false;
+
+    if (pin.startsWith("400") || pin.startsWith("401") || pin.startsWith("410")) {
+        daysToAdd = 3;
+        regionText = "Mumbai / MMR";
+        isExpressMumbai = true;
+    } else if (pin.startsWith("110") || pin.startsWith("12") || pin.startsWith("20")) {
+        daysToAdd = 5;
+        regionText = "Delhi NCR";
+    } else if (pin.startsWith("560") || pin.startsWith("600") || pin.startsWith("500") || pin.startsWith("411") || pin.startsWith("380")) {
+        daysToAdd = 5;
+        regionText = "Metro Hub";
+    } else {
+        daysToAdd = 7;
+        regionText = "Standard Destination";
+    }
+
+    const deliveryDate = new Date(today.getTime() + daysToAdd * 24 * 60 * 60 * 1000);
+    const dateFormatted = deliveryDate.toLocaleDateString("en-IN", { weekday: "short", day: "numeric", month: "short" });
+
+    msg.style.display = "block";
+    msg.style.color = "#E0C899";
+    msg.innerHTML = '<div style="background:rgba(197,160,89,0.1);border:1px solid rgba(197,160,89,0.3);border-radius:4px;padding:8px 10px;">' +
+        '<strong style="color:#C5A059;"><i class="fa-solid fa-circle-check"></i> ' + (isExpressMumbai ? '⚡ Mumbai Atelier Express' : '✈️ Insured Air Courier') + ' to ' + pin + ' (' + regionText + ')</strong><br>' +
+        '<span style="color:#FAF6EE;">Estimated Delivery by <strong>' + dateFormatted + '</strong></span> &bull; <span style="color:#A0D468;">FREE Express Shipping</span>' +
+        '</div>';
+};
