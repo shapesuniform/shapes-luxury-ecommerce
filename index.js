@@ -523,6 +523,11 @@ function closeProductDetailModal() {
    CART DRAWER
 ══════════════════════════════════════════════════════════ */
 function openCartDrawer() {
+    // Route to Smart Cart Drawer if present; fallback to legacy drawer
+    if (document.getElementById("smart-cart-drawer")) {
+        openSmartCart();
+        return;
+    }
     renderCartUI();
     const overlay = document.getElementById("cart-drawer-overlay");
     if (overlay) { overlay.classList.add("active"); lockScroll(); }
@@ -2368,15 +2373,7 @@ window.closeSmartCart = function() {
     unlockScroll();
 };
 
-// Intercept existing openCartDrawer to use smart cart
-const _origOpenCart = window.openCartDrawer;
-window.openCartDrawer = function() {
-    if (document.getElementById("smart-cart-drawer")) {
-        openSmartCart();
-    } else if (_origOpenCart) {
-        _origOpenCart();
-    }
-};
+// openCartDrawer → routed to openSmartCart (see openSmartCart function)
 
 
 
