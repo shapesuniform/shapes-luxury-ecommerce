@@ -296,6 +296,19 @@
                             <button type="button" class="cms-cancel-btn" id="cms-form-cancel-btn" style="display: none;">CANCEL EDIT</button>
                         </div>
                     </form>
+
+            <!-- Automated Database Backup & Disaster Recovery Panel -->
+            <div style="background:linear-gradient(135deg, rgba(197, 160, 89, 0.1) 0%, rgba(22, 22, 22, 0.9) 100%); border:1px solid rgba(197, 160, 89, 0.35); border-radius:6px; padding:1.8rem; margin-top:2rem;">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+                    <div>
+                        <h4 style="font-family:var(--font-serif); font-size:1.3rem; color:var(--gold); margin-bottom:4px;"><i class="fa-solid fa-cloud-arrow-down" style="margin-right:8px;"></i> Automated Database Backup &amp; Disaster Recovery</h4>
+                        <p style="font-size:11px; color:rgba(255,255,255,0.65); line-height:1.6;">Export an encrypted snapshot of all client orders, customer records, reviews, and catalog settings in 1 click.</p>
+                    </div>
+                    <button type="button" onclick="exportCompleteDatabaseBackup()" style="background:var(--gold); color:#111; border:none; padding:0.8rem 1.4rem; border-radius:3px; font-size:11px; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; cursor:pointer; display:inline-flex; align-items:center; gap:8px;">
+                        <i class="fa-solid fa-download"></i> Download Full Backup (.JSON)
+                    </button>
+                </div>
+            </div>
                 </div>
 
                 <!-- Tab 3: Edit Categories -->

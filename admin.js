@@ -3793,3 +3793,41 @@ window.sendWhatsAppReviewFromModal = function() {
     const msg = `Namaste ${o.customerName || "Valued Patron"} ji! 🌸\n\nWe hope you adore your new handcrafted SHAPES ensemble!\n\nIf you enjoyed our craftsmanship and hospitality, could you please take 30 seconds to share your kind review on our Google profile? It means the world to our small atelier team: ✨\n\n⭐ *Share Review:* https://maps.google.com/?q=Shapes+Boutique+Chembur+Mumbai\n\nThank you so much for being a cherished connoisseur of SHAPES! 🙏`;
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, "_blank");
 };
+
+
+
+/* ══════════════════════════════════════════════════════════
+   AUTOMATED DATABASE BACKUP, EXPORT & DISASTER RECOVERY
+══════════════════════════════════════════════════════════ */
+window.exportCompleteDatabaseBackup = function() {
+    try {
+        const backupData = {
+            export_date: new Date().toISOString(),
+            platform: "Shapes By Satiinder Kaur CMS",
+            version: "47.0",
+            orders: JSON.parse(localStorage.getItem("shapes_orders") || "[]"),
+            customers: JSON.parse(localStorage.getItem("shapes_customers") || "[]"),
+            reviews: JSON.parse(localStorage.getItem("shapes_client_reviews") || "[]"),
+            products: JSON.parse(localStorage.getItem("shapes_custom_products") || "[]"),
+            settings: JSON.parse(localStorage.getItem("shapes_cms_settings") || "{}")
+        };
+
+        const jsonString = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backupData, null, 2));
+        const downloadAnchor = document.createElement("a");
+        const timestamp = new Date().toISOString().slice(0, 10);
+        downloadAnchor.setAttribute("href", jsonString);
+        downloadAnchor.setAttribute("download", `SHAPES_Database_Backup_${timestamp}.json`);
+        document.body.appendChild(downloadAnchor);
+        downloadAnchor.click();
+        downloadAnchor.remove();
+
+        alert(`✅ Complete Database Backup Downloaded Successfully!
+
+Contains:
+• ${backupData.orders.length} Orders
+• ${backupData.customers.length} Customers
+• ${backupData.reviews.length} Client Reviews`);
+    } catch(e) {
+        alert("Backup Export Error: " + e.message);
+    }
+};
