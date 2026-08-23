@@ -95,6 +95,89 @@ export default {
       }
     }
 
+
+    // ── 6D: Cloudflare D1 Edge Database — Orders API ─────────────────────
+    // GET /api/db/orders → List all orders from D1
+    if (pathname === "/api/db/orders" && request.method === "GET") {
+      try {
+        if (env.SHAPES_DB) {
+          const { results } = await env.SHAPES_DB.prepare(
+            "SELECT * FROM orders ORDER BY created_at DESC LIMIT 100"
+          ).all();
+          return new Response(JSON.stringify({ success: true, orders: results || [], source: "d1" }), { status: 200, headers: corsHeaders });
+        }
+        return new Response(JSON.stringify({ success: true, orders: [], source: "local", note: "D1 database not configured yet. Bind SHAPES_DB in Cloudflare dashboard." }), { status: 200, headers: corsHeaders });
+      } catch(err) {
+        return new Response(JSON.stringify({ success: false, error: err.message, note: "D1 binding not yet configured." }), { status: 500, headers: corsHeaders });
+      }
+    }
+
+    // POST /api/db/orders → Save new order to D1
+    if (pathname === "/api/db/orders" && request.method === "POST") {
+      try {
+        const orderData = await request.json();
+        if (env.SHAPES_DB) {
+          await env.SHAPES_DB.prepare(
+            "INSERT OR REPLACE INTO orders (ref, customer_name, customer_email, customer_phone, total, status, items_json, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+          ).bind(
+            orderData.ref || crypto.randomUUID(),
+            orderData.customerName || "",
+            orderData.customerEmail || "",
+            orderData.customerPhone || "",
+            orderData.total || 0,
+            orderData.status || "confirmed",
+            JSON.stringify(orderData.items || []),
+            new Date().toISOString()
+          ).run();
+          return new Response(JSON.stringify({ success: true, message: "Order saved to D1 Edge Database" }), { status: 201, headers: corsHeaders });
+        }
+        return new Response(JSON.stringify({ success: true, message: "D1 not configured. Order saved to localStorage.", note: "Bind SHAPES_DB in Cloudflare Workers dashboard." }), { status: 200, headers: corsHeaders });
+      } catch(err) {
+        return new Response(JSON.stringify({ success: false, error: err.message }), { status: 500, headers: corsHeaders });
+      }
+    }
+
+    // GET /api/db/init → Initialize D1 schema (run once)
+    if (pathname === "/api/db/init" && request.method === "GET") {
+      try {
+        if (env.SHAPES_DB) {
+          await env.SHAPES_DB.exec(`
+            CREATE TABLE IF NOT EXISTS orders (
+              ref TEXT PRIMARY KEY,
+              customer_name TEXT,
+              customer_email TEXT,
+              customer_phone TEXT,
+              total REAL,
+              status TEXT DEFAULT 'confirmed',
+              items_json TEXT,
+              created_at TEXT
+            );
+            CREATE TABLE IF NOT EXISTS customers (
+              id TEXT PRIMARY KEY,
+              name TEXT,
+              email TEXT,
+              phone TEXT,
+              total_spent REAL DEFAULT 0,
+              order_count INTEGER DEFAULT 0,
+              created_at TEXT
+            );
+            CREATE TABLE IF NOT EXISTS reviews (
+              id TEXT PRIMARY KEY,
+              author TEXT,
+              rating INTEGER,
+              review TEXT,
+              product TEXT,
+              created_at TEXT
+            );
+          `);
+          return new Response(JSON.stringify({ success: true, message: "SHAPES D1 database schema initialized!" }), { status: 200, headers: corsHeaders });
+        }
+        return new Response(JSON.stringify({ success: false, message: "D1 not configured. Visit Cloudflare dashboard → Workers & Pages → D1 → Create database → Bind as SHAPES_DB." }), { status: 200, headers: corsHeaders });
+      } catch(err) {
+        return new Response(JSON.stringify({ success: false, error: err.message }), { status: 500, headers: corsHeaders });
+      }
+    }
+
     // ── 3. API: Real-Time Stock & Inventory Query ────────────────────────
     if (pathname === "/api/inventory" && request.method === "GET") {
       const defaultInventory = {

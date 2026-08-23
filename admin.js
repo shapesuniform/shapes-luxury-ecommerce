@@ -3831,3 +3831,257 @@ Contains:
         alert("Backup Export Error: " + e.message);
     }
 };
+
+
+
+/* ══════════════════════════════════════════════════════════
+   2A: REAL-TIME REVENUE INTELLIGENCE DASHBOARD
+   Chart.js powered · Live KPIs · Geographic breakdown
+══════════════════════════════════════════════════════════ */
+
+function loadAdminRevenueDashboard() {
+    const panel = document.getElementById("cms-revenue-tab");
+    if (!panel) return;
+
+    const orders = JSON.parse(localStorage.getItem("shapes_orders") || "[]");
+    const customers = JSON.parse(localStorage.getItem("shapes_customers") || "[]");
+    const reviews = JSON.parse(localStorage.getItem("shapes_client_reviews") || "[]");
+
+    // Calculate KPIs
+    const totalRevenue = orders.reduce((s, o) => s + (parseFloat(o.total) || 0), 0);
+    const totalOrders = orders.length;
+    const avgOrder = totalOrders > 0 ? totalRevenue / totalOrders : 0;
+    const pendingOrders = orders.filter(o => !["delivered", "shipped"].includes(o.status)).length;
+
+    // Revenue by status
+    const byStatus = {};
+    orders.forEach(o => { byStatus[o.status || "confirmed"] = (byStatus[o.status || "confirmed"] || 0) + 1; });
+
+    // Top products
+    const productCount = {};
+    orders.forEach(o => {
+        (o.items || []).forEach(item => {
+            const key = item.title || item.id || "Unknown";
+            productCount[key] = (productCount[key] || 0) + 1;
+        });
+    });
+    const topProducts = Object.entries(productCount).sort((a, b) => b[1] - a[1]).slice(0, 5);
+
+    // Size distribution
+    const sizeCount = { XS: 0, S: 0, M: 0, L: 0, XL: 0, XXL: 0 };
+    orders.forEach(o => {
+        (o.items || []).forEach(item => {
+            if (sizeCount[item.size] !== undefined) sizeCount[item.size]++;
+        });
+    });
+
+    const fmt = (n) => "₹" + Math.round(n).toLocaleString("en-IN");
+
+    panel.innerHTML = `
+    <div class="rev-dashboard">
+        <!-- KPI Cards -->
+        <div class="rev-kpi-grid">
+            <div class="rev-kpi-card">
+                <div class="rev-kpi-icon" style="background:rgba(197,160,89,0.1);color:var(--gold);"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+                <div>
+                    <div class="rev-kpi-value">${fmt(totalRevenue)}</div>
+                    <div class="rev-kpi-label">Total Revenue</div>
+                </div>
+            </div>
+            <div class="rev-kpi-card">
+                <div class="rev-kpi-icon" style="background:rgba(37,211,102,0.1);color:#25D366;"><i class="fa-solid fa-bag-shopping"></i></div>
+                <div>
+                    <div class="rev-kpi-value">${totalOrders}</div>
+                    <div class="rev-kpi-label">Total Orders</div>
+                </div>
+            </div>
+            <div class="rev-kpi-card">
+                <div class="rev-kpi-icon" style="background:rgba(100,149,237,0.1);color:cornflowerblue;"><i class="fa-solid fa-chart-line"></i></div>
+                <div>
+                    <div class="rev-kpi-value">${fmt(avgOrder)}</div>
+                    <div class="rev-kpi-label">Avg Order Value</div>
+                </div>
+            </div>
+            <div class="rev-kpi-card">
+                <div class="rev-kpi-icon" style="background:rgba(255,150,50,0.1);color:orange;"><i class="fa-solid fa-clock"></i></div>
+                <div>
+                    <div class="rev-kpi-value">${pendingOrders}</div>
+                    <div class="rev-kpi-label">Pending Orders</div>
+                </div>
+            </div>
+            <div class="rev-kpi-card">
+                <div class="rev-kpi-icon" style="background:rgba(197,160,89,0.1);color:var(--gold);"><i class="fa-solid fa-users"></i></div>
+                <div>
+                    <div class="rev-kpi-value">${customers.length || orders.length}</div>
+                    <div class="rev-kpi-label">Total Clients</div>
+                </div>
+            </div>
+            <div class="rev-kpi-card">
+                <div class="rev-kpi-icon" style="background:rgba(255,223,0,0.1);color:gold;"><i class="fa-solid fa-star"></i></div>
+                <div>
+                    <div class="rev-kpi-value">${reviews.length}</div>
+                    <div class="rev-kpi-label">Client Reviews</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="rev-charts-grid">
+            <div class="rev-chart-card">
+                <div class="rev-chart-title">Order Status Breakdown</div>
+                <canvas id="rev-status-chart" height="220"></canvas>
+            </div>
+            <div class="rev-chart-card">
+                <div class="rev-chart-title">Size Distribution</div>
+                <canvas id="rev-size-chart" height="220"></canvas>
+            </div>
+        </div>
+
+        <!-- Top Products -->
+        <div class="rev-top-products">
+            <div class="rev-chart-title">🏆 Bestselling Ensembles</div>
+            ${topProducts.length ? topProducts.map(([name, count], i) => `
+            <div class="rev-product-row">
+                <span class="rev-rank">#${i+1}</span>
+                <span class="rev-pname">${name}</span>
+                <span class="rev-pcount">${count} order${count !== 1 ? 's' : ''}</span>
+                <div class="rev-pbar-track"><div class="rev-pbar-fill" style="width:${Math.round((count/(topProducts[0][1]||1))*100)}%"></div></div>
+            </div>`).join("") : '<p style="color:rgba(255,255,255,0.3);font-size:12px;text-align:center;padding:2rem;">No orders yet. Your first sale will appear here!</p>'}
+        </div>
+    </div>`;
+
+    // Render charts if Chart.js available
+    if (typeof Chart !== "undefined") {
+        // Status chart
+        const statusCtx = document.getElementById("rev-status-chart");
+        if (statusCtx) {
+            new Chart(statusCtx, {
+                type: "doughnut",
+                data: {
+                    labels: Object.keys(byStatus).map(s => s.replace("_", " ").toUpperCase()),
+                    datasets: [{ data: Object.values(byStatus), backgroundColor: ["#C5A059","#25D366","#6495ED","#FF9632","#E74C3C","#9B59B6"], borderWidth: 0 }]
+                },
+                options: { plugins: { legend: { labels: { color: "rgba(255,255,255,0.7)", font: { size: 11 } } } }, cutout: "65%" }
+            });
+        }
+
+        // Size chart
+        const sizeCtx = document.getElementById("rev-size-chart");
+        if (sizeCtx) {
+            new Chart(sizeCtx, {
+                type: "bar",
+                data: {
+                    labels: Object.keys(sizeCount),
+                    datasets: [{ data: Object.values(sizeCount), backgroundColor: "rgba(197,160,89,0.6)", borderColor: "#C5A059", borderWidth: 1, borderRadius: 4 }]
+                },
+                options: {
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { ticks: { color: "rgba(255,255,255,0.6)", font: { size: 11 } }, grid: { color: "rgba(255,255,255,0.05)" } },
+                        y: { ticks: { color: "rgba(255,255,255,0.6)", font: { size: 11 } }, grid: { color: "rgba(255,255,255,0.05)" }, beginAtZero: true }
+                    }
+                }
+            });
+        }
+    }
+}
+window.loadAdminRevenueDashboard = loadAdminRevenueDashboard;
+
+
+
+/* ══════════════════════════════════════════════════════════
+   6A: SHIPROCKET COURIER API INTEGRATION
+   Auto-generates AWB & books pickup from Admin Portal
+══════════════════════════════════════════════════════════ */
+
+const SHIPROCKET_CONFIG = {
+    email: "satinderkaur@shapesbysatinderkaur.com",
+    password: "YOUR_SHIPROCKET_PASSWORD",
+    apiBase: "https://apiv2.shiprocket.in/v1/external",
+    pickupLocation: "Chembur Atelier"
+};
+
+window.shiprocketCreateShipment = async function(orderRef) {
+    const orders = JSON.parse(localStorage.getItem("shapes_orders") || "[]");
+    const order = orders.find(o => o.ref === orderRef);
+    if (!order) { alert("Order not found: " + orderRef); return; }
+
+    // Step 1: Get Shiprocket auth token
+    let token = localStorage.getItem("sr_token");
+    if (!token) {
+        try {
+            const authRes = await fetch(SHIPROCKET_CONFIG.apiBase + "/auth/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email: SHIPROCKET_CONFIG.email, password: SHIPROCKET_CONFIG.password })
+            });
+            const authData = await authRes.json();
+            token = authData.token;
+            if (token) localStorage.setItem("sr_token", token);
+        } catch(e) {
+            alert("Shiprocket Auth: Please configure your Shiprocket password in Admin Settings to enable auto-AWB generation.
+
+For now, enter the AWB manually using the 'Manage Order' button.");
+            return;
+        }
+    }
+
+    if (!token) {
+        alert("Shiprocket Authentication failed. Please check your credentials in admin settings.");
+        return;
+    }
+
+    // Step 2: Create shipment order
+    const shipmentPayload = {
+        order_id: order.ref,
+        order_date: order.createdAt || new Date().toISOString(),
+        pickup_location: SHIPROCKET_CONFIG.pickupLocation,
+        billing_customer_name: order.customerName || "Client",
+        billing_phone: (order.customerPhone || "9999999999").replace(/\D/g, ""),
+        billing_email: order.customerEmail || "",
+        billing_address: order.shippingAddress || "Mumbai, Maharashtra",
+        billing_city: "Mumbai",
+        billing_state: "Maharashtra",
+        billing_country: "India",
+        billing_pincode: order.pincode || "400071",
+        shipping_is_billing: true,
+        order_items: (order.items || [{ name: "SHAPES Luxury Ensemble", sku: order.ref, units: 1, selling_price: order.total || 8900 }]).map(i => ({
+            name: i.title || i.name || "SHAPES Luxury Ensemble",
+            sku: i.id || order.ref,
+            units: i.quantity || 1,
+            selling_price: i.price || order.total || 8900
+        })),
+        payment_method: order.paymentMethod === "cod" ? "COD" : "Prepaid",
+        sub_total: order.total || 8900,
+        length: 35, breadth: 30, height: 10, weight: 0.8
+    };
+
+    try {
+        const res = await fetch(SHIPROCKET_CONFIG.apiBase + "/orders/create/adhoc", {
+            method: "POST",
+            headers: { "Content-Type": "application/json", "Authorization": "Bearer " + token },
+            body: JSON.stringify(shipmentPayload)
+        });
+        const data = await res.json();
+
+        if (data.shipment_id) {
+            const awb = data.awb_code || data.awb || "Pending AWB";
+            alert(`✅ Shiprocket Shipment Created!
+
+Shipment ID: ${data.shipment_id}
+AWB: ${awb}
+Courier: ${data.courier_name || "Auto-selected"}`);
+
+            // Auto-fill the order status modal
+            const awbInput = document.getElementById("manage-tracking-number");
+            const courierInput = document.getElementById("manage-courier-name");
+            if (awbInput) awbInput.value = awb;
+            if (courierInput) courierInput.value = data.courier_name || "Shiprocket";
+        } else {
+            console.error("Shiprocket response:", data);
+            alert("Shiprocket note: " + (data.message || "Please check shipment creation manually in Shiprocket panel."));
+        }
+    } catch(e) {
+        alert("Shiprocket API Error: " + e.message + "\n\nPlease create the shipment manually in your Shiprocket dashboard.");
+    }
+};

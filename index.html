@@ -426,7 +426,20 @@
                 </button>
             </div>
         </div>
-    </header>
+    
+<!-- ── MULTI-CURRENCY SWITCHER (6C) ───────────────────────────── -->
+<div id="currency-switcher-bar" role="navigation" aria-label="Currency Selector">
+    <span class="currency-switcher-label"><i class="fa-solid fa-globe"></i> Currency:</span>
+    <div class="currency-pills-group">
+        <button class="currency-pill active" data-currency="INR" onclick="switchCurrency('INR')">₹ INR</button>
+        <button class="currency-pill" data-currency="USD" onclick="switchCurrency('USD')">$ USD</button>
+        <button class="currency-pill" data-currency="AED" onclick="switchCurrency('AED')">AED</button>
+        <button class="currency-pill" data-currency="GBP" onclick="switchCurrency('GBP')">£ GBP</button>
+        <button class="currency-pill" data-currency="EUR" onclick="switchCurrency('EUR')">€ EUR</button>
+    </div>
+</div>
+
+</header>
 </div>
 
 <!-- Mobile Drawer -->
@@ -1303,6 +1316,92 @@
 </script>
 
 
+
+
+<!-- ── SMART SLIDE-OUT LUXURY CART DRAWER (1C) ────────────────── -->
+<div id="smart-cart-overlay" onclick="closeSmartCart()"></div>
+<aside id="smart-cart-drawer" role="dialog" aria-label="Shopping Bag" aria-modal="true">
+    <div class="scart-header">
+        <div class="scart-header-left">
+            <i class="fa-solid fa-bag-shopping"></i>
+            <span>Your Luxury Bag</span>
+            <span id="smart-cart-count" class="scart-badge"></span>
+        </div>
+        <button class="scart-close-btn" onclick="closeSmartCart()" aria-label="Close cart">&times;</button>
+    </div>
+
+    <!-- Free Shipping Progress Bar -->
+    <div class="scart-shipping-progress">
+        <div class="scart-ship-bar-track">
+            <div id="smart-cart-ship-bar" class="scart-ship-bar-fill"></div>
+        </div>
+        <p id="smart-cart-ship-label" class="scart-ship-label">Add <strong style="color:var(--gold);">₹15,000</strong> for Free Express Shipping 🚀</p>
+    </div>
+
+    <!-- Cart Items -->
+    <div id="smart-cart-items" class="scart-items-zone"></div>
+
+    <!-- Complete The Look Upsells -->
+    <div id="smart-cart-upsells" class="scart-upsells-zone"></div>
+
+    <!-- Cart Footer -->
+    <div class="scart-footer">
+        <div class="scart-subtotal-row">
+            <span>Subtotal (excl. GST)</span>
+            <span id="smart-cart-subtotal" class="scart-subtotal-val">₹0</span>
+        </div>
+        <button class="scart-checkout-btn" onclick="closeSmartCart(); typeof initiateCheckoutFlow === 'function' && initiateCheckoutFlow();">
+            <i class="fa-solid fa-lock"></i> Secure Checkout
+        </button>
+        <button class="scart-continue-btn" onclick="closeSmartCart()">Continue Shopping</button>
+        <div class="scart-trust-row">
+            <span><i class="fa-solid fa-shield-halved"></i> SSL Secured</span>
+            <span><i class="fa-solid fa-truck-fast"></i> Free Ship above ₹15K</span>
+            <span><i class="fa-solid fa-rotate-left"></i> Easy Returns</span>
+        </div>
+    </div>
+</aside>
+
+
+<!-- ── AI VIRTUAL STYLING CONCIERGE (1A) ─────────────────────── -->
+<div id="ai-concierge-bubble" onclick="openAIConcierge()" title="Chat with Satiinder AI Stylist" role="button" aria-label="Open AI Styling Concierge" tabindex="0">
+    <div class="ai-bubble-inner">
+        <div class="ai-bubble-avatar">✦</div>
+        <div class="ai-bubble-text">
+            <span class="ai-bubble-title">SATIINDER AI</span>
+            <span class="ai-bubble-sub">Personal Stylist</span>
+        </div>
+        <div class="ai-bubble-ping"></div>
+    </div>
+</div>
+
+<div id="ai-concierge-overlay" onclick="closeAIConcierge()"></div>
+<div id="ai-concierge-panel" role="dialog" aria-modal="true" aria-label="AI Styling Concierge">
+    <div class="ai-panel-header">
+        <div class="ai-panel-avatar">✦</div>
+        <div>
+            <div class="ai-panel-name">Satiinder AI — Personal Stylist</div>
+            <div class="ai-panel-status"><span class="ai-online-dot"></span> Available 24/7 · Multilingual</div>
+        </div>
+        <button onclick="closeAIConcierge()" class="ai-panel-close" aria-label="Close">&times;</button>
+    </div>
+    <div id="ai-chat-messages" class="ai-messages-zone">
+        <div class="ai-msg ai-msg-bot">
+            <div class="ai-msg-avatar">✦</div>
+            <div class="ai-msg-bubble">Namaste! 🙏 I'm your personal styling concierge at SHAPES By Satiinder Kaur. Tell me the occasion, your preferred silhouette, or even share a colour you love — I'll curate the perfect ensemble for you.</div>
+        </div>
+        <div class="ai-quick-prompts">
+            <button onclick="sendAIMessage('I need a festive outfit for Diwali')" class="ai-quick-btn">🪔 Diwali Festive</button>
+            <button onclick="sendAIMessage('Show me your best silk sets')" class="ai-quick-btn">🧵 Pure Silk Sets</button>
+            <button onclick="sendAIMessage('I am attending a luxury wedding in Mumbai')" class="ai-quick-btn">👰 Wedding Guest</button>
+            <button onclick="sendAIMessage('I live in Dubai, what ships internationally?')" class="ai-quick-btn">✈️ International Shipping</button>
+        </div>
+    </div>
+    <div class="ai-input-zone">
+        <input type="text" id="ai-chat-input" placeholder="Ask me anything about SHAPES..." onkeydown="if(event.key==='Enter') sendAIMessage()" aria-label="Chat with AI Stylist">
+        <button onclick="sendAIMessage()" class="ai-send-btn" aria-label="Send message"><i class="fa-solid fa-paper-plane"></i></button>
+    </div>
+</div>
 
 </body>
 </html>

@@ -2201,3 +2201,344 @@ window.hideMagnifierLens = function() {
     const lens = document.getElementById("product-magnifier-lens");
     if (lens) lens.style.display = "none";
 };
+
+
+
+/* ══════════════════════════════════════════════════════════
+   6C: MULTI-CURRENCY LIVE PRICE CONVERTER
+   Supports: INR ₹ / USD $ / AED / GBP £ / EUR €
+══════════════════════════════════════════════════════════ */
+const EXCHANGE_RATES_LIVE = { INR: 1, USD: 0.012, AED: 0.044, GBP: 0.0094, EUR: 0.011 };
+
+window.switchCurrency = function(currency) {
+    if (!EXCHANGE_RATES_LIVE[currency]) return;
+    selectedCurrency = currency;
+    try { localStorage.setItem("shapes_currency_pref", currency); } catch(e) {}
+
+    // Update all .product-card-price elements
+    document.querySelectorAll(".product-card-price[data-inr]").forEach(el => {
+        const inr = parseFloat(el.getAttribute("data-inr"));
+        if (!isNaN(inr)) el.textContent = formatPrice(inr);
+    });
+
+    // Update modal price if open
+    const modalPriceEl = document.getElementById("modal-product-price");
+    if (modalPriceEl && currentActiveProduct) {
+        modalPriceEl.textContent = formatPrice(currentActiveProduct.price);
+    }
+
+    // Update currency switcher pill display
+    document.querySelectorAll(".currency-pill").forEach(btn => {
+        btn.classList.toggle("active", btn.getAttribute("data-currency") === currency);
+    });
+
+    // Re-render cart totals
+    renderCartUI();
+
+    // Update upsell prices in cart
+    renderSmartCartUpsells();
+};
+
+// Restore saved preference on load
+(function() {
+    const saved = localStorage.getItem("shapes_currency_pref");
+    if (saved && EXCHANGE_RATES_LIVE[saved] && saved !== "INR") {
+        selectedCurrency = saved;
+    }
+})();
+
+
+
+/* ══════════════════════════════════════════════════════════
+   1C: SMART SLIDE-OUT LUXURY CART WITH LIVE UPSELLS
+   Glassmorphic drawer · Free shipping progress · Complete the Look
+══════════════════════════════════════════════════════════ */
+
+const FREE_SHIPPING_THRESHOLD_INR = 15000;
+
+function getCartTotal_INR() {
+    return cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+}
+
+function renderSmartCartUpsells() {
+    const upsellZone = document.getElementById("smart-cart-upsells");
+    if (!upsellZone || !products.length) return;
+
+    // Pick 2 products not in cart
+    const cartIds = new Set(cart.map(i => i.id));
+    const suggestions = products.filter(p => !cartIds.has(p.id)).slice(0, 2);
+
+    if (!suggestions.length) { upsellZone.innerHTML = ""; return; }
+
+    upsellZone.innerHTML = `
+        <div class="scart-upsell-header">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> Complete The Look
+        </div>
+        ${suggestions.map(p => `
+        <div class="scart-upsell-item">
+            <img src="${p.image || 'images/placeholder.webp'}" alt="${p.title}" class="scart-upsell-img">
+            <div class="scart-upsell-info">
+                <div class="scart-upsell-title">${p.title}</div>
+                <div class="scart-upsell-price">${formatPrice(p.price)}</div>
+            </div>
+            <button class="scart-upsell-add" onclick="addToCart('${p.id}','M'); renderSmartCartFull();" aria-label="Add ${p.title} to cart">
+                <i class="fa-solid fa-plus"></i>
+            </button>
+        </div>`).join("")}`;
+}
+
+function renderSmartCartFull() {
+    // Update cart items
+    const container = document.getElementById("smart-cart-items");
+    const subtotalEl = document.getElementById("smart-cart-subtotal");
+    const progressBar = document.getElementById("smart-cart-ship-bar");
+    const progressLabel = document.getElementById("smart-cart-ship-label");
+    const countEl = document.getElementById("smart-cart-count");
+
+    if (!container) return;
+
+    const totalINR = getCartTotal_INR();
+
+    if (!cart.length) {
+        container.innerHTML = `<div class="scart-empty"><i class="fa-solid fa-bag-shopping" style="font-size:2.5rem; color:rgba(197,160,89,0.3); display:block; margin-bottom:1rem;"></i>Your luxury bag is empty.<br><br>Explore the collection above.</div>`;
+    } else {
+        container.innerHTML = cart.map((item, idx) => `
+        <div class="scart-item">
+            <img src="${item.image || ''}" alt="${item.title}" class="scart-item-img">
+            <div class="scart-item-body">
+                <div class="scart-item-name">${item.title}</div>
+                <div class="scart-item-meta">Size: <strong>${item.size}</strong> · Qty: <strong>${item.quantity}</strong></div>
+                <div class="scart-item-price">${formatPrice(item.price * item.quantity)}</div>
+                <div class="scart-qty-row">
+                    <button class="scart-qty-btn" onclick="adjustSmartCartQty(${idx}, -1)"><i class="fa-solid fa-minus"></i></button>
+                    <span>${item.quantity}</span>
+                    <button class="scart-qty-btn" onclick="adjustSmartCartQty(${idx}, 1)"><i class="fa-solid fa-plus"></i></button>
+                    <button class="scart-remove-btn" onclick="removeFromSmartCart(${idx})"><i class="fa-solid fa-trash-can"></i></button>
+                </div>
+            </div>
+        </div>`).join("");
+    }
+
+    // Subtotal
+    if (subtotalEl) subtotalEl.textContent = formatPrice(totalINR);
+
+    // Free shipping progress
+    const remaining = Math.max(0, FREE_SHIPPING_THRESHOLD_INR - totalINR);
+    const pct = Math.min(100, (totalINR / FREE_SHIPPING_THRESHOLD_INR) * 100);
+    if (progressBar) progressBar.style.width = pct + "%";
+    if (progressLabel) {
+        progressLabel.innerHTML = remaining > 0
+            ? `Add <strong style="color:var(--gold);">${formatPrice(remaining)}</strong> more for <strong>Free Express Shipping</strong> 🚀`
+            : `🎉 You've unlocked <strong style="color:var(--gold);">Free Express Shipping!</strong>`;
+    }
+    if (countEl) countEl.textContent = cart.reduce((s, i) => s + i.quantity, 0) || "";
+
+    renderSmartCartUpsells();
+}
+
+window.adjustSmartCartQty = function(idx, delta) {
+    if (!cart[idx]) return;
+    cart[idx].quantity = Math.max(1, cart[idx].quantity + delta);
+    setLocal("shapes_cart_items", cart);
+    updateCartBadge();
+    renderSmartCartFull();
+};
+
+window.removeFromSmartCart = function(idx) {
+    cart.splice(idx, 1);
+    setLocal("shapes_cart_items", cart);
+    updateCartBadge();
+    renderSmartCartFull();
+};
+
+window.openSmartCart = function() {
+    const drawer = document.getElementById("smart-cart-drawer");
+    const overlay = document.getElementById("smart-cart-overlay");
+    if (drawer) { drawer.classList.add("open"); }
+    if (overlay) { overlay.classList.add("active"); }
+    lockScroll();
+    renderSmartCartFull();
+};
+
+window.closeSmartCart = function() {
+    const drawer = document.getElementById("smart-cart-drawer");
+    const overlay = document.getElementById("smart-cart-overlay");
+    if (drawer) drawer.classList.remove("open");
+    if (overlay) overlay.classList.remove("active");
+    unlockScroll();
+};
+
+// Intercept existing openCartDrawer to use smart cart
+const _origOpenCart = window.openCartDrawer;
+window.openCartDrawer = function() {
+    if (document.getElementById("smart-cart-drawer")) {
+        openSmartCart();
+    } else if (_origOpenCart) {
+        _origOpenCart();
+    }
+};
+
+
+
+/* ══════════════════════════════════════════════════════════
+   4A: CUSTOM MADE-TO-MEASURE INPUT ENGINE
+   Captures Bust/Waist/Hip/Height on checkout for bespoke tailoring
+══════════════════════════════════════════════════════════ */
+
+window._bespokeMeasurements = null;
+
+window.toggleBespokeMeasurements = function() {
+    const panel = document.getElementById("bespoke-measurement-panel");
+    const toggle = document.getElementById("bespoke-toggle-btn");
+    if (!panel) return;
+    const isOpen = panel.style.display !== "none";
+    panel.style.display = isOpen ? "none" : "block";
+    panel.style.animation = isOpen ? "" : "fadeInDown 0.3s ease";
+    if (toggle) {
+        toggle.innerHTML = isOpen
+            ? '<i class="fa-solid fa-ruler-combined"></i> Bespoke Tailored Fit'
+            : '<i class="fa-solid fa-xmark"></i> Cancel Custom Fit';
+    }
+};
+
+window.saveBespokeMeasurements = function() {
+    const bust   = document.getElementById("m-bust")?.value?.trim();
+    const waist  = document.getElementById("m-waist")?.value?.trim();
+    const hip    = document.getElementById("m-hip")?.value?.trim();
+    const height = document.getElementById("m-height")?.value?.trim();
+    const trouser= document.getElementById("m-trouser")?.value?.trim();
+    const notes  = document.getElementById("m-notes")?.value?.trim();
+
+    if (!bust || !waist || !hip) {
+        alert("Please enter at least Bust, Waist and Hip measurements.");
+        return;
+    }
+
+    window._bespokeMeasurements = { bust, waist, hip, height, trouser, notes };
+
+    const confirmEl = document.getElementById("bespoke-confirm-badge");
+    if (confirmEl) {
+        confirmEl.innerHTML = `<i class="fa-solid fa-circle-check" style="color:#25D366;"></i> Measurements saved — your karigar will tailor precisely to your measurements!`;
+        confirmEl.style.display = "block";
+    }
+};
+
+
+
+/* ══════════════════════════════════════════════════════════
+   1A: SATIINDER AI — VIRTUAL STYLING CONCIERGE BRAIN
+   Rule-based luxury stylist with product awareness
+══════════════════════════════════════════════════════════ */
+const AI_KNOWLEDGE_BASE = {
+    greetings: ["namaste", "hi", "hello", "hey", "hii", "good morning", "good evening"],
+    silk: ["silk", "modal", "pure silk", "banarasi", "zardozi"],
+    linen: ["linen", "slub", "organic", "cotton"],
+    festive: ["diwali", "festive", "puja", "navratri", "karva chauth", "celebration", "festival"],
+    wedding: ["wedding", "shaadi", "bride", "bridal", "trousseau", "sangeet", "mehendi", "reception"],
+    international: ["dubai", "london", "uk", "usa", "international", "abroad", "overseas", "nri"],
+    casual: ["brunch", "casual", "everyday", "lunch", "day out"],
+    evening: ["evening", "dinner", "party", "cocktail", "night out"],
+    sizing: ["size", "measurement", "fit", "bespoke", "custom", "tailored"],
+    price: ["price", "cost", "how much", "budget", "expensive", "affordable", "emi", "installment"],
+    shipping: ["shipping", "delivery", "dispatch", "track", "courier", "free shipping"],
+    appointment: ["appointment", "book", "visit", "store", "boutique", "chembur", "meet"],
+    care: ["wash", "care", "dry clean", "iron", "maintain", "store"]
+};
+
+const AI_RESPONSES = {
+    greeting: () => `Namaste! 🙏 Welcome to SHAPES By Satiinder Kaur. I'm your personal styling concierge. Tell me the occasion, your body type, or a colour you love — I'll curate the perfect luxury ensemble for you!`,
+    silk: () => {
+        const silkProducts = (window.products || []).filter(p => (p.fabric || "").toLowerCase().includes("silk") || (p.title || "").toLowerCase().includes("silk"));
+        const names = silkProducts.slice(0, 2).map(p => `✦ <strong>${p.title}</strong> — ${p.fabric || "Pure Silk"}`).join("<br>");
+        return `Our pure silk collections are hand-finished at our Chembur atelier using the finest Grade-A Modal Silk & Banarasi Brocade:<br><br>${names || "✦ The Noir Botanical Silk Set<br>✦ Royal Banarasi Brocade Corset Set"}<br><br>Would you like to see them in a specific occasion style?`;
+    },
+    linen: () => `Our organic slub linen collection is crafted from sustainably sourced Rajasthan linen — breathable, structured, and perfect for Indian summers and international travel. Shall I show you our bestselling linen co-ord sets?`,
+    festive: () => `For festive occasions, I'd recommend our <strong>Emerald Festive Silk Set</strong> or the <strong>Royal Banarasi Brocade Corset Set</strong> — both receive the most love during Diwali and Navratri! Both are available in XS–XXL. Would you like to view them?`,
+    wedding: () => `For wedding occasions, your trousseau deserves only the finest. I recommend our:<br><br>✦ <strong>Banarasi Brocade Corset Set</strong> — for the bride<br>✦ <strong>Emerald Festive Silk Set</strong> — for wedding guests<br>✦ <strong>Indigo Heritage Handblock Set</strong> — for mehendi/sangeet<br><br>You can also book a private bespoke trousseau appointment with Satiinder Kaur herself. Shall I arrange that?`,
+    international: () => `We ship worldwide via BlueDart International / DHL Express with full insurance 🌍<br><br>✈️ <strong>Dubai:</strong> 4–7 business days<br>✈️ <strong>London / UK:</strong> 6–10 business days<br>✈️ <strong>USA:</strong> 8–14 business days<br><br>You can view prices in AED, GBP, or USD using the currency switcher at the top of our site. Would you like help choosing a piece?`,
+    sizing: () => `We offer sizes XS to XXL. You can also use our <strong>Bespoke Tailored Fit</strong> option on every product — just click it in the product modal and enter your Bust, Waist, Hip, and Height measurements. Our Chembur karigars will hand-tailor the piece precisely to your measurements! Would you like to take our 5-step Size Quiz?`,
+    price: () => `Our luxury co-ord sets are priced from ₹7,900 to ₹19,900. We offer <strong>No-Cost EMI</strong> starting from ₹1,400/month via Razorpay — so you can own a handcrafted luxury piece without paying all at once. Would you like EMI options for a specific piece?`,
+    shipping: () => `✦ <strong>Free Express Shipping</strong> on orders above ₹15,000 across India<br>✦ Orders below ₹15,000: Flat ₹199 shipping<br>✦ Dispatch in 15–22 business days (handcrafted to order)<br>✦ Fully insured with real-time tracking at shapesbysatinderkaur.com/track.html<br><br>Every order is packed in our signature luxury rigid box! 📦`,
+    appointment: () => `We'd love to welcome you! 🙏 You can book a private atelier appointment or video consultation with Satiinder Kaur herself:<br><br>📍 <strong>Chembur, Mumbai</strong> (by appointment only)<br>📹 <strong>Virtual Fitting Call</strong> — perfect for NRI clients<br><br><a href="appointment.html" style="color:var(--gold);text-decoration:underline;">Click here to book your appointment →</a>`,
+    care: () => `All SHAPES garments use natural fibres requiring gentle care:<br><br>✦ <strong>Pure Silk:</strong> Dry clean only / gentle hand wash in cold water<br>✦ <strong>Slub Linen:</strong> Hand wash or delicate machine cycle<br>✦ <strong>Storage:</strong> Hang or fold flat in breathable muslin bags<br>✦ <strong>Ironing:</strong> Low heat on reverse side with a pressing cloth`,
+    default: (msg) => `Thank you for your message! 🙏 For your query about "<em>${msg}</em>", our personal styling team is available on WhatsApp for an immediate response: <a href="https://wa.me/917977456549" target="_blank" style="color:var(--gold);">Chat with us on WhatsApp →</a>`
+};
+
+function detectAIIntent(msg) {
+    const lower = msg.toLowerCase();
+    for (const [intent, keywords] of Object.entries(AI_KNOWLEDGE_BASE)) {
+        if (keywords.some(k => lower.includes(k))) return intent;
+    }
+    return "default";
+}
+
+window.openAIConcierge = function() {
+    const panel = document.getElementById("ai-concierge-panel");
+    const overlay = document.getElementById("ai-concierge-overlay");
+    const bubble = document.getElementById("ai-concierge-bubble");
+    if (panel) { panel.classList.add("open"); }
+    if (overlay) { overlay.classList.add("active"); }
+    if (bubble) { bubble.style.display = "none"; }
+    lockScroll();
+};
+
+window.closeAIConcierge = function() {
+    const panel = document.getElementById("ai-concierge-panel");
+    const overlay = document.getElementById("ai-concierge-overlay");
+    const bubble = document.getElementById("ai-concierge-bubble");
+    if (panel) panel.classList.remove("open");
+    if (overlay) overlay.classList.remove("active");
+    if (bubble) bubble.style.display = "";
+    unlockScroll();
+};
+
+window.sendAIMessage = function(prefillMsg) {
+    const input = document.getElementById("ai-chat-input");
+    const msg = (prefillMsg || input?.value || "").trim();
+    if (!msg) return;
+    if (input) input.value = "";
+
+    const zone = document.getElementById("ai-chat-messages");
+    if (!zone) return;
+
+    // Remove quick prompts after first interaction
+    const quickPrompts = zone.querySelector(".ai-quick-prompts");
+    if (quickPrompts) quickPrompts.remove();
+
+    // Append user message
+    zone.innerHTML += `
+    <div class="ai-msg ai-msg-user">
+        <div class="ai-msg-bubble">${msg}</div>
+        <div class="ai-msg-avatar" style="background:rgba(255,255,255,0.1);color:#fff;font-size:0.7rem;">YOU</div>
+    </div>`;
+
+    // Show typing indicator
+    const typingId = "ai-typing-" + Date.now();
+    zone.innerHTML += `
+    <div class="ai-msg ai-msg-bot ai-msg-typing" id="${typingId}">
+        <div class="ai-msg-avatar">✦</div>
+        <div class="ai-msg-bubble">
+            <span class="ai-typing-dot"></span>
+            <span class="ai-typing-dot"></span>
+            <span class="ai-typing-dot"></span>
+        </div>
+    </div>`;
+    zone.scrollTop = zone.scrollHeight;
+
+    // Generate response after 800ms delay (realistic)
+    setTimeout(() => {
+        const intent = detectAIIntent(msg);
+        const responseFn = AI_RESPONSES[intent] || AI_RESPONSES.default;
+        const responseHTML = responseFn(msg);
+
+        const typingEl = document.getElementById(typingId);
+        if (typingEl) typingEl.remove();
+
+        zone.innerHTML += `
+        <div class="ai-msg ai-msg-bot">
+            <div class="ai-msg-avatar">✦</div>
+            <div class="ai-msg-bubble">${responseHTML}</div>
+        </div>`;
+        zone.scrollTop = zone.scrollHeight;
+    }, 800);
+};

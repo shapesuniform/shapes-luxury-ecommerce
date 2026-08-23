@@ -102,6 +102,7 @@
         window.toggleMobileSidebar = toggleMobileSidebar;
     </script>
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
 
 <body>
@@ -168,7 +169,8 @@
                 </button>
                 
                 <div style="padding: 0.8rem 1.2rem 0.2rem; font-size: 9px; text-transform: uppercase; letter-spacing: 0.15em; color: var(--gold-dark); font-weight: 700;">Sales &amp; Production</div>
-                <button class="cms-sidebar-btn" data-tab="cms-analytics-tab" onclick="switchCMSTab('cms-analytics-tab')">
+                <button class="cms-sidebar-btn" data-tab="cms-revenue-tab" onclick="switchCMSTab('cms-revenue-tab')"><i class="fa-solid fa-chart-line"></i><span>Revenue</span></button>
+            <button class="cms-sidebar-btn" data-tab="cms-analytics-tab" onclick="switchCMSTab('cms-analytics-tab')">
                     <i class="fa-solid fa-chart-line"></i> Revenue &amp; Analytics
                 </button>
                 <button class="cms-sidebar-btn" data-tab="cms-orders-tab" onclick="switchCMSTab('cms-orders-tab')">
@@ -775,7 +777,18 @@
             <span>MENU</span>
         </button>
 
-            </main>
+        
+    <!-- Revenue Intelligence Dashboard Tab -->
+    <div id="cms-revenue-tab" class="cms-tab-panel" style="display:none;">
+        <div style="padding:0 0 1.5rem 0;">
+            <h2 style="font-family:var(--font-serif);font-size:2rem;color:var(--gold);margin-bottom:0.5rem;"><i class="fa-solid fa-chart-line" style="margin-right:10px;"></i>Revenue Intelligence Dashboard</h2>
+            <p style="color:rgba(255,255,255,0.45);font-size:12px;">Live financial analytics, bestsellers, and size intelligence for your atelier.</p>
+        </div>
+        <div id="cms-revenue-tab-content">
+            <div style="text-align:center;padding:4rem;color:rgba(255,255,255,0.3);">Loading revenue data...</div>
+        </div>
+    </div>
+    </main>
         </div>
     </div>
 
@@ -816,6 +829,13 @@
 
                 </div>
 
+                
+                <!-- Shiprocket Auto-Courier Button (6A) -->
+                <div style="margin-bottom:1.2rem;">
+                    <button type="button" onclick="shiprocketCreateShipment(document.getElementById('manage-order-ref').value)" style="width:100%;background:linear-gradient(135deg,rgba(255,103,0,0.15),rgba(255,103,0,0.08));border:1px solid rgba(255,103,0,0.4);color:#FF6700;padding:0.7rem;border-radius:3px;font-size:11px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;letter-spacing:0.1em;text-transform:uppercase;">
+                        <i class="fa-solid fa-truck-fast"></i> Auto-Generate Shiprocket AWB & Book Pickup
+                    </button>
+                </div>
                 <!-- Owner 1-Click WhatsApp Quick Actions Strip -->
                 <div style="background:rgba(37, 211, 102, 0.08); border:1px solid rgba(37, 211, 102, 0.3); border-radius:4px; padding:1rem; margin-bottom:1.5rem;">
                     <div style="font-size:10px; font-weight:700; color:#25D366; letter-spacing:0.12em; text-transform:uppercase; margin-bottom:8px; display:flex; align-items:center; gap:6px;">
