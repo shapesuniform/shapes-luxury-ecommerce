@@ -3736,3 +3736,60 @@ function renderRegisteredClientsTable() {
         </tr>`;
     }).join("");
 }
+
+
+
+/* ══════════════════════════════════════════════════════════
+   OWNER'S 1-CLICK WHATSAPP DISPATCH & CLIENT CRM ENGINE
+══════════════════════════════════════════════════════════ */
+function getActiveModalOrder() {
+    const ref = document.getElementById("manage-order-ref")?.value;
+    if (!ref) return null;
+    return (_allOrders || []).find(o => o.ref === ref) || null;
+}
+
+window.sendWhatsAppDispatchFromModal = function() {
+    const o = getActiveModalOrder();
+    if (!o) { alert("Order not found"); return; }
+    const phone = (o.customerPhone || "").replace(/\D/g, "");
+    if (!phone) { alert("No customer phone number found for this order."); return; }
+
+    const courier = document.getElementById("manage-courier-name")?.value.trim() || o.courierName || "Insured Express Courier";
+    const awb = document.getElementById("manage-tracking-number")?.value.trim() || o.trackingNumber || "Active";
+    const note = document.getElementById("manage-delivery-note")?.value.trim() || o.deliveryNote || "Estimated 3-5 days";
+
+    const msg = `Namaste ${o.customerName || "Valued Patron"} ji! 🙏✨\n\nThis is Satiinder Kaur from *SHAPES Chembur Boutique*.\n\nYour handcrafted luxury ensemble (*Order #${o.ref}*) has been completed and dispatched! 📦\n\n🚚 *Courier:* ${courier}\n📋 *Tracking AWB:* ${awb}\n⏱️ *Delivery Note:* ${note}\n\n📍 *Track Live:* https://shapesbysatinderkaur.com/track.html?ref=${o.ref}\n\nThank you for choosing SHAPES! For any styling queries, please feel free to message us here.`;
+    window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, "_blank");
+};
+
+window.sendWhatsAppMeasurementsFromModal = function() {
+    const o = getActiveModalOrder();
+    if (!o) { alert("Order not found"); return; }
+    const phone = (o.customerPhone || "").replace(/\D/g, "");
+    if (!phone) { alert("No customer phone number found for this order."); return; }
+
+    const items = (o.items || []).map(i => i.title).join(", ") || "Bespoke Ensemble";
+    const msg = `Namaste ${o.customerName || "Valued Patron"} ji! 🙏✨\n\nThis is Satiinder Kaur from *SHAPES By Satiinder Kaur*.\n\nOur master karigars at our Chembur atelier are preparing the pure fabrics for your order (*#${o.ref}* - ${items}).\n\nTo ensure a flawless, tailored drape, could you please confirm your measurements?\n\n1️⃣ *Bust / Chest (inches):*\n2️⃣ *Natural Waist (inches):*\n3️⃣ *Hip (inches):*\n4️⃣ *Height:*\n5️⃣ *Trouser Length (inches):*\n\nAlternatively, you can book a complimentary video fitting with me: https://shapesbysatinderkaur.com/appointment.html\n\nThank you! 🙏`;
+    window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, "_blank");
+};
+
+window.sendWhatsAppConfirmedFromModal = function() {
+    const o = getActiveModalOrder();
+    if (!o) { alert("Order not found"); return; }
+    const phone = (o.customerPhone || "").replace(/\D/g, "");
+    if (!phone) { alert("No customer phone number found for this order."); return; }
+
+    const total = o.total ? "₹" + Number(o.total).toLocaleString("en-IN") : "Confirmed";
+    const msg = `Namaste ${o.customerName || "Valued Patron"} ji! 🙏\n\nWe are delighted to confirm your order (*#${o.ref}*) at *SHAPES By Satiinder Kaur* for ${total}.\n\n🧵 *Status:* Order Confirmed & Scheduled with Master Karigars\n📍 *Track Anytime:* https://shapesbysatinderkaur.com/track.html?ref=${o.ref}\n\nEvery piece is meticulously handcrafted in our Chembur atelier. We will update you as soon as your ensemble passes quality inspection!`;
+    window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, "_blank");
+};
+
+window.sendWhatsAppReviewFromModal = function() {
+    const o = getActiveModalOrder();
+    if (!o) { alert("Order not found"); return; }
+    const phone = (o.customerPhone || "").replace(/\D/g, "");
+    if (!phone) { alert("No customer phone number found for this order."); return; }
+
+    const msg = `Namaste ${o.customerName || "Valued Patron"} ji! 🌸\n\nWe hope you adore your new handcrafted SHAPES ensemble!\n\nIf you enjoyed our craftsmanship and hospitality, could you please take 30 seconds to share your kind review on our Google profile? It means the world to our small atelier team: ✨\n\n⭐ *Share Review:* https://maps.google.com/?q=Shapes+Boutique+Chembur+Mumbai\n\nThank you so much for being a cherished connoisseur of SHAPES! 🙏`;
+    window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, "_blank");
+};
