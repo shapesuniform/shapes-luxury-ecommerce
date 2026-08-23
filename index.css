@@ -2987,53 +2987,7 @@ ul, ol { list-style:none; }
    1C: Smart Cart · 1A: AI Concierge · 4A: Bespoke · 6C: Currency
 ════════════════════════════════════════════════════════════════════ */
 
-/* ── 6C: MULTI-CURRENCY SWITCHER ──────────────────────────────── */
-#currency-switcher-bar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    background: rgba(197, 160, 89, 0.06);
-    border-bottom: 1px solid rgba(197, 160, 89, 0.15);
-    padding: 0.5rem 1.5rem;
-    flex-wrap: wrap;
-}
-
-.currency-switcher-label {
-    font-size: 10px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: rgba(197, 160, 89, 0.7);
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.currency-pills-group {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-}
-
-.currency-pill {
-    background: transparent;
-    border: 1px solid rgba(197, 160, 89, 0.3);
-    color: rgba(250, 246, 238, 0.6);
-    font-family: var(--font-sans);
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    padding: 4px 12px;
-    border-radius: 100px;
-    cursor: pointer;
-    transition: all 0.25s ease;
-}
-
-.currency-pill:hover, .currency-pill.active {
-    background: var(--gold);
-    border-color: var(--gold);
-    color: #111;
-}
+/* 6C currency pill bar removed — existing navbar currency-select dropdown used instead */
 
 /* ── 1C: SMART SLIDE-OUT CART DRAWER ─────────────────────────── */
 #smart-cart-overlay {
