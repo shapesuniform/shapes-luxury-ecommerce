@@ -2916,3 +2916,66 @@ ul, ol { list-style:none; }
         border-radius: 50%;
     }
 }
+
+
+/* ── 4X ULTRA-HD FABRIC MAGNIFIER LENS ────────────────────────────── */
+.product-modal-image-container {
+    position: relative;
+    overflow: hidden;
+    cursor: crosshair;
+}
+
+.magnifier-lens {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 2px solid var(--gold);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 20px rgba(197,160,89,0.3);
+    background-repeat: no-repeat;
+    display: none;
+    pointer-events: none;
+    z-index: 50;
+}
+
+.magnifier-hint-badge {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    background: rgba(15, 15, 15, 0.85);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(197, 160, 89, 0.3);
+    color: var(--gold-light);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 3px;
+    pointer-events: none;
+    opacity: 0.85;
+    transition: opacity 0.3s;
+}
+
+.product-modal-image-container:hover .magnifier-hint-badge {
+    opacity: 0;
+}
+
+/* ── LUXURY PRODUCT CARD HOVER MOTION ─────────────────────────────── */
+.product-card {
+    transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94), border-color 0.35s ease !important;
+}
+
+.product-card:hover {
+    transform: translateY(-6px) scale(1.01) !important;
+    border-color: rgba(197, 160, 89, 0.4) !important;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.8), 0 0 25px rgba(197, 160, 89, 0.12) !important;
+}
+
+.product-card-img-wrapper img {
+    transition: transform 0.85s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.5s ease !important;
+}
+
+.product-card:hover .product-card-img-wrapper img {
+    transform: scale(1.06) !important;
+}

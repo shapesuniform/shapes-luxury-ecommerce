@@ -2160,3 +2160,44 @@ window.submitNewsletter = async function() {
 };
 
 
+
+
+/* ── 4X ULTRA-HD FABRIC MAGNIFIER LOUPE ────────────────────────────── */
+window.magnifyProductImage = function(e) {
+    const container = document.getElementById("modal-image-container");
+    const lens = document.getElementById("product-magnifier-lens");
+    const img = document.getElementById("modal-main-image");
+    if (!container || !lens || !img || !img.src) return;
+
+    // Only on desktop/hover devices
+    if (window.innerWidth < 768) return;
+
+    const rect = container.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    if (x < 0 || y < 0 || x > rect.width || y > rect.height) {
+        lens.style.display = "none";
+        return;
+    }
+
+    const lensWidth = 140;
+    const lensHeight = 140;
+
+    lens.style.display = "block";
+    lens.style.left = (x - lensWidth / 2) + "px";
+    lens.style.top = (y - lensHeight / 2) + "px";
+
+    // Calculate background position
+    const bgX = (x / rect.width) * 100;
+    const bgY = (y / rect.height) * 100;
+
+    lens.style.backgroundImage = "url('" + img.src + "')";
+    lens.style.backgroundSize = (rect.width * 3.2) + "px " + (rect.height * 3.2) + "px";
+    lens.style.backgroundPosition = bgX + "% " + bgY + "%";
+};
+
+window.hideMagnifierLens = function() {
+    const lens = document.getElementById("product-magnifier-lens");
+    if (lens) lens.style.display = "none";
+};

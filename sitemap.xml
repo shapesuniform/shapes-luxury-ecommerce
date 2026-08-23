@@ -60,6 +60,15 @@
         </image:image>
     </url>
 
+    
+    <!-- Editorial Runway Lookbook -->
+    <url>
+        <loc>https://shapesbysatinderkaur.com/lookbook.html</loc>
+        <lastmod>2026-08-23</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+
     <!-- Bespoke Appointment Booking Page -->
     <url>
         <loc>https://shapesbysatinderkaur.com/appointment.html</loc>
