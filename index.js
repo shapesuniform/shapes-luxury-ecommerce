@@ -2538,28 +2538,7 @@ window.saveBespokeMeasurements = function() {
     setTimeout(renderSoldBadges, 1500);
 
     // ── 4. Q3: Free Shipping Bar ──
-    window.updateHomepageShipBar = function() {
-        var FREE_THRESHOLD = 15000;
-        var cart = [];
-        try { cart = JSON.parse(localStorage.getItem("shapes_cart") || "[]"); } catch(e) {}
-        var total = cart.reduce(function(s, i) { return s + ((i.price || 0) * (i.quantity || 1)); }, 0);
-        var pct = Math.min(100, Math.round((total / FREE_THRESHOLD) * 100));
-        var fill = document.getElementById("hship-fill");
-        var label = document.getElementById("hship-label");
-        if (!fill || !label) return;
-        fill.style.width = pct + "%";
-        if (total === 0) {
-            label.innerHTML = 'Complimentary Express Delivery on orders above <strong>₹15,000</strong>';
-        } else if (total >= FREE_THRESHOLD) {
-            label.innerHTML = '<span style="color:#25D366"><i class="fa-solid fa-circle-check"></i> Complimentary Express Delivery Unlocked!</span>';
-            fill.style.background = "#25D366";
-        } else {
-            var remaining = (FREE_THRESHOLD - total).toLocaleString("en-IN");
-            label.innerHTML = 'Add <strong style="color:var(--gold)">₹' + remaining + '</strong> for Free Express Delivery';
-        }
-    };
-    window.addEventListener("load", window.updateHomepageShipBar);
-    window.addEventListener("shapesCartUpdated", window.updateHomepageShipBar);
+    
 
     // ── 5. Q4: Size Recommendation Engine ──
     window.toggleSizeRec = function() {
