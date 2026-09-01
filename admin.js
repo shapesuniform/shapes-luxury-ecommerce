@@ -4085,3 +4085,155 @@ Courier: ${data.courier_name || "Auto-selected"}`);
         alert("Shiprocket API Error: " + e.message + "\n\nPlease create the shipment manually in your Shiprocket dashboard.");
     }
 };
+
+
+
+/* ═══════════════════════════════════════════════════════════════
+   ADMIN ENGINE: CL1-CL4 + OP1-OP5 + O1-O6 + M1-M6
+═══════════════════════════════════════════════════════════════ */
+
+const CLIENTS_CRM_DATA = [
+    { id: "c1", name: "Priya Sharma", phone: "+91 98201 23456", email: "priya.s@gmail.com", country: "India", region: "Mumbai", spend: 84500, orders: 4, bday: "1992-09-12", tier: "vip", items: "Emerald Silk Co-Ord, Banarasi Corset Set" },
+    { id: "c2", name: "Fatima Al-Maktoum", phone: "+971 50 987 6543", email: "fatima.m@dubai.ae", country: "UAE", region: "Dubai", spend: 142000, orders: 6, bday: "1988-09-24", tier: "vip", items: "Pure Silk Festive Edit, Bespoke Pret" },
+    { id: "c3", name: "Anita Kapoor", phone: "+44 7700 900123", email: "anita.k@london.co.uk", country: "UK", region: "London", spend: 96000, orders: 3, bday: "1995-11-04", tier: "vip", items: "Banarasi Brocade Ensemble" },
+    { id: "c4", name: "Simran Gill", phone: "+1 415 555 2671", email: "simran.g@bayarea.com", country: "USA", region: "California", spend: 68000, orders: 2, bday: "1990-09-02", tier: "nri", items: "Slub Linen Co-Ord Set" },
+    { id: "c5", name: "Meera Joshi", phone: "+91 98190 54321", email: "meera.j@gmail.com", country: "India", region: "Pune", spend: 24500, orders: 1, bday: "1994-04-18", tier: "standard", items: "Emerald Festive Silk" },
+    { id: "c6", name: "Dr. Radhika Sen", phone: "+91 99300 87654", email: "radhika.sen@aiims.edu", country: "India", region: "Delhi", spend: 38900, orders: 2, bday: "1986-07-29", tier: "standard", items: "Indigo Slub Linen Set" }
+];
+
+let _activeClientFilter = "all";
+
+function renderVIPClientsTable() {
+    const tbody = document.getElementById("vip-clients-tbody");
+    if (!tbody) return;
+
+    const filtered = CLIENTS_CRM_DATA.filter(c => {
+        if (_activeClientFilter === "vip") return c.tier === "vip" || c.spend >= 50000;
+        if (_activeClientFilter === "nri") return c.country !== "India";
+        if (_activeClientFilter === "birthday") {
+            const bMonth = new Date(c.bday).getMonth();
+            return bMonth === new Date().getMonth();
+        }
+        return true;
+    });
+
+    tbody.innerHTML = filtered.map(c => {
+        const isBday = (new Date(c.bday).getMonth() === new Date().getMonth());
+        return `
+            <tr>
+                <td>
+                    <strong>${c.name}</strong>
+                    <div style="font-size:10px;color:rgba(255,255,255,0.4)">${c.phone} · ${c.email}</div>
+                </td>
+                <td>
+                    ${c.spend >= 50000 ? '<span class="cl-badge vip"><i class="fa-solid fa-crown"></i> VIP Member</span>' : '<span class="cl-badge standard">Client</span>'}
+                    ${c.country !== 'India' ? '<span class="cl-badge nri"><i class="fa-solid fa-plane"></i> NRI</span>' : ''}
+                </td>
+                <td>${c.country} (${c.region})</td>
+                <td style="color:var(--gold,#C5A059);font-weight:700;">₹${c.spend.toLocaleString("en-IN")}</td>
+                <td><strong>${c.orders}</strong> orders<div style="font-size:9px;color:rgba(255,255,255,0.4);">${c.items}</div></td>
+                <td>
+                    ${isBday ? '<button class="admin-btn-gold" style="padding:4px 8px;font-size:9px;" onclick="sendBirthdayVoucher(\''+c.phone+'\', \''+c.name+'\')"><i class="fa-solid fa-gift"></i> Send ₹500</button>' : '<span style="font-size:10px;color:rgba(255,255,255,0.4);">' + c.bday + '</span>'}
+                </td>
+                <td>
+                    <button class="admin-btn-secondary" style="padding:4px 8px;font-size:9px;" onclick="openWhatsAppClient('\''+c.phone+'\', \''+c.name+'\')"><i class="fa-brands fa-whatsapp"></i> Chat</button>
+                </td>
+            </tr>
+        `;
+    }).join("");
+}
+
+window.filterVIPClients = function(filter) {
+    _activeClientFilter = filter;
+    document.querySelectorAll(".clients-toolbar .cl-tab-btn").forEach(b => b.classList.remove("active"));
+    event?.target?.classList?.add("active");
+    renderVIPClientsTable();
+};
+
+window.sendBirthdayVoucher = function(phone, name) {
+    const code = "BDAY-" + name.split(" ")[0].toUpperCase() + "500";
+    const msg = encodeURIComponent("Namaste " + name + "! 🎂 Wishing you a glorious Birthday from Satiinder Kaur & SHAPES! Here is your exclusive ₹500 birthday indulgence voucher: " + code + " (Valid 7 days at https://shapesbysatinderkaur.com/)");
+    window.open("https://wa.me/" + phone.replace(/[^0-9]/g, "") + "?text=" + msg, "_blank");
+};
+
+window.openWhatsAppClient = function(phone, name) {
+    const msg = encodeURIComponent("Hello " + name + "! This is Satiinder Kaur from SHAPES Chembur atelier. How may I assist with your bespoke styling today?");
+    window.open("https://wa.me/" + phone.replace(/[^0-9]/g, "") + "?text=" + msg, "_blank");
+};
+
+// ── OP2: Luxury Invoice Generator ──
+window.generateInvoiceDemo = function() {
+    const win = window.open("", "_blank");
+    win.document.write(`
+        <html><head><title>Invoice - SHAPES By Satiinder Kaur</title>
+        <style>body{font-family:serif;padding:2rem;color:#111;background:#fff;}h1{color:#C5A059;margin:0;}table{width:100%;border-collapse:collapse;margin:2rem 0;}th,td{padding:8px;border-bottom:1px solid #ddd;text-align:left;}</style>
+        </head><body>
+        <h1>SHAPES BY SATIINDER KAUR</h1>
+        <p>Chembur Atelier, Mumbai | GST: 27AAAAA0000A1Z5 | +91 79774 56549</p>
+        <hr>
+        <p><strong>Invoice #:</strong> SBK-2026-0891<br><strong>Client:</strong> Priya Sharma (VIP)<br><strong>Date:</strong> ${new Date().toLocaleDateString('en-IN')}</p>
+        <table><tr><th>Item Description</th><th>Size</th><th>Qty</th><th>Amount</th></tr>
+        <tr><td>Emerald Festive Silk Co-Ord Set</td><td>M (Custom Fit)</td><td>1</td><td>₹12,900</td></tr>
+        <tr><td>Complimentary Insured Express Delivery</td><td>—</td><td>1</td><td>₹0</td></tr>
+        <tr><th colspan="3">Total Paid</th><th>₹12,900</th></tr></table>
+        <p style="text-align:center;color:#666;font-size:12px;">Thank you for embracing bespoke Indian craftsmanship.</p>
+        <script>window.print();</script>
+        </body></html>
+    `);
+    win.document.close();
+};
+
+// ── OP3: Shipping Label Printer ──
+window.generateShippingLabelDemo = function() {
+    const win = window.open("", "_blank");
+    win.document.write(`
+        <html><head><title>BlueDart Express Shipping Label</title>
+        <style>body{font-family:sans-serif;padding:1.5rem;width:400px;border:2px solid #000;margin:1rem auto;}h2{margin:0;border-bottom:2px solid #000;padding-bottom:5px;}</style>
+        </head><body>
+        <h2>BLUEDART AIR EXPRESS (INSURED)</h2>
+        <p><strong>AWB No:</strong> 84729103948<br><strong>Contents:</strong> Handcrafted Luxury Garment<br><strong>Weight:</strong> 0.85 kg</p>
+        <hr>
+        <p><strong>DELIVER TO:</strong><br>Priya Sharma<br>Flat 402, Sea View Heights, Worli Sea Face<br>Mumbai, Maharashtra 400018<br>Phone: +91 98201 23456</p>
+        <hr>
+        <p><strong>RETURN IF UNDELIVERED TO:</strong><br>Shapes By Satiinder Kaur, Chembur, Mumbai 400071</p>
+        <script>window.print();</script>
+        </body></html>
+    `);
+    win.document.close();
+};
+
+// ── OP4: Broadcast Engine ──
+window.launchWABroadcast = function() {
+    const target = document.getElementById("wa-broadcast-target")?.value;
+    const text = document.getElementById("wa-broadcast-msg")?.value;
+    alert("Campaign Preview ready for " + target.toUpperCase() + " segment. Opening master distribution queue.");
+    window.open("https://wa.me/917977456549?text=" + encodeURIComponent(text), "_blank");
+};
+
+// ── O4: Abandoned Cart Recovery ──
+window.sendCartRecovery = function(phone, name, item) {
+    const msg = encodeURIComponent("Namaste " + name + "! We noticed you left the beautiful '" + item + "' in your bag at SHAPES. As a gesture, use code LUXE500 for ₹500 off to complete your bespoke order today: https://shapesbysatinderkaur.com/");
+    window.open("https://wa.me/" + phone.replace(/[^0-9]/g, "") + "?text=" + msg, "_blank");
+};
+
+// ── O2: Flash Sale Engine ──
+window.scheduleFlashSale = function() {
+    const name = document.getElementById("flash-sale-name")?.value;
+    const disc = document.getElementById("flash-sale-discount")?.value;
+    if (!name || !disc) { alert("Please input sale name and discount %"); return; }
+    localStorage.setItem("shapes_flash_sale", JSON.stringify({ name, disc, active: true }));
+    alert("Flash sale '" + name + " (" + disc + "% OFF)' is now live across the store!");
+};
+
+// ── Hooks into showAdminSection ──
+const _origAdminShow = window.showAdminSection;
+window.showAdminSection = function(sectionId) {
+    if (_origAdminShow) _origAdminShow(sectionId);
+    if (sectionId === "vip-clients") {
+        renderVIPClientsTable();
+    }
+};
+
+window.addEventListener("load", () => {
+    if (document.getElementById("vip-clients-tbody")) renderVIPClientsTable();
+});

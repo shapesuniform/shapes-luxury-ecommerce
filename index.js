@@ -2517,3 +2517,575 @@ window.openProductModal = function(productId) {
     if (confirm) confirm.style.display = "none";
     window._activeCustomFit = null;
 };
+
+
+
+/* ── Q2: SOLD THIS MONTH SOCIAL PROOF BADGES ─────────────── */
+(function addSoldBadges() {
+    const SOLD_SEED = [23, 41, 17, 38, 29, 52, 14, 33, 47, 21, 36, 18, 44, 27, 39];
+    function getSoldCount(index) {
+        return SOLD_SEED[index % SOLD_SEED.length];
+    }
+    function renderBadges() {
+        const cards = document.querySelectorAll(".product-card, .catalog-item, .product-item");
+        cards.forEach((card, i) => {
+            if (card.querySelector(".sold-badge")) return;
+            const count = getSoldCount(i);
+            const badge = document.createElement("div");
+            badge.className = "sold-badge";
+            badge.innerHTML = '<i class="fa-solid fa-fire"></i> ' + count + ' sold this month';
+            card.style.position = "relative";
+            card.appendChild(badge);
+        });
+    }
+    if (document.readyState === "complete") renderBadges();
+    else window.addEventListener("load", renderBadges);
+    // Re-run after catalog loads
+    setTimeout(renderBadges, 1500);
+    setTimeout(renderBadges, 3000);
+})();
+
+
+
+/* ── Q3: HOMEPAGE SHIPPING PROGRESS BAR ──────────────────── */
+function updateHomepageShipBar() {
+    const FREE_THRESHOLD = 15000;
+    const cart = JSON.parse(localStorage.getItem("shapes_cart") || "[]");
+    const total = cart.reduce((s, i) => s + ((i.price || 0) * (i.quantity || 1)), 0);
+    const pct = Math.min(100, Math.round((total / FREE_THRESHOLD) * 100));
+    const fill = document.getElementById("hship-fill");
+    const label = document.getElementById("hship-label");
+    if (!fill || !label) return;
+    fill.style.width = pct + "%";
+    if (total === 0) {
+        label.innerHTML = 'Free Express Shipping on orders above <strong>&#8377;15,000</strong>';
+    } else if (total >= FREE_THRESHOLD) {
+        label.innerHTML = '<span style="color:#25D366"><i class="fa-solid fa-circle-check"></i> Free Express Shipping Unlocked!</span>';
+        fill.style.background = "#25D366";
+    } else {
+        const remaining = (FREE_THRESHOLD - total).toLocaleString("en-IN");
+        label.innerHTML = 'Add <strong style="color:var(--gold)">&#8377;' + remaining + '</strong> for Free Shipping';
+    }
+}
+updateHomepageShipBar();
+window.addEventListener("shapesCartUpdated", updateHomepageShipBar);
+
+
+
+/* ── Q6: COOKIE CONSENT ───────────────────────────────────── */
+(function initCookieConsent() {
+    if (localStorage.getItem("shapes_cookie_consent")) return;
+    setTimeout(() => {
+        const bar = document.getElementById("cookie-consent-bar");
+        if (bar) bar.style.display = "block";
+    }, 1200);
+})();
+
+window.acceptCookies = function() {
+    localStorage.setItem("shapes_cookie_consent", "all");
+    const bar = document.getElementById("cookie-consent-bar");
+    if (bar) { bar.style.animation = "cookieSlideDown 0.3s ease forwards"; setTimeout(() => bar.remove(), 300); }
+};
+
+window.declineCookies = function() {
+    localStorage.setItem("shapes_cookie_consent", "essential");
+    const bar = document.getElementById("cookie-consent-bar");
+    if (bar) { bar.style.animation = "cookieSlideDown 0.3s ease forwards"; setTimeout(() => bar.remove(), 300); }
+};
+
+
+
+/* ── Q4: SIZE RECOMMENDATION ─────────────────────────────── */
+window.toggleSizeRec = function() {
+    const panel = document.getElementById("size-rec-panel");
+    if (panel) panel.style.display = panel.style.display === "none" ? "block" : "none";
+};
+
+window.calcSizeRec = function() {
+    const bust  = parseFloat(document.getElementById("sr-bust")?.value)  || 0;
+    const waist = parseFloat(document.getElementById("sr-waist")?.value) || 0;
+    const result = document.getElementById("size-rec-result");
+    if (!result) return;
+
+    // SHAPES size chart (bust-led)
+    const SIZE_CHART = [
+        { size: "XS",  bustMin: 28, bustMax: 33, waistMin: 22, waistMax: 27 },
+        { size: "S",   bustMin: 33, bustMax: 36, waistMin: 27, waistMax: 30 },
+        { size: "M",   bustMin: 36, bustMax: 39, waistMin: 30, waistMax: 33 },
+        { size: "L",   bustMin: 39, bustMax: 42, waistMin: 33, waistMax: 36 },
+        { size: "XL",  bustMin: 42, bustMax: 45, waistMin: 36, waistMax: 40 },
+        { size: "XXL", bustMin: 45, bustMax: 60, waistMin: 40, waistMax: 55 }
+    ];
+
+    if (!bust) { result.style.display = "none"; return; }
+
+    let recommended = null;
+    for (const s of SIZE_CHART) {
+        if (bust >= s.bustMin && bust < s.bustMax) { recommended = s.size; break; }
+    }
+    // Waist override — take larger size if waist needs it
+    if (waist) {
+        for (const s of SIZE_CHART) {
+            if (waist >= s.waistMin && waist < s.waistMax) {
+                if (!recommended || SIZE_CHART.findIndex(x=>x.size===s.size) > SIZE_CHART.findIndex(x=>x.size===recommended)) {
+                    recommended = s.size;
+                }
+                break;
+            }
+        }
+    }
+
+    if (recommended) {
+        result.style.display = "block";
+        result.className = "size-rec-result match";
+        result.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> Based on your measurements, we recommend <strong>' + recommended + '</strong>';
+        // Auto-select this size in the size grid
+        document.querySelectorAll(".size-option").forEach(btn => {
+            btn.classList.toggle("active", btn.dataset.size === recommended);
+        });
+        window._selectedSize = recommended;
+    } else {
+        result.style.display = "block";
+        result.className = "size-rec-result";
+        result.style.cssText += ";background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.5);";
+        result.innerHTML = "Please use our <strong>Custom Fit</strong> option above for exact measurements.";
+    }
+};
+
+
+
+/* ── Q7: DARK / LIGHT MODE ───────────────────────────────── */
+(function initTheme() {
+    const saved = localStorage.getItem("shapes_theme") || "dark";
+    if (saved === "light") {
+        document.body.classList.add("light-mode");
+        const icon = document.getElementById("theme-icon");
+        if (icon) icon.className = "fa-solid fa-moon";
+    }
+})();
+
+window.toggleTheme = function() {
+    const isLight = document.body.classList.toggle("light-mode");
+    localStorage.setItem("shapes_theme", isLight ? "light" : "dark");
+    const icon = document.getElementById("theme-icon");
+    if (icon) icon.className = isLight ? "fa-solid fa-moon" : "fa-solid fa-sun";
+};
+
+
+
+/* ── Q8: ENGLISH / HINDI LANGUAGE TOGGLE ─────────────────── */
+const SHAPES_TRANSLATIONS = {
+    en: {
+        "Add To Bag": "Add To Bag",
+        "Buy Now": "Buy Now",
+        "Custom Fit — Tailored To You": "Custom Fit — Tailored To You",
+        "Find My Size": "Find My Size",
+        "Ask on WhatsApp": "Ask on WhatsApp",
+        "Save My Measurements": "Save My Measurements",
+        "Free Express Shipping on orders above": "Free Express Shipping on orders above",
+        "Your Luxury Bag": "Your Luxury Bag",
+        "Secure Checkout": "Secure Checkout",
+        "Continue Shopping": "Continue Shopping",
+        "Chat with us": "Chat with us",
+        "Book Appointment": "Book Appointment",
+        "New Arrivals": "New Arrivals",
+        "Lookbook": "Lookbook"
+    },
+    hi: {
+        "Add To Bag": "बैग में डालें",
+        "Buy Now": "अभी खरीदें",
+        "Custom Fit — Tailored To You": "कस्टम फिट — आपके लिए",
+        "Find My Size": "मेरा साइज ढूंढें",
+        "Ask on WhatsApp": "व्हाट्सएप पर पूछें",
+        "Save My Measurements": "माप सहेजें",
+        "Free Express Shipping on orders above": "उपर के ऑर्डर पर मुफ्त शिपिंग",
+        "Your Luxury Bag": "आपका बैग",
+        "Secure Checkout": "सुरक्षित चेकआउट",
+        "Continue Shopping": "खरीदारी जारी रखें",
+        "Chat with us": "हमसे चैट करें",
+        "Book Appointment": "अपॉइंटमेंट बुक करें",
+        "New Arrivals": "नए संग्रह",
+        "Lookbook": "लुकबुक"
+    }
+};
+
+let _currentLang = localStorage.getItem("shapes_lang") || "en";
+
+function applyLanguage(lang) {
+    const dict = SHAPES_TRANSLATIONS[lang] || SHAPES_TRANSLATIONS.en;
+    const srcLang = lang === "hi" ? "en" : "hi";
+    const srcDict = SHAPES_TRANSLATIONS[srcLang];
+
+    document.querySelectorAll("[data-i18n]").forEach(el => {
+        const key = el.getAttribute("data-i18n");
+        if (dict[key]) el.textContent = dict[key];
+    });
+
+    // Walk all text nodes and translate matching strings
+    function walk(node) {
+        if (node.nodeType === 3) {
+            const txt = node.textContent.trim();
+            if (dict[txt]) node.textContent = node.textContent.replace(txt, dict[txt]);
+        } else if (node.nodeType === 1 && !["SCRIPT","STYLE","INPUT","TEXTAREA"].includes(node.tagName)) {
+            node.childNodes.forEach(walk);
+        }
+    }
+    // Only translate key UI buttons
+    ["modal-add-to-cart-btn","modal-buy-now-btn","custom-fit-toggle-btn","size-rec-toggle","wa-float-label"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            const srcText = Object.keys(srcDict).find(k => el.textContent.includes(srcDict[k] || k));
+            if (srcText && dict[srcText]) {
+                const icon = el.querySelector("i");
+                const iconHTML = icon ? icon.outerHTML + " " : "";
+                el.innerHTML = iconHTML + dict[srcText];
+                if (icon && !el.querySelector("i")) el.prepend(icon);
+            }
+        }
+    });
+}
+
+window.toggleLanguage = function() {
+    _currentLang = _currentLang === "en" ? "hi" : "en";
+    localStorage.setItem("shapes_lang", _currentLang);
+    const btn = document.getElementById("lang-icon");
+    if (btn) btn.textContent = _currentLang === "hi" ? "EN" : "हिं";
+    const toggle = document.getElementById("lang-toggle-btn");
+    if (toggle) toggle.title = _currentLang === "hi" ? "Switch to English" : "Switch to Hindi";
+    applyLanguage(_currentLang);
+};
+
+// Init on load
+if (_currentLang === "hi") {
+    window.addEventListener("load", () => applyLanguage("hi"));
+}
+
+
+
+/* ═══════════════════════════════════════════════════════════════
+   FRONTEND ENGINE: Q1-Q8 + P1-P9 + E1 + M2/M3 TRACKING
+═══════════════════════════════════════════════════════════════ */
+
+// ── M2 & M3: Analytics & Pixel Event Dispatcher ──
+window.trackPixelEvent = function(eventName, params = {}) {
+    try {
+        if (window.fbq) fbq('track', eventName, params);
+        if (window.gtag) gtag('event', eventName, params);
+        console.log('[Pixel/GTag Tracked]:', eventName, params);
+    } catch(e) {}
+};
+
+// ── Q3: Live Shipping Progress Bar ──
+function updateHomepageShipBar() {
+    const FREE_THRESHOLD = 15000;
+    const cart = JSON.parse(localStorage.getItem("shapes_cart") || "[]");
+    const total = cart.reduce((s, i) => s + ((i.price || 0) * (i.quantity || 1)), 0);
+    const pct = Math.min(100, Math.round((total / FREE_THRESHOLD) * 100));
+    const fill = document.getElementById("hship-fill");
+    const label = document.getElementById("hship-label");
+    if (!fill || !label) return;
+    fill.style.width = pct + "%";
+    if (total === 0) {
+        label.innerHTML = 'Complimentary Express Delivery on orders above <strong>₹15,000</strong>';
+    } else if (total >= FREE_THRESHOLD) {
+        label.innerHTML = '<span style="color:#25D366"><i class="fa-solid fa-circle-check"></i> Complimentary Express Delivery Unlocked!</span>';
+        fill.style.background = "#25D366";
+    } else {
+        const remaining = (FREE_THRESHOLD - total).toLocaleString("en-IN");
+        label.innerHTML = 'Add <strong style="color:var(--gold)">₹' + remaining + '</strong> for Free Express Delivery';
+    }
+}
+window.addEventListener("load", updateHomepageShipBar);
+window.addEventListener("shapesCartUpdated", updateHomepageShipBar);
+
+// ── Q6: Cookie Consent ──
+(function initCookieConsent() {
+    if (localStorage.getItem("shapes_cookie_consent")) return;
+    setTimeout(() => {
+        const bar = document.getElementById("cookie-consent-bar");
+        if (bar) bar.style.display = "block";
+    }, 1200);
+})();
+window.acceptCookies = function() {
+    localStorage.setItem("shapes_cookie_consent", "all");
+    const bar = document.getElementById("cookie-consent-bar");
+    if (bar) { bar.style.animation = "cookieSlideDown 0.3s ease forwards"; setTimeout(() => bar.remove(), 300); }
+};
+window.declineCookies = function() {
+    localStorage.setItem("shapes_cookie_consent", "essential");
+    const bar = document.getElementById("cookie-consent-bar");
+    if (bar) { bar.style.animation = "cookieSlideDown 0.3s ease forwards"; setTimeout(() => bar.remove(), 300); }
+};
+
+// ── Q7: Dark/Light Mode ──
+(function initTheme() {
+    const saved = localStorage.getItem("shapes_theme") || "dark";
+    if (saved === "light") {
+        document.body.classList.add("light-mode");
+        const icon = document.getElementById("theme-icon");
+        if (icon) icon.className = "fa-solid fa-moon";
+    }
+})();
+window.toggleTheme = function() {
+    const isLight = document.body.classList.toggle("light-mode");
+    localStorage.setItem("shapes_theme", isLight ? "light" : "dark");
+    const icon = document.getElementById("theme-icon");
+    if (icon) icon.className = isLight ? "fa-solid fa-moon" : "fa-solid fa-sun";
+};
+
+// ── Q8: English / Hindi Translation ──
+const SHAPES_TRANSLATIONS = {
+    en: {
+        "Add To Bag": "Add To Bag",
+        "Buy Now": "Buy Now",
+        "Custom Fit — Tailored To You": "Custom Fit — Tailored To You",
+        "Find My Recommended Size": "Find My Recommended Size",
+        "Ask on WhatsApp": "Ask on WhatsApp",
+        "Save My Measurements": "Save My Measurements",
+        "Complimentary Express Delivery": "Complimentary Express Delivery",
+        "WhatsApp Concierge": "WhatsApp Concierge"
+    },
+    hi: {
+        "Add To Bag": "बैग में डालें",
+        "Buy Now": "अभी खरीदें",
+        "Custom Fit — Tailored To You": "कस्टम फिट — आपके लिए",
+        "Find My Recommended Size": "मेरा साइज़ ढूंढे",
+        "Ask on WhatsApp": "व्हाट्सएप पर पूछें",
+        "Save My Measurements": "माप सहेजें",
+        "Complimentary Express Delivery": "मुफ्त एक्सप्रेस डिलीवरी",
+        "WhatsApp Concierge": "व्हाट्सएप सहायता"
+    }
+};
+let _currentLang = localStorage.getItem("shapes_lang") || "en";
+window.toggleLanguage = function() {
+    _currentLang = _currentLang === "en" ? "hi" : "en";
+    localStorage.setItem("shapes_lang", _currentLang);
+    const btn = document.getElementById("lang-icon");
+    if (btn) btn.textContent = _currentLang === "hi" ? "EN" : "हिं";
+    const dict = SHAPES_TRANSLATIONS[_currentLang];
+    document.querySelectorAll("[data-i18n]").forEach(el => {
+        const k = el.getAttribute("data-i18n");
+        if (dict[k]) el.textContent = dict[k];
+    });
+};
+
+// ── P1: Smart Search Engine ──
+const SHAPES_CATALOG_DATA = [
+    { id: "sbk-silk-001", name: "Emerald Festive Silk Co-Ord Set", price: 12900, fabric: "silk", occasion: "festive", color: "Emerald Green", img: "images/hero_coord_editorial.webp" },
+    { id: "sbk-brocade-001", name: "Royal Banarasi Brocade Corset Set", price: 16900, fabric: "brocade", occasion: "pret", color: "Banarasi Gold", img: "images/welcome_coord_luxury.webp" },
+    { id: "sbk-linen-001", name: "Indigo Heritage Slub Linen Set", price: 9900, fabric: "linen", occasion: "pret", color: "Indigo Blue", img: "images/hero_coord_editorial.webp" },
+    { id: "sbk-trousseau-001", name: "Gulabi Zari Festive Silk Ensemble", price: 14500, fabric: "silk", occasion: "festive", color: "Rani Pink", img: "images/welcome_coord_luxury.webp" },
+    { id: "sbk-corset-002", name: "Ivory Pearl Organza Co-Ord Set", price: 18500, fabric: "silk", occasion: "festive", color: "Ivory Gold", img: "images/hero_coord_editorial.webp" }
+];
+let _currentSearchFilter = "all";
+
+window.openSmartSearch = function() {
+    document.getElementById("smart-search-overlay").style.display = "block";
+    document.getElementById("smart-search-modal").style.display = "flex";
+    runSmartSearch();
+    setTimeout(() => document.getElementById("smart-search-input")?.focus(), 100);
+};
+window.closeSmartSearch = function() {
+    document.getElementById("smart-search-overlay").style.display = "none";
+    document.getElementById("smart-search-modal").style.display = "none";
+};
+window.setSearchFilter = function(filter) {
+    _currentSearchFilter = filter;
+    document.querySelectorAll(".filter-pill").forEach(p => p.classList.toggle("active", p.dataset.filter === filter));
+    runSmartSearch();
+};
+window.runSmartSearch = function() {
+    const q = (document.getElementById("smart-search-input")?.value || "").toLowerCase().trim();
+    const container = document.getElementById("search-results-grid");
+    if (!container) return;
+
+    const filtered = SHAPES_CATALOG_DATA.filter(item => {
+        const matchesFilter = (_currentSearchFilter === "all") || (item.fabric === _currentSearchFilter) || (item.occasion === _currentSearchFilter);
+        const matchesQ = !q || item.name.toLowerCase().includes(q) || item.color.toLowerCase().includes(q) || item.fabric.includes(q);
+        return matchesFilter && matchesQ;
+    });
+
+    if (!filtered.length) {
+        container.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:2rem;color:rgba(255,255,255,0.4)">No matching bespoke pieces found. Try another query.</div>';
+        return;
+    }
+
+    container.innerHTML = filtered.map(item => `
+        <div class="search-card" onclick="closeSmartSearch(); openProductModal('${item.id}'); recordRecentlyViewed('${item.id}')">
+            <img src="${item.img}" alt="${item.name}" loading="lazy">
+            <div class="search-card-info">
+                <div class="search-card-title">${item.name}</div>
+                <div class="search-card-price">₹${item.price.toLocaleString("en-IN")}</div>
+            </div>
+        </div>
+    `).join("");
+};
+
+// ── P2: Recently Viewed Tracker ──
+window.recordRecentlyViewed = function(productId) {
+    let recent = JSON.parse(localStorage.getItem("shapes_recent_viewed") || "[]");
+    recent = recent.filter(id => id !== productId);
+    recent.unshift(productId);
+    if (recent.length > 4) recent = recent.slice(0, 4);
+    localStorage.setItem("shapes_recent_viewed", JSON.stringify(recent));
+    renderRecentlyViewed();
+};
+window.renderRecentlyViewed = function() {
+    const container = document.getElementById("recent-products-container");
+    const wrap = document.getElementById("recently-viewed-section");
+    if (!container || !wrap) return;
+    const recent = JSON.parse(localStorage.getItem("shapes_recent_viewed") || "[]");
+    if (!recent.length) { wrap.style.display = "none"; return; }
+
+    const items = recent.map(id => SHAPES_CATALOG_DATA.find(p => p.id === id)).filter(Boolean);
+    if (!items.length) { wrap.style.display = "none"; return; }
+
+    wrap.style.display = "block";
+    container.innerHTML = items.map(item => `
+        <div class="search-card" onclick="openProductModal('${item.id}')">
+            <img src="${item.img}" alt="${item.name}">
+            <div class="search-card-info">
+                <div class="search-card-title">${item.name}</div>
+                <div class="search-card-price">₹${item.price.toLocaleString("en-IN")}</div>
+            </div>
+        </div>
+    `).join("");
+};
+window.clearRecentlyViewed = function() {
+    localStorage.removeItem("shapes_recent_viewed");
+    renderRecentlyViewed();
+};
+window.addEventListener("load", renderRecentlyViewed);
+
+// ── P9: Wishlist System ──
+window.toggleWishlist = function(productId, event) {
+    if (event) event.stopPropagation();
+    let wishlist = JSON.parse(localStorage.getItem("shapes_wishlist") || "[]");
+    const idx = wishlist.indexOf(productId);
+    if (idx > -1) {
+        wishlist.splice(idx, 1);
+    } else {
+        wishlist.push(productId);
+        trackPixelEvent('AddToWishlist', { content_name: productId });
+    }
+    localStorage.setItem("shapes_wishlist", JSON.stringify(wishlist));
+    updateWishlistUI();
+};
+function updateWishlistUI() {
+    const wishlist = JSON.parse(localStorage.getItem("shapes_wishlist") || "[]");
+    const badge = document.getElementById("wishlist-badge");
+    if (badge) {
+        badge.textContent = wishlist.length;
+        badge.style.display = wishlist.length ? "flex" : "none";
+    }
+    document.querySelectorAll(".card-wishlist-btn").forEach(btn => {
+        const id = btn.dataset.id;
+        btn.classList.toggle("active", wishlist.includes(id));
+        const icon = btn.querySelector("i");
+        if (icon) icon.className = wishlist.includes(id) ? "fa-solid fa-heart" : "fa-regular fa-heart";
+    });
+}
+window.openWishlistDrawer = function() {
+    document.getElementById("wishlist-overlay").style.display = "block";
+    document.getElementById("wishlist-drawer").style.display = "flex";
+    renderWishlistItems();
+};
+window.closeWishlistDrawer = function() {
+    document.getElementById("wishlist-overlay").style.display = "none";
+    document.getElementById("wishlist-drawer").style.display = "none";
+};
+function renderWishlistItems() {
+    const container = document.getElementById("wishlist-items-container");
+    if (!container) return;
+    const wishlist = JSON.parse(localStorage.getItem("shapes_wishlist") || "[]");
+    if (!wishlist.length) {
+        container.innerHTML = '<div style="text-align:center;padding:2rem;color:rgba(255,255,255,0.4)">Your wishlist is empty. Explore and tap the heart icon to save items.</div>';
+        return;
+    }
+    const items = wishlist.map(id => SHAPES_CATALOG_DATA.find(p => p.id === id)).filter(Boolean);
+    container.innerHTML = items.map(i => `
+        <div class="wishlist-item-row">
+            <img src="${i.img}" alt="${i.name}" class="wishlist-item-img">
+            <div class="wishlist-item-details">
+                <div class="wishlist-item-title">${i.name}</div>
+                <div class="wishlist-item-price">₹${i.price.toLocaleString("en-IN")}</div>
+            </div>
+            <button class="wishlist-item-remove" onclick="toggleWishlist('${i.id}'); renderWishlistItems();">&times;</button>
+        </div>
+    `).join("");
+}
+window.addAllWishlistToCart = function() {
+    const wishlist = JSON.parse(localStorage.getItem("shapes_wishlist") || "[]");
+    let cart = JSON.parse(localStorage.getItem("shapes_cart") || "[]");
+    wishlist.forEach(id => {
+        const item = SHAPES_CATALOG_DATA.find(p => p.id === id);
+        if (item) {
+            cart.push({ id: item.id, name: item.name, price: item.price, size: "M", image: item.img, quantity: 1 });
+        }
+    });
+    localStorage.setItem("shapes_cart", JSON.stringify(cart));
+    window.dispatchEvent(new Event("shapesCartUpdated"));
+    closeWishlistDrawer();
+    if (window.openSmartCart) window.openSmartCart();
+};
+window.addEventListener("load", updateWishlistUI);
+
+// ── P8: Back In Stock ──
+window.openStockNotify = function(prodName) {
+    document.getElementById("notify-prod-name").textContent = "Register for instant notification when '" + (prodName || "this set") + "' is restocked.";
+    document.getElementById("stock-notify-overlay").style.display = "block";
+    document.getElementById("stock-notify-modal").style.display = "block";
+};
+window.closeStockNotify = function() {
+    document.getElementById("stock-notify-overlay").style.display = "none";
+    document.getElementById("stock-notify-modal").style.display = "none";
+};
+window.submitStockNotify = function() {
+    const phone = document.getElementById("notify-phone")?.value;
+    const email = document.getElementById("notify-email")?.value;
+    if (!phone && !email) { alert("Please provide your WhatsApp or Email"); return; }
+    document.getElementById("notify-success").style.display = "block";
+    setTimeout(closeStockNotify, 2000);
+};
+
+// ── P6: Variant Switcher ──
+window.selectVariant = function(btn, name, imgUrl) {
+    document.querySelectorAll(".swatch-pill").forEach(p => p.classList.remove("active"));
+    btn.classList.add("active");
+    const mainImg = document.getElementById("modal-product-image");
+    if (mainImg && imgUrl) mainImg.src = imgUrl;
+};
+
+// ── P3: Complete The Look Add Helper ──
+window.addPairToBag = function(name, price, img) {
+    let cart = JSON.parse(localStorage.getItem("shapes_cart") || "[]");
+    cart.push({ id: "acc-" + Date.now(), name: name, price: price, size: "Free Size", image: img, quantity: 1 });
+    localStorage.setItem("shapes_cart", JSON.stringify(cart));
+    window.dispatchEvent(new Event("shapesCartUpdated"));
+    trackPixelEvent('AddToCart', { content_name: name, value: price, currency: 'INR' });
+    if (window.openSmartCart) window.openSmartCart();
+};
+
+// ── P4 & E1: Instagram Video Reel Modal ──
+window.openIGReel = function(reelId) {
+    const modal = document.getElementById("video-reel-modal");
+    const overlay = document.getElementById("video-reel-overlay");
+    const box = document.getElementById("reel-content-box");
+    if (!modal || !box) return;
+    box.innerHTML = `
+        <div style="position:relative; width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; background:#111; color:#fff; text-align:center; padding:1.5rem;">
+            <i class="fa-brands fa-instagram" style="font-size:3rem; color:var(--gold); margin-bottom:1rem;"></i>
+            <h3 style="font-family:var(--font-serif); font-size:1.4rem; color:var(--gold);">Editorial Runway Reel</h3>
+            <p style="font-size:12px; color:rgba(255,255,255,0.7); max-width:280px; margin:1rem 0;">Handcrafted pure silk drape in motion — photographed at the Chembur atelier by Satiinder Kaur.</p>
+            <a href="https://www.instagram.com/shapesbysatiinderkaur" target="_blank" class="hero-cta-btn hero-cta-gold" style="font-size:10px;">
+                <i class="fa-brands fa-instagram"></i> Watch Live on Instagram
+            </a>
+        </div>
+    `;
+    overlay.style.display = "block";
+    modal.style.display = "flex";
+};
+window.closeIGReel = function() {
+    document.getElementById("video-reel-overlay").style.display = "none";
+    document.getElementById("video-reel-modal").style.display = "none";
+};

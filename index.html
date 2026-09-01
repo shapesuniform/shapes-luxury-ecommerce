@@ -572,6 +572,29 @@
             </nav>
 
             <div class="nav-right">
+                <button id="theme-toggle-btn" onclick="toggleTheme()" title="Toggle light/dark mode" aria-label="Toggle theme" class="theme-toggle-btn">
+                <i class="fa-solid fa-sun" id="theme-icon"></i>
+            </button>
+                <button id="lang-toggle-btn" onclick="toggleLanguage()" class="lang-toggle-btn" title="Switch to Hindi" aria-label="Language toggle">
+                <span id="lang-icon">हिं</span>
+            </button>
+                
+            <div class="nav-extra-tools">
+                <button id="nav-search-btn" class="nav-tool-btn" onclick="openSmartSearch()" title="Search Collection" aria-label="Search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+                <button id="nav-wishlist-btn" class="nav-tool-btn" onclick="openWishlistDrawer()" title="My Wishlist" aria-label="Wishlist">
+                    <i class="fa-regular fa-heart"></i>
+                    <span id="wishlist-badge" class="tool-badge" style="display:none;">0</span>
+                </button>
+                <button id="theme-toggle-btn" onclick="toggleTheme()" class="nav-tool-btn" title="Toggle Light/Dark Theme" aria-label="Toggle Theme">
+                    <i class="fa-solid fa-sun" id="theme-icon"></i>
+                </button>
+                <button id="lang-toggle-btn" onclick="toggleLanguage()" class="nav-tool-btn lang-btn" title="Switch Language" aria-label="Language">
+                    <span id="lang-icon">हिं</span>
+                </button>
+            </div>
+
                 <select class="currency-select" id="currency-selector" title="Select Currency">
                     <option value="INR">₹ INR</option>
                     <option value="USD">$ USD</option>
@@ -596,6 +619,20 @@
     
 
 </header>
+
+<!-- ── Q3: FREE SHIPPING PROGRESS BAR (main page) ── -->
+<div id="homepage-ship-bar-wrap">
+    <div class="hship-inner">
+        <span class="hship-icon"><i class="fa-solid fa-truck-fast"></i></span>
+        <div class="hship-track-area">
+            <div class="hship-track">
+                <div id="hship-fill" class="hship-fill" style="width:0%"></div>
+            </div>
+        </div>
+        <span id="hship-label" class="hship-label">Free Express Shipping on orders above <strong>&#8377;15,000</strong></span>
+    </div>
+</div>
+
 </div>
 
 <!-- Mobile Drawer -->
@@ -930,6 +967,67 @@
 
 
 <!-- FOOTER -->
+
+<!-- ── LIVE INSTAGRAM FEED SECTION (E1) ── -->
+<section id="instagram-feed-section" class="luxury-section ig-feed-section">
+    <div class="section-header text-center">
+        <span class="section-subtitle"><i class="fa-brands fa-instagram"></i> @shapesbysatiinderkaur</span>
+        <h2 class="section-title">The Runway on Instagram</h2>
+        <p class="section-desc">Tag #ShapesBySatiinderKaur to be featured on our curated boutique gallery.</p>
+    </div>
+    <div class="ig-feed-grid">
+        <div class="ig-card" onclick="openIGReel('reel1')">
+            <img src="images/hero_coord_editorial.webp" alt="Instagram Luxury Silk Co-Ord" loading="lazy">
+            <div class="ig-overlay">
+                <i class="fa-brands fa-instagram"></i>
+                <span>Emerald Silk Set in Motion</span>
+                <span class="ig-likes"><i class="fa-solid fa-heart"></i> 1.2k</span>
+            </div>
+        </div>
+        <div class="ig-card" onclick="openIGReel('reel2')">
+            <img src="images/welcome_coord_luxury.webp" alt="Instagram Banarasi Brocade Pret" loading="lazy">
+            <div class="ig-overlay">
+                <i class="fa-brands fa-instagram"></i>
+                <span>Atelier Fitting · Chembur</span>
+                <span class="ig-likes"><i class="fa-solid fa-heart"></i> 2.4k</span>
+            </div>
+        </div>
+        <div class="ig-card" onclick="openIGReel('reel3')">
+            <img src="images/hero_coord_editorial.webp" alt="Instagram Festive Collection" loading="lazy">
+            <div class="ig-overlay">
+                <i class="fa-brands fa-instagram"></i>
+                <span>Festive Trousseau Edit</span>
+                <span class="ig-likes"><i class="fa-solid fa-heart"></i> 980</span>
+            </div>
+        </div>
+        <div class="ig-card" onclick="openIGReel('reel4')">
+            <img src="images/welcome_coord_luxury.webp" alt="Instagram Satiinder Kaur Styling" loading="lazy">
+            <div class="ig-overlay">
+                <i class="fa-brands fa-instagram"></i>
+                <span>Behind the Seams</span>
+                <span class="ig-likes"><i class="fa-solid fa-heart"></i> 3.1k</span>
+            </div>
+        </div>
+    </div>
+    <div class="ig-follow-wrap text-center">
+        <a href="https://www.instagram.com/shapesbysatiinderkaur" target="_blank" rel="noopener" class="hero-cta-btn hero-cta-gold">
+            <i class="fa-brands fa-instagram"></i> Follow @shapesbysatiinderkaur
+        </a>
+    </div>
+</section>
+
+
+<!-- ── P2: RECENTLY VIEWED PRODUCTS TRAY ── -->
+<section id="recently-viewed-section" class="recently-viewed-wrap" style="display:none;">
+    <div class="section-container">
+        <div class="recent-header">
+            <h3><i class="fa-solid fa-clock-rotate-left"></i> Recently Viewed Pieces</h3>
+            <button class="clear-recent-btn" onclick="clearRecentlyViewed()">Clear</button>
+        </div>
+        <div class="recent-products-grid" id="recent-products-container"></div>
+    </div>
+</section>
+
 <footer class="luxury-footer">
     <div class="footer-container">
         <div class="footer-col">
@@ -1114,7 +1212,89 @@
                     </div>
                 </div>
 
+                <!-- ── Q4: SIZE RECOMMENDATION ── -->
+                <div id="size-rec-widget" class="size-rec-widget">
+                    <button type="button" class="size-rec-toggle" onclick="toggleSizeRec()">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Find My Size
+                    </button>
+                    <div id="size-rec-panel" class="size-rec-panel" style="display:none;">
+                        <div class="size-rec-row">
+                            <label>Bust (inches)</label>
+                            <input type="number" id="sr-bust" placeholder="e.g. 36" min="28" max="60" oninput="calcSizeRec()">
+                        </div>
+                        <div class="size-rec-row">
+                            <label>Waist (inches)</label>
+                            <input type="number" id="sr-waist" placeholder="e.g. 30" min="22" max="55" oninput="calcSizeRec()">
+                        </div>
+                        <div id="size-rec-result" class="size-rec-result" style="display:none;"></div>
+                    </div>
+                </div>
+
                 <!-- Size Selection Buttons (XS - XXL) -->
+                
+                <!-- ── P7: STOCK URGENCY COUNTER ── -->
+                <div id="stock-urgency-badge" class="stock-urgency-badge">
+                    <span class="pulse-dot"></span>
+                    <span id="stock-urgency-text">Only <strong>2 pieces</strong> left in crafted inventory</span>
+                </div>
+
+                <!-- ── P6: COLOUR / PRINT VARIANTS ── -->
+                <div class="variant-swatch-row">
+                    <span class="swatch-label">Artisanal Palette:</span>
+                    <div class="swatch-group">
+                        <button type="button" class="swatch-pill active" data-variant="Emerald Gold" onclick="selectVariant(this, 'Emerald Gold', 'images/hero_coord_editorial.webp')">
+                            <span class="swatch-color" style="background:#0F4D32;"></span> Emerald Gold
+                        </button>
+                        <button type="button" class="swatch-pill" data-variant="Royal Brocade" onclick="selectVariant(this, 'Royal Brocade', 'images/welcome_coord_luxury.webp')">
+                            <span class="swatch-color" style="background:#B8860B;"></span> Banarasi Gold
+                        </button>
+                        <button type="button" class="swatch-pill" data-variant="Midnight Indigo" onclick="selectVariant(this, 'Midnight Indigo', 'images/hero_coord_editorial.webp')">
+                            <span class="swatch-color" style="background:#1B2A47;"></span> Indigo Night
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ── Q4: SIZE RECOMMENDATION CALCULATOR ── -->
+                <div id="size-rec-widget" class="size-rec-widget">
+                    <button type="button" class="size-rec-toggle" onclick="toggleSizeRec()">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Find My Recommended Size
+                    </button>
+                    <div id="size-rec-panel" class="size-rec-panel" style="display:none;">
+                        <div class="size-rec-row">
+                            <label>Bust (inches)</label>
+                            <input type="number" id="sr-bust" placeholder="e.g. 36" min="28" max="60" oninput="calcSizeRec()">
+                        </div>
+                        <div class="size-rec-row">
+                            <label>Waist (inches)</label>
+                            <input type="number" id="sr-waist" placeholder="e.g. 30" min="22" max="55" oninput="calcSizeRec()">
+                        </div>
+                        <div id="size-rec-result" class="size-rec-result" style="display:none;"></div>
+                    </div>
+                </div>
+
+                <!-- ── P3: COMPLETE THE LOOK UPSELL ── -->
+                <div class="complete-look-box">
+                    <div class="complete-look-header"><i class="fa-solid fa-sparkles" style="color:var(--gold);"></i> Complete The Look with Satiinder's Edit</div>
+                    <div class="complete-look-items">
+                        <div class="pair-item">
+                            <img src="images/welcome_coord_luxury.webp" alt="Pairing Dupatta" class="pair-img">
+                            <div class="pair-info">
+                                <span class="pair-title">Pure Organza Zari Dupatta</span>
+                                <span class="pair-price">+ ₹4,500</span>
+                            </div>
+                            <button type="button" class="pair-add-btn" onclick="addPairToBag('Pure Organza Zari Dupatta', 4500, 'images/welcome_coord_luxury.webp')">+ Add</button>
+                        </div>
+                        <div class="pair-item">
+                            <img src="images/hero_coord_editorial.webp" alt="Handcrafted Potli" class="pair-img">
+                            <div class="pair-info">
+                                <span class="pair-title">Embroidered Silk Potli</span>
+                                <span class="pair-price">+ ₹2,800</span>
+                            </div>
+                            <button type="button" class="pair-add-btn" onclick="addPairToBag('Embroidered Silk Potli', 2800, 'images/hero_coord_editorial.webp')">+ Add</button>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="sizes-grid" id="modal-sizes-container">
                     <button type="button" class="size-option" data-size="XS">XS</button>
                     <button type="button" class="size-option" data-size="S">S</button>
@@ -1565,6 +1745,123 @@
 
 
 
+
+
+<!-- ── Q1: FLOATING WHATSAPP BUTTON ── -->
+<a id="wa-float-btn" 
+   href="https://wa.me/917977456549?text=Hi%20Satiinder%20Kaur!%20I%20saw%20your%20SHAPES%20collection%20and%20would%20like%20to%20enquire." 
+   target="_blank" rel="noopener" 
+   aria-label="Chat on WhatsApp" title="Chat with Satiinder Kaur on WhatsApp">
+    <div class="wa-float-inner">
+        <i class="fa-brands fa-whatsapp"></i>
+        <span class="wa-float-label">Chat with us</span>
+    </div>
+    <span class="wa-float-ping"></span>
+</a>
+
+
+<!-- ── Q6: COOKIE CONSENT BANNER ── -->
+<div id="cookie-consent-bar" role="alertdialog" aria-label="Cookie consent" style="display:none;">
+    <div class="cookie-inner">
+        <div class="cookie-text">
+            <i class="fa-solid fa-cookie-bite" style="color:var(--gold);"></i>
+            <span>We use cookies to enhance your experience and remember your preferences. By continuing, you agree to our <a href="privacy.html" target="_blank">Privacy Policy</a>.</span>
+        </div>
+        <div class="cookie-actions">
+            <button class="cookie-accept-btn" onclick="acceptCookies()">Accept All</button>
+            <button class="cookie-decline-btn" onclick="declineCookies()">Essential Only</button>
+        </div>
+    </div>
+</div>
+
+
+<!-- ── Q1: FLOATING WHATSAPP BUTTON ── -->
+<a id="wa-float-btn" 
+   href="https://wa.me/917977456549?text=Hi%20Satiinder%20Kaur!%20I%20saw%20your%20SHAPES%20collection%20and%20would%20like%20to%20enquire." 
+   target="_blank" rel="noopener" 
+   aria-label="Chat on WhatsApp" title="Chat with Satiinder Kaur on WhatsApp">
+    <div class="wa-float-inner">
+        <i class="fa-brands fa-whatsapp"></i>
+        <span class="wa-float-label">WhatsApp Concierge</span>
+    </div>
+    <span class="wa-float-ping"></span>
+</a>
+
+<!-- ── Q6: COOKIE CONSENT BANNER ── -->
+<div id="cookie-consent-bar" role="alertdialog" aria-label="Cookie consent" style="display:none;">
+    <div class="cookie-inner">
+        <div class="cookie-text">
+            <i class="fa-solid fa-cookie-bite" style="color:var(--gold);"></i>
+            <span>We use cookies to tailor your bespoke luxury experience. By continuing, you agree to our <a href="privacy.html" target="_blank">Privacy Policy</a>.</span>
+        </div>
+        <div class="cookie-actions">
+            <button class="cookie-accept-btn" onclick="acceptCookies()">Accept All</button>
+            <button class="cookie-decline-btn" onclick="declineCookies()">Essential Only</button>
+        </div>
+    </div>
+</div>
+
+<!-- ── P1: SMART SEARCH & FILTER MODAL ── -->
+<div id="smart-search-overlay" class="modal-overlay" style="display:none;" onclick="closeSmartSearch()"></div>
+<div id="smart-search-modal" class="smart-search-modal" style="display:none;" role="dialog" aria-label="Search Collections">
+    <div class="search-modal-header">
+        <div class="search-input-wrap">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="smart-search-input" placeholder="Search silk co-ords, brocade, festive linen, colours..." oninput="runSmartSearch()" autofocus>
+            <button class="clear-search-icon" onclick="document.getElementById('smart-search-input').value='';runSmartSearch();">&times;</button>
+        </div>
+        <button class="close-search-btn" onclick="closeSmartSearch()">&times;</button>
+    </div>
+    <div class="search-filters-bar">
+        <span class="filter-label"><i class="fa-solid fa-filter"></i> Filters:</span>
+        <button class="filter-pill active" data-filter="all" onclick="setSearchFilter('all')">All</button>
+        <button class="filter-pill" data-filter="silk" onclick="setSearchFilter('silk')">Pure Silk</button>
+        <button class="filter-pill" data-filter="brocade" onclick="setSearchFilter('brocade')">Banarasi</button>
+        <button class="filter-pill" data-filter="linen" onclick="setSearchFilter('linen')">Linen</button>
+        <button class="filter-pill" data-filter="festive" onclick="setSearchFilter('festive')">Festive</button>
+        <button class="filter-pill" data-filter="pret" onclick="setSearchFilter('pret')">Bespoke Pret</button>
+    </div>
+    <div class="search-results-grid" id="search-results-grid"></div>
+</div>
+
+<!-- ── P9: WISHLIST DRAWER ── -->
+<div id="wishlist-overlay" class="modal-overlay" style="display:none;" onclick="closeWishlistDrawer()"></div>
+<aside id="wishlist-drawer" class="wishlist-drawer" style="display:none;">
+    <div class="wishlist-header">
+        <h3><i class="fa-solid fa-heart" style="color:var(--gold);"></i> My Saved Wishlist</h3>
+        <button onclick="closeWishlistDrawer()" class="wishlist-close-btn">&times;</button>
+    </div>
+    <div id="wishlist-items-container" class="wishlist-items-body"></div>
+    <div class="wishlist-footer">
+        <button onclick="addAllWishlistToCart()" class="add-all-cart-btn"><i class="fa-solid fa-bag-shopping"></i> Add All To Bag</button>
+    </div>
+</aside>
+
+<!-- ── P8: BACK-IN-STOCK NOTIFICATION MODAL ── -->
+<div id="stock-notify-overlay" class="modal-overlay" style="display:none;" onclick="closeStockNotify()"></div>
+<div id="stock-notify-modal" class="stock-notify-modal" style="display:none;">
+    <div class="stock-notify-header">
+        <i class="fa-solid fa-bell notify-icon"></i>
+        <h3>Notify Me When Back In Stock</h3>
+        <button onclick="closeStockNotify()" class="close-notify-btn">&times;</button>
+    </div>
+    <p class="notify-desc" id="notify-prod-name">Enter your details to get an instant WhatsApp / Email alert when this piece returns.</p>
+    <div class="notify-form">
+        <input type="text" id="notify-phone" placeholder="WhatsApp Number (+91...)">
+        <input type="email" id="notify-email" placeholder="Email Address">
+        <button onclick="submitStockNotify()" class="submit-notify-btn"><i class="fa-solid fa-paper-plane"></i> Notify Me</button>
+    </div>
+    <div id="notify-success" class="notify-success" style="display:none;">
+        <i class="fa-solid fa-circle-check"></i> Alert registered! You will be first to know.
+    </div>
+</div>
+
+<!-- ── P4: VIDEO LOOKBOOK REEL MODAL ── -->
+<div id="video-reel-overlay" class="modal-overlay" style="display:none;" onclick="closeIGReel()"></div>
+<div id="video-reel-modal" class="video-reel-modal" style="display:none;">
+    <button class="close-reel-btn" onclick="closeIGReel()">&times;</button>
+    <div class="reel-content" id="reel-content-box"></div>
+</div>
 
 </body>
 </html>

@@ -331,7 +331,29 @@
                             <h4>Active Categories</h4>
                             <ul class="cms-category-list" id="cms-category-list-ul">
                                 <!-- Populate dynamically -->
-                            </ul>
+                            
+        <li class="admin-nav-item">
+            <a class="admin-nav-link" href="#" data-section="vip-clients" onclick="showAdminSection('vip-clients')">
+                <i class="fa-solid fa-crown"></i> VIP & NRI Clients (CL1-4)
+            </a>
+        </li>
+        <li class="admin-nav-item">
+            <a class="admin-nav-link" href="#" data-section="operations-hub" onclick="showAdminSection('operations-hub')">
+                <i class="fa-solid fa-boxes-stacked"></i> Production & Ops (OP1-5)
+            </a>
+        </li>
+        <li class="admin-nav-item">
+            <a class="admin-nav-link" href="#" data-section="sales-growth" onclick="showAdminSection('sales-growth')">
+                <i class="fa-solid fa-chart-line"></i> Sales & Wholesale (O1-6)
+            </a>
+        </li>
+        <li class="admin-nav-item">
+            <a class="admin-nav-link" href="#" data-section="marketing-hub" onclick="showAdminSection('marketing-hub')">
+                <i class="fa-solid fa-bullhorn"></i> Marketing & Affiliates (M1-6)
+            </a>
+        </li>
+
+        </ul>
                         </div>
                     </div>
                 </div>
@@ -788,7 +810,291 @@
             <div style="text-align:center;padding:4rem;color:rgba(255,255,255,0.3);">Loading revenue data...</div>
         </div>
     </div>
-    </main>
+    
+<!-- ════════════════════════════════════════════════════════
+     CL1–CL4: VIP CLIENT MANAGEMENT SECTION
+════════════════════════════════════════════════════════ -->
+<section id="section-clients" class="admin-section" style="display:none;">
+    <div class="admin-section-header">
+        <h2><i class="fa-solid fa-crown"></i> VIP Client Management</h2>
+        <div class="clients-toolbar">
+            <button class="cl-tab-btn active" onclick="switchCLTab('all')" id="cltab-all">All Clients</button>
+            <button class="cl-tab-btn" onclick="switchCLTab('vip')" id="cltab-vip"><i class="fa-solid fa-crown"></i> VIP Only</button>
+            <button class="cl-tab-btn" onclick="switchCLTab('nri')" id="cltab-nri"><i class="fa-solid fa-plane"></i> NRI Clients</button>
+            <button class="cl-tab-btn" onclick="switchCLTab('birthday')" id="cltab-birthday"><i class="fa-solid fa-cake-candles"></i> Birthdays This Month</button>
+        </div>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="cl-stats-row" id="cl-stats-row">
+        <div class="cl-stat-card">
+            <div class="cl-stat-icon"><i class="fa-solid fa-users"></i></div>
+            <div class="cl-stat-info"><span class="cl-stat-val" id="cl-total-count">0</span><span class="cl-stat-lbl">Total Clients</span></div>
+        </div>
+        <div class="cl-stat-card vip">
+            <div class="cl-stat-icon"><i class="fa-solid fa-crown"></i></div>
+            <div class="cl-stat-info"><span class="cl-stat-val" id="cl-vip-count">0</span><span class="cl-stat-lbl">VIP (₹50k+)</span></div>
+        </div>
+        <div class="cl-stat-card nri">
+            <div class="cl-stat-icon"><i class="fa-solid fa-plane"></i></div>
+            <div class="cl-stat-info"><span class="cl-stat-val" id="cl-nri-count">0</span><span class="cl-stat-lbl">NRI Clients</span></div>
+        </div>
+        <div class="cl-stat-card bday">
+            <div class="cl-stat-icon"><i class="fa-solid fa-cake-candles"></i></div>
+            <div class="cl-stat-info"><span class="cl-stat-val" id="cl-bday-count">0</span><span class="cl-stat-lbl">Birthdays This Month</span></div>
+        </div>
+    </div>
+
+    <!-- Client Table -->
+    <div class="cl-table-wrap">
+        <table class="cl-table" id="cl-table">
+            <thead>
+                <tr>
+                    <th>Client</th>
+                    <th>Status</th>
+                    <th>Country</th>
+                    <th>Total Spent</th>
+                    <th>Orders</th>
+                    <th>Birthday</th>
+                    <th>Last Order</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="cl-table-body">
+                <tr><td colspan="8" style="text-align:center;padding:2rem;color:rgba(255,255,255,0.3);">Loading clients...</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Client Detail Drawer -->
+    <div id="cl-detail-overlay" style="display:none;" onclick="closeCLDetail()"></div>
+    <aside id="cl-detail-drawer" style="display:none;">
+        <div class="cl-drawer-header">
+            <div id="cl-drawer-name" class="cl-drawer-name"></div>
+            <button onclick="closeCLDetail()" class="cl-drawer-close">&times;</button>
+        </div>
+        <div id="cl-drawer-badges" class="cl-drawer-badges"></div>
+        <div class="cl-drawer-section">
+            <div class="cl-drawer-sectiontitle"><i class="fa-solid fa-info-circle"></i> Client Info</div>
+            <div id="cl-drawer-info"></div>
+        </div>
+        <div class="cl-drawer-section">
+            <div class="cl-drawer-sectiontitle"><i class="fa-solid fa-clock-rotate-left"></i> Purchase History (CL3)</div>
+            <div id="cl-drawer-history" class="cl-drawer-timeline"></div>
+        </div>
+        <div class="cl-drawer-section" id="cl-birthday-coupon-section" style="display:none;">
+            <div class="cl-drawer-sectiontitle"><i class="fa-solid fa-gift"></i> Birthday Offer (CL2)</div>
+            <div id="cl-birthday-coupon-area"></div>
+        </div>
+        <div class="cl-drawer-actions">
+            <button onclick="sendBirthdayCoupon(window._clActiveId)" class="cl-action-btn cl-bday-btn"><i class="fa-solid fa-gift"></i> Send ₹500 Birthday Coupon</button>
+            <button onclick="sendWhatsAppToClient(window._clActiveId)" class="cl-action-btn cl-wa-btn"><i class="fa-brands fa-whatsapp"></i> WhatsApp Client</button>
+            <button onclick="toggleVIPStatus(window._clActiveId)" class="cl-action-btn cl-vip-btn" id="cl-vip-action-btn"><i class="fa-solid fa-crown"></i> Toggle VIP</button>
+        </div>
+    </aside>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════
+     1. VIP & NRI CLIENT MANAGEMENT (CL1, CL2, CL3, CL4)
+════════════════════════════════════════════════════════ -->
+<section id="section-vip-clients" class="admin-section" style="display:none;">
+    <div class="admin-section-header">
+        <h2><i class="fa-solid fa-crown"></i> Client Tiering & Luxury CRM (CL1-CL4)</h2>
+        <div class="clients-toolbar">
+            <button class="cl-tab-btn active" onclick="filterVIPClients('all')">All Clients</button>
+            <button class="cl-tab-btn" onclick="filterVIPClients('vip')"><i class="fa-solid fa-crown"></i> VIP (₹50k+)</button>
+            <button class="cl-tab-btn" onclick="filterVIPClients('nri')"><i class="fa-solid fa-plane"></i> NRI (Dubai/UK/USA)</button>
+            <button class="cl-tab-btn" onclick="filterVIPClients('birthday')"><i class="fa-solid fa-cake-candles"></i> Birthday This Month</button>
+        </div>
+    </div>
+    <div class="cl-stats-row">
+        <div class="cl-stat-card"><span class="cl-stat-val" id="vip-count-total">6</span><span class="cl-stat-lbl">Active Clients</span></div>
+        <div class="cl-stat-card vip"><span class="cl-stat-val" id="vip-count-vip">3</span><span class="cl-stat-lbl">VIP High Spenders</span></div>
+        <div class="cl-stat-card nri"><span class="cl-stat-val" id="vip-count-nri">3</span><span class="cl-stat-lbl">NRI Clients</span></div>
+        <div class="cl-stat-card bday"><span class="cl-stat-val" id="vip-count-bday">2</span><span class="cl-stat-lbl">Birthday ₹500 Vouchers</span></div>
+    </div>
+    <div class="cl-table-wrap">
+        <table class="cl-table">
+            <thead>
+                <tr>
+                    <th>Client</th>
+                    <th>Tier Status</th>
+                    <th>Country / Region</th>
+                    <th>Total Spend</th>
+                    <th>Order History</th>
+                    <th>Birthday Offer</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="vip-clients-tbody"></tbody>
+        </table>
+    </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════
+     2. PRODUCTION & OPERATIONS HUB (OP1, OP2, OP3, OP4, OP5)
+════════════════════════════════════════════════════════ -->
+<section id="section-operations-hub" class="admin-section" style="display:none;">
+    <div class="admin-section-header">
+        <h2><i class="fa-solid fa-boxes-stacked"></i> Production, Invoicing & Logistics (OP1-OP5)</h2>
+    </div>
+    <div class="ops-grid">
+        <!-- OP5: Fabric Stock Tracker -->
+        <div class="admin-card">
+            <h3><i class="fa-solid fa-layer-group"></i> Fabric & Raw Material Tracker (OP5)</h3>
+            <div class="fabric-meter-list">
+                <div class="fabric-item"><span>Grade-A Modal Silk (Emerald)</span><strong>48 meters remaining</strong><div class="stock-bar"><div style="width:75%"></div></div></div>
+                <div class="fabric-item"><span>Pure Banarasi Brocade Gold</span><strong>18 meters remaining</strong><div class="stock-bar"><div style="width:30%;background:#e67e22;"></div></div></div>
+                <div class="fabric-item"><span>Organic Slub Linen Indigo</span><strong>62 meters remaining</strong><div class="stock-bar"><div style="width:90%"></div></div></div>
+            </div>
+            <button class="admin-btn-secondary" onclick="logFabricRestock()" style="margin-top:10px;">+ Log Material Roll</button>
+        </div>
+
+        <!-- OP2 & OP3: Invoice & Shipping Label Printer -->
+        <div class="admin-card">
+            <h3><i class="fa-solid fa-file-invoice"></i> Invoices & Shipping Labels (OP2, OP3)</h3>
+            <p style="font-size:11px;color:rgba(255,255,255,0.6);">Generate instant GST compliant luxury invoices and BlueDart/DTDC/Delhivery thermal labels.</p>
+            <div style="display:flex;gap:8px;margin-top:1rem;">
+                <button class="admin-btn-gold" onclick="generateInvoiceDemo()"><i class="fa-solid fa-print"></i> Generate Invoice (OP2)</button>
+                <button class="admin-btn-secondary" onclick="generateShippingLabelDemo()"><i class="fa-solid fa-tag"></i> Print Label (OP3)</button>
+            </div>
+        </div>
+
+        <!-- OP4: Bulk WhatsApp Broadcaster -->
+        <div class="admin-card" style="grid-column: 1 / -1;">
+            <h3><i class="fa-brands fa-whatsapp"></i> Bulk Client WhatsApp Broadcaster (OP4)</h3>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+                <div>
+                    <label style="font-size:10px;text-transform:uppercase;color:rgba(197,160,89,0.8);font-weight:700;">Target Audience</label>
+                    <select id="wa-broadcast-target" style="width:100%;padding:8px;margin:6px 0;background:rgba(255,255,255,0.05);color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:4px;">
+                        <option value="all">All VIP & Repeat Clients (107)</option>
+                        <option value="vip">VIP Members (₹50,000+)</option>
+                        <option value="nri">NRI Buyers (Dubai, London, US)</option>
+                        <option value="festive">Diwali Festive Preview List</option>
+                    </select>
+                </div>
+                <div>
+                    <label style="font-size:10px;text-transform:uppercase;color:rgba(197,160,89,0.8);font-weight:700;">Campaign Template</label>
+                    <textarea id="wa-broadcast-msg" rows="3" style="width:100%;padding:8px;background:rgba(255,255,255,0.05);color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:4px;font-size:11px;">Namaste! ✨ Satiinder Kaur invites you to an exclusive preview of our new Festive Silk Co-Ord Collection. Tap to view: https://shapesbysatinderkaur.com/lookbook.html</textarea>
+                </div>
+            </div>
+            <button class="admin-btn-gold" onclick="launchWABroadcast()" style="margin-top:10px;"><i class="fa-solid fa-paper-plane"></i> Launch Broadcast Preview</button>
+        </div>
+    </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════
+     3. SALES, WHOLESALE & REVENUE GROWTH (O1, O2, O3, O4, O5, O6)
+════════════════════════════════════════════════════════ -->
+<section id="section-sales-growth" class="admin-section" style="display:none;">
+    <div class="admin-section-header">
+        <h2><i class="fa-solid fa-chart-line"></i> Sales Automation, Forecasting & Wholesale (O1-O6)</h2>
+    </div>
+    <div class="ops-grid">
+        <!-- O5: Revenue Forecast & Velocity -->
+        <div class="admin-card">
+            <h3><i class="fa-solid fa-chart-pie"></i> 30-Day Revenue Forecast (O5)</h3>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin:1rem 0;">
+                <div><span style="font-size:1.8rem;font-weight:700;color:var(--gold);">₹4,85,000</span><div style="font-size:10px;color:rgba(255,255,255,0.5)">Projected Monthly Gross</div></div>
+                <div style="text-align:right;"><span style="font-size:1.1rem;font-weight:700;color:#25D366;">+24.6%</span><div style="font-size:10px;color:rgba(255,255,255,0.5)">vs. Previous Month</div></div>
+            </div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.6);">Average Order Value (AOV): <strong>₹16,400</strong> · Conversion Rate: <strong>3.8%</strong></div>
+        </div>
+
+        <!-- O2: Flash Sale Scheduler -->
+        <div class="admin-card">
+            <h3><i class="fa-solid fa-bolt"></i> Flash Sale & Festive Discount Engine (O2)</h3>
+            <div style="display:flex;flex-direction:column;gap:8px;margin-top:0.8rem;">
+                <input type="text" id="flash-sale-name" placeholder="Sale Name (e.g. Diwali Shubh Muhurat)" style="padding:7px;background:rgba(255,255,255,0.05);color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:4px;">
+                <div style="display:flex;gap:8px;">
+                    <input type="number" id="flash-sale-discount" placeholder="Discount %" style="width:40%;padding:7px;background:rgba(255,255,255,0.05);color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:4px;">
+                    <input type="datetime-local" id="flash-sale-end" style="flex:1;padding:7px;background:rgba(255,255,255,0.05);color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:4px;">
+                </div>
+                <button class="admin-btn-gold" onclick="scheduleFlashSale()">Schedule Flash Sale</button>
+            </div>
+        </div>
+
+        <!-- O4: Abandoned Cart Recovery -->
+        <div class="admin-card">
+            <h3><i class="fa-solid fa-cart-arrow-down"></i> Abandoned Cart Recovery (O4)</h3>
+            <div id="abandoned-carts-list" style="margin-top:0.8rem;">
+                <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:11px;">
+                    <div><strong>Sunita Sen</strong><div style="color:rgba(255,255,255,0.4)">Banarasi Brocade Set · ₹16,900</div></div>
+                    <button class="admin-btn-secondary" style="padding:4px 8px;font-size:9px;" onclick="sendCartRecovery('+919820012345', 'Sunita', 'Banarasi Brocade Set')"><i class="fa-brands fa-whatsapp"></i> Recover</button>
+                </div>
+                <div style="display:flex;justify-content:space-between;padding:8px 0;font-size:11px;">
+                    <div><strong>Kavita Patel (Dubai)</strong><div style="color:rgba(255,255,255,0.4)">Emerald Silk Set · AED 560</div></div>
+                    <button class="admin-btn-secondary" style="padding:4px 8px;font-size:9px;" onclick="sendCartRecovery('+971501234567', 'Kavita', 'Emerald Silk Set')"><i class="fa-brands fa-whatsapp"></i> Recover</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- O1: Wholesale & B2B Inquiries -->
+        <div class="admin-card">
+            <h3><i class="fa-solid fa-building"></i> Wholesale & Boutique Portal (O1)</h3>
+            <p style="font-size:11px;color:rgba(255,255,255,0.6);">Manage multi-unit orders (10+ sets) with custom tier margins for retailers in Delhi, Dubai & London.</p>
+            <div style="margin-top:10px;">
+                <span class="cl-badge vip">3 Active B2B Requests</span>
+                <button class="admin-btn-secondary" style="margin-top:10px;width:100%;" onclick="alert('Wholesale B2B Catalog generated. Sent link to pending boutique inquiries.')">Send Wholesale Lookbook PDF</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════
+     4. MARKETING, PIXELS & AFFILIATES (M1, M2, M3, M4, M5, M6)
+════════════════════════════════════════════════════════ -->
+<section id="section-marketing-hub" class="admin-section" style="display:none;">
+    <div class="admin-section-header">
+        <h2><i class="fa-solid fa-bullhorn"></i> Marketing, Pixels & Influencer Affiliates (M1-M6)</h2>
+    </div>
+    <div class="ops-grid">
+        <!-- M2 & M3: Tracking Pixels -->
+        <div class="admin-card">
+            <h3><i class="fa-solid fa-code"></i> Pixel & Analytics Tags (M2, M3)</h3>
+            <div style="display:flex;flex-direction:column;gap:8px;margin-top:0.8rem;">
+                <div>
+                    <label style="font-size:10px;color:rgba(197,160,89,0.8);font-weight:700;">Meta / Instagram Pixel ID</label>
+                    <input type="text" id="meta-pixel-id" value="1289472918239" style="width:100%;padding:6px;background:rgba(255,255,255,0.05);color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:4px;font-size:11px;">
+                </div>
+                <div>
+                    <label style="font-size:10px;color:rgba(197,160,89,0.8);font-weight:700;">Google Analytics 4 (GA4) Tag</label>
+                    <input type="text" id="ga4-tag-id" value="G-SHAPES2026" style="width:100%;padding:6px;background:rgba(255,255,255,0.05);color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:4px;font-size:11px;">
+                </div>
+                <button class="admin-btn-gold" onclick="savePixelSettings()">Save Pixel Config</button>
+            </div>
+        </div>
+
+        <!-- M4: Influencer & Affiliate Tracking -->
+        <div class="admin-card">
+            <h3><i class="fa-solid fa-users-viewfinder"></i> Influencer Affiliates (M4)</h3>
+            <div style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:0.5rem;">
+                <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+                    <span><strong>@ananyafashion (Mumbai)</strong><br><small>Code: ANANYA10 (10% off)</small></span>
+                    <span style="color:var(--gold);font-weight:700;">₹92,400 sales (12 orders)</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;padding:6px 0;">
+                    <span><strong>@dubaistyleedit (Dubai)</strong><br><small>Code: DUBAI10</small></span>
+                    <span style="color:var(--gold);font-weight:700;">AED 4,800 sales (6 orders)</span>
+                </div>
+            </div>
+            <button class="admin-btn-secondary" style="width:100%;margin-top:10px;" onclick="addInfluencerCode()">+ Create Influencer Link</button>
+        </div>
+
+        <!-- M1: Newsletter & M6: Press Kit -->
+        <div class="admin-card">
+            <h3><i class="fa-solid fa-newspaper"></i> The Atelier Journal & Press Kit (M5, M6)</h3>
+            <p style="font-size:11px;color:rgba(255,255,255,0.6);">Publish SEO editorial stories and provide high-res logos/photos for Vogue India, Elle and Grazia.</p>
+            <div style="display:flex;gap:8px;margin-top:1rem;">
+                <button class="admin-btn-gold" onclick="alert('Article draft published to shapesbysatinderkaur.com/info.html')"><i class="fa-solid fa-pen-nib"></i> Publish Story (M5)</button>
+                <button class="admin-btn-secondary" onclick="alert('Press Kit ZIP ready with 300DPI editorial photographs.')"><i class="fa-solid fa-download"></i> Press Kit (M6)</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+</main>
         </div>
     </div>
 
