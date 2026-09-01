@@ -4034,47 +4034,6 @@ body.light-mode #theme-icon::before { content: "\f186"; }
     border: 1px solid #111;
 }
 
-/* ── Q1: Floating WhatsApp Button ── */
-#wa-float-btn {
-    position: fixed;
-    bottom: 2rem;
-    right: 2rem;
-    z-index: 8000;
-    text-decoration: none;
-    animation: waFloat 3.5s ease-in-out infinite;
-}
-@keyframes waFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
-.wa-float-inner {
-    background: #25D366;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 11px 18px 11px 14px;
-    border-radius: 50px;
-    box-shadow: 0 6px 24px rgba(37,211,102,0.4), 0 3px 10px rgba(0,0,0,0.3);
-    font-family: var(--font-sans);
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    transition: all 0.3s ease;
-}
-#wa-float-btn:hover .wa-float-inner {
-    background: #1ebe5d;
-    box-shadow: 0 10px 30px rgba(37,211,102,0.55);
-    transform: scale(1.03);
-}
-.wa-float-ping {
-    position: absolute;
-    top: 4px;
-    right: 4px;
-    width: 10px;
-    height: 10px;
-    background: #fff;
-    border-radius: 50%;
-    animation: waPing 2s ease-in-out infinite;
-}
-@keyframes waPing { 0%,100% { box-shadow: 0 0 0 0 rgba(255,255,255,0.6); } 50% { box-shadow: 0 0 0 7px rgba(255,255,255,0); } }
 
 /* ── Q2: Sold This Month Badge ── */
 .sold-badge {
