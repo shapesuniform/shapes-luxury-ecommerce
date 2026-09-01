@@ -3077,7 +3077,7 @@ window.openIGReel = function(reelId) {
             <i class="fa-brands fa-instagram" style="font-size:3rem; color:var(--gold); margin-bottom:1rem;"></i>
             <h3 style="font-family:var(--font-serif); font-size:1.4rem; color:var(--gold);">Editorial Runway Reel</h3>
             <p style="font-size:12px; color:rgba(255,255,255,0.7); max-width:280px; margin:1rem 0;">Handcrafted pure silk drape in motion — photographed at the Chembur atelier by Satiinder Kaur.</p>
-            <a href="https://www.instagram.com/shapesbysatiinderkaur" target="_blank" class="hero-cta-btn hero-cta-gold" style="font-size:10px;">
+            <a href="https://www.instagram.com/shapes_boutique" target="_blank" class="hero-cta-btn hero-cta-gold" style="font-size:10px;">
                 <i class="fa-brands fa-instagram"></i> Watch Live on Instagram
             </a>
         </div>
