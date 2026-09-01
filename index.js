@@ -2424,3 +2424,96 @@ window.saveBespokeMeasurements = function() {
 
 
 
+
+
+/* ═══════════════════════════════════════════════════════
+   CUSTOM FIT — Measurement Panel Logic
+═══════════════════════════════════════════════════════ */
+window.toggleCustomFit = function() {
+    const panel    = document.getElementById("custom-fit-panel");
+    const chevron  = document.getElementById("custom-fit-chevron");
+    const btn      = document.getElementById("custom-fit-toggle-btn");
+    if (!panel) return;
+
+    const isOpen = panel.style.display !== "none";
+    panel.style.display = isOpen ? "none" : "block";
+    chevron && chevron.classList.toggle("open", !isOpen);
+    btn && btn.setAttribute("aria-expanded", String(!isOpen));
+
+    // Pre-fill saved measurements if any
+    if (!isOpen) {
+        const saved = JSON.parse(localStorage.getItem("shapes_custom_fit") || "{}");
+        ["bust","waist","hip","height","trouser","notes"].forEach(field => {
+            const el = document.getElementById("cf-" + field);
+            if (el && saved[field]) el.value = saved[field];
+        });
+        // Hide confirm badge when re-opening
+        const confirm = document.getElementById("custom-fit-confirm");
+        if (confirm) confirm.style.display = "none";
+    }
+};
+
+window.saveCustomFit = function() {
+    const fields = ["bust","waist","hip","height","trouser","notes"];
+    const measurements = {};
+    let hasData = false;
+
+    fields.forEach(field => {
+        const el = document.getElementById("cf-" + field);
+        if (el && el.value.trim()) {
+            measurements[field] = el.value.trim();
+            hasData = true;
+        }
+    });
+
+    if (!hasData) {
+        // Shake the panel to signal empty
+        const panel = document.getElementById("custom-fit-panel");
+        if (panel) {
+            panel.style.animation = "none";
+            panel.style.border = "1px solid rgba(231,76,60,0.5)";
+            setTimeout(() => { panel.style.border = "1px solid rgba(197,160,89,0.2)"; }, 1500);
+        }
+        return;
+    }
+
+    // Save to localStorage
+    localStorage.setItem("shapes_custom_fit", JSON.stringify(measurements));
+
+    // Attach to active window product context (for cart + checkout)
+    window._activeCustomFit = measurements;
+
+    // Show confirmation
+    const confirm = document.getElementById("custom-fit-confirm");
+    if (confirm) {
+        confirm.style.display = "flex";
+        confirm.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+
+    // Update toggle button to show measurements are set
+    const btn = document.getElementById("custom-fit-toggle-btn");
+    if (btn) {
+        const span = btn.querySelector("span");
+        if (span) span.textContent = "Custom Fit ✔ Saved";
+    }
+};
+
+// When product modal opens, reset Custom Fit to closed state
+const _origOpenProduct = window.openProductModal;
+window.openProductModal = function(productId) {
+    if (_origOpenProduct) _origOpenProduct(productId);
+    // Reset panel
+    const panel = document.getElementById("custom-fit-panel");
+    const chevron = document.getElementById("custom-fit-chevron");
+    const btn = document.getElementById("custom-fit-toggle-btn");
+    const confirm = document.getElementById("custom-fit-confirm");
+    if (panel) panel.style.display = "none";
+    if (chevron) chevron.classList.remove("open");
+    if (btn) {
+        btn.setAttribute("aria-expanded", "false");
+        const span = btn.querySelector("span");
+        if (span) span.textContent = "Custom Fit — Tailored To You";
+    }
+    if (confirm) confirm.style.display = "none";
+    window._activeCustomFit = null;
+};

@@ -3489,3 +3489,194 @@ ul, ol { list-style:none; }
     white-space: nowrap;
     border: 0;
 }
+
+
+/* ════════════════════════════════════════════════════════
+   CUSTOM FIT PANEL — Product Modal
+════════════════════════════════════════════════════════ */
+#custom-fit-container {
+    margin: 1rem 0 0.5rem;
+}
+
+.custom-fit-toggle-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: linear-gradient(135deg, rgba(197,160,89,0.1) 0%, rgba(197,160,89,0.05) 100%);
+    border: 1px solid rgba(197,160,89,0.45);
+    color: var(--gold);
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.75rem 1.2rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    position: relative;
+}
+
+.custom-fit-toggle-btn:hover {
+    background: rgba(197,160,89,0.2);
+    border-color: var(--gold);
+    box-shadow: 0 4px 16px rgba(197,160,89,0.15);
+}
+
+.custom-fit-toggle-btn span {
+    flex: 1;
+    text-align: center;
+}
+
+.custom-fit-chevron {
+    font-size: 10px;
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+}
+
+.custom-fit-chevron.open {
+    transform: rotate(180deg);
+}
+
+.custom-fit-panel {
+    background: rgba(197,160,89,0.04);
+    border: 1px solid rgba(197,160,89,0.2);
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    padding: 1.2rem;
+    animation: cfSlideDown 0.3s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+
+@keyframes cfSlideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.custom-fit-intro {
+    font-size: 11px;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.6;
+    text-align: center;
+    font-style: italic;
+    margin-bottom: 1rem;
+}
+
+.custom-fit-intro strong {
+    color: var(--gold);
+    font-style: normal;
+}
+
+.custom-fit-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.custom-fit-field-full {
+    grid-column: 1 / -1;
+}
+
+.custom-fit-field label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(197,160,89,0.85);
+    margin-bottom: 5px;
+}
+
+.cf-unit {
+    font-weight: 400;
+    color: rgba(255,255,255,0.3);
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 9px;
+}
+
+.custom-fit-field input,
+.custom-fit-field textarea {
+    width: 100%;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(197,160,89,0.25);
+    color: #fff;
+    padding: 9px 11px;
+    border-radius: 3px;
+    font-family: var(--font-sans);
+    font-size: 12px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+    -moz-appearance: textfield;
+}
+
+.custom-fit-field input::-webkit-outer-spin-button,
+.custom-fit-field input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+.custom-fit-field input:focus,
+.custom-fit-field textarea:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 2px rgba(197,160,89,0.12);
+}
+
+.custom-fit-field input::placeholder,
+.custom-fit-field textarea::placeholder {
+    color: rgba(255,255,255,0.2);
+}
+
+.custom-fit-field textarea {
+    resize: vertical;
+    min-height: 58px;
+}
+
+.custom-fit-save-btn {
+    width: 100%;
+    background: rgba(197,160,89,0.12);
+    border: 1px solid rgba(197,160,89,0.5);
+    color: var(--gold);
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.8rem;
+    border-radius: 3px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.25s ease;
+    margin-bottom: 0.75rem;
+}
+
+.custom-fit-save-btn:hover {
+    background: rgba(197,160,89,0.22);
+    box-shadow: 0 4px 14px rgba(197,160,89,0.2);
+}
+
+.custom-fit-confirm {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #25D366;
+    background: rgba(37,211,102,0.08);
+    border: 1px solid rgba(37,211,102,0.25);
+    border-radius: 4px;
+    padding: 9px 12px;
+    animation: cfSlideDown 0.3s ease;
+}
+
+@media (max-width: 480px) {
+    .custom-fit-grid { grid-template-columns: 1fr; }
+}
