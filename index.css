@@ -4567,3 +4567,30 @@ body.light-mode .product-card {
     .search-results-grid { grid-template-columns: repeat(2, 1fr); }
     .recent-products-grid, .ig-feed-grid { grid-template-columns: repeat(2, 1fr); }
 }
+
+
+/* ── OVERLAY CLICK & POINTER EVENTS SHIELD ── */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    z-index: 9400;
+}
+.modal-overlay[style*="display: none"],
+.modal-overlay[style*="display:none"] {
+    pointer-events: none !important;
+}
+
+#product-detail-modal:not(.active) {
+    pointer-events: none;
+}
+#product-detail-modal.active {
+    pointer-events: all;
+}
+
+#fabric-zoom-modal[style*="display: none"],
+#fabric-zoom-modal[style*="display:none"] {
+    display: none !important;
+    pointer-events: none !important;
+}

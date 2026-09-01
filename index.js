@@ -3089,3 +3089,117 @@ window.closeIGReel = function() {
     document.getElementById("video-reel-overlay").style.display = "none";
     document.getElementById("video-reel-modal").style.display = "none";
 };
+
+
+
+/* ═══════════════════════════════════════════════════════════════
+   MASTER BUTTONS DISPATCHER & INFALLIBLE EVENT DELEGATION
+═══════════════════════════════════════════════════════════════ */
+
+// Ensure openProductModal maps directly to openProductDetail
+window.openProductModal = function(productId) {
+    if (typeof productId === 'object' && productId !== null && productId.id) {
+        productId = productId.id;
+    }
+    if (typeof openProductDetail === 'function') {
+        openProductDetail(productId);
+    } else {
+        console.warn('openProductDetail function not found');
+    }
+    
+    // Reset custom fit panel
+    const panel = document.getElementById("custom-fit-panel");
+    const chevron = document.getElementById("custom-fit-chevron");
+    const btn = document.getElementById("custom-fit-toggle-btn");
+    const confirm = document.getElementById("custom-fit-confirm");
+    if (panel) panel.style.display = "none";
+    if (chevron) chevron.classList.remove("open");
+    if (btn) {
+        btn.setAttribute("aria-expanded", "false");
+        const span = btn.querySelector("span");
+        if (span) span.textContent = "Custom Fit — Tailored To You";
+    }
+    if (confirm) confirm.style.display = "none";
+    window._activeCustomFit = null;
+};
+
+// Global Delegated Click Listener for All Interactive Elements
+document.addEventListener("click", function(e) {
+    const tgt = e.target;
+    if (!tgt) return;
+
+    // 1. Product card clicks
+    const productCard = tgt.closest(".product-card");
+    if (productCard && !tgt.closest(".card-wishlist-btn") && !tgt.closest("button") && !tgt.closest("a")) {
+        const id = productCard.getAttribute("data-id");
+        if (id) {
+            window.openProductModal(id);
+            if (typeof recordRecentlyViewed === 'function') recordRecentlyViewed(id);
+        }
+    }
+
+    // 2. Add To Bag button inside modal
+    if (tgt.closest("#modal-add-to-cart-btn")) {
+        e.preventDefault();
+        e.stopPropagation();
+        if (typeof addToBagFromModal === 'function') {
+            addToBagFromModal();
+        } else {
+            // Fallback direct add
+            const title = document.getElementById("modal-product-title")?.textContent || "Luxury Co-Ord";
+            const priceStr = document.getElementById("modal-product-price")?.textContent || "12900";
+            const price = parseInt(priceStr.replace(/[^0-9]/g, ""), 10) || 12900;
+            const size = document.querySelector(".size-option.active")?.dataset.size || "M";
+            const img = document.getElementById("modal-product-image")?.src || "images/hero_coord_editorial.webp";
+            
+            let cart = JSON.parse(localStorage.getItem("shapes_cart") || "[]");
+            cart.push({ id: "item-" + Date.now(), name: title, price: price, size: size, image: img, quantity: 1, customFit: window._activeCustomFit || null });
+            localStorage.setItem("shapes_cart", JSON.stringify(cart));
+            window.dispatchEvent(new Event("shapesCartUpdated"));
+            if (window.openSmartCart) window.openSmartCart();
+        }
+    }
+
+    // 3. Buy Now button inside modal
+    if (tgt.closest("#modal-buy-now-btn")) {
+        e.preventDefault();
+        e.stopPropagation();
+        // Add to cart first
+        const title = document.getElementById("modal-product-title")?.textContent || "Luxury Co-Ord";
+        const priceStr = document.getElementById("modal-product-price")?.textContent || "12900";
+        const price = parseInt(priceStr.replace(/[^0-9]/g, ""), 10) || 12900;
+        const size = document.querySelector(".size-option.active")?.dataset.size || "M";
+        const img = document.getElementById("modal-product-image")?.src || "images/hero_coord_editorial.webp";
+        
+        let cart = JSON.parse(localStorage.getItem("shapes_cart") || "[]");
+        cart.push({ id: "item-" + Date.now(), name: title, price: price, size: size, image: img, quantity: 1, customFit: window._activeCustomFit || null });
+        localStorage.setItem("shapes_cart", JSON.stringify(cart));
+        window.dispatchEvent(new Event("shapesCartUpdated"));
+        
+        if (typeof closeProductDetailModal === 'function') closeProductDetailModal();
+        if (typeof initiateCheckoutFlow === 'function') initiateCheckoutFlow();
+        else if (window.openSmartCart) window.openSmartCart();
+    }
+
+    // 4. Cart trigger clicks
+    if (tgt.closest("#cart-nav-trigger") || tgt.closest(".cart-icon-btn") || tgt.closest("#cart-btn")) {
+        e.preventDefault();
+        if (typeof openSmartCart === 'function') openSmartCart();
+        else if (typeof openCartDrawer === 'function') openCartDrawer();
+    }
+
+    // 5. Size buttons inside modal
+    const sizeBtn = tgt.closest(".size-option");
+    if (sizeBtn && sizeBtn.dataset.size) {
+        document.querySelectorAll(".size-option").forEach(b => b.classList.remove("active"));
+        sizeBtn.classList.add("active");
+        window._selectedSize = sizeBtn.dataset.size;
+    }
+
+    // 6. Accordion triggers
+    const accTrigger = tgt.closest(".prod-acc-trigger");
+    if (accTrigger) {
+        const item = accTrigger.closest(".prod-acc-item");
+        if (item) item.classList.toggle("open");
+    }
+}, true);
