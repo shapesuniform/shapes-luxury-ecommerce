@@ -2620,39 +2620,6 @@ window.saveBespokeMeasurements = function() {
         if (icon) icon.className = (isLight ? "fa-solid fa-moon" : "fa-solid fa-sun");
     };
 
-    // ── 8. Q8: Language Switcher ──
-    var LANG_DICT = {
-        en: {
-            "Add To Bag": "Add To Bag",
-            "Buy Now": "Buy Now",
-            "Custom Fit — Tailored To You": "Custom Fit — Tailored To You",
-            "Find My Recommended Size": "Find My Recommended Size",
-            "Ask on WhatsApp": "Ask on WhatsApp",
-            "Save My Measurements": "Save My Measurements"
-        },
-        hi: {
-            "Add To Bag": "बैग में डालें",
-            "Buy Now": "अभी खरीदें",
-            "Custom Fit — Tailored To You": "कस्टम फिट — आपके लिए",
-            "Find My Recommended Size": "मेरा साइज़ ढूंढे",
-            "Ask on WhatsApp": "व्हाट्सएप पर पूछें",
-            "Save My Measurements": "माप सहेजें"
-        }
-    };
-    var currentLang = "en";
-    try { currentLang = localStorage.getItem("shapes_lang") || "en"; } catch(e) {}
-    window.toggleLanguage = function() {
-        currentLang = (currentLang === "en" ? "hi" : "en");
-        try { localStorage.setItem("shapes_lang", currentLang); } catch(e) {}
-        var btn = document.getElementById("lang-icon");
-        if (btn) btn.textContent = (currentLang === "hi" ? "EN" : "हिं");
-        var dict = LANG_DICT[currentLang] || LANG_DICT.en;
-        document.querySelectorAll("[data-i18n]").forEach(function(el) {
-            var k = el.getAttribute("data-i18n");
-            if (dict[k]) el.textContent = dict[k];
-        });
-    };
-
     // ── 9. P1: Smart Search ──
     var CATALOG_ITEMS = [
         { id: "p1", name: "Emerald Festive Silk Co-Ord Set", price: 12900, fabric: "silk", occasion: "festive", color: "Emerald Green", img: "images/hero_coord_editorial.webp" },
