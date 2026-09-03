@@ -4237,3 +4237,85 @@ window.showAdminSection = function(sectionId) {
 window.addEventListener("load", () => {
     if (document.getElementById("vip-clients-tbody")) renderVIPClientsTable();
 });
+
+
+
+/* ═══════════════════════════════════════════════════════════════
+   ADMIN CRM & LOGISTICS COMPATIBILITY HELPERS
+═══════════════════════════════════════════════════════════════ */
+window.switchCLTab = function(tab) {
+    if (typeof window.filterVIPClients === 'function') {
+        window.filterVIPClients(tab);
+    }
+    document.querySelectorAll(".clients-toolbar .cl-tab-btn").forEach(function(b) {
+        b.classList.toggle("active", b.id === ("cltab-" + tab));
+    });
+};
+
+window.sendBirthdayCoupon = function(phone, name) {
+    if (typeof window.sendBirthdayVoucher === 'function') {
+        window.sendBirthdayVoucher(phone, name);
+    } else {
+        var code = "BDAY500";
+        var msg = encodeURIComponent("Namaste! Wishing you a very Happy Birthday from Shapes By Satiinder Kaur. Use voucher " + code + " for ₹500 off.");
+        window.open("https://wa.me/" + (phone || "").replace(/[^0-9]/g, "") + "?text=" + msg, "_blank");
+    }
+};
+
+window.sendWhatsAppToClient = function(phone, name) {
+    if (typeof window.openWhatsAppClient === 'function') {
+        window.openWhatsAppClient(phone, name);
+    } else {
+        var msg = encodeURIComponent("Hello " + (name || "Client") + "! This is Satiinder Kaur from Shapes Atelier Chembur. How can we assist you today?");
+        window.open("https://wa.me/" + (phone || "").replace(/[^0-9]/g, "") + "?text=" + msg, "_blank");
+    }
+};
+
+window.toggleVIPStatus = function(clientId) {
+    var c = CLIENTS_CRM_DATA.find(function(x) { return x.id === clientId; });
+    if (c) {
+        c.tier = (c.tier === "vip" ? "standard" : "vip");
+        alert(c.name + " VIP status updated to: " + c.tier.toUpperCase());
+        if (typeof renderVIPClientsTable === 'function') renderVIPClientsTable();
+    }
+};
+
+window.closeCLDetail = function() {
+    var modal = document.getElementById("cl-detail-modal");
+    if (modal) modal.style.display = "none";
+};
+
+window.toggleMobileSidebar = function() {
+    var sidebar = document.querySelector(".admin-sidebar");
+    if (sidebar) {
+        sidebar.classList.toggle("open");
+        sidebar.classList.toggle("active");
+    }
+};
+
+window.logFabricRestock = function() {
+    var fabric = prompt("Enter Fabric Name to log restock (e.g. Pure Mulberry Silk 100g):", "Pure Mulberry Silk");
+    if (!fabric) return;
+    var meters = prompt("Enter Meters Received (e.g. 50):", "50");
+    if (!meters) return;
+    alert("Logged restock of " + meters + "m for " + fabric + " into Atelier inventory ledger.");
+};
+
+window.addInfluencerCode = function() {
+    var name = prompt("Enter Influencer / Stylist Name:", "Kavita S");
+    if (!name) return;
+    var code = prompt("Enter Custom Discount Code (e.g. KAVITA10):", (name.replace(/[^a-zA-Z]/g, "").toUpperCase() + "10"));
+    if (!code) return;
+    var pct = prompt("Enter Commission Percentage (%):", "10");
+    alert("Created affiliate code " + code + " for " + name + " (" + pct + "% commission).");
+};
+
+window.savePixelSettings = function() {
+    var metaId = document.getElementById("meta-pixel-id")?.value || "";
+    var gtmId = document.getElementById("gtm-id")?.value || "";
+    try {
+        localStorage.setItem("shapes_meta_pixel", metaId);
+        localStorage.setItem("shapes_gtm_id", gtmId);
+    } catch(e) {}
+    alert("Marketing pixels saved successfully: Meta Pixel (" + (metaId || "None") + "), GTM (" + (gtmId || "None") + ")");
+};

@@ -542,15 +542,82 @@ function closeCartDrawer() {
 /* ══════════════════════════════════════════════════════════
    CART OPERATIONS
 ══════════════════════════════════════════════════════════ */
-function addToCart(productId, size) {
-    const p = products.find(x => x.id === productId);
-    if (!p) return;
-    const existing = cart.find(i => i.id === productId && i.size === size);
-    if (existing) { existing.quantity++; }
-    else { cart.push({ id: p.id, title: p.title, price: p.price, image: p.image, size: size || "M", quantity: 1 }); }
-    setLocal("shapes_cart_items", cart);
+
+/* ══════════════════════════════════════════════════════════
+   UNIFIED CART SYNCHRONIZATION ENGINE
+══════════════════════════════════════════════════════════ */
+function getUnifiedCart() {
+    try {
+        const stored = localStorage.getItem("shapes_cart_items") || localStorage.getItem("shapes_cart") || "[]";
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed)) {
+            return parsed.map(i => ({
+                id: i.id || ("item-" + Date.now()),
+                title: i.title || i.name || "Luxury Designer Co-Ord",
+                name: i.title || i.name || "Luxury Designer Co-Ord",
+                price: parseFloat(i.price) || 12900,
+                image: i.image || i.img || "images/hero_coord_editorial.webp",
+                size: i.size || "M",
+                quantity: parseInt(i.quantity, 10) || 1,
+                customFit: i.customFit || null
+            }));
+        }
+    } catch(e) {}
+    return [];
+}
+
+function saveUnifiedCart(newCart) {
+    cart = newCart.map(i => ({
+        id: i.id || ("item-" + Date.now()),
+        title: i.title || i.name || "Luxury Designer Co-Ord",
+        name: i.title || i.name || "Luxury Designer Co-Ord",
+        price: parseFloat(i.price) || 12900,
+        image: i.image || i.img || "images/hero_coord_editorial.webp",
+        size: i.size || "M",
+        quantity: parseInt(i.quantity, 10) || 1,
+        customFit: i.customFit || null
+    }));
+    try {
+        localStorage.setItem("shapes_cart_items", JSON.stringify(cart));
+        localStorage.setItem("shapes_cart", JSON.stringify(cart));
+    } catch(e) {}
     updateCartBadge();
+    window.dispatchEvent(new Event("shapesCartUpdated"));
+}
+
+
+function addToCart(productId, size, customFit) {
+    cart = getUnifiedCart();
+    let p = products.find(x => x.id === productId);
+    if (!p) {
+        // Fallback search in catalog data
+        p = (typeof CATALOG_ITEMS !== 'undefined' ? CATALOG_ITEMS.find(x => x.id === productId) : null) || {
+            id: productId,
+            title: document.getElementById("modal-product-title")?.textContent || "Luxury Designer Co-Ord",
+            price: parseFloat(document.getElementById("modal-product-price")?.textContent.replace(/[^0-9.]/g, "")) || 12900,
+            image: document.getElementById("modal-product-image")?.src || "images/hero_coord_editorial.webp"
+        };
+    }
+    const targetSize = size || selectedSize || "M";
+    const existing = cart.find(i => i.id === productId && i.size === targetSize);
+    if (existing) {
+        existing.quantity = (existing.quantity || 1) + 1;
+        if (customFit) existing.customFit = customFit;
+    } else {
+        cart.push({
+            id: p.id,
+            title: p.title || p.name || "Luxury Designer Co-Ord",
+            name: p.title || p.name || "Luxury Designer Co-Ord",
+            price: parseFloat(p.price) || 12900,
+            image: p.image || p.img || "images/hero_coord_editorial.webp",
+            size: targetSize,
+            quantity: 1,
+            customFit: customFit || window._activeCustomFit || null
+        });
+    }
+    saveUnifiedCart(cart);
     showCartToast();
+    if (typeof renderSmartCartFull === 'function') renderSmartCartFull();
 }
 
 function removeFromCart(idx) {
@@ -561,9 +628,22 @@ function removeFromCart(idx) {
 }
 
 function addCurrentActiveProductToCart() {
-    if (!currentActiveProduct) return;
-    addToCart(currentActiveProduct.id, selectedSize);
+    if (!currentActiveProduct) {
+        const titleEl = document.getElementById("modal-product-title");
+        if (titleEl && titleEl.textContent) {
+            currentActiveProduct = {
+                id: "item-" + Date.now(),
+                title: titleEl.textContent,
+                price: parseFloat(document.getElementById("modal-product-price")?.textContent.replace(/[^0-9.]/g, "")) || 12900,
+                image: document.getElementById("modal-product-image")?.src || "images/hero_coord_editorial.webp"
+            };
+        } else {
+            return;
+        }
+    }
+    addToCart(currentActiveProduct.id, selectedSize || "M", window._activeCustomFit || null);
     closeProductDetailModal();
+    if (typeof openSmartCart === 'function') openSmartCart();
 }
 
 /* Toast */
@@ -678,54 +758,76 @@ function processFinalRazorpayPayment() {
     const cfg = getLocal("shapes_config", {});
     const rzpKey = cfg.razorpayKey || "rzp_live_TQ0RwUwXQjD3tq";
 
-    if (typeof Razorpay === "undefined") {
-        alert("Razorpay payment gateway is loading. Please verify your connection and try again.");
-        return;
-    }
+    const launchRazorpayModal = () => {
+        try {
+            const rzp = new Razorpay({
+                key: rzpKey,
+                amount: Math.round(totalINR * 100),
+                currency: "INR",
+                name: "Shapes By Satiinder Kaur",
+                description: `Order ${orderId}`,
+                handler: function(resp) {
+                    if (resp && resp.razorpay_payment_id) {
+                        onPaymentComplete(resp.razorpay_payment_id);
+                    } else {
+                        onPaymentComplete("RAZORPAY_PAID");
+                    }
+                },
+                prefill: {
+                    name: info.fullName,
+                    email: info.email,
+                    contact: info.phone
+                },
+                notes: {
+                    shipping_address: fullAddr,
+                    order_id: orderId,
+                    items: itemList.substring(0, 200)
+                },
+                theme: {
+                    color: "#C5A059"
+                },
+                modal: {
+                    ondismiss: function() {
+                        console.info("Razorpay payment window closed by client.");
+                    }
+                }
+            });
 
-    try {
-        const rzp = new Razorpay({
-            key: rzpKey,
-            amount: Math.round(totalINR * 100),
-            currency: "INR",
-            name: "Shapes By Satiinder Kaur",
-            description: `Order ${orderId}`,
-            handler: function(resp) {
-                if (resp && resp.razorpay_payment_id) {
-                    onPaymentComplete(resp.razorpay_payment_id);
-                } else {
-                    onPaymentComplete("RAZORPAY_PAID");
+            rzp.on("payment.failed", function(resp) {
+                console.error("Razorpay Payment Failed:", resp.error);
+                const desc = resp.error ? resp.error.description : "Gateway declined";
+                const waText = encodeURIComponent(`Hello Satiinder Kaur, I encountered a payment error (${desc}) for Order ${orderId} (${formatPrice(totalINR)}). Please send me direct UPI / QR code payment details.\n\nItems: ${itemList}\nDelivery to: ${fullAddr}`);
+                if (confirm(`Payment could not be completed via Razorpay (${desc}).\n\nWould you like to complete your order directly via WhatsApp Concierge / UPI with Satiinder Kaur?`)) {
+                    window.open(`https://wa.me/917977456549?text=${waText}`, "_blank");
+                    onPaymentComplete("PENDING_UPI_CONCIERGE");
                 }
-            },
-            prefill: {
-                name: info.fullName,
-                email: info.email,
-                contact: info.phone
-            },
-            notes: {
-                shipping_address: fullAddr,
-                order_id: orderId,
-                items: itemList.substring(0, 200)
-            },
-            theme: {
-                color: "#C5A059"
-            },
-            modal: {
-                ondismiss: function() {
-                    console.log("Razorpay payment window closed.");
-                }
+            });
+
+            rzp.open();
+        } catch(e) {
+            console.error("Razorpay Init Error:", e);
+            const waText = encodeURIComponent(`Hello Satiinder Kaur, I would like to pay for Order ${orderId} (${formatPrice(totalINR)}) via UPI.\n\nItems: ${itemList}\nCustomer: ${info.fullName} (${info.phone})\nAddress: ${fullAddr}`);
+            if (confirm(`Razorpay gateway encountered an issue: ${e.message}.\n\nWould you like to complete payment directly via WhatsApp Concierge / UPI?`)) {
+                window.open(`https://wa.me/917977456549?text=${waText}`, "_blank");
+                onPaymentComplete("PENDING_UPI_CONCIERGE");
             }
-        });
+        }
+    };
 
-        rzp.on("payment.failed", function(resp) {
-            console.error("Razorpay Payment Failed:", resp.error);
-            alert("Payment could not be completed: " + (resp.error ? resp.error.description : "Transaction declined"));
-        });
-
-        rzp.open();
-    } catch(e) {
-        console.error("Razorpay Init Error:", e);
-        alert("Unable to open Razorpay checkout: " + e.message);
+    if (typeof Razorpay === "undefined") {
+        const s = document.createElement("script");
+        s.src = "https://checkout.razorpay.com/v1/checkout.js";
+        s.onload = launchRazorpayModal;
+        s.onerror = function() {
+            const waText = encodeURIComponent(`Hello Satiinder Kaur, I would like to complete my bespoke order ${orderId} (${formatPrice(totalINR)}) via UPI / WhatsApp.\n\nItems: ${itemList}\nAddress: ${fullAddr}`);
+            if (confirm(`Online payment gateway is blocked or unreachable.\n\nWould you like to complete this order directly via WhatsApp Concierge / UPI?`)) {
+                window.open(`https://wa.me/917977456549?text=${waText}`, "_blank");
+                onPaymentComplete("PENDING_UPI_CONCIERGE");
+            }
+        };
+        document.head.appendChild(s);
+    } else {
+        launchRazorpayModal();
     }
 }
 
@@ -1133,9 +1235,7 @@ async function saveOrderToFirestore(orderData) {
 ══════════════════════════════════════════════════════════ */
 async function completeOrderSuccess(orderId, paymentRef, info, totalINR, fullAddr, itemList) {
     /* 1. Clear cart */
-    cart = [];
-    setLocal("shapes_cart_items", cart);
-    updateCartBadge();
+    saveUnifiedCart([]);
     closeShippingModal();
 
     /* 2. Build full order object for PDF + Firebase */
@@ -2804,19 +2904,25 @@ window.saveBespokeMeasurements = function() {
     };
     window.addAllWishlistToCart = function() {
         var wishlist = [];
-        var cart = [];
+        var currentCart = getUnifiedCart();
         try {
             wishlist = JSON.parse(localStorage.getItem("shapes_wishlist") || "[]");
-            cart = JSON.parse(localStorage.getItem("shapes_cart") || "[]");
             wishlist.forEach(function(id) {
                 var item = CATALOG_ITEMS.find(function(p) { return p.id === id; });
                 if (item) {
-                    cart.push({ id: item.id, name: item.name, price: item.price, size: "M", image: item.img, quantity: 1 });
+                    currentCart.push({
+                        id: item.id,
+                        title: item.name,
+                        name: item.name,
+                        price: parseFloat(item.price) || 12900,
+                        size: "M",
+                        image: item.img || "images/hero_coord_editorial.webp",
+                        quantity: 1
+                    });
                 }
             });
-            localStorage.setItem("shapes_cart", JSON.stringify(cart));
+            saveUnifiedCart(currentCart);
         } catch(e) {}
-        window.dispatchEvent(new Event("shapesCartUpdated"));
         window.closeWishlistDrawer();
         if (window.openSmartCart) window.openSmartCart();
     };
@@ -2856,14 +2962,19 @@ window.saveBespokeMeasurements = function() {
 
     // ── 14. P3: Complete The Look ──
     window.addPairToBag = function(name, price, img) {
-        var cart = [];
-        try {
-            cart = JSON.parse(localStorage.getItem("shapes_cart") || "[]");
-            cart.push({ id: "acc-" + Date.now(), name: name, price: price, size: "Free Size", image: img, quantity: 1 });
-            localStorage.setItem("shapes_cart", JSON.stringify(cart));
-        } catch(e) {}
-        window.dispatchEvent(new Event("shapesCartUpdated"));
-        if (window.openSmartCart) window.openSmartCart();
+        var c = getUnifiedCart();
+        c.push({
+            id: "acc-" + Date.now(),
+            title: name,
+            name: name,
+            price: parseFloat(price) || 2400,
+            size: "Free Size",
+            image: img || "images/hero_coord_editorial.webp",
+            quantity: 1
+        });
+        saveUnifiedCart(c);
+        if (typeof showToastMsg === 'function') showToastMsg("Added " + name + " to your shopping bag ✨");
+        if (typeof openSmartCart === 'function') openSmartCart();
     };
 
     // ── 15. P4: Video Reel Modal ──
@@ -2908,50 +3019,18 @@ window.saveBespokeMeasurements = function() {
         if (tgt.closest("#modal-add-to-cart-btn")) {
             e.preventDefault();
             e.stopPropagation();
-            if (typeof addToBagFromModal === 'function') {
-                addToBagFromModal();
-            } else {
-                var title = document.getElementById("modal-product-title") ? document.getElementById("modal-product-title").textContent : "Luxury Co-Ord";
-                var priceStr = document.getElementById("modal-product-price") ? document.getElementById("modal-product-price").textContent : "12900";
-                var price = parseInt(priceStr.replace(/[^0-9]/g, ""), 10) || 12900;
-                var activeSizeEl = document.querySelector(".size-option.active");
-                var size = activeSizeEl ? activeSizeEl.dataset.size : "M";
-                var imgEl = document.getElementById("modal-product-image");
-                var img = imgEl ? imgEl.src : "images/hero_coord_editorial.webp";
-                
-                var cart = [];
-                try {
-                    cart = JSON.parse(localStorage.getItem("shapes_cart") || "[]");
-                    cart.push({ id: "item-" + Date.now(), name: title, price: price, size: size, image: img, quantity: 1, customFit: window._activeCustomFit || null });
-                    localStorage.setItem("shapes_cart", JSON.stringify(cart));
-                } catch(err) {}
-                window.dispatchEvent(new Event("shapesCartUpdated"));
-                if (window.openSmartCart) window.openSmartCart();
-            }
+            addCurrentActiveProductToCart();
+            return;
         }
 
         // Buy Now inside modal
         if (tgt.closest("#modal-buy-now-btn")) {
             e.preventDefault();
             e.stopPropagation();
-            var title = document.getElementById("modal-product-title") ? document.getElementById("modal-product-title").textContent : "Luxury Co-Ord";
-            var priceStr = document.getElementById("modal-product-price") ? document.getElementById("modal-product-price").textContent : "12900";
-            var price = parseInt(priceStr.replace(/[^0-9]/g, ""), 10) || 12900;
-            var activeSizeEl = document.querySelector(".size-option.active");
-            var size = activeSizeEl ? activeSizeEl.dataset.size : "M";
-            var imgEl = document.getElementById("modal-product-image");
-            var img = imgEl ? imgEl.src : "images/hero_coord_editorial.webp";
-            
-            var cart = [];
-            try {
-                cart = JSON.parse(localStorage.getItem("shapes_cart") || "[]");
-                cart.push({ id: "item-" + Date.now(), name: title, price: price, size: size, image: img, quantity: 1, customFit: window._activeCustomFit || null });
-                localStorage.setItem("shapes_cart", JSON.stringify(cart));
-            } catch(err) {}
-            window.dispatchEvent(new Event("shapesCartUpdated"));
-            if (typeof closeProductDetailModal === 'function') closeProductDetailModal();
-            if (typeof initiateCheckoutFlow === 'function') initiateCheckoutFlow();
-            else if (window.openSmartCart) window.openSmartCart();
+            addCurrentActiveProductToCart();
+            if (typeof closeSmartCart === 'function') closeSmartCart();
+            if (typeof openCheckoutModal === 'function') openCheckoutModal();
+            return;
         }
 
         // Cart trigger clicks
