@@ -2,31 +2,55 @@
 <?xml-stylesheet type="text/xsl" href="/sitemap.xsl"?>
 <urlset
   xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-  xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
-  xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+  xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 
-    <!-- PRIMARY BRAND PAGE — Satiinder Kaur Fashion Designer Mumbai -->
+    <!-- PRIMARY STOREFRONT — Satiinder Kaur Luxury Co-Ord Sets & Bespoke Pret -->
     <url>
         <loc>https://shapesbysatinderkaur.com/</loc>
-        <lastmod>2026-08-23</lastmod>
+        <lastmod>2026-09-03</lastmod>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
         <image:image>
             <image:loc>https://shapesbysatinderkaur.com/images/hero_coord_editorial.webp</image:loc>
-            <image:title>Satiinder Kaur — SHAPES Luxury Designer Co-Ord Sets Mumbai</image:title>
-            <image:caption>Handcrafted pure silk co-ord sets by fashion designer Satiinder Kaur, Chembur Mumbai</image:caption>
+            <image:title>The Emerald Festive Silk Set — Shapes By Satiinder Kaur</image:title>
+            <image:caption>Handcrafted pure modal silk festive co-ord set by designer Satiinder Kaur in Chembur, Mumbai</image:caption>
         </image:image>
         <image:image>
             <image:loc>https://shapesbysatinderkaur.com/images/welcome_coord_luxury.webp</image:loc>
-            <image:title>SHAPES By Satiinder Kaur — Bespoke Luxury Indian Fashion</image:title>
-            <image:caption>Bespoke designer Indian pret by Satiinder Kaur</image:caption>
+            <image:title>Royal Banarasi Brocade Corset Set — Shapes By Satiinder Kaur</image:title>
+            <image:caption>Heritage Banarasi brocade corset ensemble with structured boning by Satiinder Kaur</image:caption>
+        </image:image>
+        <image:image>
+            <image:loc>https://shapesbysatinderkaur.com/images/coord_black_floral.webp</image:loc>
+            <image:title>The Noir Botanical Silk Set — Shapes By Satiinder Kaur</image:title>
+            <image:caption>Pure modal silk botanical print luxury designer co-ord set</image:caption>
+        </image:image>
+        <image:image>
+            <image:loc>https://shapesbysatinderkaur.com/images/coord_beige_linen.webp</image:loc>
+            <image:title>Ivory and Sand Organic Slub Linen Set — Shapes By Satiinder Kaur</image:title>
+            <image:caption>Breathable organic slub linen two-piece casual luxury ensemble</image:caption>
+        </image:image>
+        <image:image>
+            <image:loc>https://shapesbysatinderkaur.com/images/coord_royal_emerald.webp</image:loc>
+            <image:title>The Emerald Festive Silk Set — Shapes By Satiinder Kaur</image:title>
+            <image:caption>Mulberry raw silk bandhgala co-ord set with antique gold zardozi embroidery</image:caption>
+        </image:image>
+        <image:image>
+            <image:loc>https://shapesbysatinderkaur.com/images/coord_indigo_print.webp</image:loc>
+            <image:title>Indigo Heritage Handblock Set — Shapes By Satiinder Kaur</image:title>
+            <image:caption>Artisanal handblock printed modal silk co-ord set</image:caption>
+        </image:image>
+        <image:image>
+            <image:loc>https://shapesbysatinderkaur.com/images/brocade_corset.webp</image:loc>
+            <image:title>Royal Banarasi Brocade Corset Set — Shapes By Satiinder Kaur</image:title>
+            <image:caption>Classical Western corsetry fusion with royal Banarasi silk brocade</image:caption>
         </image:image>
     </url>
 
     <!-- Editorial Runway Lookbook -->
     <url>
         <loc>https://shapesbysatinderkaur.com/lookbook.html</loc>
-        <lastmod>2026-08-23</lastmod>
+        <lastmod>2026-09-03</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
@@ -34,7 +58,7 @@
     <!-- Bespoke Appointment Booking Page -->
     <url>
         <loc>https://shapesbysatinderkaur.com/appointment.html</loc>
-        <lastmod>2026-08-23</lastmod>
+        <lastmod>2026-09-03</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
@@ -42,7 +66,23 @@
     <!-- Personalized Size Quiz -->
     <url>
         <loc>https://shapesbysatinderkaur.com/sizequiz.html</loc>
-        <lastmod>2026-08-23</lastmod>
+        <lastmod>2026-09-03</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.85</priority>
+    </url>
+
+    <!-- Contact & Flagship Chembur Showroom -->
+    <url>
+        <loc>https://shapesbysatinderkaur.com/contact.html</loc>
+        <lastmod>2026-09-03</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.85</priority>
+    </url>
+
+    <!-- Brand Heritage & Artisanal Story -->
+    <url>
+        <loc>https://shapesbysatinderkaur.com/info.html</loc>
+        <lastmod>2026-09-03</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -50,63 +90,47 @@
     <!-- Live Order Tracking -->
     <url>
         <loc>https://shapesbysatinderkaur.com/track.html</loc>
-        <lastmod>2026-08-23</lastmod>
+        <lastmod>2026-09-03</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
     </url>
 
-    <!-- My Account / Client Portal -->
+    <!-- VIP Client Account Portal -->
     <url>
         <loc>https://shapesbysatinderkaur.com/account.html</loc>
-        <lastmod>2026-08-23</lastmod>
+        <lastmod>2026-09-03</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
 
-    <!-- Contact & Boutique Info -->
-    <url>
-        <loc>https://shapesbysatinderkaur.com/contact.html</loc>
-        <lastmod>2026-08-23</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.75</priority>
-    </url>
-
-    <!-- Brand, Heritage & Story Page -->
-    <url>
-        <loc>https://shapesbysatinderkaur.com/info.html</loc>
-        <lastmod>2026-08-23</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.7</priority>
-    </url>
-
-    <!-- Shipping Information -->
+    <!-- Shipping & Delivery Policy -->
     <url>
         <loc>https://shapesbysatinderkaur.com/shipping.html</loc>
-        <lastmod>2026-08-23</lastmod>
+        <lastmod>2026-09-03</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
     </url>
 
-    <!-- Refund Policy -->
+    <!-- Bespoke & Return Policy -->
     <url>
         <loc>https://shapesbysatinderkaur.com/refund.html</loc>
-        <lastmod>2026-08-23</lastmod>
+        <lastmod>2026-09-03</lastmod>
         <changefreq>monthly</changefreq>
-        <priority>0.5</priority>
+        <priority>0.6</priority>
     </url>
 
     <!-- Privacy Policy -->
     <url>
         <loc>https://shapesbysatinderkaur.com/privacy.html</loc>
-        <lastmod>2026-08-23</lastmod>
+        <lastmod>2026-09-03</lastmod>
         <changefreq>yearly</changefreq>
         <priority>0.4</priority>
     </url>
 
-    <!-- Terms of Service -->
+    <!-- Terms & Conditions -->
     <url>
         <loc>https://shapesbysatinderkaur.com/terms.html</loc>
-        <lastmod>2026-08-23</lastmod>
+        <lastmod>2026-09-03</lastmod>
         <changefreq>yearly</changefreq>
         <priority>0.4</priority>
     </url>
@@ -114,7 +138,7 @@
     <!-- Cancellation Policy -->
     <url>
         <loc>https://shapesbysatinderkaur.com/cancellation.html</loc>
-        <lastmod>2026-08-23</lastmod>
+        <lastmod>2026-09-03</lastmod>
         <changefreq>yearly</changefreq>
         <priority>0.4</priority>
     </url>
