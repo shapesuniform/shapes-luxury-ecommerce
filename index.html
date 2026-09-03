@@ -332,7 +332,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-    <link rel="stylesheet" href="index.css?v=70.0">
+    <link rel="stylesheet" href="index.css?v=71.0">
     <link rel="manifest" href="manifest.json">
 
     <!-- PDF Invoice Generation -->
@@ -346,7 +346,7 @@
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <!-- Cloudflare Turnstile Invisible Bot Protection -->
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-    <script src="index.js?v=70.0" defer></script>
+    <script src="index.js?v=71.0" defer></script>
 
 <script type="application/ld+json">
 {
@@ -944,7 +944,7 @@
      FABRIC & EMBROIDERY ZOOM LIGHTBOX MODAL
 ═══════════════════════════════════════════════════════════ -->
 <div class="luxury-zoom-modal" id="fabric-zoom-modal" style="display:none;" role="dialog" aria-modal="true" aria-label="Fabric Zoom Lightbox">
-    <button class="close-zoom-btn" id="close-zoom-modal" aria-label="Close Zoom">&times;</button>
+    <button type="button" class="close-zoom-btn" id="close-zoom-modal" aria-label="Close Zoom" onclick="closeZoomModal()">&times;</button>
     <div class="zoom-toolbar">
         <span class="zoom-product-label" id="zoom-product-title">Fabric Texture</span>
         <div class="zoom-btn-group">
@@ -1078,7 +1078,7 @@
 ═══════════════════════════════════════════════════════════ -->
 <div class="luxury-modal" id="product-detail-modal" role="dialog" aria-modal="true" aria-label="Product Details">
     <div class="modal-content-wrapper">
-        <button class="close-modal-btn" id="close-detail-modal" aria-label="Close product details" onclick="closeProductDetailModal()">&times;</button>
+        <button type="button" class="close-modal-btn" id="close-detail-modal" aria-label="Close product details" onclick="closeProductDetailModal()">&times;</button>
         <div class="modal-grid">
                         <!-- Image Side — World-Class Multi-Image Gallery -->
             <div class="modal-image-side">
@@ -1434,7 +1434,7 @@
     <div class="cart-drawer" id="cart-drawer">
         <div class="cart-drawer-header">
             <h3><i class="fa-solid fa-bag-shopping" style="color:var(--gold);margin-right:8px;"></i>Shopping Bag</h3>
-            <button class="close-icon-btn" id="close-cart-drawer" aria-label="Close cart">&times;</button>
+            <button type="button" class="close-icon-btn" id="close-cart-drawer" aria-label="Close cart" onclick="closeCartDrawer(); closeSmartCart();">&times;</button>
         </div>
         <div class="cart-items-list" id="cart-items-container"></div>
         <div class="cart-drawer-footer">
@@ -1455,7 +1455,7 @@
 ═══════════════════════════════════════════════════════════ -->
 <div class="luxury-modal" id="shipping-address-modal" role="dialog" aria-modal="true" aria-label="Shipping Details">
     <div class="form-modal-content">
-        <button class="close-modal-btn" id="close-shipping-modal" aria-label="Close shipping form">&times;</button>
+        <button type="button" class="close-modal-btn" id="close-shipping-modal" aria-label="Close shipping form" onclick="closeShippingModal()">&times;</button>
         <div class="form-modal-header">
             <i class="fa-solid fa-lock form-modal-icon"></i>
             <span class="sub-title" style="margin-bottom:0.3rem;">Secure Checkout</span>
@@ -1509,7 +1509,7 @@
 ═══════════════════════════════════════════════════════════ -->
 <div class="luxury-modal" id="review-modal" role="dialog" aria-modal="true" aria-label="Write Review">
     <div class="form-modal-content">
-        <button class="close-modal-btn" id="close-review-modal" onclick="closeReviewModal()" aria-label="Close review form">&times;</button>
+        <button type="button" class="close-modal-btn" id="close-review-modal" onclick="closeReviewModal()" aria-label="Close review form">&times;</button>
         <div class="form-modal-header">
             <i class="fa-solid fa-star form-modal-icon" style="color:var(--gold);"></i>
             <span class="sub-title" style="margin-bottom:0.3rem;">Client Experience</span>
@@ -1703,7 +1703,7 @@
             <span>Your Luxury Bag</span>
             <span id="smart-cart-count" class="scart-badge"></span>
         </div>
-        <button class="scart-close-btn" onclick="closeSmartCart()" aria-label="Close cart">&times;</button>
+        <button type="button" class="scart-close-btn" onclick="closeSmartCart(); closeCartDrawer();" aria-label="Close cart">&times;</button>
     </div>
 
 

@@ -1,3 +1,100 @@
+// ── MASTER BULLETPROOF CLOSE BUTTON & ESCAPE ENGINE (Capture Phase) ──
+(function() {
+    document.addEventListener("click", function(e) {
+        var tgt = e.target;
+        if (!tgt) return;
+
+        // Any element inside or matching close buttons
+        var closeBtn = tgt.closest(".close-modal-btn, #close-shipping-modal, #close-detail-modal, #close-review-modal, #close-cart-drawer, .scart-close-btn, .wishlist-close-btn, .close-search-btn, .mobile-close-btn, .close-zoom-btn, [data-action='close']");
+        if (closeBtn) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            // Shipping Modal Close
+            if (closeBtn.id === "close-shipping-modal" || closeBtn.closest("#shipping-address-modal")) {
+                if (typeof window.closeShippingModal === "function") window.closeShippingModal();
+                var sm = document.getElementById("shipping-address-modal");
+                if (sm) {
+                    sm.classList.remove("active");
+                    sm.style.display = "none";
+                    sm.style.opacity = "0";
+                    sm.style.visibility = "hidden";
+                }
+            }
+
+            // Product Detail Modal Close
+            if (closeBtn.id === "close-detail-modal" || closeBtn.closest("#product-detail-modal")) {
+                if (typeof window.closeProductDetailModal === "function") window.closeProductDetailModal();
+                var pd = document.getElementById("product-detail-modal");
+                if (pd) {
+                    pd.classList.remove("active");
+                    pd.style.display = "none";
+                }
+            }
+
+            // Cart Drawer Close
+            if (closeBtn.id === "close-cart-drawer" || closeBtn.classList.contains("scart-close-btn")) {
+                if (typeof window.closeSmartCart === "function") window.closeSmartCart();
+                if (typeof window.closeCartDrawer === "function") window.closeCartDrawer();
+            }
+
+            // Wishlist Close
+            if (closeBtn.classList.contains("wishlist-close-btn")) {
+                if (typeof window.closeWishlistDrawer === "function") window.closeWishlistDrawer();
+            }
+
+            // Search Close
+            if (closeBtn.classList.contains("close-search-btn")) {
+                if (typeof window.closeSmartSearch === "function") window.closeSmartSearch();
+            }
+
+            // Mobile Menu Close
+            if (closeBtn.id === "mobile-close-btn") {
+                if (typeof window.closeMobileNav === "function") window.closeMobileNav();
+            }
+
+            // Review Modal Close
+            if (closeBtn.id === "close-review-modal") {
+                if (typeof window.closeReviewModal === "function") window.closeReviewModal();
+            }
+
+            if (typeof window.unlockScroll === "function") window.unlockScroll();
+            return;
+        }
+
+        // Backdrop click to close Shipping Modal
+        if (tgt.id === "shipping-address-modal") {
+            e.preventDefault();
+            if (typeof window.closeShippingModal === "function") window.closeShippingModal();
+            tgt.classList.remove("active");
+            tgt.style.display = "none";
+            if (typeof window.unlockScroll === "function") window.unlockScroll();
+        }
+
+        // Backdrop click to close Product Detail Modal
+        if (tgt.id === "product-detail-modal") {
+            e.preventDefault();
+            if (typeof window.closeProductDetailModal === "function") window.closeProductDetailModal();
+            tgt.classList.remove("active");
+            tgt.style.display = "none";
+            if (typeof window.unlockScroll === "function") window.unlockScroll();
+        }
+    }, true);
+
+    // Escape key closes any active modal
+    document.addEventListener("keydown", function(e) {
+        if (e.key === "Escape") {
+            if (typeof window.closeShippingModal === "function") window.closeShippingModal();
+            if (typeof window.closeProductDetailModal === "function") window.closeProductDetailModal();
+            if (typeof window.closeSmartCart === "function") window.closeSmartCart();
+            if (typeof window.closeWishlistDrawer === "function") window.closeWishlistDrawer();
+            if (typeof window.closeSmartSearch === "function") window.closeSmartSearch();
+            if (typeof window.closeMobileNav === "function") window.closeMobileNav();
+            if (typeof window.unlockScroll === "function") window.unlockScroll();
+        }
+    });
+})();
+
 // ── SELF-HEALING PURGE FOR LEGACY SHIPPING LABELS ──
 (function() {
     function purgeLegacy() {
@@ -760,9 +857,16 @@ function openCheckoutModal() {
 
 function closeShippingModal() {
     const modal = document.getElementById("shipping-address-modal");
-    if (modal) modal.classList.remove("active");
-    unlockScroll();
+    if (modal) {
+        modal.classList.remove("active");
+        modal.style.display = "none";
+        modal.style.opacity = "0";
+        modal.style.visibility = "hidden";
+        modal.removeAttribute("style");
+    }
+    if (typeof unlockScroll === 'function') unlockScroll();
 }
+window.closeShippingModal = closeShippingModal;
 
 function processFinalRazorpayPayment() {
     // 1. Synchronize cart from localStorage if empty

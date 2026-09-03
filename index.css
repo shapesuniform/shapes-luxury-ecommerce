@@ -4562,3 +4562,69 @@ footer {
     content-visibility: auto;
     contain-intrinsic-size: 1px 600px;
 }
+
+/* ── UNIVERSAL HIGH-PRIORITY MODAL CLOSE BUTTON STYLING ── */
+.form-modal-content {
+    position: relative !important;
+    background: var(--charcoal-light, #161616) !important;
+    border: 1px solid rgba(197, 160, 89, 0.25) !important;
+    border-radius: var(--radius-lg, 12px) !important;
+    padding: 2.5rem 2rem !important;
+    max-width: 580px !important;
+    width: 92% !important;
+    margin: 2rem auto !important;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.8) !important;
+    z-index: 10001 !important;
+}
+
+.close-modal-btn,
+.close-icon-btn,
+.scart-close-btn,
+.wishlist-close-btn,
+.close-search-btn,
+.mobile-close-btn,
+.close-zoom-btn {
+    position: absolute !important;
+    top: 1rem !important;
+    right: 1rem !important;
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    border-radius: 50% !important;
+    background: rgba(255, 255, 255, 0.12) !important;
+    border: 1px solid rgba(255, 255, 255, 0.25) !important;
+    color: #ffffff !important;
+    font-size: 1.8rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    z-index: 999999 !important;
+    pointer-events: all !important;
+    touch-action: manipulation !important;
+    -webkit-tap-highlight-color: transparent !important;
+    transition: all 0.2s ease !important;
+    line-height: 1 !important;
+}
+
+.close-modal-btn:hover,
+.close-icon-btn:hover,
+.scart-close-btn:hover,
+.wishlist-close-btn:hover,
+.close-search-btn:hover,
+.mobile-close-btn:hover,
+.close-zoom-btn:hover {
+    background: rgba(197, 160, 89, 0.4) !important;
+    border-color: #C5A059 !important;
+    color: #FAF6F0 !important;
+    transform: scale(1.08) !important;
+}
+
+/* Ensure luxury modal backdrop allows clicking outside to close */
+.luxury-modal {
+    cursor: pointer;
+}
+.luxury-modal > * {
+    cursor: default;
+}
