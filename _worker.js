@@ -8,6 +8,16 @@ export default {
     const url = new URL(request.url);
     const pathname = url.pathname;
 
+    // ── 0. DOMAIN REDIRECTION (.in → .com) ───────────────────────────
+    const hostname = url.hostname.toLowerCase();
+    if (hostname.includes("shapesuniform.in") || hostname === "shapesuniform.com" || hostname === "www.shapesuniform.com") {
+      const redirectTarget = new URL(request.url);
+      redirectTarget.hostname = "shapesbysatinderkaur.com";
+      redirectTarget.protocol = "https:";
+      return Response.redirect(redirectTarget.toString(), 301);
+    }
+
+
     // CORS Headers for API calls
     const corsHeaders = {
       "Access-Control-Allow-Origin": "*",
