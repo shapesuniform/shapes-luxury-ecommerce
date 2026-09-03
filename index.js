@@ -964,6 +964,7 @@ function processFinalRazorpayPayment() {
                 }
             });
 
+            if (typeof closeShippingModal === 'function') closeShippingModal();
             rzp.open();
         } catch(e) {
             console.error("Razorpay Init Error:", e);
@@ -1460,8 +1461,11 @@ async function completeOrderSuccess(orderId, paymentRef, info, totalINR, fullAdd
     if (dlBtn)    dlBtn.onclick    = () => downloadInvoice(_lastInvoicePdfDoc, orderId);
     if (printBtn) printBtn.onclick = () => printInvoice(_lastInvoicePdfDoc);
     if (closeBtn) closeBtn.onclick = () => {
-        if (modal) modal.classList.remove("active");
-        unlockScroll();
+        if (modal) {
+            modal.classList.remove("active");
+            modal.style.display = "none";
+        }
+        if (typeof unlockScroll === 'function') unlockScroll();
     };
 
     if (modal) { modal.classList.add("active"); lockScroll(); }
