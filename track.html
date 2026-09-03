@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Automatic Instant Deployment Updates: Never Hold Stale HTML -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+        <!-- Instant .in and .online to .com Domain Redirect -->
+    <script>
+      (function() {
+        var h = window.location.hostname.toLowerCase();
+        if (h && (h.endsWith(".in") || h.endsWith(".online") || h.indexOf("shapesuniform") !== -1 || h.indexOf("shapesbysatiinderkaur") !== -1)) {
+          if (h !== "shapesbysatinderkaur.com" && h !== "www.shapesbysatinderkaur.com") {
+            window.location.replace("https://shapesbysatinderkaur.com" + window.location.pathname + window.location.search);
+          }
+        }
+      })();
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    
+    
+    
+    <meta name="theme-color" content="#1A1A1A">
+
+    <title>Track My Order | Shapes By Satiinder Kaur</title>
+        <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+    <meta name="description" content="Track your luxury couture order from Shapes By Satiinder Kaur. Enter your order reference to view delivery status.">
+    <link rel="canonical" href="https://shapesbysatinderkaur.com/track.html">
+    <meta property="og:title" content="Track My Order | Shapes By Satiinder Kaur">
+    <meta property="og:description" content="Track your luxury couture order from Shapes By Satiinder Kaur.">
+    <meta property="og:url" content="https://shapesbysatinderkaur.com/track.html">
+    <meta property="og:image" content="https://shapesbysatinderkaur.com/app_icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+
+    <!-- Cache-Buster & Deep Cache Wipe for Instant Multi-Device Sync -->
+    
+
+
+
+    <style>
+        :root {
+            --gold: #C5A059;
+            --charcoal: #1A1A1A;
+            --white: #FFFFFF;
+            --ivory: #FAF8F5;
+            --grey: #e0e0e0;
+            --font-serif: 'Cormorant Garamond', Georgia, serif;
+            --font-sans: 'Montserrat', sans-serif;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: var(--font-sans);
+            background: var(--charcoal);
+            color: var(--white);
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .track-header {
+            background: #111;
+            border-bottom: 1px solid rgba(197,160,89,0.2);
+            padding: 1.2rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .track-header .logo {
+            font-family: var(--font-serif);
+            font-size: 1.4rem;
+            font-weight: 300;
+            letter-spacing: 0.2em;
+            color: var(--white);
+            text-decoration: none;
+        }
+        .track-header .logo span { color: var(--gold); font-size: 0.7rem; display: block; letter-spacing: 0.3em; text-transform: uppercase; }
+        .back-link {
+            font-family: var(--font-sans);
+            font-size: 10px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--gold);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: opacity 0.2s;
+        }
+        .back-link:hover { opacity: 0.7; }
+
+        /* Hero */
+        .track-hero {
+            text-align: center;
+            padding: 5rem 2rem 3rem;
+            background: linear-gradient(180deg, #111 0%, var(--charcoal) 100%);
+        }
+        .track-hero .tag {
+            font-size: 9px;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--gold);
+            display: block;
+            margin-bottom: 1rem;
+        }
+        .track-hero h1 {
+            font-family: var(--font-serif);
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 300;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+        .track-hero p {
+            font-size: 12px;
+            color: var(--grey);
+            letter-spacing: 0.05em;
+            max-width: 420px;
+            margin: 0 auto;
+        }
+        .gold-divider {
+            width: 60px;
+            height: 1px;
+            background: var(--gold);
+            margin: 1.5rem auto;
+        }
+
+        /* Search Box */
+        .search-container {
+            max-width: 520px;
+            margin: 0 auto;
+            padding: 0 1.5rem 4rem;
+        }
+        .search-box {
+            display: flex;
+            gap: 0;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(197,160,89,0.3);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 2.5rem;
+        }
+        .search-box input {
+            flex: 1;
+            padding: 1rem 1.2rem;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--white);
+            font-family: var(--font-sans);
+            font-size: 12px;
+            letter-spacing: 0.1em;
+        }
+        .search-box input::placeholder { color: rgba(255,255,255,0.3); }
+        .search-box button {
+            background: var(--gold);
+            color: #111;
+            border: none;
+            padding: 1rem 1.5rem;
+            font-family: var(--font-sans);
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .search-box button:hover { opacity: 0.85; }
+
+        /* Result Panel */
+        .result-panel {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 0 1.5rem 4rem;
+            display: none;
+        }
+        .order-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(197,160,89,0.15);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .order-card-header {
+            background: rgba(197,160,89,0.08);
+            border-bottom: 1px solid rgba(197,160,89,0.15);
+            padding: 1.5rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .order-card-header h2 {
+            font-family: var(--font-serif);
+            font-size: 1.4rem;
+            font-weight: 400;
+            letter-spacing: 0.1em;
+        }
+        .order-card-header .badge {
+            background: #25D366;
+            color: white;
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            padding: 0.4rem 0.9rem;
+            border-radius: 20px;
+        }
+        .order-meta {
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .meta-item label {
+            font-size: 8px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--gold);
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+        .meta-item span {
+            font-size: 12px;
+            color: rgba(255,255,255,0.8);
+        }
+        .order-items {
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .order-items h4 {
+            font-family: var(--font-sans);
+            font-size: 9px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+        .item-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.7rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            font-size: 12px;
+            color: rgba(255,255,255,0.8);
+        }
+        .item-row:last-child { border-bottom: none; }
+        .item-row .item-detail { font-size: 10px; color: var(--grey); margin-top: 2px; }
+
+        /* Tracking Timeline */
+        .tracking-timeline {
+            padding: 1.5rem 2rem;
+        }
+        .tracking-timeline h4 {
+            font-family: var(--font-sans);
+            font-size: 9px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+        }
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 8px;
+            bottom: 8px;
+            width: 1px;
+            background: rgba(197,160,89,0.2);
+        }
+        .timeline-step {
+            position: relative;
+            margin-bottom: 1.8rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+        .timeline-step:last-child { margin-bottom: 0; }
+        .step-dot {
+            position: absolute;
+            left: -2rem;
+            top: 3px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(197,160,89,0.3);
+            flex-shrink: 0;
+        }
+        .step-dot.done {
+            background: var(--gold);
+            border-color: var(--gold);
+        }
+        .step-dot.active {
+            background: transparent;
+            border: 2px solid var(--gold);
+            box-shadow: 0 0 8px rgba(197,160,89,0.4);
+        }
+        .step-label {
+            font-size: 12px;
+            font-weight: 500;
+            color: rgba(255,255,255,0.85);
+        }
+        .step-label.pending { color: rgba(255,255,255,0.3); }
+        .step-time {
+            font-size: 9px;
+            color: var(--grey);
+            margin-top: 2px;
+        }
+
+        /* Not found */
+        .not-found {
+            text-align: center;
+            padding: 3rem 2rem;
+            display: none;
+        }
+        .not-found i { font-size: 3rem; color: rgba(197,160,89,0.4); margin-bottom: 1rem; }
+        .not-found h3 { font-family: var(--font-serif); font-weight: 300; letter-spacing: 0.1em; margin-bottom: 0.5rem; }
+        .not-found p { font-size: 11px; color: var(--grey); }
+
+        /* Footer */
+        .track-footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            font-size: 10px;
+            color: var(--grey);
+            letter-spacing: 0.05em;
+        }
+
+        @media (max-width: 600px) {
+            .order-meta { grid-template-columns: 1fr; }
+            .order-card-header { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Order Tracking — SHAPES By Satiinder Kaur",
+      "description": "Real-time order tracking portal for SHAPES By Satiinder Kaur. Enter your order ID to get live shipping and delivery status updates.",
+      "url": "https://shapesbysatinderkaur.com/track.html",
+      "isPartOf": {"@type":"WebSite","name":"Shapes By Satiinder Kaur","url":"https://shapesbysatinderkaur.com/"}
+    }
+    </script>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="track-header">
+        <a href="index.html" class="logo">
+            SHAPES
+            <span>by Satiinder Kaur</span>
+        </a>
+        <a href="index.html" class="back-link">
+            <i class="fa-solid fa-arrow-left"></i> Back to Showroom
+        </a>
+    </header>
+
+    <!-- Hero -->
+    <div class="track-hero">
+        <span class="tag">Shapes By Satiinder Kaur</span>
+        <h1>Track Your Order</h1>
+        <div class="gold-divider"></div>
+        <p>Enter your order reference number to see the current status and delivery progress of your creation.</p>
+    </div>
+
+    <!-- Search -->
+    <div class="search-container">
+        <div class="search-box">
+            <input type="text" id="track-input" placeholder="Enter Order Reference (e.g. SH-0001)" />
+            <button onclick="trackOrder()"><i class="fa-solid fa-magnifying-glass"></i> Track</button>
+        </div>
+    </div>
+
+    <!-- Result -->
+    <div class="result-panel" id="result-panel">
+        <div class="order-card" id="order-card">
+            <div class="order-card-header">
+                <h2 id="result-ref">Order #SH-0001</h2>
+                <span class="badge" id="result-badge">Order Confirmed</span>
+            </div>
+            <div class="order-meta">
+                <div class="meta-item">
+                    <label>Order Date</label>
+                    <span id="result-date">—</span>
+                </div>
+                <div class="meta-item">
+                    <label>Payment ID</label>
+                    <span id="result-payment">—</span>
+                </div>
+            </div>
+            <div class="order-items">
+                <h4>Items Ordered</h4>
+                <div id="result-items">—</div>
+            </div>
+            <div class="tracking-timeline">
+                <h4>Delivery Journey</h4>
+                
+                <!-- Dynamic Courier Tracking Card -->
+                <div id="courier-card" style="display:none; background:rgba(197,160,89,0.08); border:1px solid var(--gold); border-radius:4px; padding:1.2rem; margin-bottom:1.5rem;">
+                    <div style="font-size:10px; color:var(--gold); text-transform:uppercase; letter-spacing:0.15em; font-weight:600; margin-bottom:0.4rem;">
+                        <i class="fa-solid fa-truck-fast"></i> Courier Shipment Details
+                    </div>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.8rem; font-size:12px;">
+                        <div><strong>Courier:</strong> <span id="track-courier-name">—</span></div>
+                        <div><strong>AWB / Tracking Ref:</strong> <span id="track-awb-num">—</span></div>
+                    </div>
+                    <div id="track-delivery-note-container" style="font-size:11px; color:rgba(255,255,255,0.8); margin-top:0.6rem; border-top:1px dashed rgba(197,160,89,0.3); padding-top:0.6rem;">
+                        <strong>Dispatch Note:</strong> <span id="track-delivery-note">—</span>
+                    </div>
+                    <a id="track-courier-btn" href="#" target="_blank" style="display:inline-flex; align-items:center; gap:6px; background:var(--gold); color:var(--charcoal); font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; padding:0.5rem 1rem; border-radius:3px; text-decoration:none; margin-top:0.8rem;">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i> Track on Courier Website &rarr;
+                    </a>
+                </div>
+
+                <div class="timeline" id="timeline-container">
+                    <!-- Populated dynamically via JS -->
+                </div>
+            </div>
+
+            <!-- Invoice Actions: Download PDF & Print -->
+            <div style="margin-top: 2rem; text-align: center; border-top: 1px solid rgba(197, 160, 89, 0.15); padding-top: 1.5rem; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+                <button type="button" class="gold-action-btn" onclick="downloadInvoicePDF()" style="background: #C5A059; color: #111; border: none; padding: 0.85rem 1.8rem; font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; border-radius: 3px; display: inline-flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-file-arrow-down"></i> Download PDF Tax Invoice
+                </button>
+                <button type="button" class="print-invoice-btn" onclick="printInvoice()" style="background: transparent; border: 1px solid #C5A059; color: #C5A059; padding: 0.85rem 1.6rem; font-size: 11px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; border-radius: 3px; display: inline-flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-print"></i> Print
+                </button>
+            </div>
+            <div style="margin-top: 2rem; text-align: center; border-top: 1px solid rgba(197, 160, 89, 0.15); padding-top: 1.5rem;">
+                <button class="print-invoice-btn" onclick="printInvoice()" style="
+                    background: transparent; border: 1px solid var(--gold); color: var(--gold);
+                    padding: 0.8rem 1.8rem; font-size: 11px; font-family: var(--font-sans);
+                    font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase;
+                    cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
+                    border-radius: 3px; transition: all 0.2s;">
+                    <i class="fa-solid fa-print"></i> Download / Print Tax Invoice
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Not Found -->
+    <div class="not-found" id="not-found">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <h3>Order Not Found</h3>
+        <p>We couldn't find an order with that reference on this device.<br>
+        For help, call us at <a href="tel:+919833392756" style="color: var(--gold);">+91 98333 92756</a></p>
+    </div>
+
+    <!-- Footer -->
+    <footer class="track-footer">
+        &copy; 2026 Shapes By Satiinder Kaur &nbsp;·&nbsp; Chembur, Mumbai 400071 &nbsp;·&nbsp;
+        <a href="tel:+919833392756" style="color: var(--gold);">+91 98333 92756</a>
+    </footer>
+
+    <script>
+        let currentLoadedOrder = null;
+
+        // Auto-fill order ref from URL param
+        window.addEventListener("DOMContentLoaded", () => {
+            const params = new URLSearchParams(window.location.search);
+            const ref = params.get("ref");
+            if (ref) {
+                document.getElementById("track-input").value = ref;
+                trackOrder();
+            }
+        });
+
+        function trackOrder() {
+            const input = document.getElementById("track-input").value.trim().toUpperCase();
+            const resultPanel = document.getElementById("result-panel");
+            const notFound = document.getElementById("not-found");
+
+            resultPanel.style.display = "none";
+            notFound.style.display = "none";
+
+            if (!input) return;
+
+            // Look up order in localStorage
+            const allOrders = JSON.parse(localStorage.getItem("shapes_orders") || "[]");
+            const order = allOrders.find(o => o.ref.toUpperCase() === input);
+
+            if (!order) {
+                notFound.style.display = "block";
+                return;
+            }
+
+            currentLoadedOrder = order;
+
+            // 1. Status and Meta
+            const statusMap = {
+                "confirmed": { label: "✓ Order Confirmed", step: 1 },
+                "in_production": { label: "🧵 In Production", step: 2 },
+                "shipped": { label: "📦 Shipped & Dispatched", step: 3 },
+                "out_for_delivery": { label: "🚚 Out for Delivery", step: 4 },
+                "delivered": { label: "🟢 Delivered", step: 5 }
+            };
+            const currentStatusObj = statusMap[order.status] || statusMap["confirmed"];
+
+            document.getElementById("result-ref").textContent = "Order " + order.ref;
+            document.getElementById("result-badge").textContent = currentStatusObj.label;
+            document.getElementById("result-payment").textContent = order.paymentId || "—";
+
+            const dateObj = new Date(order.date);
+            document.getElementById("result-date").textContent = dateObj.toLocaleDateString("en-IN", {
+                day: "numeric", month: "long", year: "numeric"
+            });
+
+            // 2. Populate Courier Card
+            const courierCard = document.getElementById("courier-card");
+            if (order.courierName || order.trackingNumber) {
+                courierCard.style.display = "block";
+                document.getElementById("track-courier-name").textContent = order.courierName || "Luxury Courier";
+                document.getElementById("track-awb-num").textContent = order.trackingNumber || "Assigned";
+                
+                const noteContainer = document.getElementById("track-delivery-note-container");
+                if (order.deliveryNote) {
+                    noteContainer.style.display = "block";
+                    document.getElementById("track-delivery-note").textContent = order.deliveryNote;
+                } else {
+                    noteContainer.style.display = "none";
+                }
+
+                const trackBtn = document.getElementById("track-courier-btn");
+                if (order.trackingNumber && order.trackingNumber.startsWith("http")) {
+                    trackBtn.href = order.trackingNumber;
+                    trackBtn.style.display = "inline-flex";
+                } else if (order.trackingNumber) {
+                    trackBtn.href = `https://www.google.com/search?q=${encodeURIComponent((order.courierName || 'courier') + ' tracking ' + order.trackingNumber)}`;
+                    trackBtn.style.display = "inline-flex";
+                } else {
+                    trackBtn.style.display = "none";
+                }
+            } else {
+                courierCard.style.display = "none";
+            }
+
+            // 3. Dynamic Timeline Rendering
+            const currentStep = currentStatusObj.step;
+            const steps = [
+                { name: "Order Confirmed & Sizing Verified", desc: dateObj.toLocaleString("en-IN") },
+                { name: "Artisan Workshop — Tailoring & Hand-Embroidery", desc: currentStep >= 2 ? "Master artisans are handcrafting your bespoke piece" : "Pending" },
+                { name: "Quality Check & Courier Dispatch", desc: order.courierName ? `Dispatched via ${order.courierName}` : (currentStep >= 3 ? "Package handed over to courier partner" : "Pending") },
+                { name: "Out for Delivery", desc: currentStep >= 4 ? "Courier is out for final doorstep delivery" : "Pending" },
+                { name: "Delivered to Client", desc: currentStep >= 5 ? "Package delivered safely" : "Pending" }
+            ];
+
+
+            const timelineContainer = document.getElementById("timeline-container");
+            timelineContainer.innerHTML = steps.map((s, idx) => {
+                const stepNum = idx + 1;
+                let dotClass = "step-dot";
+                let labelClass = "step-label";
+                if (stepNum < currentStep) {
+                    dotClass += " done";
+                } else if (stepNum === currentStep) {
+                    dotClass += " active";
+                } else {
+                    labelClass += " pending";
+                }
+                return `
+                    <div class="timeline-step">
+                        <div class="${dotClass}"></div>
+                        <div>
+                            <div class="${labelClass}">${s.name}</div>
+                            <div class="step-time">${s.desc}</div>
+                        </div>
+                    </div>
+                `;
+            }).join("");
+
+            // 4. Populate items
+            const itemsContainer = document.getElementById("result-items");
+            itemsContainer.innerHTML = "";
+            order.items.forEach(item => {
+                const row = document.createElement("div");
+                row.className = "item-row";
+                row.innerHTML = `
+                    <div>
+                        <div>${item.title}</div>
+                        <div class="item-detail">Size: ${item.size} · Qty: ${item.quantity}</div>
+                    </div>
+                    <div>₹${(item.price * item.quantity).toLocaleString("en-IN")}</div>
+                `;
+                itemsContainer.appendChild(row);
+            });
+
+            resultPanel.style.display = "block";
+            resultPanel.scrollIntoView({ behavior: "smooth" });
+        }
+
+
+        // Printable Invoice Generator
+                function downloadInvoicePDF() {
+            if (!currentLoadedOrder) return;
+            const o = currentLoadedOrder;
+            if (typeof window.jspdf === "undefined") {
+                alert("PDF Generator is loading, please try in a moment.");
+                return;
+            }
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+            const W = doc.internal.pageSize.getWidth();
+            const gold = [197, 160, 89];
+
+            // Header Background
+            doc.setFillColor(17, 17, 17);
+            doc.rect(0, 0, W, 45, "F");
+
+            // Brand Logo
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(22);
+            doc.setTextColor(...gold);
+            doc.text("SHAPES", 15, 20);
+
+            doc.setFontSize(7.5);
+            doc.setFont("helvetica", "normal");
+            doc.setTextColor(200, 200, 200);
+            doc.text("CHEMBUR, MUMBAI · DESIGNER PRET", 15, 26);
+            doc.text("Shop No. 4, Basant Garden, Ghatla Village Rd, Chembur, Mumbai 400071", 15, 31);
+            doc.text("GSTIN: 27AABCS1234F1Z5 · Phone: +91 98333 92756 · concierge@shapes_boutique.com", 15, 36);
+
+            // Invoice Title & Ref
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(16);
+            doc.setTextColor(...gold);
+            doc.text("TAX INVOICE", W - 15, 20, { align: "right" });
+
+            doc.setFontSize(8.5);
+            doc.setFont("helvetica", "normal");
+            doc.setTextColor(220, 220, 220);
+            doc.text(`Invoice No: INV-${o.ref}`, W - 15, 26, { align: "right" });
+            doc.text(`Order Ref: #${o.ref}`, W - 15, 31, { align: "right" });
+            doc.text(`Date: ${new Date(o.date).toLocaleDateString('en-IN')}`, W - 15, 36, { align: "right" });
+
+            // Customer Info
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(9);
+            doc.setTextColor(...gold);
+            doc.text("BILL TO / SHIP TO", 15, 54);
+
+            doc.setFont("helvetica", "normal");
+            doc.setTextColor(40, 40, 40);
+            doc.text(`Customer: ${o.customerName || 'Valued Client'}`, 15, 60);
+            doc.text(`Contact: ${o.customerPhone || '—'} · ${o.customerEmail || '—'}`, 15, 65);
+            doc.text(`Address: ${o.shippingAddress || 'Showroom Pickup'}`, 15, 70);
+
+            // Items Table
+            const items = o.items || [];
+            const subtotal = items.reduce((s, i) => s + (i.price * i.quantity), 0);
+            const gst = Math.round(subtotal * 0.18);
+            const total = subtotal + gst;
+
+            const tableRows = items.map((i, idx) => [
+                idx + 1,
+                i.title,
+                i.size || 'M',
+                i.quantity || 1,
+                `Rs. ${i.price.toLocaleString('en-IN')}`,
+                `Rs. ${(i.price * (i.quantity || 1)).toLocaleString('en-IN')}`
+            ]);
+
+            doc.autoTable({
+                startY: 78,
+                head: [["#", "Garment Description", "Size", "Qty", "Price", "Total Amount"]],
+                body: tableRows,
+                headStyles: { fillColor: gold, textColor: [17, 17, 17], fontStyle: "bold", fontSize: 8.5 },
+                styles: { fontSize: 8.5, textColor: [30, 30, 30] },
+                alternateRowStyles: { fillColor: [248, 246, 242] },
+                columnStyles: {
+                    0: { cellWidth: 10, halign: "center" },
+                    1: { cellWidth: 80 },
+                    2: { cellWidth: 18, halign: "center" },
+                    3: { cellWidth: 12, halign: "center" },
+                    4: { cellWidth: 30, halign: "right" },
+                    5: { cellWidth: 30, halign: "right" }
+                },
+                margin: { left: 15, right: 15 }
+            });
+
+            let y = doc.lastAutoTable.finalY + 8;
+            const drawRow = (label, val, bold) => {
+                doc.setFont("helvetica", bold ? "bold" : "normal");
+                doc.setFontSize(8.5);
+                doc.setTextColor(bold ? 17 : 80, bold ? 17 : 80, bold ? 17 : 80);
+                doc.text(label, 150, y, { align: "right" });
+                doc.text(val, 195, y, { align: "right" });
+                y += 6;
+            };
+
+            drawRow("Subtotal:", `Rs. ${subtotal.toLocaleString('en-IN')}`, false);
+            drawRow("CGST (9%):", `Rs. ${Math.round(gst/2).toLocaleString('en-IN')}`, false);
+            drawRow("SGST (9%):", `Rs. ${(gst - Math.round(gst/2)).toLocaleString('en-IN')}`, false);
+            drawRow("Courier Delivery:", "Complimentary (Rs. 0)", false);
+            doc.setFillColor(...gold);
+            doc.rect(115, y - 4, 80, 7, "F");
+            doc.setFont("helvetica", "bold");
+            doc.setTextColor(17, 17, 17);
+            doc.text("TOTAL AMOUNT:", 150, y);
+            doc.text(`Rs. ${total.toLocaleString('en-IN')}`, 195, y, { align: "right" });
+
+            doc.save(`Shapes_Invoice_${o.ref}.pdf`);
+        }
+
+        function printInvoice() {
+            if (!currentLoadedOrder) return;
+            const o = currentLoadedOrder;
+            const total = o.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const dateStr = new Date(o.date).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" });
+
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Invoice - ${o.ref} | Shapes By Satiinder Kaur</title>
+                    <style>
+                        body { font-family: 'Helvetica Neue', Arial, sans-serif; color: #222; margin: 40px; }
+                        .inv-header { display: flex; justify-content: space-between; border-bottom: 2px solid #C5A059; padding-bottom: 20px; }
+                        .inv-logo { font-size: 26px; font-weight: bold; letter-spacing: 2px; color: #111; }
+                        .inv-sub { font-size: 11px; color: #C5A059; text-transform: uppercase; letter-spacing: 3px; }
+                        .inv-meta { text-align: right; font-size: 13px; color: #555; }
+                        .inv-grid { display: grid; grid-template-columns: 1fr 1fr; margin: 30px 0; gap: 20px; font-size: 13px; }
+                        table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 13px; }
+                        th { background: #f7f7f7; text-align: left; padding: 10px; border-bottom: 2px solid #ddd; font-weight: 600; }
+                        td { padding: 12px 10px; border-bottom: 1px solid #eee; }
+                        .total-row td { font-size: 15px; font-weight: bold; border-top: 2px solid #C5A059; color: #111; }
+                        .inv-footer { margin-top: 50px; font-size: 11px; color: #777; border-top: 1px solid #ddd; padding-top: 20px; line-height: 1.6; }
+                    </style>
+                </head>
+                <body>
+                    <div class="inv-header">
+                        <div>
+                            <div class="inv-logo">Shapes By Satiinder Kaur</div>
+                            <div class="inv-sub">Luxury Pret &amp; Co-Ord Sets</div>
+                            <p style="font-size: 12px; color: #666; margin-top: 5px;"><strong>Legal Entity:</strong> SHAPES UNIFORM<br>SHAPES, SHOP NO 4, Waman Apartments, Ghatla Village Rd, near MAITRI PARK, Basant Garden, Chembur, Mumbai, Maharashtra 400071<br>SHAPES, SHOP NO 4, Waman Apartments, Ghatla Village Rd, near MAITRI PARK, Basant Garden, Chembur, Mumbai, Maharashtra 400071<br>T: +91 98333 92756 | E: concierge@shapes_boutique.com</p>
+                        </div>
+
+                        <div class="inv-meta">
+                            <h2 style="margin: 0 0 5px 0; color: #C5A059;">TAX INVOICE</h2>
+                            <div><strong>Invoice No:</strong> INV-${o.ref}</div>
+                            <div><strong>Order Ref:</strong> ${o.ref}</div>
+                            <div><strong>Payment ID:</strong> ${o.paymentId || 'Prepaid'}</div>
+                            <div><strong>Date:</strong> ${dateStr}</div>
+                        </div>
+                    </div>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Item Description</th>
+                                <th>Size</th>
+                                <th>Unit Price</th>
+                                <th>Qty</th>
+                                <th style="text-align: right;">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${o.items.map(item => `
+                                <tr>
+                                    <td><strong>${item.title}</strong><br><span style="font-size: 9px; color: #777;"></span></td>
+                                    <td>${item.size}</td>
+                                    <td>₹${item.price.toLocaleString("en-IN")}</td>
+                                    <td>${item.quantity}</td>
+                                    <td style="text-align: right;">₹${(item.price * item.quantity).toLocaleString("en-IN")}</td>
+                                </tr>
+                            `).join('')}
+                            ${(() => {
+                                const gstRate = 0.18; // Strict 18% GST (CGST 9% + SGST 9%)
+                                const taxableBase = Math.round(total / (1 + gstRate));
+                                const totalGst = total - taxableBase;
+                                const cgst = Math.round(totalGst / 2);
+                                const sgst = totalGst - cgst;
+                                return `
+                                    <tr>
+                                        <td colspan="4" style="text-align: right; color: #555;">Taxable Base Value (Excl. GST):</td>
+                                        <td style="text-align: right; color: #333;">₹${taxableBase.toLocaleString("en-IN")}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4" style="text-align: right; color: #555;">CGST @ 6%:</td>
+                                        <td style="text-align: right; color: #333;">₹${cgst.toLocaleString("en-IN")}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4" style="text-align: right; color: #555;">SGST @ 6%:</td>
+                                        <td style="text-align: right; color: #333;">₹${sgst.toLocaleString("en-IN")}</td>
+                                    </tr>
+                                    <tr>
+                                         <td colspan="4" style="text-align: right; font-weight: 600;">Courier Delivery:</td>
+                                         <td style="text-align: right; color: #C5A059; font-weight: bold;">Complimentary (₹0)</td>
+                                     </tr>
+                                    <tr class="total-row">
+                                        <td colspan="4" style="text-align: right; font-weight: 700;">Grand Total (Taxes Incl.):</td>
+                                        <td style="text-align: right; font-weight: 700; color: #000;">₹${total.toLocaleString("en-IN")}</td>
+                                    </tr>
+                                    ${o.gstin ? `
+                                    <tr>
+                                        <td colspan="5" style="text-align: left; font-size: 10px; color: #444; background: #f9f9f9; padding: 6px 10px;">
+                                            <strong>Client Business GSTIN:</strong> ${o.gstin}
+                                        </td>
+                                    </tr>` : ''}
+                                `;
+                            })()}
+                        </tbody>
+                    </table>
+
+                    <div class="inv-footer">
+                        <strong>Store Policy &amp; Tax Terms:</strong><br>
+                        • Handcrafted to order: standard dispatch time is 15 – 22 working days.<br>
+                        • All applicable taxes (CGST 6% + SGST 6%) are included in the final invoice amount.<br>
+                        • Exchanges are accepted strictly for verified manufacturing defects reported within 48 hours.<br>
+                        • For styling consultations and updates, please contact concierge at +91 98333 92756.
+                    </div>
+
+                    <script>
+                        window.onload = function() { window.print(); };
+                    <\/script>
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+        }
+
+        // Allow Enter key to search and Auto-Track from URL parameters (?order=SH-XXXX)
+        document.addEventListener("DOMContentLoaded", () => {
+            const input = document.getElementById("track-input");
+            if (input) {
+                input.addEventListener("keypress", (e) => {
+                    if (e.key === "Enter") trackOrder();
+                });
+                const params = new URLSearchParams(window.location.search);
+                const orderParam = params.get("order") || params.get("id") || params.get("ref");
+                if (orderParam) {
+                    input.value = orderParam.trim();
+                    setTimeout(trackOrder, 150);
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>

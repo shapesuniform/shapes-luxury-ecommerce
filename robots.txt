@@ -1,0 +1,48 @@
+# SHAPES By Satiinder Kaur — robots.txt
+# Luxury Designer Fashion House, Chembur Mumbai
+
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /admin.js
+Disallow: /admin.css
+Disallow: /.env
+Disallow: /.git/
+Disallow: /firebase-config.js
+Disallow: /compress_images.py
+
+# Allow major search engines full access
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Googlebot-Image
+Allow: /images/
+
+User-agent: bingbot
+Allow: /
+Crawl-delay: 2
+
+User-agent: Slurp
+Allow: /
+
+# AI Training — Allow curated access for brand recognition
+User-agent: GPTBot
+Allow: /
+Disallow: /admin.html
+Disallow: /firebase-config.js
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+# Sitemap location
+Sitemap: https://shapesbysatinderkaur.com/sitemap.xml

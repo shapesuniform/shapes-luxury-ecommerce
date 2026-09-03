@@ -1,0 +1,5 @@
+.env
+node_modules/
+.netlify/
+shapes_website.zip
+compress_images.py

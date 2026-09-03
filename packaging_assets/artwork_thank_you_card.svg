@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <defs>
+    <style>
+      .serif { font-family: 'Cormorant Garamond', Georgia, serif; }
+      .sans { font-family: 'Montserrat', Arial, sans-serif; }
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="1200" height="800" fill="#EAE2D5" />
+
+  <g transform="translate(100, 60)">
+    <rect x="0" y="0" width="1000" height="680" rx="16" fill="#FAF6EE" />
+
+    <text x="500" y="130" class="serif" font-size="52" font-weight="400" letter-spacing="16" fill="#C5A059" text-anchor="middle">SHAPES</text>
+    <text x="500" y="168" class="sans" font-size="13" font-weight="700" letter-spacing="7" fill="#C5A059" text-anchor="middle">BY SATIINDER KAUR</text>
+    <text x="500" y="196" class="sans" font-size="9.5" font-weight="600" letter-spacing="4" fill="#8C6527" text-anchor="middle">LUXURY PRET &amp; BESPOKE COUTURE</text>
+
+    <g transform="translate(500, 225)">
+      <line x1="-140" y1="0" x2="-20" y2="0" stroke="#C5A059" stroke-width="1.2" />
+      <polygon points="0,-5 5,0 0,5 -5,0" fill="#C5A059" />
+      <line x1="20" y1="0" x2="140" y2="0" stroke="#C5A059" stroke-width="1.2" />
+    </g>
+
+    <text x="500" y="285" class="serif" font-size="28" font-style="italic" fill="#2B2117" text-anchor="middle">Thank you for welcoming our handcrafted creation into your wardrobe.</text>
+
+    <g transform="translate(500, 340)" class="sans" font-size="12" fill="#2B2117" text-anchor="middle">
+      <text x="0" y="0">Every ensemble at Shapes is tailored to celebrate your individuality, grace, and confidence.</text>
+      <text x="0" y="26">We hope you feel effortless beauty and royal comfort in every wear.</text>
+      <text x="0" y="70" font-size="11" font-weight="600" fill="#5A4A38">Share your style with us on Instagram: <tspan font-weight="700" fill="#C5A059">@shapes_boutique</tspan></text>
+      <text x="0" y="94" font-size="11" font-weight="600" fill="#5A4A38">Use hashtag: <tspan font-weight="700" fill="#C5A059">#ShapesBySatiinderKaur</tspan></text>
+    </g>
+
+    <g transform="translate(500, 505)" text-anchor="middle">
+      <text x="0" y="0" class="serif" font-size="34" font-style="italic" fill="#C5A059">Satiinder Kaur</text>
+      <text x="0" y="22" class="sans" font-size="9.5" font-weight="700" letter-spacing="3" fill="#C5A059">FOUNDER &amp; HEAD DESIGNER</text>
+    </g>
+
+    <rect x="80" y="565" width="840" height="1" fill="#D8CABE" />
+    <g transform="translate(500, 600)" class="sans" font-size="9.5" font-weight="500" fill="#5A4A38" text-anchor="middle">
+      <text x="0" y="0">SHAPES, SHOP NO 4, Waman Apartments, Ghatla Village Rd, near MAITRI PARK, Basant Garden, Chembur, Mumbai, Maharashtra 400071</text>
+      <text x="0" y="18" font-weight="600" fill="#8C6527">WhatsApp / Phone: +91 98333 92756 · Email: concierge@shapes_boutique.com · www.shapesbysatinderkaur.com</text>
+    </g>
+  </g>
+</svg>

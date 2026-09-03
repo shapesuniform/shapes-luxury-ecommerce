@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Automatic Instant Deployment Updates: Never Hold Stale HTML -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+        <!-- Instant .in and .online to .com Domain Redirect -->
+    <script>
+      (function() {
+        var h = window.location.hostname.toLowerCase();
+        if (h && (h.endsWith(".in") || h.endsWith(".online") || h.indexOf("shapesuniform") !== -1 || h.indexOf("shapesbysatiinderkaur") !== -1)) {
+          if (h !== "shapesbysatinderkaur.com" && h !== "www.shapesbysatinderkaur.com") {
+            window.location.replace("https://shapesbysatinderkaur.com" + window.location.pathname + window.location.search);
+          }
+        }
+      })();
+    </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editorial Lookbook &amp; Runway | Shapes By Satiinder Kaur | Luxury Fashion Mumbai</title>
+        <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+  <meta name="description" content="Explore the Autumn/Winter Haute Couture Lookbook by Shapes By Satiinder Kaur. High-resolution campaign photography, interactive Shop-the-Look spreads, and bespoke Indian pret.">
+  <link rel="canonical" href="https://shapesbysatinderkaur.com/lookbook.html">
+  
+  <!-- OpenGraph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://shapesbysatinderkaur.com/lookbook.html">
+  <meta property="og:title" content="Editorial Lookbook &amp; Runway | Shapes By Satiinder Kaur">
+  <meta property="og:description" content="Discover handcrafted luxury co-ord sets and bespoke couture through our Autumn/Winter campaign lookbook.">
+  <meta property="og:image" content="https://shapesbysatinderkaur.com/images/hero_coord_editorial.webp">
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Editorial Lookbook | Shapes By Satiinder Kaur">
+  <meta name="twitter:description" content="Shop the runway looks and curated editorial campaigns by couturier Satiinder Kaur.">
+  <meta name="twitter:image" content="https://shapesbysatinderkaur.com/images/hero_coord_editorial.webp">
+
+  <!-- Schema.org JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ImageGallery",
+    "name": "Shapes By Satiinder Kaur Autumn/Winter Editorial Lookbook",
+    "description": "High fashion editorial spreads showcasing bespoke silk co-ords, pure linen ensembles, and structured corsetry by Satiinder Kaur.",
+    "author": {
+      "@type": "Person",
+      "name": "Satiinder Kaur"
+    },
+    "publisher": {
+      "@type": "ClothingStore",
+      "name": "Shapes By Satiinder Kaur",
+      "telephone": "+919833392756",
+      "url": "https://shapesbysatinderkaur.com/"
+    }
+  }
+  </script>
+
+  <!-- Typography & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- jsPDF for Instant Lookbook Download -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <style>
+    :root {
+      --charcoal: #0F0F0F;
+      --charcoal-light: #161616;
+      --charcoal-mid: #1A1A1A;
+      --gold: #C5A059;
+      --gold-light: #E0C899;
+      --gold-glow: rgba(197, 160, 89, 0.18);
+      --ivory: #FAF6F0;
+      --grey: #999999;
+      --font-serif: 'Cormorant Garamond', Georgia, serif;
+      --font-sans: 'Montserrat', -apple-system, sans-serif;
+      --transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--charcoal);
+      color: var(--ivory);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      overflow-x: hidden;
+      background-image: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(197,160,89,0.06) 0%, transparent 80%);
+    }
+
+    /* ── Header ──────────────────────────────────────────────────────── */
+    .lb-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(15, 15, 15, 0.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(197, 160, 89, 0.15);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.1rem 2.5rem;
+    }
+
+    .brand-link { text-decoration: none; display: flex; flex-direction: column; }
+    .brand-title { font-family: var(--font-serif); font-size: 1.4rem; letter-spacing: 0.28em; color: var(--ivory); font-weight: 300; }
+    .brand-sub { font-size: 8px; letter-spacing: 0.22em; color: var(--gold); text-transform: uppercase; margin-top: 1px; }
+
+    .header-actions { display: flex; align-items: center; gap: 1rem; }
+    .pdf-download-btn {
+      background: rgba(197, 160, 89, 0.12);
+      border: 1px solid var(--gold);
+      color: var(--gold-light);
+      padding: 0.55rem 1.2rem;
+      border-radius: 3px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      transition: var(--transition);
+    }
+    .pdf-download-btn:hover { background: var(--gold); color: #111; }
+
+    .back-btn {
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: var(--transition);
+    }
+    .back-btn:hover { color: var(--gold); }
+
+    /* ── Hero Banner ─────────────────────────────────────────────────── */
+    .lb-hero {
+      text-align: center;
+      padding: 4.5rem 1.5rem 2.5rem;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    .lb-tag {
+      font-size: 9px;
+      letter-spacing: 0.35em;
+      color: var(--gold);
+      text-transform: uppercase;
+      display: inline-block;
+      margin-bottom: 0.8rem;
+      border: 1px solid rgba(197,160,89,0.25);
+      padding: 4px 12px;
+      border-radius: 20px;
+      background: rgba(197,160,89,0.06);
+    }
+    .lb-hero h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(2.2rem, 5.5vw, 3.8rem);
+      font-weight: 300;
+      color: var(--ivory);
+      line-height: 1.15;
+      margin-bottom: 0.8rem;
+    }
+    .lb-hero h1 em { color: var(--gold); font-style: italic; }
+    .gold-line { width: 50px; height: 1px; background: var(--gold); margin: 1rem auto 1.4rem; }
+    .lb-hero p {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.65);
+      line-height: 1.9;
+      font-weight: 300;
+    }
+
+    /* ── Filter Tabs ─────────────────────────────────────────────────── */
+    .lb-filter-bar {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 2rem auto 3.5rem;
+      padding: 0 1rem;
+    }
+    .lb-tab-btn {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(197, 160, 89, 0.2);
+      color: rgba(255, 255, 255, 0.7);
+      padding: 8px 18px;
+      border-radius: 30px;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .lb-tab-btn:hover {
+      border-color: var(--gold);
+      color: var(--ivory);
+      background: rgba(197, 160, 89, 0.08);
+    }
+    .lb-tab-btn.active {
+      background: var(--gold);
+      color: #111;
+      font-weight: 700;
+      border-color: var(--gold);
+      box-shadow: 0 4px 20px rgba(197, 160, 89, 0.35);
+    }
+
+    /* ── Lookbook Magazine Spreads ───────────────────────────────────── */
+    .lookbook-container {
+      max-width: 1340px;
+      margin: 0 auto;
+      padding: 0 2rem 5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 5rem;
+    }
+
+    .lb-spread {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 3.5rem;
+      align-items: center;
+      background: #141414;
+      border: 1px solid rgba(197, 160, 89, 0.2);
+      border-radius: 12px;
+      padding: 2.5rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+      transition: border-color 0.3s ease;
+    }
+    .lb-spread:hover { border-color: rgba(197, 160, 89, 0.5); }
+    .lb-spread.reverse { grid-template-columns: 1fr 1.3fr; }
+    .lb-spread.reverse .lb-photo-box { order: 2; }
+    .lb-spread.reverse .lb-details-box { order: 1; }
+
+    /* Photo Box & Interactive Hotspots */
+    .lb-photo-box {
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+      aspect-ratio: 4/5;
+      background: #000;
+    }
+    .lb-photo-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .lb-spread:hover .lb-photo-box img { transform: scale(1.03); }
+
+    /* Interactive Shop-the-Look Hotspot Pin */
+    .hotspot-pin {
+      position: absolute;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(197, 160, 89, 0.9);
+      color: #111;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      cursor: pointer;
+      z-index: 10;
+      box-shadow: 0 0 0 4px rgba(197, 160, 89, 0.3), 0 8px 20px rgba(0,0,0,0.6);
+      transition: all 0.3s;
+      animation: hotspotPulse 2.4s infinite;
+    }
+    .hotspot-pin:hover {
+      transform: scale(1.18);
+      background: #FFFFFF;
+      color: var(--gold);
+    }
+    @keyframes hotspotPulse {
+      0% { box-shadow: 0 0 0 0 rgba(197,160,89,0.7); }
+      70% { box-shadow: 0 0 0 14px rgba(197,160,89,0); }
+      100% { box-shadow: 0 0 0 0 rgba(197,160,89,0); }
+    }
+
+    .hotspot-tooltip {
+      position: absolute;
+      bottom: calc(100% + 10px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: #181818;
+      border: 1px solid var(--gold);
+      border-radius: 4px;
+      padding: 6px 12px;
+      white-space: nowrap;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ivory);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.25s, transform 0.25s;
+    }
+    .hotspot-pin:hover .hotspot-tooltip { opacity: 1; transform: translateX(-50%) translateY(-4px); }
+
+    /* Details Box */
+    .lb-details-box { display: flex; flex-direction: column; justify-content: center; padding: 1rem; }
+    .look-num { font-size: 9px; letter-spacing: 0.3em; color: var(--gold); text-transform: uppercase; margin-bottom: 0.6rem; }
+    .look-title { font-family: var(--font-serif); font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 300; color: var(--ivory); line-height: 1.2; margin-bottom: 1rem; }
+    .look-fabric-tag { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: var(--gold-light); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1.2rem; }
+    .look-desc { font-size: 13px; color: rgba(255, 255, 255, 0.68); line-height: 1.9; margin-bottom: 1.8rem; }
+    .look-specs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 2rem; border-top: 1px solid rgba(197,160,89,0.15); border-bottom: 1px solid rgba(197,160,89,0.15); padding: 1.2rem 0; }
+    .spec-item { font-size: 11px; color: rgba(255,255,255,0.7); }
+    .spec-item strong { color: var(--gold); display: block; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 2px; }
+
+    .look-cta-row { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+    .btn-shop-look {
+      background: var(--gold);
+      color: #111;
+      text-decoration: none;
+      padding: 0.85rem 1.6rem;
+      border-radius: 3px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--transition);
+    }
+    .btn-shop-look:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+    .btn-custom-fit {
+      background: none;
+      border: 1px solid rgba(197, 160, 89, 0.3);
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      padding: 0.85rem 1.4rem;
+      border-radius: 3px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: var(--transition);
+    }
+    .btn-custom-fit:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* ── Atelier Appointment Strip ────────────────────────────────────── */
+    .lb-atelier-banner {
+      max-width: 1340px;
+      margin: 0 auto 5rem;
+      background: linear-gradient(135deg, rgba(197, 160, 89, 0.12) 0%, #161616 100%);
+      border: 1px solid rgba(197, 160, 89, 0.35);
+      border-radius: 8px;
+      padding: 2.5rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .atelier-banner-text h3 { font-family: var(--font-serif); font-size: 1.8rem; font-weight: 400; color: var(--ivory); margin-bottom: 0.4rem; }
+    .atelier-banner-text p { font-size: 13px; color: rgba(255, 255, 255, 0.65); line-height: 1.7; }
+
+    /* ── Responsive ───────────────────────────────────────────────────── */
+    @media (max-width: 992px) {
+      .lb-spread, .lb-spread.reverse { grid-template-columns: 1fr; gap: 2rem; padding: 1.8rem; }
+      .lb-spread.reverse .lb-photo-box { order: 1; }
+      .lb-spread.reverse .lb-details-box { order: 2; }
+      .lb-header { padding: 1rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="lb-header">
+    <a href="index.html" class="brand-link">
+      <span class="brand-title">SHAPES</span>
+      <span class="brand-sub">by Satiinder Kaur</span>
+    </a>
+    <div class="header-actions">
+      <button type="button" class="pdf-download-btn" onclick="downloadLookbookPDF()">
+        <i class="fa-solid fa-download"></i> <span>Download PDF Catalogue</span>
+      </button>
+      <a href="index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Return to Showroom</a>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="lb-hero">
+    <span class="lb-tag">Autumn / Winter Atelier Campaign</span>
+    <h1>The Editorial <em>Runway</em> Lookbook</h1>
+    <div class="gold-line"></div>
+    <p>A visual chronicle of fluid modal silks, organic slub linens, and structured zardozi corsetry. Handcrafted in our Chembur design atelier by couturier Satiinder Kaur.</p>
+  </section>
+
+  <!-- Category Filter Bar -->
+  <div class="lb-filter-bar">
+    <button class="lb-tab-btn active" data-cat="all" onclick="filterLookbook('all')">All Runway Looks</button>
+    <button class="lb-tab-btn" data-cat="silk" onclick="filterLookbook('silk')">Pure Modal Silks</button>
+    <button class="lb-tab-btn" data-cat="linen" onclick="filterLookbook('linen')">Organic Slub Linen</button>
+    <button class="lb-tab-btn" data-cat="corset" onclick="filterLookbook('corset')">Structured Corsetry</button>
+    <button class="lb-tab-btn" data-cat="festive" onclick="filterLookbook('festive')">Festive Jewel Tones</button>
+  </div>
+
+  <!-- Lookbook Spreads -->
+  <main class="lookbook-container">
+
+    <!-- SPREAD 1: The Noir Botanical -->
+    <article class="lb-spread" data-category="silk">
+      <div class="lb-photo-box">
+        <img src="images/coord_black_floral.webp" alt="The Noir Botanical Silk Set Runway Spread" loading="lazy">
+        <div class="hotspot-pin" style="top: 38%; left: 48%;" onclick="window.location.href='index.html#catalog';">
+          <i class="fa-solid fa-plus"></i>
+          <span class="hotspot-tooltip">Shop Noir Botanical Set &bull; &#8377;8,900</span>
+        </div>
+      </div>
+      <div class="lb-details-box">
+        <span class="look-num">LOOK 01 &bull; BOTANICAL SARTORIAL</span>
+        <h2 class="look-title">The Noir Botanical Silk Set</h2>
+        <span class="look-fabric-tag"><i class="fa-solid fa-feather"></i> Pure Handblock Modal Silk</span>
+        <p class="look-desc">An opulent two-piece luxury co-ord set designed for effortless day-to-night transitions. Features fluid wide-leg trousers paired with an asymmetric tunic printed with golden floral sprays on deep midnight noir.</p>
+        <div class="look-specs">
+          <div class="spec-item"><strong>Silhouettes</strong>Tailored Asymmetric Tunic + Wide Leg Trouser</div>
+          <div class="spec-item"><strong>Occasion</strong>High-Tea, Evening Cocktail, Destination Soiree</div>
+          <div class="spec-item"><strong>Craftsmanship</strong>French Seam Finishes, Handblock Detailing</div>
+          <div class="spec-item"><strong>Sizing</strong>XS to XXL (Custom Tailoring Available)</div>
+        </div>
+        <div class="look-cta-row">
+          <a href="index.html#catalog" class="btn-shop-look"><i class="fa-solid fa-bag-shopping"></i> Shop This Look &bull; &#8377;8,900</a>
+          <a href="appointment.html" class="btn-custom-fit"><i class="fa-regular fa-calendar-check"></i> Book Atelier Fitting</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- SPREAD 2: Ivory & Sand Linen (Reverse Layout) -->
+    <article class="lb-spread reverse" data-category="linen">
+      <div class="lb-photo-box">
+        <img src="images/coord_beige_linen.webp" alt="Ivory and Sand Linen Set Runway Spread" loading="lazy">
+        <div class="hotspot-pin" style="top: 42%; left: 52%;" onclick="window.location.href='index.html#catalog';">
+          <i class="fa-solid fa-plus"></i>
+          <span class="hotspot-tooltip">Shop Ivory &amp; Sand Linen &bull; &#8377;7,490</span>
+        </div>
+      </div>
+      <div class="lb-details-box">
+        <span class="look-num">LOOK 02 &bull; ORGANIC TEXTURE</span>
+        <h2 class="look-title">Ivory &amp; Sand Slub Linen Set</h2>
+        <span class="look-fabric-tag"><i class="fa-solid fa-leaf"></i> 100% Certified Organic Slub Linen</span>
+        <p class="look-desc">Epitomizing understated quiet luxury. Breathable natural slub linen calibrated for tropical comfort, accented with delicate tonal piping and relaxed pleated trousers.</p>
+        <div class="look-specs">
+          <div class="spec-item"><strong>Fabric Source</strong>Natural Organic Slub Linen</div>
+          <div class="spec-item"><strong>Palette</strong>Warm Sand, Desert Bone &amp; Ivory</div>
+          <div class="spec-item"><strong>Styling Note</strong>Pair with minimalist leather slides or gold bangles</div>
+          <div class="spec-item"><strong>Care</strong>Gentle cold wash, air dry in shade</div>
+        </div>
+        <div class="look-cta-row">
+          <a href="index.html#catalog" class="btn-shop-look"><i class="fa-solid fa-bag-shopping"></i> Shop This Look &bull; &#8377;7,490</a>
+          <a href="sizequiz.html" class="btn-custom-fit"><i class="fa-solid fa-wand-magic-sparkles"></i> Find My Size</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- SPREAD 3: The Emerald Festive Silk Set -->
+    <article class="lb-spread" data-category="festive">
+      <div class="lb-photo-box">
+        <img src="images/coord_royal_emerald.webp" alt="Emerald Festive Silk Set Runway Spread" loading="lazy">
+        <div class="hotspot-pin" style="top: 40%; left: 50%;" onclick="window.location.href='index.html#catalog';">
+          <i class="fa-solid fa-plus"></i>
+          <span class="hotspot-tooltip">Shop Emerald Silk Set &bull; &#8377;11,500</span>
+        </div>
+      </div>
+      <div class="lb-details-box">
+        <span class="look-num">LOOK 03 &bull; ROYAL TWILIGHT</span>
+        <h2 class="look-title">The Emerald Festive Silk Set</h2>
+        <span class="look-fabric-tag"><i class="fa-solid fa-gem"></i> Hand-Embroidered Zardozi Raw Silk</span>
+        <p class="look-desc">A regal jewel-toned festive creation. Pure raw silk in Imperial Emerald, featuring antique dabka wire and delicate pearl embroidery along the collar and trouser cuffs.</p>
+        <div class="look-specs">
+          <div class="spec-item"><strong>Embroidery</strong>Hand-worked gold zardozi &amp; seed pearls</div>
+          <div class="spec-item"><strong>Occasion</strong>Diwali Soirees, Sangeet &amp; Festive Dinners</div>
+          <div class="spec-item"><strong>Lining</strong>Pure Mulberry Cotton-Silk</div>
+          <div class="spec-item"><strong>Karigar Hours</strong>Over 80 hours of meticulous hand needlework</div>
+        </div>
+        <div class="look-cta-row">
+          <a href="index.html#catalog" class="btn-shop-look"><i class="fa-solid fa-bag-shopping"></i> Shop This Look &bull; &#8377;11,500</a>
+          <a href="appointment.html" class="btn-custom-fit"><i class="fa-regular fa-calendar-check"></i> Book Atelier Fitting</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- SPREAD 4: Structured Banarasi Brocade Corset (Reverse) -->
+    <article class="lb-spread reverse" data-category="corset">
+      <div class="lb-photo-box">
+        <img src="images/brocade_corset.webp" alt="Brocade Corset Runway Spread" loading="lazy">
+        <div class="hotspot-pin" style="top: 36%; left: 48%;" onclick="window.location.href='index.html#catalog';">
+          <i class="fa-solid fa-plus"></i>
+          <span class="hotspot-tooltip">Shop Brocade Corset &bull; &#8377;14,900</span>
+        </div>
+      </div>
+      <div class="lb-details-box">
+        <span class="look-num">LOOK 04 &bull; SARTORIAL CORSETRY</span>
+        <h2 class="look-title">Royal Banarasi Brocade Corset</h2>
+        <span class="look-fabric-tag"><i class="fa-solid fa-crown"></i> Heritage Varanasi Zari Brocade</span>
+        <p class="look-desc">Internal 18-panel flexi-boning meets opulent Banarasi heritage gold weaves. Designed to be styled as a showstopping statement corset over pleated wide-leg palazzos or layered with sheer organza capes.</p>
+        <div class="look-specs">
+          <div class="spec-item"><strong>Internal Architecture</strong>18-panel ergonomic soft flexi-boning</div>
+          <div class="spec-item"><strong>Weave Lineage</strong>Authentic Varanasi Handloom Brocade</div>
+          <div class="spec-item"><strong>Back Closure</strong>Customizable antique gold eyelet lacing</div>
+          <div class="spec-item"><strong>Fit Guarantee</strong>Made to your exact bust and waist measurements</div>
+        </div>
+        <div class="look-cta-row">
+          <a href="index.html#catalog" class="btn-shop-look"><i class="fa-solid fa-bag-shopping"></i> Shop This Look &bull; &#8377;14,900</a>
+          <a href="appointment.html" class="btn-custom-fit"><i class="fa-regular fa-calendar-check"></i> Book Atelier Fitting</a>
+        </div>
+      </div>
+    </article>
+
+  </main>
+
+  <!-- Atelier Banner -->
+  <div class="lb-atelier-banner">
+    <div class="atelier-banner-text">
+      <h3>Experience Haute Couture in Person</h3>
+      <p>Visit our Chembur atelier for private bespoke fittings, custom fabric swatching, and personal bridal styling with Satiinder Kaur.</p>
+    </div>
+    <a href="appointment.html" class="btn-shop-look"><i class="fa-regular fa-calendar-check"></i> Reserve Atelier Slot</a>
+  </div>
+
+  <script>
+    // Category Filtering
+    function filterLookbook(cat) {
+      document.querySelectorAll(".lb-tab-btn").forEach(b => {
+        b.classList.toggle("active", b.dataset.cat === cat);
+      });
+
+      document.querySelectorAll(".lb-spread").forEach(card => {
+        if (cat === "all" || card.dataset.category === cat) {
+          card.style.display = "grid";
+        } else {
+          card.style.display = "none";
+        }
+      });
+    }
+
+    // Instant PDF Lookbook Generator
+    function downloadLookbookPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+
+      // Page 1: Cover
+      doc.setFillColor(17, 17, 17);
+      doc.rect(0, 0, 210, 297, "F");
+
+      doc.setDrawColor(197, 160, 89);
+      doc.setLineWidth(0.8);
+      doc.rect(10, 10, 190, 277);
+
+      doc.setTextColor(197, 160, 89);
+      doc.setFont("times", "normal");
+      doc.setFontSize(28);
+      doc.text("S H A P E S", 105, 70, { align: "center" });
+
+      doc.setFontSize(11);
+      doc.setTextColor(235, 235, 235);
+      doc.text("B Y   S A T I I N D E R   K A U R", 105, 80, { align: "center" });
+
+      doc.setDrawColor(197, 160, 89);
+      doc.line(75, 90, 135, 90);
+
+      doc.setFontSize(16);
+      doc.setTextColor(197, 160, 89);
+      doc.text("AUTUMN / WINTER EDITORIAL LOOKBOOK", 105, 115, { align: "center" });
+
+      doc.setFontSize(10);
+      doc.setTextColor(180, 180, 180);
+      doc.text("Bespoke Printed Silks, Organic Linen & Structured Corsetry", 105, 125, { align: "center" });
+      doc.text("Flagship Atelier: Chembur, Mumbai", 105, 132, { align: "center" });
+
+      doc.setFontSize(9);
+      doc.setTextColor(140, 140, 140);
+      doc.text("Website: shapesbysatinderkaur.com  |  WhatsApp: +91 98333 92756", 105, 250, { align: "center" });
+
+      // Page 2: Catalog Summary
+      doc.addPage();
+      doc.setFillColor(22, 22, 22);
+      doc.rect(0, 0, 210, 297, "F");
+
+      doc.setTextColor(197, 160, 89);
+      doc.setFontSize(18);
+      doc.text("CURATED RUNWAY PIECES", 105, 30, { align: "center" });
+
+      doc.setFontSize(10);
+      doc.setTextColor(220, 220, 220);
+      const items = [
+        ["01", "The Noir Botanical Silk Set", "Pure Modal Silk", "Rs. 8,900"],
+        ["02", "Ivory & Sand Slub Linen Set", "100% Organic Slub Linen", "Rs. 7,490"],
+        ["03", "The Emerald Festive Silk Set", "Zardozi Raw Silk", "Rs. 11,500"],
+        ["04", "Royal Banarasi Brocade Corset", "Varanasi Zari Brocade", "Rs. 14,900"],
+        ["05", "Indigo Heritage Handblock Set", "Handblock Modal Silk", "Rs. 8,490"],
+        ["06", "Minimalist Asymmetric Pret Tunic", "Organic Slub Linen", "Rs. 6,990"]
+      ];
+
+      let y = 55;
+      items.forEach(row => {
+        doc.setTextColor(197, 160, 89);
+        doc.setFontSize(11);
+        doc.text(row[0] + "  " + row[1], 25, y);
+        doc.setTextColor(160, 160, 160);
+        doc.setFontSize(9);
+        doc.text(row[2], 25, y + 5);
+        doc.setTextColor(240, 240, 240);
+        doc.setFontSize(10);
+        doc.text(row[3], 185, y + 2, { align: "right" });
+        doc.setDrawColor(50, 50, 50);
+        doc.line(25, y + 10, 185, y + 10);
+        y += 24;
+      });
+
+      doc.setTextColor(197, 160, 89);
+      doc.setFontSize(10);
+      doc.text("To order or book a bespoke fitting, contact +91 98333 92756 or visit shapesbysatinderkaur.com", 105, 260, { align: "center" });
+
+      doc.save("SHAPES_By_Satiinder_Kaur_Lookbook_AW26.pdf");
+    }
+  </script>
+
+</body>
+</html>

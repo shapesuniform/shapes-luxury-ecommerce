@@ -1,0 +1,15 @@
+{
+  "name": "Shapes By Satiinder Kaur CMS",
+  "short_name": "CMS",
+  "start_url": "./admin.html",
+  "display": "standalone",
+  "background_color": "#121212",
+  "theme_color": "#C5A059",
+  "icons": [
+    {
+      "src": "./app_icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
