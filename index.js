@@ -628,9 +628,25 @@ function closeShippingModal() {
 }
 
 function processFinalRazorpayPayment() {
-    if (!customerShippingInfo) return;
-    const info       = customerShippingInfo;
-    const totalINR   = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    // 1. Synchronize cart from localStorage if empty
+    try {
+        if (!cart || cart.length === 0) {
+            cart = JSON.parse(localStorage.getItem("shapes_cart_items") || localStorage.getItem("shapes_cart") || "[]");
+        }
+    } catch(e) {}
+
+    if (!customerShippingInfo) {
+        alert("Please enter your shipping address and contact details.");
+        openCheckoutModal();
+        return;
+    }
+    const info = customerShippingInfo;
+    const totalINR = cart.reduce((sum, item) => sum + ((item.price || 0) * (item.quantity || 1)), 0);
+
+    if (totalINR <= 0) {
+        alert("Your shopping bag is empty. Please add a bespoke set before checking out.");
+        return;
+    }
     // Sequential Order ID Generator (SBK-001, SBK-002, SBK-003...)
     function generateSequentialOrderId() {
         const orders = getLocal("shapes_orders", []);
@@ -2962,3 +2978,58 @@ window.saveBespokeMeasurements = function() {
     }, true);
 
 })();
+
+
+
+// ── Universal Checkout Trigger ──
+window.initiateCheckoutFlow = function() {
+    if (typeof openCheckoutModal === 'function') {
+        openCheckoutModal();
+    } else {
+        var modal = document.getElementById("shipping-address-modal");
+        if (modal) {
+            modal.classList.add("active");
+            modal.style.display = "flex";
+            if (typeof lockScroll === 'function') lockScroll();
+        }
+    }
+};
+window.openCheckout = window.initiateCheckoutFlow;
+window.openCheckoutModal = function() {
+    // 1. Ensure cart has items
+    try {
+        if (!cart || cart.length === 0) {
+            cart = JSON.parse(localStorage.getItem("shapes_cart_items") || localStorage.getItem("shapes_cart") || "[]");
+        }
+    } catch(e) {}
+
+    if (!cart || cart.length === 0) {
+        if (typeof showToastMsg === 'function') {
+            showToastMsg("Your shopping bag is empty. Please add items first.");
+        } else {
+            alert("Your shopping bag is empty. Please add an item first.");
+        }
+        return;
+    }
+
+    if (typeof closeCartDrawer === 'function') closeCartDrawer();
+    if (typeof closeSmartCart === 'function') closeSmartCart();
+    if (typeof closeProductDetailModal === 'function') closeProductDetailModal();
+
+    var modal = document.getElementById("shipping-address-modal");
+    if (modal) {
+        modal.classList.add("active");
+        modal.style.display = "flex";
+        modal.style.opacity = "1";
+        modal.style.visibility = "visible";
+        if (typeof lockScroll === 'function') lockScroll();
+    }
+};
+
+
+
+// ── Bulletproof Global Checkout Aliases ──
+window.openCheckoutModal = openCheckoutModal;
+window.initiateCheckoutFlow = openCheckoutModal;
+window.openCheckout = openCheckoutModal;
+window.processFinalRazorpayPayment = processFinalRazorpayPayment;

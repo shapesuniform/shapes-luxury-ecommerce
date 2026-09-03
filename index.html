@@ -318,7 +318,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-    <link rel="stylesheet" href="index.css?v=56.0">
+    <link rel="stylesheet" href="index.css?v=57.0">
     <link rel="manifest" href="manifest.json">
 
     <!-- PDF Invoice Generation -->
@@ -332,7 +332,7 @@
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <!-- Cloudflare Turnstile Invisible Bot Protection -->
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-    <script src="index.js?v=56.0" defer></script>
+    <script src="index.js?v=57.0" defer></script>
 
 <script type="application/ld+json">
 {
@@ -1716,7 +1716,7 @@
             <span>Subtotal (excl. GST)</span>
             <span id="smart-cart-subtotal" class="scart-subtotal-val">₹0</span>
         </div>
-        <button class="scart-checkout-btn" onclick="closeSmartCart(); typeof initiateCheckoutFlow === 'function' && initiateCheckoutFlow();">
+        <button class="scart-checkout-btn" onclick="closeSmartCart(); openCheckoutModal();">
             <i class="fa-solid fa-lock"></i> Secure Checkout
         </button>
         <button class="scart-continue-btn" onclick="closeSmartCart()">Continue Shopping</button>
