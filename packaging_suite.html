@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Instant .in to .com Domain Redirect -->
+        <!-- Instant .in and .online to .com Domain Redirect -->
     <script>
       (function() {
         var h = window.location.hostname.toLowerCase();
-        if (h.indexOf("shapesuniform.in") !== -1 || h === "shapesuniform.com" || h === "www.shapesuniform.com") {
-          window.location.replace("https://shapesbysatinderkaur.com" + window.location.pathname + window.location.search);
+        if (h && (h.endsWith(".in") || h.endsWith(".online") || h.indexOf("shapesuniform") !== -1 || h.indexOf("shapesbysatiinderkaur") !== -1)) {
+          if (h !== "shapesbysatinderkaur.com" && h !== "www.shapesbysatinderkaur.com") {
+            window.location.replace("https://shapesbysatinderkaur.com" + window.location.pathname + window.location.search);
+          }
         }
       })();
     </script>

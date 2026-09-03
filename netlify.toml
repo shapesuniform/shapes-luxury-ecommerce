@@ -15,7 +15,7 @@
 [build.processing.html]
   pretty_urls = true
 
-# Domain Redirect (.in to .com)
+# Domain Redirect (.in and .online to .com)
 [[redirects]]
   from = "https://shapesuniform.in/*"
   to = "https://shapesbysatinderkaur.com/:splat"
@@ -24,6 +24,42 @@
 
 [[redirects]]
   from = "https://www.shapesuniform.in/*"
+  to = "https://shapesbysatinderkaur.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://shapesuniform.online/*"
+  to = "https://shapesbysatinderkaur.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.shapesuniform.online/*"
+  to = "https://shapesbysatinderkaur.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://shapesbysatinderkaur.in/*"
+  to = "https://shapesbysatinderkaur.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.shapesbysatinderkaur.in/*"
+  to = "https://shapesbysatinderkaur.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://shapesbysatinderkaur.online/*"
+  to = "https://shapesbysatinderkaur.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.shapesbysatinderkaur.online/*"
   to = "https://shapesbysatinderkaur.com/:splat"
   status = 301
   force = true

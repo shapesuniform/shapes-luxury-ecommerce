@@ -8,13 +8,20 @@ export default {
     const url = new URL(request.url);
     const pathname = url.pathname;
 
-    // ── 0. DOMAIN REDIRECTION (.in → .com) ───────────────────────────
+    // ── 0. UNIVERSAL DOMAIN REDIRECTION (.in & .online → .com) ──────
     const hostname = url.hostname.toLowerCase();
-    if (hostname.includes("shapesuniform.in") || hostname === "shapesuniform.com" || hostname === "www.shapesuniform.com") {
-      const redirectTarget = new URL(request.url);
-      redirectTarget.hostname = "shapesbysatinderkaur.com";
-      redirectTarget.protocol = "https:";
-      return Response.redirect(redirectTarget.toString(), 301);
+    if (
+      hostname.endsWith(".in") ||
+      hostname.endsWith(".online") ||
+      hostname.includes("shapesuniform") ||
+      hostname.includes("shapesbysatiinderkaur")
+    ) {
+      if (hostname !== "shapesbysatinderkaur.com" && hostname !== "www.shapesbysatinderkaur.com") {
+        const redirectTarget = new URL(request.url);
+        redirectTarget.hostname = "shapesbysatinderkaur.com";
+        redirectTarget.protocol = "https:";
+        return Response.redirect(redirectTarget.toString(), 301);
+      }
     }
 
 

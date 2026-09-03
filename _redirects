@@ -1,14 +1,38 @@
-# Domain Redirect (.in to .com)
-http://shapesuniform.in/*       https://shapesbysatinderkaur.com/:splat 301!
-https://shapesuniform.in/*      https://shapesbysatinderkaur.com/:splat 301!
-http://www.shapesuniform.in/*   https://shapesbysatinderkaur.com/:splat 301!
-https://www.shapesuniform.in/*  https://shapesbysatinderkaur.com/:splat 301!
-http://shapesuniform.com/*      https://shapesbysatinderkaur.com/:splat 301!
-https://shapesuniform.com/*     https://shapesbysatinderkaur.com/:splat 301!
-http://www.shapesuniform.com/*  https://shapesbysatinderkaur.com/:splat 301!
-https://www.shapesuniform.com/* https://shapesbysatinderkaur.com/:splat 301!
+# ═══════════════════════════════════════════════════════════════
+# UNIVERSAL DOMAIN REDIRECTS (.in & .online → .com)
+# ═══════════════════════════════════════════════════════════════
 
-# Extensionless URLs
+# shapesuniform.in
+http://shapesuniform.in/*               https://shapesbysatinderkaur.com/:splat 301!
+https://shapesuniform.in/*              https://shapesbysatinderkaur.com/:splat 301!
+http://www.shapesuniform.in/*           https://shapesbysatinderkaur.com/:splat 301!
+https://www.shapesuniform.in/*          https://shapesbysatinderkaur.com/:splat 301!
+
+# shapesuniform.online
+http://shapesuniform.online/*           https://shapesbysatinderkaur.com/:splat 301!
+https://shapesuniform.online/*          https://shapesbysatinderkaur.com/:splat 301!
+http://www.shapesuniform.online/*       https://shapesbysatinderkaur.com/:splat 301!
+https://www.shapesuniform.online/*      https://shapesbysatinderkaur.com/:splat 301!
+
+# shapesbysatinderkaur.in
+http://shapesbysatinderkaur.in/*        https://shapesbysatinderkaur.com/:splat 301!
+https://shapesbysatinderkaur.in/*       https://shapesbysatinderkaur.com/:splat 301!
+http://www.shapesbysatinderkaur.in/*    https://shapesbysatinderkaur.com/:splat 301!
+https://www.shapesbysatinderkaur.in/*   https://shapesbysatinderkaur.com/:splat 301!
+
+# shapesbysatinderkaur.online
+http://shapesbysatinderkaur.online/*    https://shapesbysatinderkaur.com/:splat 301!
+https://shapesbysatinderkaur.online/*   https://shapesbysatinderkaur.com/:splat 301!
+http://www.shapesbysatinderkaur.online/* https://shapesbysatinderkaur.com/:splat 301!
+https://www.shapesbysatinderkaur.online/* https://shapesbysatinderkaur.com/:splat 301!
+
+# shapesuniform.com
+http://shapesuniform.com/*              https://shapesbysatinderkaur.com/:splat 301!
+https://shapesuniform.com/*             https://shapesbysatinderkaur.com/:splat 301!
+http://www.shapesuniform.com/*          https://shapesbysatinderkaur.com/:splat 301!
+https://www.shapesuniform.com/*         https://shapesbysatinderkaur.com/:splat 301!
+
+# Extensionless Routing
 /admin          /admin.html         200
 /lookbook       /lookbook.html      200
 /appointment    /appointment.html   200
