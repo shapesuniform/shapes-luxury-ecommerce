@@ -237,8 +237,13 @@ export default {
           newHeaders.set("Referrer-Policy", "strict-origin-when-cross-origin");
           newHeaders.set("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
 
-          // Edge Caching Rules
-          if (pathname.endsWith(".webp") || pathname.endsWith(".png") || pathname.endsWith(".jpg") || pathname.endsWith(".woff2") || pathname.endsWith(".ico")) {
+          // Edge Caching & Automated Fresh Updates
+          // HTML is NEVER cached on edge or browser — updates appear automatically with zero manual purging!
+          if (pathname.endsWith(".html") || pathname === "/" || !pathname.includes(".")) {
+            newHeaders.set("Cache-Control", "no-cache, no-store, must-revalidate, max-age=0");
+            newHeaders.set("Pragma", "no-cache");
+            newHeaders.set("Expires", "0");
+          } else if (pathname.endsWith(".webp") || pathname.endsWith(".png") || pathname.endsWith(".jpg") || pathname.endsWith(".woff2") || pathname.endsWith(".ico")) {
             newHeaders.set("Cache-Control", "public, max-age=31536000, immutable");
           } else if (pathname.endsWith(".css") || pathname.endsWith(".js")) {
             newHeaders.set("Cache-Control", "public, max-age=86400, stale-while-revalidate=604800");
