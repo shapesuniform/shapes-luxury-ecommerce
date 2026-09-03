@@ -329,7 +329,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-    <link rel="stylesheet" href="index.css?v=58.0">
+    <link rel="stylesheet" href="index.css?v=59.0">
     <link rel="manifest" href="manifest.json">
 
     <!-- PDF Invoice Generation -->
@@ -343,7 +343,7 @@
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <!-- Cloudflare Turnstile Invisible Bot Protection -->
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-    <script src="index.js?v=58.0" defer></script>
+    <script src="index.js?v=59.0" defer></script>
 
 <script type="application/ld+json">
 {
@@ -625,11 +625,7 @@
 </header>
 
 
-        <span id="hship-label" class="hship-label">Free Express Shipping on orders above <strong>&#8377;15,000</strong></span>
-    </div>
-</div>
 
-</div>
 
 <!-- Mobile Drawer -->
 <div class="mobile-nav-drawer" id="mobile-nav-drawer">
@@ -920,11 +916,11 @@
             </div>
             <div class="faq-item">
                 <button class="faq-question-btn" type="button">
-                    <span>Do you accept returns or exchanges?</span>
+                    <span>What is your return and exchange policy?</span>
                     <i class="fa-solid fa-chevron-down faq-chevron"></i>
                 </button>
                 <div class="faq-answer-content">
-                    <p>We offer exchanges within 7 days of delivery for size issues. Custom/made-to-measure orders are non-refundable. Please contact us on WhatsApp (+91 98333 92756) for assistance.</p>
+                    <p>Every garment at Shapes By Satiinder Kaur is individually handcrafted and bespoke tailored to order by our master artisans. Because each ensemble is created uniquely for your measurements, all sales are final and we do not offer returns or exchanges. Our concierge is available on WhatsApp (+91 79774 56549) prior to tailoring to assist with your exact measurements.</p>
                 </div>
             </div>
             <div class="faq-item">
@@ -1048,7 +1044,7 @@
             <h4>CLIENT CARE</h4>
             <ul>
                 <li><a href="#faq-section">Boutique FAQ</a></li>
-                <li><a href="info.html">Shipping &amp; Returns</a></li>
+                <li><a href="shipping.html">Shipping Policy</a></li>
                 <li><a href="info.html#contact">Contact Boutique</a></li>
                 <li><a href="track.html">Track Order</a></li>
                 <li><a href="account.html">My Account</a></li>
@@ -1066,7 +1062,7 @@
         <div class="legal-footer-links">
             <a href="terms.html">Terms &amp; Conditions</a> &middot;
             <a href="privacy.html">Privacy Policy</a> &middot;
-            <a href="refund.html">Refund &amp; Exchange</a> &middot;
+            <a href="refund.html">Bespoke Policy</a> &middot;
             <a href="cancellation.html">Cancellation</a> &middot;
             <a href="shipping.html">Shipping</a> &middot;
             <a href="contact.html">Contact Us</a>
@@ -1112,8 +1108,8 @@
                 <!-- Trust Badges -->
                 <div class="modal-thumb-trust">
                     <span class="trust-badge"><i class="fa-solid fa-shield-halved"></i> Secure Payment</span>
-                    <span class="trust-badge"><i class="fa-solid fa-rotate-left"></i> 7-Day Exchange</span>
-                    <span class="trust-badge"><i class="fa-solid fa-truck-fast"></i> Free Shipping</span>
+                    <span class="trust-badge"><i class="fa-solid fa-scissors"></i> Bespoke Made-to-Order</span>
+                    <span class="trust-badge"><i class="fa-solid fa-truck-fast"></i> Insured Delivery</span>
                 </div>
             </div>
 
@@ -1353,13 +1349,13 @@
 
                     <div class="prod-acc-item" id="acc-shipping">
                         <button type="button" class="prod-acc-trigger" data-acc="acc-shipping">
-                            <span><i class="fa-solid fa-truck-fast"></i> Shipping &amp; Returns</span>
+                            <span><i class="fa-solid fa-truck-fast"></i> Shipping &amp; Bespoke Policy</span>
                             <i class="fa-solid fa-chevron-down prod-acc-icon"></i>
                         </button>
                         <div class="prod-acc-body">
                             <div class="spec-row"><i class="fa-solid fa-clock spec-icon"></i><span>Handcrafted to order · Delivery in <strong>15–22 days</strong></span></div>
                             <div class="spec-row"><i class="fa-solid fa-shield spec-icon"></i><span>Complimentary insured shipping pan-India</span></div>
-                            <div class="spec-row"><i class="fa-solid fa-rotate-left spec-icon"></i><span>7-day size exchange · WhatsApp: +91 98333 92756</span></div>
+                            <div class="spec-row"><i class="fa-solid fa-gem spec-icon"></i><span>Bespoke Made-to-Order · Handcrafted at Chembur Atelier · Final Sale</span></div>
                         </div>
                     </div>
 
@@ -1707,13 +1703,7 @@
         <button class="scart-close-btn" onclick="closeSmartCart()" aria-label="Close cart">&times;</button>
     </div>
 
-    <!-- Free Shipping Progress Bar -->
-    <div class="scart-shipping-progress">
-        <div class="scart-ship-bar-track">
-            <div id="smart-cart-ship-bar" class="scart-ship-bar-fill"></div>
-        </div>
-        <p id="smart-cart-ship-label" class="scart-ship-label">Add <strong style="color:var(--gold);">₹15,000</strong> for Free Express Shipping 🚀</p>
-    </div>
+
 
     <!-- Cart Items -->
     <div id="smart-cart-items" class="scart-items-zone"></div>
@@ -1732,9 +1722,9 @@
         </button>
         <button class="scart-continue-btn" onclick="closeSmartCart()">Continue Shopping</button>
         <div class="scart-trust-row">
-            <span><i class="fa-solid fa-shield-halved"></i> SSL Secured</span>
-            <span><i class="fa-solid fa-truck-fast"></i> Free Ship above ₹15K</span>
-            <span><i class="fa-solid fa-rotate-left"></i> Easy Returns</span>
+            <span><i class="fa-solid fa-shield-halved"></i> 256-Bit SSL Secured</span>
+            <span><i class="fa-solid fa-truck-fast"></i> Complimentary Delivery</span>
+            <span><i class="fa-solid fa-scissors"></i> Bespoke Tailored Fit</span>
         </div>
     </div>
 </aside>

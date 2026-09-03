@@ -2443,15 +2443,9 @@ function renderSmartCartFull() {
     // Subtotal
     if (subtotalEl) subtotalEl.textContent = formatPrice(totalINR);
 
-    // Free shipping progress
-    const remaining = Math.max(0, FREE_SHIPPING_THRESHOLD_INR - totalINR);
-    const pct = Math.min(100, (totalINR / FREE_SHIPPING_THRESHOLD_INR) * 100);
-    if (progressBar) progressBar.style.width = pct + "%";
-    if (progressLabel) {
-        progressLabel.innerHTML = remaining > 0
-            ? `Add <strong style="color:var(--gold);">${formatPrice(remaining)}</strong> more for <strong>Free Express Shipping</strong> 🚀`
-            : `🎉 You've unlocked <strong style="color:var(--gold);">Free Express Shipping!</strong>`;
-    }
+    // Complimentary shipping on all bespoke couture orders
+    if (progressBar) progressBar.style.display = "none";
+    if (progressLabel) progressLabel.style.display = "none";
     if (countEl) countEl.textContent = cart.reduce((s, i) => s + i.quantity, 0) || "";
 
     renderSmartCartUpsells();

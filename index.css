@@ -3076,9 +3076,7 @@ ul, ol { list-style:none; }
 .scart-close-btn:hover { color: #fff; }
 
 .scart-shipping-progress {
-    padding: 1rem 1.5rem;
-    border-bottom: 1px solid rgba(197, 160, 89, 0.1);
-    flex-shrink: 0;
+    display: none !important;
 }
 
 .scart-ship-bar-track {
