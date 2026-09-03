@@ -1,3 +1,24 @@
+// ── SELF-HEALING PURGE FOR LEGACY SHIPPING LABELS ──
+(function() {
+    function purgeLegacy() {
+        var ids = ["hship-label", "smart-cart-ship-bar", "smart-cart-ship-label"];
+        ids.forEach(function(id) {
+            var el = document.getElementById(id);
+            if (el) el.remove();
+        });
+        document.querySelectorAll(".hship-label, .scart-shipping-progress").forEach(function(el) {
+            el.remove();
+        });
+    }
+    purgeLegacy();
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", purgeLegacy);
+    }
+    window.addEventListener("load", purgeLegacy);
+    setTimeout(purgeLegacy, 200);
+    setTimeout(purgeLegacy, 800);
+})();
+
 /* ── AUTOMATED WELCOME EMAIL DISPATCHER ─────────────────────── */
 async function sendWelcomeEmail(userName, userEmail) {
     if (!userEmail) return;
@@ -2411,7 +2432,7 @@ window.switchCurrency = function(currency) {
    Glassmorphic drawer · Free shipping progress · Complete the Look
 ══════════════════════════════════════════════════════════ */
 
-const FREE_SHIPPING_THRESHOLD_INR = 15000;
+const FREE_SHIPPING_THRESHOLD_INR = 0;
 
 function getCartTotal_INR() {
     return cart.reduce((sum, item) => sum + item.price * item.quantity, 0);

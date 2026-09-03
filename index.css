@@ -1,3 +1,25 @@
+
+/* ── PERMANENTLY HIDE LEGACY 15000 SHIPPING BAR & PROGRESS ── */
+#hship-label,
+.hship-label,
+.scart-shipping-progress,
+#smart-cart-ship-bar,
+#smart-cart-ship-label {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    height: 0 !important;
+    width: 0 !important;
+    max-height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
+    position: absolute !important;
+    top: -9999px !important;
+    left: -9999px !important;
+}
+
 /* ============================================================
    SHAPES BY SATIINDER KAUR — MASTER STYLESHEET v30
    Mobile-first · Dark Luxury Gold · All buttons functional
