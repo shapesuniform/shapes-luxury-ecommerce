@@ -1,0 +1,131 @@
+[build]
+  publish = "."
+
+[build.processing]
+  skip_processing = false
+
+[build.processing.css]
+  bundle = false
+  minify = true
+
+[build.processing.js]
+  bundle = false
+  minify = true
+
+[build.processing.html]
+  pretty_urls = true
+
+# Domain Redirect (.in to .com)
+[[redirects]]
+  from = "https://shapesuniform.in/*"
+  to = "https://shapesbysatinderkaur.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.shapesuniform.in/*"
+  to = "https://shapesbysatinderkaur.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://shapesuniform.com/*"
+  to = "https://shapesbysatinderkaur.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.shapesuniform.com/*"
+  to = "https://shapesbysatinderkaur.com/:splat"
+  status = 301
+  force = true
+
+# Extensionless Routing
+[[redirects]]
+  from = "/admin"
+  to = "/admin.html"
+  status = 200
+
+[[redirects]]
+  from = "/lookbook"
+  to = "/lookbook.html"
+  status = 200
+
+[[redirects]]
+  from = "/appointment"
+  to = "/appointment.html"
+  status = 200
+
+[[redirects]]
+  from = "/sizequiz"
+  to = "/sizequiz.html"
+  status = 200
+
+[[redirects]]
+  from = "/track"
+  to = "/track.html"
+  status = 200
+
+[[redirects]]
+  from = "/account"
+  to = "/account.html"
+  status = 200
+
+[[redirects]]
+  from = "/contact"
+  to = "/contact.html"
+  status = 200
+
+[[redirects]]
+  from = "/info"
+  to = "/info.html"
+  status = 200
+
+[[redirects]]
+  from = "/terms"
+  to = "/terms.html"
+  status = 200
+
+[[redirects]]
+  from = "/privacy"
+  to = "/privacy.html"
+  status = 200
+
+[[redirects]]
+  from = "/refund"
+  to = "/refund.html"
+  status = 200
+
+[[redirects]]
+  from = "/shipping"
+  to = "/shipping.html"
+  status = 200
+
+[[redirects]]
+  from = "/cancellation"
+  to = "/cancellation.html"
+  status = 200
+
+# HTTP Security & Cache Headers
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+[[headers]]
+  for = "/*.webp"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.png"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.jpg"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

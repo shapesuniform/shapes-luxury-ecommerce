@@ -1,0 +1,28 @@
+# Domain Redirect (.in to .com)
+http://shapesuniform.in/*       https://shapesbysatinderkaur.com/:splat 301!
+https://shapesuniform.in/*      https://shapesbysatinderkaur.com/:splat 301!
+http://www.shapesuniform.in/*   https://shapesbysatinderkaur.com/:splat 301!
+https://www.shapesuniform.in/*  https://shapesbysatinderkaur.com/:splat 301!
+http://shapesuniform.com/*      https://shapesbysatinderkaur.com/:splat 301!
+https://shapesuniform.com/*     https://shapesbysatinderkaur.com/:splat 301!
+http://www.shapesuniform.com/*  https://shapesbysatinderkaur.com/:splat 301!
+https://www.shapesuniform.com/* https://shapesbysatinderkaur.com/:splat 301!
+
+# Extensionless URLs
+/admin          /admin.html         200
+/lookbook       /lookbook.html      200
+/appointment    /appointment.html   200
+/sizequiz       /sizequiz.html      200
+/track          /track.html         200
+/account        /account.html       200
+/contact        /contact.html       200
+/info           /info.html          200
+/terms          /terms.html         200
+/privacy        /privacy.html       200
+/refund         /refund.html        200
+/shipping       /shipping.html      200
+/cancellation   /cancellation.html  200
+/packaging      /packaging_suite.html 200
+
+# 404 Fallback
+/*              /404.html           404

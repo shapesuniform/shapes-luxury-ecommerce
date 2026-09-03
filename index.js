@@ -2737,13 +2737,25 @@ window.saveBespokeMeasurements = function() {
     };
 
     // ── 9. P1: Smart Search ──
-    var CATALOG_ITEMS = [
-        { id: "p1", name: "Emerald Festive Silk Co-Ord Set", price: 12900, fabric: "silk", occasion: "festive", color: "Emerald Green", img: "images/hero_coord_editorial.webp" },
-        { id: "p2", name: "Royal Banarasi Brocade Corset Set", price: 16900, fabric: "brocade", occasion: "pret", color: "Banarasi Gold", img: "images/welcome_coord_luxury.webp" },
-        { id: "p3", name: "Indigo Heritage Slub Linen Set", price: 9900, fabric: "linen", occasion: "pret", color: "Indigo Blue", img: "images/hero_coord_editorial.webp" },
-        { id: "p4", name: "Gulabi Zari Festive Silk Ensemble", price: 14500, fabric: "silk", occasion: "festive", color: "Rani Pink", img: "images/welcome_coord_luxury.webp" },
-        { id: "p5", name: "Ivory Pearl Organza Co-Ord Set", price: 18500, fabric: "silk", occasion: "festive", color: "Ivory Gold", img: "images/hero_coord_editorial.webp" }
-    ];
+    function getLiveCatalogItems() {
+        var list = (products && products.length) ? products : DEFAULT_PRODUCTS;
+        return list.map(function(p) {
+            var fab = (p.fabric || "").toLowerCase();
+            var cat = (p.category || "").toLowerCase();
+            var fabricType = fab.includes("linen") ? "linen" : (fab.includes("brocade") ? "brocade" : "silk");
+            var occasionType = cat.includes("festive") ? "festive" : "pret";
+            return {
+                id: p.id,
+                name: p.title,
+                price: p.price,
+                fabric: fabricType,
+                occasion: occasionType,
+                color: p.title,
+                img: normalizeProductImage(p.image)
+            };
+        });
+    }
+    var CATALOG_ITEMS = getLiveCatalogItems();
     var activeSearchFilter = "all";
 
     window.openSmartSearch = function() {
@@ -2775,7 +2787,8 @@ window.saveBespokeMeasurements = function() {
         var container = document.getElementById("search-results-grid");
         if (!container) return;
 
-        var filtered = CATALOG_ITEMS.filter(function(item) {
+        var currentCatalog = getLiveCatalogItems();
+        var filtered = currentCatalog.filter(function(item) {
             var matchesFilter = (activeSearchFilter === "all") || (item.fabric === activeSearchFilter) || (item.occasion === activeSearchFilter);
             var matchesQ = !q || item.name.toLowerCase().includes(q) || item.color.toLowerCase().includes(q) || item.fabric.includes(q);
             return matchesFilter && matchesQ;

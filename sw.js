@@ -3,7 +3,7 @@
 // Stale-While-Revalidate Offline Caching & Background App Shell
 // ═════════════════════════════════════════════════════════════════════
 
-const CACHE_NAME = "shapes-pwa-v47.0";
+const CACHE_NAME = "shapes-pwa-v58.0";
 const PRECACHE_ASSETS = [
   "/",
   "/index.html",
