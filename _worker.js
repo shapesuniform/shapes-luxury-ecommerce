@@ -230,12 +230,20 @@ export default {
       try {
         const response = await env.ASSETS.fetch(request);
         if (response.status !== 404) {
-          // Clone and inject luxury security headers
+          // Clone and inject luxury security & high-speed edge caching headers
           const newHeaders = new Headers(response.headers);
           newHeaders.set("X-Content-Type-Options", "nosniff");
           newHeaders.set("X-Frame-Options", "SAMEORIGIN");
           newHeaders.set("Referrer-Policy", "strict-origin-when-cross-origin");
           newHeaders.set("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
+
+          // Edge Caching Rules
+          if (pathname.endsWith(".webp") || pathname.endsWith(".png") || pathname.endsWith(".jpg") || pathname.endsWith(".woff2") || pathname.endsWith(".ico")) {
+            newHeaders.set("Cache-Control", "public, max-age=31536000, immutable");
+          } else if (pathname.endsWith(".css") || pathname.endsWith(".js")) {
+            newHeaders.set("Cache-Control", "public, max-age=86400, stale-while-revalidate=604800");
+          }
+
           return new Response(response.body, {
             status: response.status,
             statusText: response.statusText,

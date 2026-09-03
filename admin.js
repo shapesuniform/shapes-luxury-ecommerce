@@ -3236,7 +3236,7 @@ const DEFAULT_JOURNAL_ARTICLES = [
 
         date: "Aug 15, 2026",
 
-        image: "images/heritage_craft.png",
+        image: "images/heritage_craft.webp",
 
         excerpt: "Exploring the delicate balance between structural internal boning and antique metal thread embroidery on raw Banarasi silks.",
 
@@ -3258,7 +3258,7 @@ const DEFAULT_JOURNAL_ARTICLES = [
 
         date: "Aug 10, 2026",
 
-        image: "images/hero_bridal.png",
+        image: "images/hero_bridal.webp",
 
         excerpt: "A comprehensive guide to selecting timeless handlooms, opulent zardozi lehengas, and convertible reception ensembles.",
 
@@ -3310,7 +3310,7 @@ function loadAdminJournal() {
 
         <tr>
 
-            <td><img src="${art.image || 'images/heritage_craft.png'}" style="width:40px; height:40px; object-fit:cover; border-radius:3px; border:1px solid rgba(197,160,89,0.3);"></td>
+            <td><img src="${art.image || 'images/heritage_craft.webp'}" style="width:40px; height:40px; object-fit:cover; border-radius:3px; border:1px solid rgba(197,160,89,0.3);"></td>
 
             <td><strong>${art.title}</strong><div style="font-size:10px; color:var(--grey);">${art.excerpt.slice(0, 60)}...</div></td>
 
@@ -3394,7 +3394,7 @@ function saveJournalArticle(e) {
 
         date: new Date().toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }),
 
-        image: image || "images/heritage_craft.png",
+        image: image || "images/heritage_craft.webp",
 
         excerpt: excerpt,
 
@@ -3478,7 +3478,7 @@ function generateGoogleShoppingXML() {
 
         const desc = (p.description || 'Handcrafted luxury garment from Shapes By Satiinder Kaur Mumbai.').replace(/&/g, '&amp;');
 
-        const img = p.image ? (p.image.startsWith('http') ? p.image : `${baseUrl}/${p.image}`) : `${baseUrl}/images/heritage_craft.png`;
+        const img = p.image ? (p.image.startsWith('http') ? p.image : `${baseUrl}/${p.image}`) : `${baseUrl}/images/heritage_craft.webp`;
 
         const price = `${p.price || 50000} INR`;
 
@@ -3612,7 +3612,7 @@ function broadcastPushAlert(e) {
 
             body: body,
 
-            icon: "images/shapes_app_icon_refined_1783623778444.png"
+            icon: "images/app_icon.webp"
 
         });
 

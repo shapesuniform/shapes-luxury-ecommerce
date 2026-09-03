@@ -4530,3 +4530,13 @@ body.light-mode .product-card {
     margin-top: 8px;
     animation: fadeIn 0.3s ease;
 }
+
+/* ── HIGH PERFORMANCE OFF-SCREEN RENDERING ENGINE ── */
+#story-section,
+#journal-section,
+#faq-section,
+.brand-heritage-strip,
+footer {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 600px;
+}

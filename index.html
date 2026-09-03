@@ -14,23 +14,6 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
-    <script>
-        try {
-            if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.getRegistrations().then(function(regs) {
-                    for (var r of regs) r.unregister();
-                }).catch(function() {});
-            }
-            if ('caches' in window) {
-                caches.keys().then(function(names) {
-                    for (var n of names) caches.delete(n);
-                });
-            }
-        } catch(e) {}
-    </script>
     <meta name="theme-color" content="#111111">
     <link rel="preload" as="image" href="images/welcome_coord_luxury_mobile.webp" type="image/webp" fetchpriority="high">
 
@@ -1829,5 +1812,17 @@
     <div class="reel-content" id="reel-content-box"></div>
 </div>
 
+    <!-- High-Performance PWA Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/sw.js').then(function(reg) {
+            console.log('[PWA] Service Worker Active (v60.0):', reg.scope);
+          }).catch(function(err) {
+            console.warn('[PWA] SW register notice:', err);
+          });
+        });
+      }
+    </script>
 </body>
 </html>
