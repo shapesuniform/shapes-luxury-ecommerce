@@ -412,10 +412,46 @@ function openProductDetail(productId) {
     /* Render Official Razorpay Affordability / EMI Suite */
     renderRazorpayAffordabilityWidget(p.price);
 
+    /* Quiz Profile Auto-Select */
+    const quizRecSize = localStorage.getItem("shapes_recommended_size");
+    selectedSize = quizRecSize || "M";
+
     /* Reset sizes */
     document.querySelectorAll(".size-option").forEach(o => {
-        o.classList.toggle("active", o.getAttribute("data-size") === "M");
+        o.classList.toggle("active", o.getAttribute("data-size") === selectedSize);
     });
+
+    // Show Size Quiz Match Pill if available
+    const sizeRow = document.querySelector(".modal-size-row");
+    let quizBadge = document.getElementById("modal-quiz-rec-pill");
+    if (quizRecSize && sizeRow) {
+        if (!quizBadge) {
+            quizBadge = document.createElement("div");
+            quizBadge.id = "modal-quiz-rec-pill";
+            quizBadge.className = "quiz-match-pill";
+            sizeRow.parentNode.insertBefore(quizBadge, sizeRow.nextSibling);
+        }
+        quizBadge.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles"></i> <strong>Quiz Match:</strong> Size <strong>${quizRecSize}</strong> tailored for you`;
+        quizBadge.style.display = "inline-flex";
+    } else if (quizBadge) {
+        quizBadge.style.display = "none";
+    }
+
+    // Auto-populate custom fit fields if saved profile exists
+    try {
+        const savedFit = JSON.parse(localStorage.getItem("shapes_saved_measurements") || localStorage.getItem("shapes_quiz_profile") || "null");
+        if (savedFit) {
+            const bustInp = document.getElementById("cf-bust");
+            const waistInp = document.getElementById("cf-waist");
+            const hipInp = document.getElementById("cf-hip");
+            const heightInp = document.getElementById("cf-height");
+            if (bustInp && !bustInp.value && savedFit.bust) bustInp.value = savedFit.bust;
+            if (waistInp && !waistInp.value && savedFit.waist) waistInp.value = savedFit.waist;
+            if (hipInp && !hipInp.value && savedFit.hip) hipInp.value = savedFit.hip;
+            if (heightInp && !heightInp.value && savedFit.height) heightInp.value = savedFit.height;
+            activeCustomFit = savedFit;
+        }
+    } catch(e) {}
 
     /* Close all product accordions; open Description by default */
     document.querySelectorAll(".prod-acc-item").forEach(item => item.classList.remove("open"));
@@ -2381,32 +2417,7 @@ function getCartTotal_INR() {
     return cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 }
 
-function renderSmartCartUpsells() {
-    const upsellZone = document.getElementById("smart-cart-upsells");
-    if (!upsellZone || !products.length) return;
 
-    // Pick 2 products not in cart
-    const cartIds = new Set(cart.map(i => i.id));
-    const suggestions = products.filter(p => !cartIds.has(p.id)).slice(0, 2);
-
-    if (!suggestions.length) { upsellZone.innerHTML = ""; return; }
-
-    upsellZone.innerHTML = `
-        <div class="scart-upsell-header">
-            <i class="fa-solid fa-wand-magic-sparkles"></i> Complete The Look
-        </div>
-        ${suggestions.map(p => `
-        <div class="scart-upsell-item">
-            <img src="${p.image || 'images/placeholder.webp'}" alt="${p.title}" class="scart-upsell-img">
-            <div class="scart-upsell-info">
-                <div class="scart-upsell-title">${p.title}</div>
-                <div class="scart-upsell-price">${formatPrice(p.price)}</div>
-            </div>
-            <button class="scart-upsell-add" onclick="addToCart('${p.id}','M'); renderSmartCartFull();" aria-label="Add ${p.title} to cart">
-                <i class="fa-solid fa-plus"></i>
-            </button>
-        </div>`).join("")}`;
-}
 
 function renderSmartCartFull() {
     // Update cart items
@@ -2429,6 +2440,7 @@ function renderSmartCartFull() {
             <div class="scart-item-body">
                 <div class="scart-item-name">${item.title}</div>
                 <div class="scart-item-meta">Size: <strong>${item.size}</strong> · Qty: <strong>${item.quantity}</strong></div>
+                ${item.customFit && (item.customFit.bust || item.customFit.waist) ? `<div style="font-size:9.5px;color:var(--gold);margin-bottom:5px;"><i class="fa-solid fa-scissors"></i> Bespoke: ${item.customFit.bust ? item.customFit.bust + '″B ' : ''}${item.customFit.waist ? item.customFit.waist + '″W ' : ''}${item.customFit.height ? item.customFit.height : ''}</div>` : ''}
                 <div class="scart-item-price">${formatPrice(item.price * item.quantity)}</div>
                 <div class="scart-qty-row">
                     <button class="scart-qty-btn" onclick="adjustSmartCartQty(${idx}, -1)"><i class="fa-solid fa-minus"></i></button>
@@ -2464,6 +2476,179 @@ window.removeFromSmartCart = function(idx) {
     setLocal("shapes_cart_items", cart);
     updateCartBadge();
     renderSmartCartFull();
+};
+
+
+/* ══════════════════════════════════════════════════════════
+   INTERCONNECTED ENGINE: BESPOKE FIT · QUIZ · UPSELLS · WISHLIST
+   ══════════════════════════════════════════════════════════ */
+
+let activeCustomFit = null;
+
+// Toggle Custom Fit Panel in Product Modal
+window.toggleCustomFit = function() {
+    const panel = document.getElementById("custom-fit-panel");
+    const btn = document.getElementById("custom-fit-toggle-btn");
+    const chevron = document.getElementById("custom-fit-chevron");
+    if (!panel) return;
+    
+    const isOpen = panel.style.display !== "none";
+    if (isOpen) {
+        panel.style.display = "none";
+        if (btn) btn.setAttribute("aria-expanded", "false");
+        if (chevron) chevron.style.transform = "rotate(0deg)";
+    } else {
+        panel.style.display = "block";
+        if (btn) btn.setAttribute("aria-expanded", "true");
+        if (chevron) chevron.style.transform = "rotate(180deg)";
+        
+        // Auto-fill from Quiz Profile or past saved measurements
+        try {
+            const savedFit = JSON.parse(localStorage.getItem("shapes_saved_measurements") || "null");
+            const quizProf = JSON.parse(localStorage.getItem("shapes_quiz_profile") || "null");
+            const data = savedFit || quizProf;
+            if (data) {
+                const bustInp = document.getElementById("cf-bust");
+                const waistInp = document.getElementById("cf-waist");
+                const hipInp = document.getElementById("cf-hip");
+                const heightInp = document.getElementById("cf-height");
+                if (bustInp && !bustInp.value && data.bust) bustInp.value = data.bust;
+                if (waistInp && !waistInp.value && data.waist) waistInp.value = data.waist;
+                if (hipInp && !hipInp.value && data.hip) hipInp.value = data.hip;
+                if (heightInp && !heightInp.value && data.height) heightInp.value = data.height;
+            }
+        } catch(e) {}
+    }
+};
+
+// Save Custom Fit Measurements
+window.saveCustomFit = function() {
+    const bust = (document.getElementById("cf-bust")?.value || "").trim();
+    const waist = (document.getElementById("cf-waist")?.value || "").trim();
+    const hip = (document.getElementById("cf-hip")?.value || "").trim();
+    const height = (document.getElementById("cf-height")?.value || "").trim();
+    const trouser = (document.getElementById("cf-trouser")?.value || "").trim();
+    const notes = (document.getElementById("cf-notes")?.value || "").trim();
+
+    if (!bust && !waist && !hip) {
+        if (typeof showCustomToast === "function") {
+            showCustomToast("Please enter at least your Bust, Waist, or Hip measurements.");
+        } else {
+            alert("Please enter at least your Bust, Waist, or Hip measurements.");
+        }
+        return;
+    }
+
+    activeCustomFit = { bust, waist, hip, height, trouser, notes };
+    localStorage.setItem("shapes_saved_measurements", JSON.stringify(activeCustomFit));
+
+    const confirmEl = document.getElementById("custom-fit-confirm");
+    if (confirmEl) {
+        confirmEl.style.display = "flex";
+        confirmEl.innerHTML = `<i class="fa-solid fa-circle-check" style="color:var(--gold);margin-right:6px;"></i> Measurements saved for our Chembur atelier! (${bust ? bust + '″ Bust' : ''}${waist ? ' · ' + waist + '″ Waist' : ''})`;
+    }
+    if (typeof showCustomToast === "function") {
+        showCustomToast("Bespoke measurements saved for our master tailors! 🧵");
+    }
+};
+
+// Render Smart Cart Upsells (Prioritizes Wishlist & Recently Viewed)
+window.renderSmartCartUpsells = function() {
+    const container = document.getElementById("smart-cart-upsells");
+    if (!container) return;
+
+    if (!cart.length) {
+        container.style.display = "none";
+        return;
+    }
+
+    const cartIds = cart.map(i => i.id);
+    let wishlistIds = [];
+    try { wishlistIds = JSON.parse(localStorage.getItem("shapes_wishlist") || "[]"); } catch(e) {}
+    let recentIds = [];
+    try { recentIds = JSON.parse(localStorage.getItem("shapes_recent_viewed") || "[]"); } catch(e) {}
+
+    const allCandidates = (products && products.length ? products : DEFAULT_PRODUCTS);
+    let recommended = [];
+
+    // 1. Wishlist candidates
+    wishlistIds.forEach(id => {
+        if (!cartIds.includes(id) && !recommended.some(r => r.id === id)) {
+            const found = allCandidates.find(p => p.id === id);
+            if (found) recommended.push({ ...found, reason: "From Your Wishlist" });
+        }
+    });
+
+    // 2. Recently viewed candidates
+    recentIds.forEach(id => {
+        if (!cartIds.includes(id) && !recommended.some(r => r.id === id)) {
+            const found = allCandidates.find(p => p.id === id);
+            if (found) recommended.push({ ...found, reason: "Recently Viewed" });
+        }
+    });
+
+    // 3. Complementary pieces from catalog
+    allCandidates.forEach(p => {
+        if (!cartIds.includes(p.id) && !recommended.some(r => r.id === p.id)) {
+            recommended.push({ ...p, reason: "Curated Ensemble" });
+        }
+    });
+
+    const displayItems = recommended.slice(0, 2);
+
+    if (!displayItems.length) {
+        container.style.display = "none";
+        return;
+    }
+
+    container.style.display = "block";
+    container.innerHTML = `
+        <div class="scart-upsell-header">
+            <i class="fa-solid fa-sparkles" style="color:var(--gold);"></i> Complete The Look
+        </div>
+        ${displayItems.map(item => `
+            <div class="scart-upsell-item">
+                <img src="${normalizeProductImage(item.image)}" alt="${item.title}" class="scart-upsell-img">
+                <div class="scart-upsell-info">
+                    <div class="scart-upsell-title">${item.title}</div>
+                    <div class="scart-upsell-price">${formatPrice(item.price)}</div>
+                    <span style="font-size:9px;color:rgba(197,160,89,0.7);letter-spacing:0.05em;">${item.reason}</span>
+                </div>
+                <button type="button" class="scart-upsell-add" onclick="quickAddUpsellToCart('${item.id}')" title="Add to Bag">
+                    <i class="fa-solid fa-plus"></i>
+                </button>
+            </div>
+        `).join("")}
+    `;
+};
+
+window.quickAddUpsellToCart = function(productId) {
+    const p = (products && products.length ? products : DEFAULT_PRODUCTS).find(x => x.id === productId);
+    if (!p) return;
+    const prefSize = localStorage.getItem("shapes_recommended_size") || "M";
+    addToCart(p, prefSize, 1);
+    renderSmartCartFull();
+    if (typeof showCustomToast === "function") {
+        showCustomToast(`Added "${p.title}" (Size ${prefSize}) to your bag! ✨`);
+    }
+};
+
+// 1-Click Move from Wishlist to Bag
+window.addSingleWishlistItemToCart = function(productId) {
+    const list = (products && products.length ? products : DEFAULT_PRODUCTS);
+    const item = list.find(p => p.id === productId);
+    if (!item) return;
+    const prefSize = localStorage.getItem("shapes_recommended_size") || "M";
+    addToCart(item, prefSize, 1);
+    if (typeof showCustomToast === "function") {
+        showCustomToast(`Moved "${item.title}" to Bag! ✨`);
+    }
+    if (typeof window.renderWishlistItems === "function") {
+        window.renderWishlistItems();
+    }
+    if (typeof openSmartCart === "function") {
+        openSmartCart();
+    }
 };
 
 window.openSmartCart = function() {
@@ -2798,7 +2983,7 @@ window.saveBespokeMeasurements = function() {
                 + '<img src="' + item.img + '" alt="' + item.name + '" loading="lazy">'
                 + '<div class="search-card-info">'
                 + '<div class="search-card-title">' + item.name + '</div>'
-                + '<div class="search-card-price">₹' + item.price.toLocaleString("en-IN") + '</div>'
+                + '<div class="search-card-price">' + formatPrice(item.price) + '</div>'
                 + '</div></div>';
         }).join("");
     };
@@ -2834,7 +3019,7 @@ window.saveBespokeMeasurements = function() {
                 + '<img src="' + item.img + '" alt="' + item.name + '">'
                 + '<div class="search-card-info">'
                 + '<div class="search-card-title">' + item.name + '</div>'
-                + '<div class="search-card-price">₹' + item.price.toLocaleString("en-IN") + '</div>'
+                + '<div class="search-card-price">' + formatPrice(item.price) + '</div>'
                 + '</div></div>';
         }).join("");
     };
@@ -2903,9 +3088,10 @@ window.saveBespokeMeasurements = function() {
                 + '<img src="' + i.img + '" alt="' + i.name + '" class="wishlist-item-img">'
                 + '<div class="wishlist-item-details">'
                 + '<div class="wishlist-item-title">' + i.name + '</div>'
-                + '<div class="wishlist-item-price">₹' + i.price.toLocaleString("en-IN") + '</div>'
+                + '<div class="wishlist-item-price">' + formatPrice(i.price) + '</div>'
                 + '</div>'
-                + '<button class="wishlist-item-remove" onclick="toggleWishlist(\'' + i.id + '\'); renderWishlistItems();">&times;</button>'
+                + '<button class="wishlist-item-add" onclick="addSingleWishlistItemToCart(\'' + i.id + '\')" title="Move to Bag">+ Bag</button>'
+                + '<button class="wishlist-item-remove" onclick="toggleWishlist(\'' + i.id + '\'); renderWishlistItems();" title="Remove">&times;</button>'
                 + '</div>';
         }).join("");
     };

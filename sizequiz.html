@@ -637,8 +637,21 @@ function computeResult() {
   const maxScore = scores[winner];
   const confidence = Math.min(95, Math.round(60 + (maxScore / 9) * 35 + Math.random() * 5));
 
-  // Save to localStorage so product modal can auto-select
+  // Save to localStorage so product modal & custom fit can auto-populate
   localStorage.setItem("shapes_recommended_size", winner);
+  try {
+    const quizProfile = {
+      size: winner,
+      confidence: confidence,
+      bust: document.getElementById("chest-val") ? document.getElementById("chest-val").value : "",
+      waist: document.getElementById("waist-val") ? document.getElementById("waist-val").value : "",
+      hip: document.getElementById("hip-val") ? document.getElementById("hip-val").value : "",
+      height: document.getElementById("height-val") ? document.getElementById("height-val").value : "",
+      timestamp: new Date().toISOString()
+    };
+    localStorage.setItem("shapes_quiz_profile", JSON.stringify(quizProfile));
+    localStorage.setItem("shapes_saved_measurements", JSON.stringify(quizProfile));
+  } catch(e) {}
 
   showResult(winner, confidence, scores);
 }

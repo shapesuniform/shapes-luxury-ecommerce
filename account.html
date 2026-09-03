@@ -417,13 +417,18 @@ async function recordCustomerLogin(user, extraData = {}) {
                 loading.style.display = "none";
 
                 if (snap.empty) {
-                    list.innerHTML = `<div class="no-orders">
-                        <i class="fa-solid fa-bag-shopping"></i>
-                        <h3>No Orders Yet</h3>
-                        <p>Your luxury creations will appear here after your first purchase.</p>
-                        <a href="index.html" class="btn-shop"><i class="fa-solid fa-store"></i> Browse Collections</a>
-                    </div>`;
-                    return;
+                    const localOrders = JSON.parse(localStorage.getItem("shapes_orders") || "[]");
+                    if (localOrders.length > 0) {
+                        localOrders.forEach(o => orders.push(o));
+                    } else {
+                        list.innerHTML = `<div class="no-orders">
+                            <i class="fa-solid fa-bag-shopping"></i>
+                            <h3>No Orders Yet</h3>
+                            <p>Your luxury creations will appear here after your first purchase.</p>
+                            <a href="index.html" class="btn-shop"><i class="fa-solid fa-store"></i> Browse Collections</a>
+                        </div>`;
+                        return;
+                    }
                 }
 
                 // Extract and sort by date descending

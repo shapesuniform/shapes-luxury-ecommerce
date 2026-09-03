@@ -3018,13 +3018,14 @@ ul, ol { list-style:none; }
     z-index: 9100;
     display: flex;
     flex-direction: column;
-    transform: translateX(100%);
-    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform: translate3d(100%, 0, 0);
+    transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     box-shadow: -20px 0 60px rgba(0, 0, 0, 0.8);
+    will-change: transform;
 }
 
 #smart-cart-drawer.open {
-    transform: translateX(0);
+    transform: translate3d(0, 0, 0);
 }
 
 .scart-header {
@@ -4492,4 +4493,40 @@ body.light-mode .product-card {
 #fabric-zoom-modal[style*="display:none"] {
     display: none !important;
     pointer-events: none !important;
+}
+
+
+/* ── INTERCONNECTED WISHLIST & UPSELL STYLES ── */
+.wishlist-item-add {
+    background: rgba(197, 160, 89, 0.15);
+    border: 1px solid rgba(197, 160, 89, 0.4);
+    color: var(--gold);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.35rem 0.7rem;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-left: 8px;
+    flex-shrink: 0;
+}
+.wishlist-item-add:hover {
+    background: var(--gold);
+    color: #111;
+}
+.quiz-match-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(197, 160, 89, 0.12);
+    border: 1px solid rgba(197, 160, 89, 0.3);
+    color: var(--gold);
+    font-size: 10px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin-top: 8px;
+    animation: fadeIn 0.3s ease;
 }
